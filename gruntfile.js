@@ -108,6 +108,21 @@ module.exports = function(grunt) {
             rename: {
                 files: ['assets/vendor/icomoon/*'],
                 tasks: ['rename']
+            },
+            livereload: {
+                // Browser live reloading
+                // https://github.com/gruntjs/grunt-contrib-watch#live-reloading
+                options: {
+                    livereload: true,
+                },
+                files: [
+                    'assets/css/styles.css',
+                    'assets/js/scripts.js',
+                    'assets/js/app.js',
+                    'templates/*.php',
+                    'partials/*.php',
+                    '*.php'
+                ]
             }
         }
     });
