@@ -1,4 +1,4 @@
-{% extends "layouts/layout-sidebar-right.twig" %}
+{% extends "layouts/layout-sidebar.twig" %}
 
 {% block content %}
 
@@ -21,7 +21,7 @@
     
     {% for post in posts %}
 
-        <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
+        <article class="post post--{{post.post_type}}" id="post-{{post.ID}}">
             
             {% if post.thumbnail %}
             <figure class="trailer--half">

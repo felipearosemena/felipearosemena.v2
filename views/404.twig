@@ -2,27 +2,27 @@
 
 {% block content %}
 
-    <div class="container container--small">
-
-        <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-
-        <header class="entry-header">
-            <h1 class="entry-title">Page Not Found</h1>
-        </header>
-
-        <p>
-            Sorry, but the page you were trying to view does not exist.<br>
-            It looks like this was the result of either:
-        </p>
-        <ul>
-            <li>A mistyped address</li>
-            <li>An out-of-date link</li>
-        </ul>
-
-        </article>
-
-        {{ include('includes/searchform.twig')}}
+    <article class="post post--{{post.post_type}}" id="post-{{post.ID}}">
         
-    </div>
+        <div class="container container--small">
+
+            <header class="entry-header">
+                <h1 class="entry-title">Page Not Found</h1>
+            </header>
+
+            <p>
+                Sorry, but the page you were trying to view does not exist.<br>
+                It looks like this was the result of either:
+            </p>
+            <ul>
+                <li>A mistyped address</li>
+                <li>An out-of-date link</li>
+            </ul>
+
+            {{ include('includes/searchform.twig')}}
+            
+        </div>
+        
+    </article>
 
 {% endblock %}

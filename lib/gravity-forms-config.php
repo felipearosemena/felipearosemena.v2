@@ -14,3 +14,5 @@ function config_classes($classes, $field, $form) {
     return $classes;
 }
 
+// Move Gravity Form Scripts to the footer
+add_filter( 'gform_init_scripts_footer', '__return_true' );

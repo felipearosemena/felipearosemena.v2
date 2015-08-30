@@ -31,7 +31,6 @@ class StarterSite extends TimberSite {
         $context['sub_menu']         = Page_Nav_Widget::get_widget_items(); // Widget defined in lib/widgets.php
         $context['site']             = $this;
         $context['site_settings']    = get_fields('options');
-        $context['acf_fields']       = get_fields(); // ACF Fields for the Current Page
 
         return $context;
     }

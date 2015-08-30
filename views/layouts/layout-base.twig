@@ -4,28 +4,24 @@
 
     <body class="{{ body_class }}" >  
             
-        {% include [ paths.header , 'includes/header.twig' ] %}  
+        {% include('includes/header.twig') %}  
 
         <!--begin page content -->
-        <section class="page-wrap" role="document">
+        <div class="page-wrap" role="document">
           
-            {# Common Elements accross layouts #}
             {% include('includes/stub.twig') %}
         
-            {% block masthead %}{% endblock %}
-        
-            {% block map %}{% endblock %}
-            {# Common Elements accross layouts #}
-          
-            <div id="page-content" class="page-content">
-                <main>
-                    {% block content %}{% endblock %}
-                </main>
-            </div>
+            {% block masthead %}{% endblock %} 
+
+            <main id="page-content" class="page-content">
+
+                {% block content %}{% endblock %}
+
+            </main>
         
             {% block bottom %}{% endblock %}
 
-        </section><!-- page-wrap -->
+        </div><!-- page-wrap -->
         
         
         {% include('includes/footer.twig') %}
