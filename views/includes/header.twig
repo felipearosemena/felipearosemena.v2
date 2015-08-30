@@ -1,18 +1,4 @@
 <header id="site-header" class="site-header js-dinner-menu-header" role="banner">
-  
-    {% if util_menu %}
-    <nav class="site-util element-hidden--mobile">
-        <div class="container">
-            <div class="float--right nav-dropdown">
-
-                {{ macros.wp_menu(util_menu , 'site-util__menu' ) }}
-                
-                {% include('includes/header/header_searchform.twig') %}
-
-            </div>
-        </div>
-    </nav>
-    {% endif %}
 
     <div class="site-header__container container">
 
@@ -20,8 +6,12 @@
 
         <nav class="site-nav" role="navigation">
   
-            <span class="nav-dropdown element-hidden--mobile">
+            <span class="element-hidden--mobile">
+               
                 {{ macros.wp_menu(menu, 'site-nav__menu') }}
+
+                {% include('includes/header/header_searchform.twig') %}
+            
             </span>
           
             {% if site_settings.site_cta %}
@@ -38,16 +28,6 @@
         </nav><!-- .site-nav-->
         
     </div>
-  
-    {% if sub_menu %}
-        
-        <nav class="site-subnav">
-            <div class="container">
-                <ul class="site-subnav__menu"> {{sub_menu}} </ul>
-            </div>
-        </nav><!-- .site-subnav-->
-        
-    {% endif %}
 
 </header><!-- .site-header -->
 

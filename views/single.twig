@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <div class="container container--small">
+    <div class="container container--sm">
 
         <article class="post post--{{post.post_type}}" id="post-{{post.ID}}">
             <header class="entry-header">
@@ -12,40 +12,30 @@
             {{post.content}}
         </article>
 
-        <aside class="post-aside"> 
-
-            <ul class="js-share-post nav nav--inline">
-                <li><strong>Share</strong></li>
-                <li><a href="{{ share_post.get_url('fb_share') }}" class="icon-facebook"></a></li>
-                <li><a href="{{ share_post.get_url('tweet') }}" class="icon-twitter"></a></li>
-                <li><a href="{{ share_post.get_url('linkedin_share') }}" class="icon-linkedin"></a></li>
-            </ul>
-
-            <!-- Data found in comments.php -->
-            {{ function( 'comments_template' ) }}
+        <aside class="post-aside">   
 
             {% if prev_post or next_post %}
-                <ul class="post-navigation nav nav--split"> 
+            <ul class="post-navigation nav nav--split"> 
 
-                    {% if prev_post %}
-                        <li>
-                            <a href="{{ prev_post.get_permalink }}">
-                                Previous Post <br>
-                                <b class="element-hidden--sm">{{ prev_post.title }}</b>
-                            </a>
-                        </li>
-                    {% endif %}
+                {% if prev_post %}
+                <li class="nav--split__first">
+                    <a href="{{ prev_post.get_permalink }}">
+                        Previous Post <br>
+                        <b class="element-hidden--sm">{{ prev_post.title }}</b>
+                    </a>
+                </li>
+                {% endif %}
 
-                    {% if next_post %} 
-                        <li>
-                            <a href="{{ next_post.get_permalink }}">
-                                Next Post <br>
-                                <b class="element-hidden--sm">{{ next_post.title }}</b>
-                            </a>
-                        </li>
-                    {% endif %}
+                {% if next_post %} 
+                <li class="nav--split__last">
+                    <a href="{{ next_post.get_permalink }}">
+                        Next Post <br>
+                        <b class="element-hidden--sm">{{ next_post.title }}</b>
+                    </a>
+                </li>
+                {% endif %}
 
-                </ul>
+            </ul>
             {% endif %}
 
         </aside>

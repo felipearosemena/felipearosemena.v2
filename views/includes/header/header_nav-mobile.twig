@@ -3,7 +3,7 @@
     {% include('includes/header/header_searchform.twig') %} 
 
     <ul class="site-nav-mobile__menu" id="mobile-menu">
-
+    
         {% for item in menu.get_items %} 
             <li class="{{item.classes | join(' ')}} panel">
 
