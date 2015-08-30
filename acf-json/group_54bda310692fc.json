@@ -15,7 +15,8 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "placement": "top"
         },
         {
             "key": "field_54bda321ceccc",
@@ -33,7 +34,14 @@
             },
             "return_format": "array",
             "preview_size": "thumbnail",
-            "library": "all"
+            "library": "all",
+            "min_width": 0,
+            "min_height": 0,
+            "min_size": 0,
+            "max_width": 0,
+            "max_height": 0,
+            "max_size": 0,
+            "mime_types": ""
         },
         {
             "key": "field_54bda61a5e79c",
@@ -89,7 +97,8 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "placement": "top"
         },
         {
             "key": "field_54c0393b7f41d",
@@ -178,7 +187,8 @@
                 "width": "",
                 "class": "",
                 "id": ""
-            }
+            },
+            "placement": "top"
         },
         {
             "key": "field_54bda4f8cecd7",
@@ -306,5 +316,6 @@
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
-    "modified": 1426108551
+    "modified": 1440954267,
+    "local": "json"
 }
