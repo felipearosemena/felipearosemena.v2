@@ -175,28 +175,7 @@
             {
                 "param": "page_template",
                 "operator": "==",
-                "value": "templates\/template-contact-1.php"
-            }
-        ],
-        [
-            {
-                "param": "page_template",
-                "operator": "==",
-                "value": "templates\/template-contact-2.php"
-            }
-        ],
-        [
-            {
-                "param": "page_template",
-                "operator": "==",
-                "value": "templates\/template-content-1.php"
-            }
-        ],
-        [
-            {
-                "param": "page_template",
-                "operator": "==",
-                "value": "templates\/template-content-2.php"
+                "value": "templates\/template-content.php"
             }
         ]
     ],
@@ -208,6 +187,5 @@
     "hide_on_screen": [
         "the_content"
     ],
-    "modified": 1440954267,
-    "local": "json"
+    "modified": 1440978916
 }
