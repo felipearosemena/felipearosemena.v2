@@ -418,14 +418,7 @@
             {
                 "param": "page_template",
                 "operator": "==",
-                "value": "default"
-            }
-        ],
-        [
-            {
-                "param": "page_template",
-                "operator": "==",
-                "value": "default"
+                "value": "templates\/template-content.php"
             }
         ]
     ],
@@ -437,5 +430,5 @@
     "hide_on_screen": [
         "the_content"
     ],
-    "modified": 1440954805
+    "modified": 1440978718
 }
