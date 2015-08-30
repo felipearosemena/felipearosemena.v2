@@ -1,27 +1,27 @@
-{% if acf_fields.masthead_title %}
+{% if post.masthead_title %}
 
 <section class="page-masthead hero hero--overlay hero--fluid">
     
     <div class="hero__body">
         <div class="container container--small">
             <h1 class="hero__heading">
-                {{ acf_fields.masthead_title }}
+                {{ post.masthead_title }}
             </h1>
 
-            {% if acf_fields.masthead_subtitle %}
-                <p>{{ acf_fields.masthead_subtitle }}</p>
+            {% if post.masthead_subtitle %}
+                <p>{{ post.masthead_subtitle }}</p>
             {% endif %}
           
-            {% if acf_fields.masthead_cta %}
-                <p><a href="{{acf_fields.masthead_cta_link}}" class="btn">{{acf_fields.masthead_cta_text }}</a></p>
+            {% if post.masthead_cta %}
+                <p><a href="{{ post.get_field('masthead_cta_link') }}" class="btn">{{ post.masthead_cta_text }}</a></p>
             {% endif %}
 
         </div>
     </div>
-  
+
    <div 
       class="hero__bg js-img-fade" 
-      style="background-image:url({{ acf_fields.masthead_background_image.sizes.masthead }})"></div>
+      style="background-image:url( {{ post.get_field('masthead_background_image').sizes.masthead }} )"></div>
 
 </section><!--.page-masthead-->
 

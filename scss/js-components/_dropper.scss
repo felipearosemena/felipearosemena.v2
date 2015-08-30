@@ -1,0 +1,63 @@
+/*
+
+  Dropper
+  
+  Styles for dropper.js. Found in assets/js/custom-plugins/
+  
+*/
+
+.dropper-original {
+    display: none;
+}
+
+.dropper {
+    cursor: pointer;
+    background: #fff;
+    position: relative;
+    user-select: none;
+    // Remove any highlighting
+    -webkit-tap-highlight-color: transparent;
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+
+.dropper-select {
+    @extend .form__control;
+    background: #fff;
+    &:before {
+        @extend [class^="icon-"];
+        @extend .icon-angle-down;
+        float: right;
+    }
+    &.dropper-open {
+        &:before {
+            @extend .icon-angle-up;
+        }
+    }
+}
+
+.dropper-list {
+    border: 1px solid #ccc;
+    background: white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    border-bottom-left-radius: $base-border-radius;
+    border-bottom-right-radius: $base-border-radius;
+    li {
+        padding: $form-control-padding;
+        &:hover {
+            background: #f5f5f5;
+        }
+    }
+}
+
+.dropper-open {
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}

@@ -1,0 +1,31 @@
+<div class="container">
+    
+    {% spaceless %}
+    {% for row in field.tiles_rows %} 
+    <div class="tiles {{ row.columns|length == 2 ? 'tiles--two-col' : 'tiles--three-col' }}"> 
+
+        {% for col in row.columns %}
+
+            {% if col.acf_fc_layout == 'image' %}
+            
+            <div 
+                class="tiles__item tiles__item--image js-img-fade" 
+                style="background-image:url( {{ col.image.sizes['grid-2'] }} )" > 
+                
+            {% elseif col.acf_fc_layout == 'content' %}
+            
+            <div class="tiles__item tiles__item--content">
+                
+                {{  col.content }}
+            
+            {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+    {% endfor %}
+    {% endspaceless %}
+
+</div>

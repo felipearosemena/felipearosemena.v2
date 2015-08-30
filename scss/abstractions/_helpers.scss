@@ -1,0 +1,191 @@
+/*
+
+  Helpers
+
+  Miscellaneous utility classes
+
+*/
+
+// CLEARFIX
+
+%clearfix, %cf, .clearfix, .cf {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+@mixin clearfix {
+    &:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+}
+
+/* -------------------------------------- */
+
+// FLOATS AND ALIGNMENT
+
+// Add/remove floats
+.float--right {
+    float: right !important;
+}
+
+.float--left {
+    float: left !important;
+}
+
+.float--none {
+    float: none !important;
+}
+
+// Text alignment
+.text--left {
+    text-align: left  !important;
+}
+
+.text--center {
+    text-align: center !important;
+}
+
+.text--right {
+    text-align: right !important;
+}
+
+// Box alignment
+
+.align--left {
+    margin-left:0 !important
+}
+
+.align--right {
+    margin-right: 0 !important;
+}
+
+/* -------------------------------------- */
+
+// SPACING
+
+.mb-0 {
+    margin-bottom: 0;
+}
+
+.mb-05 {
+    margin-bottom: $base-spacing-unit;
+}
+
+.mb-1 {
+    margin-bottom: $base-spacing-unit;
+}
+
+.mb-2 {
+    margin-bottom: $base-spacing-unit*2;
+}
+
+/* -------------------------------------- */
+
+// HORIZONTAL LIST
+
+.hlist, %hlist {
+    padding-left: 0;
+    margin-bottom: 0;
+    > li {
+        display: inline-block;
+    }
+}
+
+/* -------------------------------------- */
+
+// FULL COVER
+
+%full-cover {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* -------------------------------------- */
+
+// VISIBILITY
+
+%text-invisible {
+    @include squish-text;
+}
+
+%element-hidden, .element-hidden {
+    @include element-hidden;
+}
+
+.element-hidden--mobile {
+    @include breakpoint($main-breakpoint) {
+        @include element-hidden;
+    }
+}
+
+.element-hidden--sm {
+    @include breakpoint($bp-sm) {
+        @include element-hidden;
+    }
+}
+
+.element-hidden--md {
+    @include breakpoint($bp-sm) {
+        @include element-hidden;
+    }
+}
+
+.element-hidden--desk {
+    @include breakpoint-min($main-breakpoint) {
+        @include element-hidden;
+    }
+}
+
+
+// Hide elements visually, but keep them available for screen-readers.
+//
+// Used for information required for screen-reader users to understand and use
+// the site where visual display is undesirable. Information provided in this
+// manner should be kept concise, to avoid unnecessary burden on the user.
+// "!important" is used to prevent unintentional overrides.
+@mixin element-invisible {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+}
+
+%element-invisible {
+    @include element-invisible;
+}
+
+// Reverts 'element-invisible'.
+@mixin element-visible {
+    position: inherit !important;
+    clip: inherit;
+    overflow: inherit;
+    height: inherit;
+}
+
+%element-visible {
+    @include element-visible;
+}
+
+// The .element-focusable class extends the .element-invisible class to allow
+// the element to be focusable when navigated to via the keyboard.
+@mixin element-focusable {
+    &:active,
+    &:focus {
+        position: static !important;
+        clip: auto;
+        overflow: visible;
+        height: auto;
+    }
+}
+
+%element-focusable {
+    @include element-focusable;
+}

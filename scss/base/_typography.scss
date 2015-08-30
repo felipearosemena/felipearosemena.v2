@@ -1,0 +1,160 @@
+/*
+
+  Typography
+
+  Base typographic styles
+  
+*/  
+
+html {
+    font-family: $body-font-family;
+    font-size: $base-font-size;
+    line-height: $base-line-height / $base-font-size;
+    color: $body-color;
+    text-rendering: optimizeLegibility;
+}
+
+*::selection {
+    background: $color-primary;
+    color: white;
+}
+
+// Attach a JSON object of media query values to be made available to JS
+head {
+    font-family: $bp-array;
+}
+
+.icon {
+    @extend [class*=" icon-"];
+}
+
+[data-target] {
+    cursor: pointer;
+}
+
+/**
+ * $LINKS
+ */
+a {
+    text-decoration: none;
+    color:$color-primary; 
+    &:hover {
+        color: darken($color-primary, 10%)
+    }
+
+    //remove the dotted outline on firefox
+    &:focus, &:active {
+        outline: none;
+    }
+}
+
+a, i {
+    -webkit-tap-highlight-color: transparent;
+}
+
+%heading-style {
+    font-family: $heading-font-family;
+    margin-top: 0;
+    font-weight: bold;
+    @include margin-trailer(1);
+}
+
+/**
+ * $HEADINGS
+ */
+h1, .alpha,
+h2, .beta,
+h3, .gamma,
+h4, .delta,
+h5, .epsilon,
+h6, .zeta {
+    @extend %heading-style; 
+    a,
+    a:visited {
+        text-decoration: none;
+    } 
+}
+
+// Using a Major Third Scale
+// Change the multipliers to create your own scale that suits the project
+h1, .alpha {
+    @include font-size($h1-font-size);
+}
+
+h2, .beta {
+    @include font-size($h2-font-size);
+}
+
+h3, .gamma {
+    @include font-size($h3-font-size);
+}
+
+h4, .delta {
+    @include font-size($h4-font-size); 
+}
+
+h5, .epsilon {
+    @include font-size($h5-font-size);
+}
+
+h6, .zeta {
+    @include font-size($h6-font-size);
+}
+
+p, blockquote,
+pre, dl {
+    margin-top: 0;
+    @include margin-trailer(1);
+}
+
+/**
+ * $PARAGRAPHS
+ */
+p,
+%p {}
+
+/**
+ * The `.lead` class is used to make the introductory text (usually a paragraph)
+ * of a document slightly larger.
+ */
+.lead, %lead {
+    @include font-size($h3-font-size);
+}
+
+/**
+ * $QUOTES
+ */
+blockquote {
+    @include font-size($base-font-size);
+    padding: 0 1.5em;
+    font-style: italic;
+    cite {
+        margin: 0;
+        font-style: italic;
+    }
+}
+
+/**
+ * Line Break
+ */
+
+hr {
+    border:none;
+    border-top:1px solid $light-grey;
+    margin: $base-spacing-unit*2 0;
+}
+
+q {
+    font-style: italic;
+} 
+
+pre {
+    padding: $base-spacing-unit;
+    border-radius: $base-border-radius;
+    border: 1px solid $grey;
+}
+
+pre, code {
+    font-family: 'courier new', monospace;
+    overflow: auto;
+}

@@ -1,0 +1,51 @@
+{% import 'macros.twig' as macros %}
+
+{% include('includes/head.twig') %}
+
+    <body class="{{ body_class }}" >
+
+        {% include [ paths.header , 'includes/header.twig' ] %}
+
+        <!--begin page content -->
+        <section class="page-wrap" role="document">
+
+            {# Common Elements accross layouts #}
+            {% include('includes/stub.twig') %}
+
+            {% block masthead %}{% endblock %}
+
+            {% block map %}{% endblock %}
+            {# Common Elements accross layouts #}
+
+            <div id="page-content" class="page-content sidebar-layout sidebar-layout--right">
+                <div class="container">
+                    <div class="grid">
+
+                        <main class="grid__item three-quarters lg-one-whole">
+                            {% block content %}{% endblock %}
+                        </main>
+                          
+                        <aside class="sidebar grid__item one-quarter lg-one-whole">
+                            
+                            {% block sidebar %}
+                            {% include('includes/sidebar.twig') %}
+                            {% endblock %}
+
+                        </aside>
+
+                    </div>
+                </div>
+            </div>
+            
+            {% block bottom %}{% endblock %}
+
+        </section><!-- /.wrap -->
+
+          
+        {% include('includes/footer.twig') %}
+
+        {{ wp_footer }}
+
+    </body>
+    
+</html>

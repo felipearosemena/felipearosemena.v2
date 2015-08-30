@@ -1,0 +1,54 @@
+<div class="container">
+
+    <h2>{{ field.cards_title }}</h2>
+    
+
+    {% set section_index = loop.index %}
+
+    <div class="grid grid--block"> 
+    
+        {% spaceless %}
+        {% for card in field.cards %}
+            
+            {% set popup_id = 'popup-' ~ section_index ~ '-' ~ loop.index %}
+            
+            <div class="grid__item one-quarter lg-one-third sm-one-half xs-one-whole">
+                
+                <a class="card js-popup" href="#{{ popup_id }}" data-effect="mfp-fade"> 
+
+                    {{ macros.img(card.image,'grid-3') }}
+
+                    <div class="card__content">
+                        <h3 class="trailer--none">{{ card.title }}</h3>
+                        <p class="trailer--none">{{ card.subtitle }}</p>
+                    </div> 
+
+                </a> 
+                
+                <div class="mfp-hide container container--small mfp-with-anim" id="{{ popup_id }}"  >
+
+                    <div class="grid">
+
+                        <div class="grid__item one-third xs-one-whole">
+
+                            <p>{{ macros.img(card.image,'grid-3') }}</p>
+                            <h3 class="trailer--none">{{ card.title }}</h3>
+                            <p class="trailer--none">{{ card.subtitle }}</p>
+                            
+                        </div>
+
+                        <div class="grid__item two-thirds xs-one-whole">
+                            {{ card.popup_content }}
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        {% endfor %}
+        {% endspaceless %}
+
+    </div>
+</div>

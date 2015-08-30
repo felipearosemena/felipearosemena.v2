@@ -1,0 +1,40 @@
+<div class="container"> 
+    
+    {%  
+        set args = {
+            'post_type' : field.post_type ? field.post_type : '',
+            'posts_per_page' : field.post_count ? field.post_count : 2
+        }
+    %}  
+    
+    
+    {% spaceless %}
+    <div class="grid grid--block">
+    {% for post in site.get_posts(args) %}  
+
+        <article class="media-item grid__item one-half md-one-whole"> 
+                
+            <a class="media-item__image align--left" href="{{ post.get_permalink }}"> 
+                {% if post.thumbnail %}
+                    {{ macros.img( post.thumbnail, 'square' ) }}
+                {% else %}
+                    <div class="media-item__box js-img-fade"></div>
+                {% endif %}
+            </a>                 
+
+            <div class="media-item__content"> 
+                
+                <h3 class="trailer--none">{{ post.post_title }}</h3>
+                {{ ( post.post_excerpt ? post.post_excerpt : post.post_content )|truncate(30) }}
+                <p><a href="{{ post.get_permalink }}">Read More</a></p>
+
+            </div>
+                 
+        </article>
+    {% else %}
+
+    {% endfor %}
+    </div><!--.grid-->
+    {% endspaceless %}
+
+</div>

@@ -1,0 +1,15 @@
+/*
+
+    Cards
+
+*/
+
+.card {
+    display: block;
+    @include margin-trailer(1); 
+}  
+
+.card__content {
+    background: $lighter-grey;
+    @extend %islet;
+}

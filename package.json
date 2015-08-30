@@ -1,8 +1,7 @@
 {
-  "name": "lms",
-  "version": "1.0.0",
+  "name": "starterdeck",
+  "version": "2.0.0",
   "author": "Felipe Arosemena",
-  "homepage": "http://drivedigital.ca",
   "engines": {
     "node": ">= 0.10.0"
   },
@@ -15,6 +14,7 @@
     "grunt-contrib-rename": "0.0.3",
     "grunt-contrib-uglify": "~0.5.0",
     "grunt-contrib-watch": "~0.6.1",
+    "grunt-contrib-requirejs": "~0.4.4",
     "grunt-modernizr": "~0.5.2",
     "grunt-sass": "^0.18.1",
     "grunt-wp-assets": "~0.2.6",

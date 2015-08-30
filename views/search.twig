@@ -4,39 +4,37 @@
   
     <div class="container container--small">
 
-        <header class="entry-header">
-            <h1 class="entry-title">Search results for: {{query}} </h1>
+        <header>
+            <h1>{{ page_title }} </h1>
         </header>
-
-        <section class="search-results">
           
-            {% for post in posts %}
+        {% for post in posts %}
 
-                <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
-                    <header class="entry-header ">
-                        <h2 class="entry-title">
-                            <a href="{{post.link}}">{{ post.title }}</a>
-                        </h2>
-                        <time>{{ post.display_date }}</time>
-                    </header>
+            <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
+                <header class="entry-header ">
+                    <h2 class="entry-title">
+                        <a href="{{post.link}}">{{ post.title }}</a>
+                    </h2>
+                    <time>{{ post.display_date }}</time>
+                </header>
 
-                    <p class="entry-summary">
-                        {{ post.post_excerpt }}
-                    </p>
+                <p class="entry-summary">
+                    {{ post.post_excerpt }}
+                </p>
 
-                </article>
+            </article>
 
-            {% else %}
+        {% else %}
 
-                <article>
-                    <p>Sorry, but your search returned no results. Try searching with different keywords.</p>
-                </article>
-                
-            {% endfor %}
-          
-        </section><!--.search-results-->
-    
-        {{ include('includes/searchform.twig')}}
+            <article>
+                <p>Sorry, but your search returned no results. Try searching with different keywords.</p>
+            </article>
+            
+        {% endfor %}
+        
+        {{ include('includes/pagination.twig') }}
+
+        {{ include('includes/searchform.twig') }}
     
     </div>
 

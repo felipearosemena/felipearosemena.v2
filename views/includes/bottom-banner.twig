@@ -1,24 +1,27 @@
-{% if acf_fields.bottom_banner_title %}
-    <section class="page-bottom-banner hero hero--overlay hero--fluid">
-        
-        <div class="hero__body">
-            <div class="container container--small">
-                <h2 class="hero__heading"> {{ acf_fields.bottom_banner_title }} </h2>
-                
-                {% if acf_fields.bottom_banner_subtitle %}
-                    <p>{{ acf_fields.bottom_banner_subtitle }}</p>
-                {% endif %}
-                
-                {% if acf_fields.bottom_banner_cta %}
-                    <p><a href="{{acf_fields.bottom_banner_cta_link}}" class="btn">{{acf_fields.bottom_banner_cta_text }}</a></p>
-                {% endif %}
+{% if post.bottom_banner_title %}
+    {# Firefox will not apply the fluid margin of the hero, if the parent container has display flex on it.therefore we need to nest the hero on level deep for the fluid padding to happen #}
+    <section class="page-bottom-banner">
+        <div class="hero hero--overlay hero--fluid">
+            <div class="hero__body">
+                <div class="container container--small">
+                    <h2 class="hero__heading"> {{ post.bottom_banner_title }} </h2>
+                    
+                    {% if post.bottom_banner_subtitle %}
+                        <p>{{ post.bottom_banner_subtitle }}</p>
+                    {% endif %}
+                    
+                    {% if post.bottom_banner_cta %}
+                        <p><a href="{{ post.get_field('bottom_banner_cta_link') }}" class="btn">{{ post.bottom_banner_cta_text }}</a></p>
+                    {% endif %}
 
+                </div>
             </div>
+            
+            <div
+                class="hero__bg js-img-fade"
+            style="background-image:url( {{ post.get_field('bottom_banner_background_image').sizes.masthead }} )"></div>
+            
         </div>
-        
-        <div
-            class="hero__bg js-img-fade"
-        style="background-image:url({{ acf_fields.bottom_banner_background_image.sizes.masthead }})"></div>
 
     </section><!--.page-bottom-banner-->
 {% endif %}

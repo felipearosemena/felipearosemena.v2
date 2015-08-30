@@ -3,16 +3,11 @@
 {% include('includes/head.twig') %}
 
     <body class="{{ body_class }}" >
-  
-        {% if site_settings.site_nav_style %}
-            {% include("includes/header-#{site_settings.site_nav_style}.twig") %}
-        {% else %}
-            {% include("includes/header-simple.twig") %}
-        {% endif %}
-  
+
+        {% include [ paths.header , 'includes/header.twig' ] %}
 
         <!--begin page content -->
-        <section class="page-wrap page-wrap--nav-{{site_settings.site_nav_position}}" role="document">
+        <section class="page-wrap" role="document">
             
             {# Common Elements accross layouts #}
             {% include('includes/stub.twig') %}
@@ -30,6 +25,7 @@
                             {% block content %}{% endblock %}
                         </main>
                       
+                      
                         <aside class="sidebar grid__item one-quarter lg-one-whole">
                         
                             {% block sidebar %}
@@ -42,9 +38,10 @@
                 </div>
             </div>
 
+            {% block bottom %}{% endblock %}
+                
         </section><!-- /.wrap -->
 
-        {% block bottom %}{% endblock %}
           
         {% include('includes/footer.twig') %}
 

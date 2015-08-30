@@ -1,5 +1,3 @@
-{% if site_settings.site_nav_position == 'fixed' %}
-
 <div id="page-stub">
 
     <!-- Quick function to offset the page content by an amount equal to the nav's height -->
@@ -8,21 +6,36 @@
         (function(){
 
             var stub       = document.getElementById('page-stub');
-            var siteHeader = document.getElementById('site-header');
+            var siteHeader = document.getElementById('site-header'); 
 
-            if(stub && siteHeader ){
+            // Recursively check the height of the header and make a stub to match it's height
+            // We use the counter 'i' to ensure the function calls a minimun number of times
+            if( stub && siteHeader  ){
 
-                function setWrapHeight(){ 
-                    stub.style.paddingTop = siteHeader.offsetHeight + 'px';
-                }
+                var i = 0;
+                function setWrapHeight(){   
+                    
+                    var position = window.getComputedStyle(siteHeader,null)['position'];
+                    
+                    if (position !== 'fixed') {
+                        stub.style.paddingTop = '0px' ; 
+                        return;
+                    } 
                 
+                    i++;
+                    stub.style.paddingTop = siteHeader.offsetHeight + 'px';
+                    setTimeout(function(){
+                        if(stub.offsetHeight !== siteHeader.offsetHeight || i < 10){
+                            setWrapHeight();
+                        };
+                    },1);
+                }
+                // var interval = setInterval(setWrapHeight,20);
                 window.addEventListener('resize',setWrapHeight);setWrapHeight();
             } 
 
-        })(window);
+        })(window); 
 
     </script>
 
-</div>
-
-{% endif %}
+</div> 

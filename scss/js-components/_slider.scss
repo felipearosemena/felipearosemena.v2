@@ -1,0 +1,140 @@
+/*
+
+	Slider
+
+	Slider Basic Functionality and Theming
+
+*/
+
+/* FlexSlider Necessary Styles */
+.flexslider {
+    margin: 0;
+    padding: 0;
+}
+
+.flexslider .slides > li {
+    display: none;
+    -webkit-backface-visibility: hidden;
+}
+
+/* Hide the slides before the JS is loaded. Avoids image jumping */
+.flexslider .slides img {
+    width: 100%;
+    display: block;
+}
+
+.flex-pauseplay span {
+    text-transform: capitalize;
+}
+
+/* Clearfix for the .slides element */
+.slides:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+html[xmlns] .slides {
+    display: block;
+}
+
+* html .slides {
+    height: 1%;
+}
+
+/* No JavaScript Fallback */
+/* If you are not using another script, such as Modernizr, make sure you
+ * include js that eliminates this class on page load */
+.no-js .slides > li:first-child {
+    display: block;
+}
+
+// Custom Slider Styling
+
+.slider,
+.slides {
+    position: relative;
+}
+
+.slider ul,
+.slider ol {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.slider .slider-nav {
+    text-align: center;
+    @include margin-above(0.5);
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    &:first-child {
+        @include z-index(1);
+    }
+    .slide__caption {
+        display: none;
+    }
+    .slider-viewport & {
+        position: static;
+    }
+}
+
+.slide__image {
+    display: block;
+}
+
+.slide__caption {
+    font-weight: bold;
+    text-transform: uppercase;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.5);
+    padding: $base-spacing-unit;
+}
+
+.slider-nav__item {
+    width: $base-spacing-unit / 2;
+    height: $base-spacing-unit / 2;
+    background: white;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 50%;
+    border: 1px solid $color-primary;
+    &.slider-active {
+        background: $color-primary;
+    }
+}
+
+.slider-prev,
+.slider-next {
+    @extend .icon;
+    @include z-index(5, absolute);
+    text-decoration: none;
+    color: white !important;
+    background: $color-primary;
+    padding: $base-spacing-unit / 2;
+    top: 50%;
+    transform: translateY(-50%);
+    &:hover, &:focus, &:active {
+        background: darken($color-primary, 10%);
+    }
+    @include breakpoint($bp-sm) {
+        display: none;
+    }
+}
+
+.slider-prev {
+    @extend .icon-angle-left;
+}
+
+.slider-next {
+    @extend .icon-angle-right;
+    right: 0;
+}

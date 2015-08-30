@@ -1,0 +1,39 @@
+/*
+
+  Breadcrumbs
+  
+  Simple inline breadcrumb style
+  
+  *Extends horizontal list.
+
+  usage:
+
+  <ul class="breadcrumbs">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+
+ */
+
+.breadcrumbs {
+    @extend %hlist;
+    display: inline-block;
+    margin-left: -$base-spacing-unit / 2;
+    li {
+        padding-right: 0.4em;
+        &:after {
+            content: "\00bb";
+            padding-left: 0.4em;
+            vertical-align: baseline;
+        }
+        &:last-child:after {
+            content: "";
+        }
+        > a, > span {
+            padding: $base-spacing-unit / 2;
+            display: inline-block;
+        }
+    }
+}

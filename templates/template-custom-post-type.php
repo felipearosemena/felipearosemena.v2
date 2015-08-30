@@ -1,6 +1,6 @@
 <?php 
 /**
- Template Name: Custom Post Type
+ Template Name: Custom Post Type ( Rename )
  */
 
 
@@ -22,7 +22,7 @@ $args = array(
 /* your args have to be the default query */
 query_posts($args);
 
-$context['posts']           = lms_get_posts();
+$context['posts']           = Timber::get_posts();
 $context['page_title']      = get_the_title();
 $context['sidebar']         = Timber::get_widgets('sidebar-blog'); // slug of sidebar to be included in this template
 

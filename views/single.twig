@@ -12,20 +12,39 @@
             {{post.content}}
         </article>
 
-        <aside class="post-aside">
+        <aside class="post-aside"> 
 
-            <h4>Categorized under:</h4>
-            <ul class="post-categories">
-                {{ categories_list }}
+            <ul class="js-share-post nav nav--inline">
+                <li><strong>Share</strong></li>
+                <li><a href="{{ share_post.get_url('fb_share') }}" class="icon-facebook"></a></li>
+                <li><a href="{{ share_post.get_url('tweet') }}" class="icon-twitter"></a></li>
+                <li><a href="{{ share_post.get_url('linkedin_share') }}" class="icon-linkedin"></a></li>
             </ul>
 
             <!-- Data found in comments.php -->
             {{ function( 'comments_template' ) }}
 
-            {% if prev_link or next_link %}
-                <ul class="post-navigation pager">
-                    {% if prev_link %}<li><a href="{{ prev_link }}">Previous Post</a></li>{% endif %}
-                    {% if next_link%}<li><a href="{{ next_link }}">Next Post</a></li>{% endif %}
+            {% if prev_post or next_post %}
+                <ul class="post-navigation nav nav--split"> 
+
+                    {% if prev_post %}
+                        <li>
+                            <a href="{{ prev_post.get_permalink }}">
+                                Previous Post <br>
+                                <b class="element-hidden--sm">{{ prev_post.title }}</b>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                    {% if next_post %} 
+                        <li>
+                            <a href="{{ next_post.get_permalink }}">
+                                Next Post <br>
+                                <b class="element-hidden--sm">{{ next_post.title }}</b>
+                            </a>
+                        </li>
+                    {% endif %}
+
                 </ul>
             {% endif %}
 

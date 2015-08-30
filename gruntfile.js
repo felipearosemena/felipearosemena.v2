@@ -1,23 +1,11 @@
 'use strict';
 module.exports = function(grunt) {
     // Load all tasks
-    require('load-grunt-tasks')(grunt);
+    require('load-grunt-tasks')(grunt); 
+
     // Show elapsed time
     require('time-grunt')(grunt);
-
-    var jsVendorList = [
-        'assets/vendor/jquery-easing/jquery.easing.js',
-        'assets/vendor/bootstrap/js/transition.js',
-        'assets/vendor/bootstrap/js/collapse.js',
-        'assets/vendor/flexslider/jquery.flexslider.js',
-        'assets/vendor/imagesloaded/imagesloaded.pkgd.js',
-    ];
-
-    var jsFileList = [
-        'assets/js/custom-plugins/_*.js',
-        'assets/js/_*.js',
-    ];
-
+ 
     grunt.initConfig({
         sass: {
             options: {
@@ -26,9 +14,7 @@ module.exports = function(grunt) {
             },
             dist: {
                 files: {
-                    'assets/css/styles.css': 'assets/scss/styles.scss',
-                    'assets/css/login.css': 'assets/scss/login.scss',
-                    'assets/css/admin.css': 'assets/scss/admin.scss'
+                    'css/main.css': 'scss/main.scss', 
                 }
             } 
         },
@@ -37,8 +23,8 @@ module.exports = function(grunt) {
                 separator: ';',
             },
             dist: {
-                src: [jsVendorList, jsFileList],
-                dest: 'assets/js/scripts.js',
+                src: 'js/main.js',
+                dest: 'js/main.min.js'
             },
         },
         uglify: {
@@ -49,65 +35,80 @@ module.exports = function(grunt) {
             },
             my_target: {
                 files: {
-                    'assets/js/scripts.min.js': ['assets/js/scripts.js']
+                    'js/main.min.js': 'js/main.min.js'
                 }
-            }
-        },
-        rename: {
-            icomoon: {
-                files: [{
-                    src: ['assets/vendor/icomoon/style.css'],
-                    dest: 'assets/vendor/icomoon/style.scss'
-                }, ]
             }
         },
         autoprefixer: {
             options: {
                 browsers: ['last 2 versions', 'ie 9', 'Firefox > 23', 'Chrome > 23', 'ios >= 6', 'android 2.3', 'android 4', 'opera 12']
-            },
-            dev: {
-                src: 'assets/css/styles.css'
-            },
+            }, 
             build: {
-                src: 'assets/css/styles.min.css'
+                src: 'css/main.css'
             }
         },
         modernizr: {
             build: {
-                devFile: 'assets/vendor/modernizr/modernizr.js',
-                outputFile: 'assets/js/modernizr-custom.min.js',
+                devFile: 'bower_components/modernizr/modernizr.js',
+                outputFile: 'js/modernizr-custom.min.js',
                 files: {
                     'src': [
-                        ['assets/js/scripts.min.js'],
-                        ['assets/css/styles.min.css']
+                        ['js/main.js'],
+                        ['css/main.css']
                     ]
                 },
-                extra: {
+                extra: {    
                     mq: true,
-                    touch: true
+                    touch: true,
+                    flexbox:true,
+                    csstransforms:true
                 },
                 uglify: true,
                 parseFiles: true
             }
         },
+
+        requirejs : {
+            release:{
+                options: {
+                    mainConfigFile: "js/config.js",
+                    generateSourceMaps: true,
+                    include: ["main"],
+                    out: "js/main.min.js",
+                    optimize: "uglify2",
+                    baseUrl: "/Users/Felipe/Sites/starterdeck/js",
+
+                    paths:{
+                      "almond": "../bower_components/almond/almond",
+                    },
+
+                    // Include a minimal AMD implementation shim.
+                    name: "almond",
+
+                    // Wrap everything in an IIFE.
+                    wrap: true,
+
+                    // Do not preserve any license comments when working with source maps.
+                    // These options are incompatible.
+                    preserveLicenseComments: false,
+                }
+            }
+
+        }, 
+
         watch: {
             sass: {
                 files: [
-                    'assets/scss/*.scss',
-                    'assets/scss/**/*.scss',
-                    'woocommerce/*.scss'
+                    'scss/*.scss',
+                    'scss/**/*.scss'
                 ],
-                tasks: ['sass:dist', 'autoprefixer:dev', 'modernizr']
+                tasks: ['sass:dist', 'autoprefixer:build']
             },
             js: {
                 files: [
-                    jsVendorList, jsFileList
+                    'main.js'
                 ],
-                tasks: ['concat']
-            },
-            rename: {
-                files: ['assets/vendor/icomoon/*'],
-                tasks: ['rename']
+                tasks: ['concat', 'uglify']
             },
             livereload: {
                 // Browser live reloading
@@ -116,33 +117,26 @@ module.exports = function(grunt) {
                     livereload: true,
                 },
                 files: [
-                    'assets/css/styles.css',
-                    'assets/js/scripts.js',
-                    'assets/js/app.js',
-                    'templates/*.php',
-                    'partials/*.php',
+                    'css/main.css',
+                    'js/main.js',  
+                    '**/*.php',
                     '*.php'
                 ]
             }
         }
-    });
+
+    }); 
 
     // Register tasks
     grunt.registerTask('default', [
-        'dev'
-    ]);
-    grunt.registerTask('dev', [
-        'sass:dist',
-        'autoprefixer:dev',
-        'concat',
-        'modernizr'
-    ]);
+        'build'
+    ]); 
+
     grunt.registerTask('build', [
         'sass:dist',
         'autoprefixer:build',
         'concat',
         'uglify',
-        'modernizr',
-        'rename'
+        'modernizr' 
     ]);
 };

@@ -1,0 +1,19 @@
+/*
+
+	Map Styles
+
+*/
+
+.google-map {
+	height:300px;
+	padding-bottom:10%;
+	box-sizing:content-box;
+	@include breakpoint($bp-sm) {
+		max-height: 250px;
+		padding-bottom:0%;
+	}
+	
+	img{
+		max-width: none;
+	}
+}

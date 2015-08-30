@@ -1,0 +1,59 @@
+/*
+
+  $HEADER
+
+  Sitewide header styles
+  
+*/
+
+// Header container
+
+.site-header__container {
+    text-align: justify;
+    line-height: 0;
+    &:after {
+        content:'\00a0' !important; // Need a characted code for an empty space, using just '' won't work.
+        display: inline-block !important;
+        width:100%;
+    }
+}
+
+// Mobile Toggle
+
+.site-header__toggle { 
+    display: none; 
+    margin-left:$base-spacing-unit/2;
+    @include breakpoint($main-breakpoint) {
+        display: inline-block;
+    } 
+}
+
+// Navigation Sections
+
+.site-nav {
+    @include z-index(1,fixed);
+    width:100%;
+
+    // Don't need the float when the menu collapses
+    @include breakpoint($main-breakpoint) {
+        float: none;
+    }
+
+    ul {
+        margin-bottom: 0;
+        padding-left: 0;
+        list-style: none;
+        @include breakpoint($main-breakpoint) {
+            width: 100%;
+        }
+    }
+
+    li {
+        display: inline-block;
+    }
+
+    li li {
+        display: block;
+    }
+} 
+

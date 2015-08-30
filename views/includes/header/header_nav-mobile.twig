@@ -1,14 +1,13 @@
-<nav id="mobile-nav" class="site-nav site-nav--mobile dinner-menu element-hidden--desk" role="navigation">
-  
-    {% include('includes/header/header_searchform.twig') %}
+<nav id="mobile-nav" class="site-nav-mobile dinner-menu element-hidden--desk" role="navigation">
+        
+    {% include('includes/header/header_searchform.twig') %} 
 
-    <ul class="site-nav__menu site-nav__menu--mobile" id="mobile-menu">
+    <ul class="site-nav-mobile__menu" id="mobile-menu">
 
-        {% for item in menu.get_items %}
-
+        {% for item in menu.get_items %} 
             <li class="{{item.classes | join(' ')}} panel">
 
-                <a class="nav-main-link" href="{{item.get_link}}"> {{item.title}} </a>
+                <a href="{{item.get_link}}"> {{item.title}} </a>
 
                 {% if item.get_children %}
                     <i data-toggle="collapse" class="icon collapsed" data-parent="#mobile-menu" data-target="#{{item.id}}"></i>
@@ -22,8 +21,8 @@
                   </ul>
                  {% endif %}
 
-            </li>
-
+            </li> 
+            
         {% endfor %}
 
     </ul>

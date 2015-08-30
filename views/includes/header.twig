@@ -1,0 +1,58 @@
+<header id="site-header" class="site-header js-dinner-menu-header" role="banner">
+  
+    {% if util_menu %}
+    <nav class="site-util element-hidden--mobile">
+        <div class="container">
+            <div class="float--right nav-dropdown">
+
+                {{ macros.wp_menu(util_menu , 'site-util__menu' ) }}
+                
+                {% include('includes/header/header_searchform.twig') %}
+
+            </div>
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="site-header__container container">
+
+        {{ macros.logo(_context, 'site-branding--header') }}
+
+        <nav class="site-nav" role="navigation">
+  
+            <span class="nav-dropdown element-hidden--mobile">
+                {{ macros.wp_menu(menu, 'site-nav__menu') }}
+            </span>
+          
+            {% if site_settings.site_cta %}
+                <a href="{{ site_settings.site_cta_link }}" class="site-nav__cta btn">{{ site_settings.site_cta_title }}</a>
+            {% endif %}
+
+            <button type="button" class="site-header__toggle btn btn--toggle js-navigation-toggle" data-target="#mobile-nav" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+        </nav><!-- .site-nav-->
+        
+    </div>
+  
+    {% if sub_menu %}
+        
+        <nav class="site-subnav">
+            <div class="container">
+                <ul class="site-subnav__menu"> {{sub_menu}} </ul>
+            </div>
+        </nav><!-- .site-subnav-->
+        
+    {% endif %}
+
+</header><!-- .site-header -->
+
+{% include('includes/header/header_nav-mobile.twig') %}
+
+
+
+        

@@ -1,58 +1,18 @@
 <div class="content-sections">
+    
+    {% for field in post.get_field('full_width_content') %}
 
-	{% for field in acf_fields.full_width_content %}
-
-	  	{# Add extra class if it's grid, so we can target specific grid types #}
-		{% if field.acf_fc_layout     == 'grid' %}
-	  	<section class="content-section content-section--{{field.acf_fc_layout}} content-section--grid-{{field.grid_items | length}}">
-		{% else %}
-	  	<section class="content-section content-section--{{field.acf_fc_layout}}">
-		{% endif %}
-			
-			{# WP Editor Field#}
-		  	{% if field.acf_fc_layout     == 'content_editor' %}
+        {# Add extra class if it's grid, so we can target specific grid types #}
+        {% if field.acf_fc_layout     == 'grid' %}
+            <section class="content-section content-section--{{field.acf_fc_layout}} content-section--grid-{{field.grid_items | length}}">
+        {% else %}
+            <section class="content-section content-section--{{field.acf_fc_layout}}">
+        {% endif %}
 		
-		  		<div class="container container--small">
-					{{ field.content_editor }}
-		  		</div>
+			{% include('includes/content/content_' ~ field.acf_fc_layout|replace('_','-') ~ '.twig' ) %} 
 
-			{# Content Image Field#}
-		  	{% elseif field.acf_fc_layout == 'content_image' %}
-				
-				<div class="container container--small">
-					{{ macros.img(field.image, 'featured') }}
-				</div>
+        </section>
 
-			{# Media Listing Field#}
-		  	{% elseif field.acf_fc_layout == 'media_listing' %}
-			
-				<div class="container container--small">
-		  			{% include('includes/content/content_media-listing.twig') %}
-				</div>
-
-			{# Banner Field#}
-		  	{% elseif field.acf_fc_layout == 'banner' %}
-				
-		  		{% include('includes/content/content_banner.twig') %}
-		  
-			{# Grid Field#}
-		  	{% elseif field.acf_fc_layout == 'grid' %}
-				
-				<div class="container">
-		  			{% include('includes/content/content_grid.twig') %}
-				</div>
-
-		  	{# Slider Field#}
-		  	{% elseif field.acf_fc_layout == 'slider' %}
-		  	
-		  		<div class="container container--small">
-		  			{% include('includes/content/content_slider.twig') %}
-		  		</div>
-
-		  {% endif %}
-	  	
-	  </section>
-
-	{% endfor %}
+        {% endfor %}
 
 </div>

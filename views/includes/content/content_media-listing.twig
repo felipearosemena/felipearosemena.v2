@@ -1,31 +1,35 @@
-<ul class="media-listing">
+<div class="container container--small">
 
-    {% for item in field.media_listing_item %}
-        
-        {% set link = (item.item_link_type == 'url') ? item.item_link_url : item.item_link_file %}
-        
-        <li class="media-item">
- 
-            <div class="media-item__image">
-        
-                {% if link %} <a href="{{ link }}" target="_blank"> {% endif %}
+    <ul class="media-listing">
+
+        {% for item in field.media_listing_item %}
+            
+            {% set link = (item.item_link_type == 'url') ? item.item_link_url : item.item_link_file %}
+            
+            <li class="media-item">
+     
+                <div class="media-item__image">
+            
+                    {% if link %} <a href="{{ link }}" target="_blank"> {% endif %}
+                        
+
+                        {{ macros.img( item.item_image , 'grid-4') }}
                     
-
-                    {{ macros.img( item.item_image , 'grid-4') }}
+                    {% if link %} </a> {% endif %}
                 
-                {% if link %} </a> {% endif %}
-            
-            </div>
+                </div>
 
-            <div class="media-item__content">
-                {{ item.item_content }}
+                <div class="media-item__content">
+                    {{ item.item_content }}
+                    
+                    {% if link %} <a href="{{ link }}" target="_blank" >Media Item Link </a> {% endif %}
                 
-                {% if link %} <a href="{{ link }}" target="_blank" >Media Item Link </a> {% endif %}
-            
-            </div>
-            
-        </li>
+                </div>
+                
+            </li>
 
-    {% endfor %}
+        {% endfor %}
 
-</ul>
+    </ul>
+
+</div>

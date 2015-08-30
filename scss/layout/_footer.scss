@@ -1,0 +1,25 @@
+/*
+
+  $FOOTER
+
+  Sitewide footer styles
+  
+*/
+
+.site-footer {
+    border-top: 1px solid $light-grey;
+    padding: $base-spacing-unit 0;
+}
+
+.site-info {
+    dl {
+        display: inline-block;
+        vertical-align: top;
+        padding-right: $base-spacing-unit;
+    }
+}
+
+.site-sub-footer {
+    border-top: 1px solid $light-grey;
+    padding-top: $base-spacing-unit;
+}

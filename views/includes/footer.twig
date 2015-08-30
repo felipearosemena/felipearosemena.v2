@@ -3,7 +3,7 @@
     <div class="container">
         <div class="grid">
 
-            <div class="grid__item one-quarter md-one-whole">
+            <div class="grid__item one-third md-one-whole">
             
                 <div class="grid">
                     <div class="grid__item one-whole md-one-third xs-one-whole">
@@ -16,12 +16,12 @@
 
             </div><!--.grid__item-->
 
-            <div class="grid__item one-half md-one-whole">
+            <div class="grid__item one-third md-one-whole">
                 <h4>Site Navigation</h4>
-                {% include('includes/footer/footer_menu.twig') %}
+                {{ macros.wp_menu(footer_menu,'list--unstyled') }} 
             </div><!--.grid__item-->
 
-            <div class="grid__item one-quarter md-three-quarters xs-one-whole">
+            <div class="grid__item one-third md-one-whole">
                 <h4>Connect With Us</h4>
                 {% include('includes/nav-social.twig') %}
             </div><!--.grid__item-->
@@ -59,14 +59,15 @@
     var imgs = document.getElementById('page-content').getElementsByTagName('img');
     
     for ( var i=0; i < imgs.length; i++ ){
-        var wrap    = document.createElement('div'),
-            wrapO   = document.createElement('div'),
-            imgW    = parseInt(imgs[i].getAttribute('width')),
-            imgH    = parseInt(imgs[i].getAttribute('height'));
+        var wrap      = document.createElement('div'),
+            wrapO     = document.createElement('div'),
+            wrapClass = wrapClass = imgs[i].getAttribute('data-wrap-class') || '' ;
+            imgW      = parseInt(imgs[i].getAttribute('width')),
+            imgH      = parseInt(imgs[i].getAttribute('height'));
 
         if( (typeof imgW !== NaN && imgW > 0) && (typeof imgH !== NaN && imgH > 0) ) {
             wrap.className  = 'img-wrap-inner';
-            wrapO.className = 'img-wrap';
+            wrapO.className = 'img-wrap ' + wrapClass;
             imgs[i].parentNode.insertBefore(wrapO,imgs[i]); // Insert the image inside wrapO, inside wrap (need the double nesting)
             wrapO.appendChild(wrap).appendChild(imgs[i]);
             wrap.style.paddingBottom = imgH/imgW*100 + '%'; // Set the right padding bottom to achieve the intrinsic ratio

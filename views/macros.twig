@@ -1,22 +1,39 @@
 {# 
 
-  Image Macro 
-  
-  @param image ( object ) . ACF Image Object
-  @param size ( string )  . Registered post thumbnail size name
-
-  You can use the utility function lms_get_image_object() to create a ACF-like image object that will work with this macro. Useful when working with 3rd party plugins.
+    Image Macro 
+    
+    @param image ( object ) . ACF Image Object
+    @param size ( string )  . Registered post thumbnail size name
+    
+    You can use the utility function lms_get_image_object() to create a ACF-like image object that will work with this macro. Useful when working with 3rd party plugins.
   
 #}
-{% macro img( image, size ) %}
+{% macro img( image, size, wrapperClass , imgClass ) %}
+    
+    {% if image.ImageClass == 'TimberImage' %}
+        
+        {% set src = image.get_src(size) %}
+        {% set width = image.sizes[size]['width'] %}
+        {% set height = image.sizes[size]['height'] %}
 
-    <img 
-        class="js-img-fade {{ class }}"
-        width="{{ image.sizes[size ~ '-width'] }}"
-        height="{{ image.sizes[size ~ '-height'] }}"
-        src="{{ image.sizes[size] }}" 
-        alt="{{ image.alt }}" 
-        title="{{ image.title }}" >
+    {% else %}
+
+        {% set src = image.sizes[size] %}
+        {% set width = image.sizes[size ~ '-width'] %}
+        {% set height = image.sizes[size ~ '-height'] %}
+
+    {% endif %} 
+
+        <img 
+            class="js-img-fade {{ imgClass }}"
+            data-wrap-class="{{ wrapperClass }}"
+            width="{{ width }}"
+            height="{{ height }}"
+            src="{{ src }}" 
+            alt="{{ image.alt }}" 
+            title="{{ image.title }}" > 
+        
+
     
 
 {% endmacro %}
@@ -27,11 +44,38 @@
     <a class="site-branding {{ class }} " href="{{ context.site.url }}">
     
     {% if context.site_settings.site_logo %}
-        <img class="site-branding__logo" src="{{ context.site_settings.site_logo.sizes.brand}}" alt="{{ context.site_settings.site_logo.alt}}" title="{{ context.site_settings.site_logo.title}}">
+
+        <img 
+            class="site-branding__logo" 
+            src="{{ context.site_settings.site_logo.sizes.brand}}" 
+            alt="{{ context.site_settings.site_logo.alt}}" 
+            title="{{ context.site_settings.site_logo.title}} ">
+
     {% else %}
+    
         {{ bloginfo('name')}}
+        
     {% endif %}
  
   </a>
     
 {% endmacro %}
+
+{% macro wp_menu( menu, class ) %}
+    
+    <ul class="{{ class }}">
+        {% for item in menu.get_items %}
+            <li class="{{item.classes | join(' ')}}">
+                <a href="{{item.get_link}}"> {{item.title}} </a>
+                {% if item.get_children %}
+                    <ul class="sub-menu">
+                        {% for child in item.get_children %}
+                            <li class="{{child.classes | join(' ')}}"><a href="{{child.get_link}}">{{child.title}}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+{% endmacro %} 

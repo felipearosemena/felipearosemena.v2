@@ -1,40 +1,67 @@
-{% extends "layouts/layout-sidebar.twig" %}
+{% extends "layouts/layout-sidebar-right.twig" %}
 
 {% block content %}
 
-    <header>
+    <header class="entry-header">
 
         <h1>{{page_title}}</h1>
     
         {% if categories_list %}
 
             <ul class="categories nav nav--inline">
-                <li><strong>Categories: </strong></li>
+                <li><strong>Categories: </strong></li> 
                 {{ categories_list }}
             </ul>
 
         {% endif %}
-    
+
+        {% include('includes/searchform-posts.twig') %}
+
     </header>
-  
-  
+    
     {% for post in posts %}
 
         <article class="post-type-{{post.post_type}}" id="post-{{post.ID}}">
             
+            {% if post.thumbnail %}
+            <figure class="trailer--half">
+                <a href="{{post.link}}">
+                    {{ macros.img( post.thumbnail, 'featured' ) }}
+                </a>
+            </figure> 
+            {% endif %}
+
             <header class="entry-header">
+
+                {% if post.get_terms %}
+                <ul class="post-terms nav">
+                    {% for term in post.get_terms() %}
+                    <li><a href="{{ term.link }}">{{ term.name }}</a></li> 
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
                 <h2 class="entry-title">
                     <a href="{{post.link}}">{{ post.title }}</a>
                 </h2>
+
                 <time>{{ post.display_date }}</time>
+
             </header>
 
             <p class="entry-summary">
                 {{ post.post_excerpt }}
-            </p>
+            </p> 
+
 
         </article>
 
+    {% else %}
+
+        <article>
+            <p>Sorry, there are not posts matching you query. Try searching with different keywords.</p>
+        </article>
+        
     {% endfor %}
   
     {{ include('includes/pagination.twig') }}

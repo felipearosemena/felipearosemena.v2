@@ -1,35 +1,4 @@
-<div 
-id="map-canvas" 
-data-address="{{ site_settings.address_street }} {{ site_settings.address_city }}, {{ site_settings.address_postal }}, {{ site_settings.address_country }}"></div>
-
-<script>
-function initializeMap() {
-
-    var geocoder   = new google.maps.Geocoder(); // Create an instance of the google maps geocoder
-    var mapEl      = document.getElementById('map-canvas');
-    var address    = mapEl.getAttribute('data-address');
-    var mapOptions = {
-        center: { lat: 0, lng: 0}, // MAKE SURE YOU SET A GOOD FALLBACK FOR THE CENTER
-        zoom: 14
-    };
-
-    var map = new google.maps.Map(mapEl, mapOptions);
- 
-    geocoder.geocode( { 'address': address}, function(results, status) {
-
-        if (status === google.maps.GeocoderStatus.OK) {
-            //In this case it creates a marker, but you can get the lat and lng from the location.LatLng
-            map.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-                map: map, 
-                position: results[0].geometry.location
-            });
-        }   
-
-    });
-
-}
-
-google.maps.event.addDomListener(window, 'load', initializeMap);
-
-</script>
+<div  
+class="js-map google-map"
+data-address="{{ site_settings.address_street }} {{ site_settings.address_city }}, {{ site_settings.address_postal }}, {{ site_settings.address_country }}" 
+data-scrollwheel="false" ></div> 

@@ -1,0 +1,148 @@
+/*
+
+    Buttons
+
+*/
+
+/* Base Button */
+.btn {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: inherit;
+    font-size: 100%;
+    font-weight: normal; // Important for <button> element
+    cursor: pointer;
+    border: none;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: $btn-line-height;
+    padding: $btn-default-padding $btn-default-padding * 2;
+    border-radius: $base-border-radius;
+    // Half circle rounded borders
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn {
+    color: white;
+    background-color: $color-primary;
+    -webkit-tap-highlight-color: transparent;
+    
+    &:hover {
+        color: white;
+        background-color: darken($color-primary, 10%);
+    } 
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}
+
+// Button padding size variants.
+// Make the button look bigger, while keeping the same font size;
+.btn--small {
+   padding: $btn-small-padding $btn-small-padding * 2;
+}
+
+.btn--large {
+    padding: $btn-large-padding $btn-large-padding * 2;
+} 
+
+/* Fill width of container */
+.btn--full {
+    width: 100%; 
+    text-align: center;
+} 
+
+/* Button Functions */
+.btn--primary {
+    background-color: $color-primary;
+    &:hover {
+        background-color: darken($color-primary, 10%);
+    }
+}
+
+.btn--secondary {
+    background-color: $color-secondary;
+    &:hover {
+        background-color: darken($color-secondary, 10%);
+    }
+}
+
+.btn--positive {
+    background-color: $color-positive;
+    &:hover {
+        background-color: darken($color-positive, 10%);
+    }
+}
+
+.btn--negative {
+    background-color: $color-negative;
+    &:hover {
+        background-color: darken($color-negative, 10%);
+    }
+}
+
+.btn--disabled,
+.btn--disabled:hover,
+.btn--disabled:active,
+.btn--disabled:focus {
+    background-color: $light-grey;
+    color: $grey;
+    cursor: default;
+    box-shadow: none;
+}
+
+/*  
+
+    Toggle Button Structure
+
+    <button class="btn--toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+
+*/
+
+// since the toggle button is likely to have content other than text inside (icon, spans), 
+// we just set a padding all around to ensure proper padding.
+.btn--toggle {
+    padding: $button-toggle-padding;
+    width: $button-toggle-width;
+    height: $button-toggle-width; 
+    .icon-bar {
+        display: block; 
+        position: relative;
+        width: $icon-bar-width;
+        border-top: $icon-bar-height solid;
+        margin: $icon-bar-spacing auto;
+        transition: transform $transition-fast;
+    }
+    .sr-only {
+        @extend %element-invisible;
+    }
+    &.dinner-menu-active {
+        .icon-bar:nth-of-type(2) {
+            transform: rotate(45deg);
+            top: $icon-bar-height + $icon-bar-spacing;
+        }
+        .icon-bar:nth-of-type(3) {
+            opacity: 0;
+        }
+        .icon-bar:nth-of-type(4) {
+            transform: rotate(-45deg);
+            top: -($icon-bar-height + $icon-bar-spacing);
+        }
+    }
+}
+
+button.icon-search {
+    background: none;
+    border: none;
+    line-height: 1; 
+    outline: none !important;
+}
