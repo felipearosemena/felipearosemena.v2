@@ -70,15 +70,7 @@ class StarterSite extends TimberSite {
                 'menu_slug'     => 'site-general-settings',
                 'capability'    => 'edit_posts',
                 'redirect'      => false
-            ));
-
-            acf_add_options_page(array(
-                'page_title'    => 'Navigation Display Settings',
-                'menu_title'    => 'Navigation Display Settings',
-                'menu_slug'     => 'navigation-display-settings',
-                'capability'    => 'edit_posts',
-                'redirect'      => false
-            ));
+            )); 
             
         }
         
