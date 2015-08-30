@@ -2,8 +2,7 @@
 
 $context = Timber::get_context();
 $post    = new TimberPost();
-$context['post'] = $post;  
-$context['share_post'] = new SharePost;
+$context['post'] = $post;   
 
 // Previous/Next post links
 $prev_post =  get_adjacent_post(false,'',false);

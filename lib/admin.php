@@ -22,4 +22,4 @@ function login_logo() { ?>
     </style>
 <?php
 }
-add_action('login_enqueue_scripts', 'lms_login_logo');  
+add_action('login_enqueue_scripts', 'login_logo');  

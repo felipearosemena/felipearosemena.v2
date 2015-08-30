@@ -137,6 +137,7 @@ module.exports = function(grunt) {
         'autoprefixer:build',
         'concat',
         'uglify',
-        'modernizr' 
+        'modernizr',
+        'requirejs'
     ]);
 };
