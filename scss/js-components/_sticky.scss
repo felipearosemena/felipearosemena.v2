@@ -41,7 +41,7 @@
     padding-right: $base-spacing-unit;
     max-width: $container-max;
     // Breakpoint where you wan't to the sticky to stop working
-    @include breakpoint($sticky-breakpoint) {
+    @include breakpoint($bp-lg) {
         position: static;
     }
 }

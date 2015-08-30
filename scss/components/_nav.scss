@@ -33,10 +33,11 @@
 
 .nav--split {
     margin-right: -$base-spacing-unit/4;
-    li:last-child {
-        float:right;
-        text-align: right;
-    }
+}
+
+.nav--split__last {
+    float:right;
+    text-align: right;
 }
 
 .nav--social {

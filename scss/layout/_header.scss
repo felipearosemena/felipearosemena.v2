@@ -11,6 +11,11 @@
 .site-header__container {
     text-align: justify;
     line-height: 0;
+
+    > * {
+        line-height: $base-line-height/$base-font-size;
+    }
+
     &:after {
         content:'\00a0' !important; // Need a characted code for an empty space, using just '' won't work.
         display: inline-block !important;
@@ -31,8 +36,8 @@
 // Navigation Sections
 
 .site-nav {
-    @include z-index(1,fixed);
-    width:100%;
+
+    display: inline-block;
 
     // Don't need the float when the menu collapses
     @include breakpoint($main-breakpoint) {
@@ -55,5 +60,14 @@
     li li {
         display: block;
     }
+
+    a {
+        padding:$base-spacing-unit/2;
+    }
 } 
+
+.site-nav__menu {
+    display: inline-block;  
+    margin-right:1rem;
+}
 

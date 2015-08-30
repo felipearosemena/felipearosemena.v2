@@ -31,16 +31,14 @@
     padding-right: $container-pad;
 }
 
-.container, %container {
-    @extend %cf;
+.container {
     max-width: $container-max;
     box-sizing: content-box;
     margin-left: auto;
     margin-right: auto;
-    
 }
 
-.container--sm, %container--small {
+.container--sm {
     max-width: $container-small-max;
 }
 

@@ -23,6 +23,7 @@
             opacity: 1;
         }
     }
+    
     .js-img-slide-fade {
         @extend %default-transition;
         opacity: 0;
@@ -32,6 +33,7 @@
             transform: translateX(0%);
         }
     }
+
     .js-slide-fade-top {
         @extend %default-transition;
         opacity: 0;
@@ -41,4 +43,5 @@
             transform: translateY(0%);
         }
     }
+
 }

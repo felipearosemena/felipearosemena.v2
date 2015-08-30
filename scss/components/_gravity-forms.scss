@@ -78,7 +78,6 @@
 }
 
 .gform_confirmation_message {
-    @include font-size($h1-font-size, $h1-line-height);
-    font-weight: bold;
+    @extend .alplha;
     margin: 3em 0;
 }

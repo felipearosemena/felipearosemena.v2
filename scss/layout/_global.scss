@@ -42,15 +42,6 @@ body {
     padding-bottom: $section-spacing-unit;
 }
 
-// Sidebars
-
-.sidebar {
-    ul {
-        padding: 0;
-        list-style: none;
-    }
-}
-
 .sidebar-layout article,
 .sidebar-layout header,
 .sidebar-layout section ,
@@ -58,7 +49,7 @@ body {
     // We make the main content area in the sidebar layout to have the same maximum 
     // Width as the single column layout
     // This makes for a uniform container width at small tablet sizes
-    max-width: $container-small-max - $container-pad / 1rem * $base-font-size * 2;
+    max-width: $container-small-max;
     margin-left: auto;
     margin-right: auto;
 }
@@ -67,21 +58,13 @@ body {
 
 .content-section { 
     margin-bottom: $section-spacing-unit;
-} 
 
-.content-section:last-child {
-    margin-bottom: 0;
-} 
+    &:last-child {
+        margin-bottom: 0;
+    }
+}  
 
-// Blog Styles
-
-.entry-header {
-    @include margin-trailer(.25);
-}
-
-.entry-title {
-    margin-bottom: 0;
-}
+// Blog Styles 
 
 // Widget Styles
 
