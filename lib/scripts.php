@@ -14,25 +14,18 @@ function scripts_and_styles() {
     // Remove jQuery
     wp_deregister_script('jquery');
 
-    // Register our own scripts
-    wp_register_script( 'googleAPI', 'https://maps.googleapis.com/maps/api/js', array(), '', false );
 
     // Modernizr goes in the head
-    wp_register_script( 'modernizr', get_stylesheet_directory_uri() . '/js/modernizr-custom.min.js', array(), '', false );
+    wp_register_script( 'modernizr', get_stylesheet_directory_uri() . '/assets/js/modernizr-custom.min.js', array(), '', false );
     
     // Jquery and the rest of our script in thee footer
-    // wp_register_script('jquery','/wp-includes/js/jquery/jquery.js','','',true);
-    wp_register_script( 'scripts', get_stylesheet_directory_uri() . '/js/main.min.js', array(), '', true );
-
-    if( is_page_template('templates/template-contact.php') ) {
-        wp_enqueue_script('googleAPI');
-    } 
+    wp_register_script( 'scripts', get_stylesheet_directory_uri() . '/assets/js/main.js', array(), '', true );
 
     wp_enqueue_script('modernizr');
     wp_enqueue_script('scripts');
 
     // Main Stylesheet
-    wp_register_style( 'styles', get_stylesheet_directory_uri() . '/css/main.css', array(), '', 'all' );
+    wp_register_style( 'styles', get_stylesheet_directory_uri() . '/assets/css/main.css', array(), '', 'all' );
     wp_enqueue_style('styles');
     
     // Google Fonts

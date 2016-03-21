@@ -1,0 +1,146 @@
+/*
+
+  $HEADER
+
+  Sitewide header styles
+  
+*/
+
+// Header container
+
+.site-header__container {
+  text-align: justify;
+  line-height: 0;
+
+  &:after {
+    content:'\00a0' !important; // Need a characted code for an empty space, using just '' won't work.
+    display: inline-block !important;
+    width:100%;
+  }
+}
+
+// Mobile Toggle
+
+.site-header__toggle { 
+  @include z-index(6);    
+  float:right;
+  margin-right: $container-pad - px-to-rem($button-toggle-padding);
+
+  @include mq-max($bp-xl) {
+    border-radius: 0;
+    border: none;
+  }
+
+  @include mq-min($bp-xl) {
+    top: ($logo-height-lg - px-to-rem($button-toggle-width))/2;
+    margin: $base-spacing-unit;
+  }
+}
+
+// Navigation Sections
+
+.site-header {
+  @include z-index(6, fixed);
+  top: 0;
+  width: 100%;
+  transition: background $transition-slow, box-shadow $transition-slow;
+  background: white;
+  box-shadow: $box-shadow-y-soft;
+
+  @include mq-min($bp-xl) {
+    position: absolute;
+    box-shadow: none;
+    background: transparent;
+  }
+
+  // Don't need the float when the menu collapses
+
+  ul {
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    @include mq-max($main-breakpoint) {
+      width: 100%;
+    }
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  li li {
+    display: block;
+  }
+} 
+
+/*
+
+  Site Branding
+
+  Global branding styles
+  
+*/
+
+.site-branding {
+  @extend %cf;  
+  display: inline-block;
+  vertical-align: top;
+  padding: px-to-em(15px) ($container-pad); 
+  color: $body-color;
+
+  @include mq-min($bp-xl) {
+    padding: $base-spacing-unit; 
+  }
+}
+
+.site-branding--header {
+  padding: $base-spacing-unit/2 0;
+  vertical-align: middle;
+}
+
+.site-branding__name,
+.site-branding__logo {
+  display: block;
+  float: left;
+
+  path {
+    fill: currentColor;
+    opacity: 1;
+    transition: $transition-default;
+
+    .site-branding:hover & {
+      fill: $color-primary;
+    }
+
+    .is-inverse &,
+    .is-menu-active & {
+      fill: white;
+    }
+  }
+}
+
+.site-branding__logo { 
+  width:$logo-width; 
+  height:$logo-height;
+
+  @include mq-min($bp-xl) {
+    width:$logo-width-lg; 
+    height:$logo-height-lg;
+  }
+
+  svg {
+    max-height: 100%;
+  }
+}
+
+.site-branding__name {
+  @extend .gamma;
+  color: #fff;
+  text-decoration: none;
+  &:visited {
+    color: #fff;
+  }
+  &:hover {
+    color: $dark-blue;
+  }
+}

@@ -1,0 +1,323 @@
+/*
+
+  Helpers
+
+  Miscellaneous utility classes
+
+*/
+
+// CLEARFIX
+
+%clearfix, %cf, .clearfix, .cf {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+/* -------------------------------------- */
+
+// COLOR
+
+.bg-g-- {
+  background-color: $lighter-grey;
+}
+
+.c-w {
+  color: white;
+}
+
+// FLOATS AND ALIGNMENT
+
+// Add/remove floats
+.float-right {
+  float: right !important;
+}
+
+.float-left {
+  float: left !important;
+}
+
+.float-none {
+  float: none !important;
+}
+
+// Text alignment
+.text-left {
+  text-align: left  !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.cols-2 {
+  @include mq-min($bp-sm) {
+    column-count:2;
+    column-gap: $grid-gutter;
+  }
+}
+
+.col-break {
+  break-before: always;
+}
+
+// Box alignment
+
+.align--left {
+  margin-left:0 !important
+}
+
+.align--right {
+  margin-right: 0 !important;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.align-top {
+  vertical-align: top !important;
+}
+
+.align-bottom {
+  vertical-align: bottom !important;
+}
+
+/* -------------------------------------- */
+
+// SPACING
+
+.mb-0 {
+  margin-bottom: 0;
+}
+
+.mb-025 {
+  margin-bottom: $base-spacing-unit/4;
+}
+
+.mb-05 {
+  margin-bottom: $base-spacing-unit/2;
+}
+
+.mb-1 {
+  margin-bottom: $base-spacing-unit;
+}
+
+.mb-1--f {
+  margin-bottom: $section-spacing-unit;
+
+  @include mq-min($bp-xl) {
+    margin-bottom: $section-spacing-unit*2;
+  }
+}
+
+.mb-2 {
+  margin-bottom: $base-spacing-unit*2;
+}
+
+.mt-05 {
+  margin-top: $base-spacing-unit/2;
+}
+
+.mt-1 {
+  margin-top: $base-spacing-unit;
+}
+
+.ml-1 {
+  margin-left: $base-spacing-unit;
+}
+
+.mt-2 {
+  margin-top: $base-spacing-unit*2;
+}
+
+.mtb-05 {
+  margin-top: $base-spacing-unit/2;
+  margin-bottom: $base-spacing-unit/2;
+}
+
+.mtb-1 {
+  margin-top: $base-spacing-unit;
+  margin-bottom: $base-spacing-unit;
+}
+
+.mtb-2 {
+  margin-top: $base-spacing-unit*2;
+  margin-bottom: $base-spacing-unit*2;
+}
+
+.mtb-3 {
+  margin-top: $base-spacing-unit*3;
+  margin-bottom: $base-spacing-unit*3;
+}
+
+.mtb-1--f {
+  margin-top: $section-spacing-unit;
+  margin-bottom: $section-spacing-unit;
+
+  @include mq-min($bp-xl) {
+    margin-top: $section-spacing-unit*2;
+    margin-bottom: $section-spacing-unit*2;
+  }
+}
+
+.mtb-15--f {
+  margin-top: $section-spacing-unit*1.5;
+  margin-bottom: $section-spacing-unit*1.5;
+
+  @include mq-min($bp-xl) {
+    margin-top: $section-spacing-unit*3;
+    margin-bottom: $section-spacing-unit*3;
+  }
+}
+
+.ptb-1--f {
+  padding-top: $section-spacing-unit;
+  padding-bottom: $section-spacing-unit;
+
+  @include mq-min($bp-xl) {
+    padding-top: $section-spacing-unit*2;
+    padding-bottom: $section-spacing-unit*2;
+  }
+}
+
+/* display */
+
+.inline-full {
+  display: inline-block;
+  width: 100%;
+}
+
+.ib {
+  display: inline-block;
+}
+
+.flex-center {
+  align-self: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.grow-0 {
+  flex-grow: 0;
+}
+
+/* -------------------------------------- */
+
+// HORIZONTAL LIST
+
+.hlist, %hlist {
+  padding-left: 0;
+  margin-bottom: 0;
+
+  > li {
+    display: inline-block;
+  }
+}
+
+/* -------------------------------------- */
+
+// FULL COVER
+
+%full-cover {
+  @include full-cover;
+}
+
+/* -------------------------------------- */
+
+// VISIBILITY
+
+%text-invisible {
+  @include squish-text;
+}
+
+%element-hidden, .element-hidden {
+  @include element-hidden;
+}
+
+.element-hidden--mobile {
+  @include mq-max($main-breakpoint) {
+    @include element-hidden;
+  }
+}
+
+.element-hidden--sm {
+  @include mq-max($bp-sm) {
+    @include element-hidden;
+  }
+}
+
+.element-hidden--md {
+  @include mq-max($bp-sm) {
+    @include element-hidden;
+  }
+}
+
+.element-hidden--desk {
+  @include mq-min($main-breakpoint) {
+    @include element-hidden;
+  }
+}
+
+
+// Hide elements visually, but keep them available for screen-readers.
+//
+// Used for information required for screen-reader users to understand and use
+// the site where visual display is undesirable. Information provided in this
+// manner should be kept concise, to avoid unnecessary burden on the user.
+// "!important" is used to prevent unintentional overrides.
+@mixin element-invisible {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px);
+  overflow: hidden;
+  height: 1px;
+  width: 1px;
+}
+
+%element-invisible {
+  @include element-invisible;
+}
+
+// Reverts 'element-invisible'.
+@mixin element-visible {
+  position: inherit !important;
+  clip: inherit;
+  overflow: inherit;
+  height: inherit;
+}
+
+%element-visible {
+  @include element-visible;
+}
+
+// The .element-focusable class extends the .element-invisible class to allow
+// the element to be focusable when navigated to via the keyboard.
+@mixin element-focusable {
+  &:active,
+  &:focus {
+    position: static !important;
+    clip: auto;
+    overflow: visible;
+    height: auto;
+  }
+}
+
+%element-focusable {
+  @include element-focusable;
+}

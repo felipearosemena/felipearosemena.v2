@@ -1,0 +1,315 @@
+/*
+
+  Typography
+
+  Base typographic styles
+  
+*/  
+
+html {
+  font-family: $body-font-family;
+  font-size: $base-font-size*.8;
+  line-height: $base-line-height / $base-font-size;
+  color: $body-color;
+  text-rendering: optimizeLegibility;
+  
+  @include mq-min($bp-xl) {
+    font-size:$base-font-size;
+  }
+}
+
+*::selection {
+  background: $color-primary;
+  color: white;
+}
+
+// Attach a JSON object of media query values to be made available to JS
+head {
+  font-family: $bp-array;
+}
+
+.icon {
+  @extend [class*=" icon-"];
+}
+
+[data-target] {
+  cursor: pointer;
+}
+
+/**
+ * $LINKS
+ */
+a {
+  text-decoration: none;
+  color: $color-primary;
+  transition:color $transition-fast;
+  font-weight: bold;
+  
+  &:hover {
+    // color: black
+  }
+
+  //remove the dotted outline on firefox
+  &:focus, &:active {
+    outline: none;
+  }
+}
+
+a, i {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.link-plain {
+  color: $body-color;
+}
+
+.link-underline,
+.link-linkedin,
+.link-twitter,
+.link-briteweb {
+  @include link-underline;
+}
+
+.link-linkedin {
+  color: $linkedin;
+  &:hover {
+  }
+}
+
+.link-twitter {
+  color: $twitter;
+  &:hover {
+  }
+}
+
+.link-briteweb {
+  color: $briteweb;
+  &:hover {
+  }
+}
+
+%heading-style {
+  margin-top: 0;
+  @include margin-trailer(1);
+}
+
+%heading-font {
+  font-weight: bold;
+  font-family: $heading-font-family;
+}
+
+/**
+ * $HEADINGS
+ */
+h1, .alpha,
+h2, .beta,
+h3, .gamma,
+h4, .delta,
+h5, .epsilon,
+h6, .zeta {
+  @extend %heading-style; 
+  a,
+  a:visited {
+    text-decoration: none;
+  } 
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @extend %heading-font;
+}
+
+.serif {
+  font-family: $serif-font;
+}
+
+// Using a Major Third Scale
+// Change the multipliers to create your own scale that suits the project
+h1, .alpha {
+  @include font-size($h1-font-size, $h1-line-height);
+  
+  @include mq-max($bp-sm) {
+    @include font-size($h1-font-size*.8, false);
+  }
+}
+
+h2, .beta {
+  @include font-size($h2-font-size);
+
+  @include mq-max($bp-sm) {
+    @include font-size($h2-font-size*.8, false);
+  }
+}
+
+h3, .gamma {
+  @include font-size($h3-font-size, $h3-line-height);
+  
+  @include mq-max($bp-sm) {
+    @include font-size($h3-font-size*.75, false);
+  }
+}
+
+h4, .delta {
+  @include font-size($h4-font-size);
+}
+
+h5, .epsilon {
+  @include font-size($h5-font-size);
+}
+
+h6, .zeta {
+  @include font-size($h6-font-size);
+}
+
+p, blockquote,
+pre, dl {
+  margin-top: 0;
+  @include margin-trailer(1);
+}
+
+/**
+ * $PARAGRAPHS
+ */
+p,
+%p {
+}
+
+/**
+ * The `.lead` class is used to make the introductory text (usually a paragraph)
+ * of a document slightly larger.
+ */
+.lead, %lead {
+  @include mq-min($bp-sm) {
+    @include font-size($h4-font-size, false);
+  }
+  // font-family: $garamond;
+}
+
+/**
+ * $QUOTES
+ */
+blockquote {
+  @include font-size($h3-font-size, false);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 0;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  cite {
+    margin: 0;
+    font-style: italic;
+  }
+}
+
+.strong {
+  font-weight: bold;
+}
+
+small, .small {
+  @include font-size($h5-font-size, $h5-font-size);
+}
+
+/**
+ * Line Break
+ */
+
+hr {
+  border:none;
+  border-top:1px solid $light-grey;
+  margin: $base-spacing-unit*2 0;
+}
+
+q {
+  font-style: italic;
+} 
+
+pre {
+  padding: $base-spacing-unit;
+  border-radius: $base-border-radius;
+  border: 1px solid $grey;
+}
+
+pre, code {
+  font-family: 'courier new', monospace;
+  overflow: auto;
+}
+
+.label {
+  @extend .small;
+  @extend .serif;
+  display: block;
+  font-style: italic;
+}
+
+.tab-label {
+  display: inline-block;
+  padding:$base-spacing-unit/4 $base-spacing-unit;
+  background:$body-color;
+  color:white;
+  margin-bottom: -$base-border-width;
+  position: relative;
+  z-index: 120;
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src:    url('../fonts/icomoon.eot');
+  src:    url('../fonts/icomoon.eot') format('embedded-opentype'),
+      url('../fonts/icomoon.ttf') format('truetype'),
+      url('../fonts/icomoon.woff') format('woff'),
+      url('../fonts/icomoon.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: white;
+}
+
+.icon-envelope {
+
+  &:before {
+    content: "\e900";
+  }
+
+  &:hover {
+    color: $color-primary;
+  }
+}
+.icon-twitter {
+
+  &:before {
+    content: "\e902";
+  }
+
+  &:hover {
+    color: $twitter;
+  }
+}
+.icon-linkedin {
+
+  &:before {
+    content: "\e903";
+  }
+
+  &:hover {
+    color: $linkedin;
+  }
+}
+
+

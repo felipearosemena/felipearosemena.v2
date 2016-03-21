@@ -1,0 +1,215 @@
+/*
+
+  Variables
+  
+*/
+
+
+
+// BREAKPOINTS
+
+$bp-xs              : 480px  ;
+$bp-sm              : 640px  ;
+$bp-md              : 800px  ;
+$bp-lg              : 1020px ;
+$bp-xl              : 1200px ;
+
+$bp-array           : '{"xs": "#{$bp-xs}", "sm": "#{$bp-sm}", "md": "#{$bp-md}", "lg": "#{$bp-lg}" ,"xl": "#{$bp-xl}"}';
+
+// Main breakpoint, usually the point where we change from 'mobile' to 'desktop' 
+// (ie. change from collapsible menu to normal menu)
+$main-breakpoint    : $bp-lg;
+ 
+$sticky-breakpoint  : $bp-md; // Breakpoint for the sticky nav
+$hero-breakpoint    : $bp-sm; // Breakpoint to bump up font size in hero units
+
+
+/* -------------------------------------- */
+
+
+
+// COLORS
+
+$pale-blue    : #d9e9ef;
+$light-blue   : #52b1ea;
+$mid-blue     : #0093d0;
+$dark-blue    : #064771;
+
+$orange       : #e4621c;
+$pale-orange  : #efa47b;
+
+$green        : #39c339;
+
+$red          : rgb(244,71,71);
+
+$yellow       : #D4AC02;
+
+$lighter-grey : #f5f5f5;
+$light-grey   : #e5e5e5;
+$grey         : #d2d2d2;
+$dark-grey    : #333333;
+$darker-grey  : #222222;
+
+$linkedin : #0077B5;
+$twitter : #55acee;
+$briteweb: #ED1D73;
+
+$box-shadow-y: 0 .25rem 3rem rgba(0,0,0,0.075);
+$box-shadow-x: .25rem 0 3rem rgba(0,0,0,0.075);
+$box-shadow-x-r: 3rem 0 6rem rgba(0,0,0,0.075);
+$box-shadow-x-l: -3rem 0 6rem rgba(0,0,0,0.075);
+$box-shadow-y-soft: 0 .25rem 1rem rgba(0,0,0, 0.1);
+
+// And assign them to the default variables
+// This way you give a logic to the colors you are using
+
+$color-primary        : $red;
+$color-secondary      : $green;
+$color-positive       : $green;
+$color-warning        : $yellow;
+$color-negative       : $red;
+
+$body-color           : $dark-grey;
+$brand-color          : $color-primary;
+$headings-color       : $body-color; // or could be brand-color or whatever, but make sure you are using a variable
+
+$hero-bg-color        : transparent;
+$hero-overlay-opacity : 0.25;
+$hero-overlay-color   : $color-primary;
+$hero-font-color      : white;
+
+
+
+/* -------------------------------------- */
+
+
+
+// TYPOGRAPHY
+
+// Set your font stacks 
+
+@font-face {
+    font-family: 'Circular';
+    src: url('../fonts/CircularPro-Book.woff') format('woff');
+    font-weight: normal;
+}  
+
+@font-face {
+    font-family: 'Circular';
+    src: url('../fonts/CircularPro-Bold.woff') format('woff');
+    font-weight: bold;
+}  
+
+
+$pt-serif : 'PT Serif Caption', serif;
+$garamond : 'EB Garamond', serif;
+$palatino :  Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;;
+$baskerville :  "Baskerville", Georgia, serif;;
+$circular : 'Circular', Helvetica Neue, Arial, sans-serif; 
+$heading-font-family : $circular; 
+$body-font-family    : $circular; 
+$serif-font : $palatino;
+
+$base-font-size     : 20px;
+$base-line-height   : 34px;
+
+$h1-font-size        : 60px;
+$h1-line-height      : 72px;
+
+$h2-font-size        : 50px;
+$h2-line-height      : 60px;
+
+$h3-font-size        : 30px; 
+$h3-line-height      : 42px;
+
+$h4-font-size        : 25px;  
+$h4-line-height      : 35px;
+
+$h5-font-size        : 16px;   
+$h5-line-height      : 24px;
+
+$h6-font-size        : 12px;  
+
+$small-font-size     : $h5-font-size;
+
+
+
+
+/* -------------------------------------- */
+
+
+
+// SPACING
+// Global spacing and measurement variables
+
+// Set consistent vertical and horizontal spacing units.
+
+$logo-width               : 1.5rem; 
+$logo-height              : $logo-width*1.5;
+
+$logo-width-lg            : 2rem; 
+$logo-height-lg           : $logo-width-lg*1.5;
+
+$base-spacing-unit        : $base-line-height/$base-font-size * 1rem;
+$fluid-spacing-unit       : 5%;
+
+$vert-spacing-unit        : $base-spacing-unit;
+$horz-spacing-unit        : $base-spacing-unit;
+
+$base-border-radius       : 5px;
+$base-border-width        : 1px;
+$base-border              : $base-border-width solid $grey;
+
+$grid-gutter              : $base-spacing-unit;
+$fluid-grid-gutter        : 5%;
+
+$container-pad            : $base-spacing-unit;
+$container-pad-lg         : $logo-width + $base-spacing-unit*2;
+$container-lg-max         : 60rem;
+$container-max            : 50rem;
+$container-sm-max         : 42rem;
+$container-xs-max         : 480px;
+
+$btn-line-height          : $base-line-height/$base-font-size;
+$btn-small-padding        : .2em;
+$btn-default-padding      : .4em;
+$btn-large-padding        : .8em;
+
+$button-toggle-padding    : 10px;
+$button-toggle-width      : 60px;
+$icon-bar-width           : 25px;  // Icon Bar Dimensions are better off in fixed pixel sizing
+$icon-bar-height          : 2px;   //
+$icon-bar-spacing         : 3px;
+
+$label-margin             : .5em;
+$form-control-padding     : 5px;
+$base-input-height        : 2.5rem;
+
+$offcanvas-width          : 250px;
+
+$island-padding-y         : $container-pad;
+$island-padding-x         : $island-padding-y;
+
+$section-spacing-unit     : $base-spacing-unit*2;
+
+$iphone-width             : 20%;
+$iphone-max-width         : 350px;
+$ipad-iphone-ratio        : 2.5;
+$ipad-ratio               : 1.296;
+$ipad-portrait-max-width  : $iphone-max-width * $ipad-iphone-ratio;
+$ipad-landscape-max-width : $ipad-portrait-max-width * $ipad-ratio;
+
+/* -------------------------------------- */
+
+// ANIMATION
+
+$transition-time-fast      : .15s;
+$transition-time-default   : .3s ;
+$transition-time-slow      : .6s;
+$transition-time-x-slow    : 1.2s;
+$transition-timing-default : cubic-bezier(0.165, 0.840, 0.440, 1.000);;
+$transition-slow           : $transition-time-slow $transition-timing-default; 
+$transition-x-slow           : $transition-time-x-slow $transition-timing-default; 
+$transition-default        : $transition-time-default $transition-timing-default; 
+$transition-fast           : $transition-time-fast $transition-timing-default; 
+

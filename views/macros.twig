@@ -1,81 +1,121 @@
 {# 
 
-    Image Macro 
-    
-    @param image ( object ) . ACF Image Object
-    @param size ( string )  . Registered post thumbnail size name
-    
-    You can use the utility function lms_get_image_object() to create a ACF-like image object that will work with this macro. Useful when working with 3rd party plugins.
+  Image Macro 
+  
+  @param image ( object ) . ACF Image Object
+  @param size ( string )  . Registered post thumbnail size name
+  
+  You can use the utility function lms_get_image_object() to create a ACF-like image object that will work with this macro. Useful when working with 3rd party plugins.
   
 #}
-{% macro img( image, size, wrapperClass , imgClass ) %}
-    
-    {% if image.ImageClass == 'TimberImage' %}
-        
-        {% set src = image.get_src(size) %}
-        {% set width = image.sizes[size]['width'] %}
-        {% set height = image.sizes[size]['height'] %}
 
-    {% else %}
+{% macro img( image, size , imgClass ) %}
+  
+  {% if not size %}
+    {% set src = image.url %}
+    {% set srcset = function('wp_get_attachment_image_srcset', image.id) %}
+    {% set width = image.width %}
+    {% set height = image.height %}
 
-        {% set src = image.sizes[size] %}
-        {% set width = image.sizes[size ~ '-width'] %}
-        {% set height = image.sizes[size ~ '-height'] %}
+  {% elseif image.ImageClass == 'TimberImage' %}
 
-    {% endif %} 
+    {% set src = image.get_src(size) %}
+    {% set srcset = function('wp_get_attachment_image_srcset', image.ID, size) %}
+    {% set width = image.sizes[size] ? image.sizes[size]['width'] : image.width %}
+    {% set height = image.sizes[size] ? image.sizes[size]['height'] : image.height %}
 
-        <img 
-            class="js-img-fade {{ imgClass }}"
-            data-wrap-class="{{ wrapperClass }}"
-            width="{{ width }}"
-            height="{{ height }}"
-            src="{{ src }}" 
-            alt="{{ image.alt }}" 
-            title="{{ image.title }}" > 
-        
+  {% else %}
 
-    
+
+    {% set srcset = function('wp_get_attachment_image_srcset', image.id, size) %}
+    {% set src = image.sizes[size] %}
+    {% set width = image.sizes[size ~ '-width'] %}
+    {% set height = image.sizes[size ~ '-height'] %}
+
+  {% endif %}
+  
+  {# <div class="img-wrap" style="padding-bottom: {{height/width * 100}}%"> #}
+    <img 
+      class="js-img-fade {{ imgClass }}"
+      width="{{ width }}"
+      height="{{ height }}"
+      src="{{ src }}"
+      srcset="{{ srcset }}"
+      alt="{{ image.alt }}" 
+      title="{{ image.title }}" > 
+  {# </div> #}
 
 {% endmacro %}
 
-{# Site Branding #}
-{% macro logo( context, class ) %}
+{% macro video(src_arr) %}
+  <video loop data-video-player>    
+    {% for file in src_arr %}
+      {% if file %}
+        <source data-src="{{ file.url }}" type="{{ file.mime_type }}">
+      {% endif %}
+    {% endfor %}
+  </video>
+{% endmacro %}
 
-    <a class="site-branding {{ class }} " href="{{ context.site.url }}">
-    
-    {% if context.site_settings.site_logo %}
+{% macro img_or_video(src_arr) %}
 
-        <img 
-            class="site-branding__logo" 
-            src="{{ context.site_settings.site_logo.sizes.brand}}" 
-            alt="{{ context.site_settings.site_logo.alt}}" 
-            title="{{ context.site_settings.site_logo.title}} ">
+  {% import _self as macros %}
+  {% set type = src_arr[0].file.type %}
 
-    {% else %}
-    
-        {{ bloginfo('name')}}
-        
-    {% endif %}
- 
-  </a>
-    
+  {% if type == 'image' %}
+    {{ macros.img(src_arr[0].file) }}
+  {% elseif type == 'video' %}
+
+    {% set flat_src_arr = [] %}
+    {% for item in src_arr %}
+      {% set flat_src_arr = flat_src_arr|merge([item.file]) %}
+    {% endfor %}
+
+    {{ macros.video(flat_src_arr) }}
+
+  {% endif %}
+
 {% endmacro %}
 
 {% macro wp_menu( menu, class ) %}
-    
-    <ul class="{{ class }}">
-        {% for item in menu.get_items %}
-            <li class="{{item.classes | join(' ')}}">
-                <a href="{{item.get_link}}"> {{item.title}} </a>
-                {% if item.get_children %}
-                    <ul class="sub-menu">
-                        {% for child in item.get_children %}
-                            <li class="{{child.classes | join(' ')}}"><a href="{{child.get_link}}">{{child.title}}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+  
+  <ul class="{{ class }}">
+    {% for item in menu.get_items %}
+      <li class="{{item.classes | join(' ')}}">
+        <a href="{{item.get_link}}"> {{item.title}} </a>
+        {% if item.get_children %}
+          <ul class="sub-menu">
+            {% for child in item.get_children %}
+              <li class="{{child.classes | join(' ')}}"><a href="{{child.get_link}}">{{child.title}}</a></li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
 
-{% endmacro %} 
+{% endmacro %}
+
+{% macro project_styles(projects) %}
+  {% for project in projects %}
+    {% if project.slug and project.color %}
+      .btn--{{ project.slug }} {
+        color: {{ project.color }};
+      }
+
+      .btn--{{ project.slug }}:hover {
+        background-color: {{ project.color }};
+        border-color: {{ project.color  }}
+      }
+
+      .border-{{ project.slug }} {
+        border-color: {{ project.color }}
+      }
+
+      .bg-{{ project.slug }} {
+        background-color: {{ project.color }};
+        color: white;
+      }
+    {% endif %}
+  {% endfor %}
+{% endmacro %}

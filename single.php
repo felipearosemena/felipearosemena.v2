@@ -15,4 +15,4 @@ if(is_object($next_post) ) {
     $context['next_post'] = new TimberPost($next_post->ID);
 }
 
-Timber::render('single.twig', $context);
+// Timber::render('single.twig', $context);
