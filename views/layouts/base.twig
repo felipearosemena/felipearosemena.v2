@@ -1,0 +1,36 @@
+{% import 'macros.twig' as macros %}
+
+{% include('includes/head.twig') %}
+
+  <body class="{{ body_class }}" > 
+
+    <style>
+      {% block styles %}
+      {% endblock %}
+    </style> 
+      
+    {% include('includes/header.twig') %} 
+
+    <!--begin page content -->
+    <div class="page-wrap" role="document">
+
+      {% block masthead %}{% endblock %} 
+
+      <main id="page-content" class="page-content">
+
+        {% block content %}{% endblock %}
+
+      </main>
+    
+      {% block bottom %}{% endblock %}
+
+    </div><!-- page-wrap -->
+    
+    
+    {% include('includes/footer.twig') %}
+    
+    {{ wp_footer }} 
+
+  </body>
+  
+</html>

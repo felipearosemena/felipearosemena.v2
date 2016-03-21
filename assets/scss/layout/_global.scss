@@ -1,0 +1,36 @@
+/*
+
+  $GLOBAL
+
+  Global main area layout styles
+  
+*/
+
+html {
+  height: 100%;
+}
+
+body { 
+  
+  // Make the main content of the page take up the whole screen, 
+  // making the footer stick to the bottom if the page doesn't have enough content
+  // NOTE: Do not apply height:100% on mobile if you are using a fixed mobile nav bar,
+  // This will make the page jump up when opening the mobile menu.
+  @include mq-min($main-breakpoint) {
+    height: 100%; 
+  }
+}
+
+.site-header,
+.site-footer,
+.site-sub-footer { 
+  flex-shrink: 0;
+}
+
+// Page main wrapper
+
+.page-wrap {
+  @include mq-max($bp-xl) {
+    padding-top: $button-toggle-width;
+  }
+}

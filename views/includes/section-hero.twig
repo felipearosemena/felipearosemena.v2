@@ -1,0 +1,35 @@
+<section class="page-section spread {{ layout.image_type == 'browser' ? 'spread--img' }}">
+  
+  {% if layout.image_type == 'browser' %}
+
+    {% set image_class = 'spread__img spread__img--' ~ layout.image_position %}
+    {% set image %}
+      <figure class="browser-shot">
+        {{ macros.img(layout.image) }}
+      </figure>
+    {% endset %}
+
+    <div class="{{ image_class}}" data-scroll-section>
+      {{ image }}
+    </div>
+
+  {% elseif layout.image_type == 'default' %}
+
+    {% set image_class = 'spread__bg spread__bg--' ~ layout.image_position %}
+    {% set image %}
+      {{ macros.img(layout.image) }}
+    {% endset %}
+    
+    <div class="{{ image_class}}" style="background-image: url({{ layout.image.url }})"></div>
+
+  {% endif %}
+
+
+  {% set push = ('l' in layout.image_position|lower) and (layout.image_type == 'default') ? 'push-one-half' %}
+  <div class="spread__content {{ push }}">
+    <div class="container container--xs container--flush">
+      {{ layout.content|wpautop }}
+    </div>
+  </div>
+
+</section>

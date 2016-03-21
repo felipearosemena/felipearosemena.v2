@@ -1,23 +1,46 @@
-{% extends "layouts/layout-base.twig" %}
+{% extends "layouts/base.twig" %}
+
+{% block styles %}
+  {{ macros.project_styles(projects) }}
+{% endblock %}
 
 {% block masthead %}
 
-    {% include('includes/masthead.twig') %}
+  <section class="mtb-1--f container">
+
+    <h2 class="mt-2 mb-0">Hi there, I&rsquo;m Felipe. </h2>
+    <h1 class="beta">Vancouver based Front End Developer.</h1>
+
+    <div class="grid lead mt-2 mb-1">
+      <p class="grid__item one-whole md-one-half">
+        I&rsquo;m currently working with the great folks at <a href="#" class="link-briteweb">Briteweb</a> doing awesome work in the non-for-profit sector.
+      </p>  
+      <p class="grid__item one-whole md-one-half">
+         You can find me on <a href="#" class="link-linkedin">Linkedin</a> &amp; <a href="#" class="link-twitter">Twitter</a>.<br> If you have a project you think i&rsquo;d be a good fit for, <a class="link-underline" href="#">Get In Touch</a>
+      </p>
+
+      <p class="grid__item mt-1 one-whole">
+        Here is a collection of projects I&rsquo;ve worked on, with roles ranging from:
+          <b class="ib">Front End Development</b>,
+          <b class="ib">Interaction Design</b>,
+      </p>
+
+    </div>
+
+  </section>
 
 {% endblock %}
 
 {% block content %}
-    
-    <article class="post post--{{post.post_type}}" id="post-{{post.ID}}">
-      
-        {% include('includes/content.twig') %}
 
-    </article>
+  {% include 'includes/project-listing.twig' with { 
+    projects: projects,
+  } %}
   
 {% endblock %}
 
 {% block bottom %}
     
-    {% include('includes/bottom-banner.twig') %}
+  {% include('includes/cta.twig') %}
     
 {% endblock %}

@@ -9,12 +9,14 @@
 */
 
 // Thumbnail sizes
-add_image_size('masthead', 1600, 1000, true);
-add_image_size('featured', 1000, 625, true);
-add_image_size('grid-2'  , 600 );
-add_image_size('grid-3'  , 450 );
-add_image_size('grid-4'  , 300 );
-add_image_size('brand'   , 300);
+add_image_size('masthead', 1920);
+add_image_size('full', 9999);
+add_image_size('featured', 1600);
+add_image_size('featured-md', 1200, 675, array('center', 'top'));
+// add_image_size('grid-2'  , 600 );
+// add_image_size('grid-3'  , 450 );
+// add_image_size('grid-4'  , 300 );
+// add_image_size('brand'   , 300);
 /*
 to add more sizes, simply copy a line from above
 and change the dimensions & name. As long as you

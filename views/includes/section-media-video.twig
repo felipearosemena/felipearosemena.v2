@@ -1,0 +1,16 @@
+<section class="page-section mtb-1--f container" data-scroll-section>
+
+  <figure class="browser-shot browser-shot--video">
+    {{ macros.video({
+      webm: layout.video_webm,
+      mp4: layout.video_mp4
+    }) }}
+  </figure>
+
+  {% if layout.caption %}
+    <figcaption>
+      {{ layout.caption }}
+    </figcaption>
+  {% endif %}
+
+</section>

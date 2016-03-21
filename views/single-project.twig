@@ -1,0 +1,70 @@
+{% extends "layouts/base.twig" %}
+
+{% block styles %}
+  {{ macros.project_styles([post, next_post, prev_post]) }}
+{% endblock %}
+
+{% block masthead %}
+
+  <section class="mtb-1--f container">
+
+    <div class="grid">
+      <div class="grid__item one-whole md-seven-tenths lg-three-fifths">
+        <h1>{{ post.title }}</h1>
+
+        <p class="container--xs">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+      </div>
+
+      <div class="grid__item one-whole md-three-tenths lg-two-fifths">
+        
+        <div class="grid">
+          <p class="grid__item one-whole xs-one-half sm-two-fifths md-one-whole mtb-05 grow-0">
+            <span class="label">Roles</span>
+            <span class="strong">Front End Development, <br>Interaction Design</span>
+          </p>
+          <p class="grid__item one-whole xs-one-half sm-one-third md-one-whole mtb-05 grow-0">
+            <span class="label">Agency</span>
+            <a href="#" class="link-underline link-plain">Drive Digital</a>
+          </p>
+          <p class="grid__item one-whole sm-one-fifth mt-05 mb-0">
+            <a href="#" class="btn btn--squared btn--{{ post.slug }}">Visit Site</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+  {% include 'includes/media-block.twig' with { image: post.thumbnail, type: 'img' } %}
+
+{% endblock %}
+
+{% block content %}
+
+  {% for layout in post.get_field('full_width_content') %}
+    {% set view  = 'includes/section-' ~ layout.acf_fc_layout|replace({'_' : '-'}) ~ '.twig'  %}
+    {% if layout|length and view|view_exists %}
+      {% include view with { 
+        layout : layout 
+      } %}
+    {% endif %}
+  {% endfor %}
+  
+{% endblock %}
+
+{% block bottom %}
+  
+  <div class="container mtb-1--f">
+    <p class="text-center">
+      <a href="#" class="btn btn--cta btn--{{ post.slug }}">Visit Site</a>
+    </p>
+  </div>
+  
+  {% include('includes/project-nav.twig') with { 
+    project: next_post
+  } %}
+
+  {% include('includes/cta.twig') %}
+    
+{% endblock %}

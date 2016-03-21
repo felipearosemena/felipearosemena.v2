@@ -1,37 +1,21 @@
-<header id="site-header" class="site-header js-dinner-menu-header" role="banner">
+<header id="site-nav" class="site-header is-compressed">
 
-    <div class="site-header__container container">
-
-        {{ macros.logo(_context, 'site-branding--header') }}
-
-        <nav class="site-nav" role="navigation">
-  
-            <span class="element-hidden--mobile">
-               
-                {{ macros.wp_menu(menu, 'site-nav__menu') }}
-
-                {% include('includes/header/header_searchform.twig') %}
-            
-            </span>
-          
-            {% if site_settings.site_cta %}
-                <a href="{{ site_settings.site_cta_link }}" class="site-nav__cta btn">{{ site_settings.site_cta_title }}</a>
-            {% endif %}
-
-            <button type="button" class="site-header__toggle btn btn--toggle js-navigation-toggle" data-target="#mobile-nav" >
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-        </nav><!-- .site-nav-->
-        
+  <a href="/" class="site-branding">
+    <div class="site-branding__logo">
+      {{ '/img/fa-logo.svg'|assets_uri|file_content }}
     </div>
+  </a>
+  
+  <button class="btn btn--toggle site-header__toggle js-nav-toggle" data-target="navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>    
+  </button>
 
-</header><!-- .site-header -->
+</header>
 
-{% include('includes/header/header_nav-mobile.twig') %}
+{% include('includes/header-nav.twig') %}
 
 
 

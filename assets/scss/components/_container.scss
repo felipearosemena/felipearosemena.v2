@@ -1,0 +1,76 @@
+/*
+
+  Container
+  
+  Sets max width for the page and centers the content
+
+  Wrap around grid to create a centered layout
+
+  Usage:
+
+  <section class="container">
+
+    <div class=grid >
+      <div class=grid__item ></div>
+    </div>
+
+  </section>
+
+  |---------------------- window  ---------------------|
+  |                                                    |
+  |           | |                       | |            |
+  |           | |-------container-------| |            |
+  |           | |                       | |            |
+  |                                                    |
+
+*/
+
+.container,
+.container--full {
+  padding-left: $container-pad;
+  padding-right: $container-pad;
+
+  @include mq-min($bp-sm) {
+    padding-left: $container-pad*2;
+    padding-right: $container-pad*2;
+  }
+
+  @include mq-min($bp-xl) {
+    padding-left: $container-pad*2 + $logo-width-lg;
+    padding-right: $container-pad*2 + $logo-width-lg;
+  }
+}
+
+.container, %container {
+  max-width: $container-max;
+  box-sizing: content-box;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+
+.container--full {
+  max-width: none;
+
+  @include mq-max($bp-xl) {
+    // padding-left: $container-pad/2;
+    // padding-right: $container-pad/2;
+  }
+}
+
+.container--lg {
+  max-width: $container-lg-max;
+}
+
+.container--sm {
+  max-width: $container-sm-max;
+}
+
+.container--xs {
+  max-width: $container-xs-max;
+}
+
+.container--flush {
+  padding-left: 0;
+  padding-right: 0;
+}
