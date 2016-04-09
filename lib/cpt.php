@@ -19,6 +19,16 @@ class CustomPostTypes
         'supports' => array('title', 'editor', 'thumbnail', 'excerpt', 'page-attributes')
       ],
     ],
+
+    'agency' => [
+      'singular' => 'Agency',
+      'labels'   => [],
+      'args'     => [
+        'menu_icon' => 'dashicons-groups',
+        'supports' => array('title'),
+        'has_archive' => false
+      ],
+    ],
   ];
 
   // Default arguments to use for register_post_type

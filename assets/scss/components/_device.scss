@@ -26,6 +26,10 @@
 .device--ipad-landscape,
 .device--ipad-portrait {
   margin-left: $grid-gutter;
+
+  @include mq-min($bp-lg) {
+    margin-left: $grid-gutter*2;
+  }
 }
 
 .device--ipad-landscape {
@@ -111,6 +115,6 @@
 
 .device__inner--ipad-portrait {
   img, video {
-    width: 79.5%;
+    width: 78.5%;
   }
 }

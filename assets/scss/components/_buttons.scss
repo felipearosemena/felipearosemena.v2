@@ -51,11 +51,11 @@
 
 // Button padding size variants.
 // Make the button look bigger, while keeping the same font size;
-.btn--small {
+.btn--sm {
    padding: $btn-small-padding $btn-small-padding * 2;
 }
 
-.btn--large {
+.btn--lg {
   padding: $btn-large-padding $btn-large-padding * 2;
 } 
 
@@ -135,7 +135,7 @@
 
 .btn--cta {
   // @extend .btn--secondary;
-  @extend .btn--large;
+  @extend .btn--lg;
   @extend .btn--wide;
   @extend .btn--squared;
 }

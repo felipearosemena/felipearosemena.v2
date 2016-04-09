@@ -17,7 +17,11 @@ body {
   // NOTE: Do not apply height:100% on mobile if you are using a fixed mobile nav bar,
   // This will make the page jump up when opening the mobile menu.
   @include mq-min($main-breakpoint) {
-    height: 100%; 
+    height: 100%;
+  }
+
+  &.is-menu-active {
+    overflow: hidden;
   }
 }
 
@@ -30,6 +34,7 @@ body {
 // Page main wrapper
 
 .page-wrap {
+
   @include mq-max($bp-xl) {
     padding-top: $button-toggle-width;
   }

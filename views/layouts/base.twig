@@ -2,12 +2,17 @@
 
 {% include('includes/head.twig') %}
 
-  <body class="{{ body_class }}" > 
+  <body class="{{ body_class }}" >
 
     <style>
       {% block styles %}
       {% endblock %}
     </style> 
+
+    <script>
+      {% block data %}
+      {% endblock %}
+    </script>
       
     {% include('includes/header.twig') %} 
 
@@ -26,9 +31,10 @@
 
     </div><!-- page-wrap -->
     
-    
+    {% block footer %}
     {% include('includes/footer.twig') %}
-    
+    {% endblock %}
+
     {{ wp_footer }} 
 
   </body>

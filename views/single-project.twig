@@ -11,23 +11,32 @@
     <div class="grid">
       <div class="grid__item one-whole md-seven-tenths lg-three-fifths">
         <h1>{{ post.title }}</h1>
-
-        <p class="container--xs">Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
+        <div class="container--xs">{{ post.content }}</div>
       </div>
 
       <div class="grid__item one-whole md-three-tenths lg-two-fifths">
         
         <div class="grid">
           <p class="grid__item one-whole xs-one-half sm-two-fifths md-one-whole mtb-05 grow-0">
-            <span class="label">Roles</span>
-            <span class="strong">Front End Development, <br>Interaction Design</span>
+            {% if post.roles %}
+            <span class="label">Role{{ post.roles|length > 1 ? 's' }}</span>
+            <span class="strong">
+            {% for role in post.roles %}
+              {{ role }}<br>
+            {% endfor %}
+            </span>
+            {% endif %}
           </p>
           <p class="grid__item one-whole xs-one-half sm-one-third md-one-whole mtb-05 grow-0">
-            <span class="label">Agency</span>
-            <a href="#" class="link-underline link-plain">Drive Digital</a>
+            {% if agency %}
+              <span class="label">Agency</span>
+              <a href="{{ agency.website }}" class="link-underline link-plain" target="_blank">{{ agency.title }}</a>
+            {% endif %}
           </p>
           <p class="grid__item one-whole sm-one-fifth mt-05 mb-0">
-            <a href="#" class="btn btn--squared btn--{{ post.slug }}">Visit Site</a>
+            {% if post.project_url %}
+              <a href="{{ post.project_url }}" target="_blank" class="btn btn--squared btn--{{ post.slug }}">Visit Site</a>
+            {% endif %}
           </p>
         </div>
 
@@ -54,13 +63,13 @@
 {% endblock %}
 
 {% block bottom %}
-  
+  {% if post.project_url %}
   <div class="container mtb-1--f">
     <p class="text-center">
-      <a href="#" class="btn btn--cta btn--{{ post.slug }}">Visit Site</a>
+      <a href="{{ post.project_url }}" target="_blank" class="btn btn--cta btn--{{ post.slug }}">Visit Site</a>
     </p>
   </div>
-  
+  {% endif %}
   {% include('includes/project-nav.twig') with { 
     project: next_post
   } %}

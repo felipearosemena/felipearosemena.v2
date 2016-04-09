@@ -1,14 +1,14 @@
 import * as PubSub from 'pubsub-js'
-import { selectorMatches } from './modules/utils'
+import page from 'page'
+
+import { map, reduce } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
-
-// import Router from './modules/router'
 import { videoController } from './modules/video'
 import pageSections from './views/pageSections'
 import headerView from './views/header'
-// import tileView from './views/tiles'
-import { map, reduce } from 'lodash'
+import navView from './views/nav'
+import contactFormView from './views/contact'
 
 // Polyfills
 classList()
@@ -19,40 +19,20 @@ const sections = document.querySelectorAll('[data-scroll-section]')
 const sectionViews = pageSections(sections);
 
 map(sections, (section) => {
+
   const player = videoController(section.querySelector('[data-video-player]'))
   const images = section.querySelectorAll('img')
-
-  // section.images = map(images.length ? images : [], (image) => {
-  //   return {
-
-  //     isInitialized: false,
-
-  //     load() {
-
-  //       if(!this.isInitialized) {
-  //         image.src = image.dataset.src
-  //         image.srcSet = image.dataset.srcSet
-  //         this.isInitialized = true
-  //       }
-  //     }
-  //   }
-  // })
 
   if(player) {
     section.player = player
   }
+
 })
 
 function handleSection(eventName, sectionView) {
 
   let { isInView, el} = sectionView
   let { images, player } = el
-
-  if(isInView) {
-    map(images, (image) => {
-      image.load()
-    })
-  }
 
   if(player) {
     if(isInView) {
@@ -69,10 +49,28 @@ function handleSection(eventName, sectionView) {
 
 }
 
-
+const header = headerView(document.getElementById('site-header'))
+const nav = navView(document.getElementById('navigation'))
 
 PubSub.subscribe(('section-view:enter'), handleSection)
 PubSub.subscribe(('section-view:leave'), handleSection)
+PubSub.subscribe(('header-view:open'), ()=> {
+  nav.init()
+})
 
-const header = headerView(document.getElementById('site-header'))
+page('/contact', () => {
+  const formFields = data.formFields.length ? data.formFields : [0]
+  const contactForm = contactFormView(document.getElementById('contact-form'), {
+    fields: formFields
+  })
+
+  contactForm.render()
+})
+
+page({
+  click: false,
+  popstate: false
+})
+
+// page.show(location.pathname)
 
