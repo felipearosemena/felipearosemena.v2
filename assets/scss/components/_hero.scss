@@ -23,11 +23,10 @@
   // The hero is ready to have a full size background image by default
   background-position: center;
   overflow: hidden;
-  //
   position: relative;
   z-index: 0;
-  padding-top: 4rem; 
-  padding-bottom: 4rem; 
+  padding-top: $section-spacing-unit; 
+  padding-bottom: $section-spacing-unit;
   // padding-left:$logo-width + $base-spacing-unit;
   .hero__heading, p {
     margin-left: auto;

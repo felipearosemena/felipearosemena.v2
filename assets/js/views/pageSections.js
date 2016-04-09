@@ -5,7 +5,7 @@
 */
 
 import * as PubSub from 'pubsub-js'
-import { map } from 'lodash'
+import { map } from '../modules/utils'
 
 const emitter = (el, eventName) => {
 
@@ -28,7 +28,7 @@ const pageSectionsProto = {
 const scrollSubscription = (callback) => {
   return PubSub.subscribe('scroll', (eventName, e) => {
     if(typeof callback == 'function') {
-      callback(e, 'can you hear me')
+      callback(e)
     }
   })
 }
@@ -49,7 +49,7 @@ function getOffsetTop( el ) {
 
   while( el = el.offsetParent ) {
     if ( !isNaN( el.offsetTop ) ) {
-        top += el.offsetTop
+      top += el.offsetTop
     }
   }
 
@@ -77,6 +77,7 @@ function elementOffset(el) {
 }
 
 function sectionView(section, cb) {
+
   let x = 0
   let y = window.scrollY*0.2 + 'px'
   let offset = elementOffset(section)
@@ -100,11 +101,11 @@ function sectionView(section, cb) {
     render() {
 
       let rect = section.getBoundingClientRect()
-      this.isInView = (0 > rect.top - innerHeight + parseInt(cf.offset))
-      
       let pub = (eventName) => {
         PubSub.publish(eventName, this)
       }
+
+      this.isInView = (0 > rect.top - innerHeight + parseInt(cf.offset))
 
       if(this.isInView) {
         classList.remove('is-out')
@@ -134,6 +135,7 @@ export default function pageSections(sectionEls) {
     return sectionView(section)
       .set('offset', section.dataset.offset || 50)
   })
+
 
   let subscriptionID = scrollSubscription((e) => {
     sectionViews.map(view => view.render())

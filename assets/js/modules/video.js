@@ -4,7 +4,7 @@
 *
 */
 
-import { map } from 'lodash'
+import { map } from './utils'
 
 export function videoController(videoEl = null) {
 

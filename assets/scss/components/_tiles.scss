@@ -55,12 +55,12 @@
   align-self: center;
   width:  100%;
   padding: $base-spacing-unit*2 0 $base-spacing-unit*1.5;
-  max-width: $container-xs-max;
+  max-width: $container-sm-max;
   margin-left: auto;
   margin-right: auto;
 
-  @include mq-min($bp-md) {
-  padding: $base-spacing-unit*2 0;
+  @include mq-min($bp-lg) {
+    padding: $base-spacing-unit*2;
     width: 40%;
   }
 }
@@ -69,24 +69,15 @@
   align-self: flex-end;
   width: 100%;
   max-width: $container-sm-max;;
-  // padding-top: $base-spacing-unit;
   margin: 0 auto -1px;
-  transform: translate3d(0, 0, 0);
-  transition:all $transition-slow;
-  transition-delay: .2s;
 
-  @include mq-max($bp-md) {
+  @include mq-max($bp-lg) {
     order: 2;
   }
 
-  @include mq-min($bp-md) {
+  @include mq-min($bp-lg) {
     padding-top: $base-spacing-unit*3;
-    width: 50%;
-  }
-
-  .is-out & {
-    transform: translate3d(0, $base-spacing-unit, 0);
-    // opacity: 0;
+    width: 60%;
   }
 
   .tile:nth-child(even) & {
@@ -107,21 +98,4 @@
   display: block;
   margin-bottom: $base-spacing-unit/4;
   // transform:translate3d(0,50%,0);
-}
-
-.tile__btn {
-  // opacity: 0;
-  // transform: translate3d(0,100%,0);
-
-  .tile:hover & {
-    // opacity: 1
-  }
-}
-
-.tile__title,
-.tile__btn {
-
-  .tile:hover & {
-    // transform: translate3d(0,0,0);
-  }
 }

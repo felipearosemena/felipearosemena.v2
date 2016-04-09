@@ -3,8 +3,8 @@ import ReactDom from 'react-dom'
 import { filterElements, filterOptions } from './data'
 import { createStore } from 'redux'
 import { updateSelection } from './actions'
-import Masonry from 'react-masonry-component'
 import filterApp from './reducers'
+import Masonry from 'react-masonry-component'
 import _ from 'lodash'
 
 const store = createStore(filterApp, {

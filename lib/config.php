@@ -34,6 +34,11 @@ class StarterSite extends TimberSite {
     $context['site']             = $this;
     $context['site_settings']    = get_fields('options');
 
+    $context['projects']         = Timber::get_posts(array(
+      'post_type' => 'project',
+      'posts_per_page' => -1
+    ));
+
     return $context;
   }
 

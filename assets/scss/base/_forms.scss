@@ -6,154 +6,213 @@
   
 */
 
+.form-wrapper {
+  // height: 100vh;
+  // overflow: hidden;
+}
+
+form {
+  @extend .ptb-1--f;
+}
+
 
 // Basic Form Elements
 
 select,
 input,
 textarea {
-    color: $body-color;
+  color: $body-color;
 }
 
 textarea {
-    resize: vertical;
+  resize: vertical;
 }
 
 input[type="text"]::-ms-clear {
-    display: none;
+  display: none;
 }
 
 input[type="checkbox"],
 input[type="radio"] {
-    margin-right: $label-margin;
-    & + label {
-        font-weight: normal;
-    }
+  margin-right: $label-margin;
+
+  & + label {
+    font-weight: normal;
+  }
 }
 
 input[type="submit"] {
-    @extend .btn;
+  @extend .btn;
 }
 
 label {
-    font-weight: bold;
-    display: inline-block;
-    vertical-align: top;
-    margin-bottom: $label-margin;
-    cursor: pointer;
+  @extend .small;
+  font-weight: bold;
+  vertical-align: top;
+  // margin-bottom: $base-spacing-unit;
+  display: inline-block;
+  cursor: pointer;
 }
 
 fieldset {
-    margin-left: 0;
-    margin-right: 0;
-    padding: ($vert-spacing-unit / 2) $horz-spacing-unit $vert-spacing-unit $horz-spacing-unit;
-    border-color: $light-grey;
+  margin-left: 0;
+  margin-right: 0;
+  padding: ($vert-spacing-unit / 2) $horz-spacing-unit $vert-spacing-unit $horz-spacing-unit;
+  border-color: $light-grey;
 }
 
 legend {
-    @include font-size(18px);
-    padding: 0 0.8em;
-    color: $grey;
+  @include font-size(18px);
+  padding: 0 0.8em;
+  color: $grey;
 }
 
 // Form groups
 
 .form__group {
-    position: relative;
-    @include margin-trailer(1);
+  @include margin-trailer(1);
+  position: relative;
+  cursor: pointer;
+}
+
+.form__group--boxed,
+.form__group--select {
+  @extend %form__control--focus;
+  overflow: hidden;
+  
+  label {
+    display: block;
+    padding: $base-spacing-unit/2;
+  }
 }
 
 .form__group--boxed {
-    border: 1px solid $light-grey;
-    border-radius: $base-border-radius;
-    padding: $form-control-padding ($form-control-padding * 2);
-    @extend %form__control--focus;
-    label {
-        margin: 0;
+  
+  label {
+    position: absolute;
+    top: 0;
+    left: 2px;
+  }
+
+  select {
+    // Compensate for space inside <select>
+    &[multiple] {
+      margin-left: 0;
     }
-    select {
-        margin-left: -6px;
-        // Compensate for space inside <select>
-        &[multiple] {
-            margin-left: 0;
-        }
+  }
+}
+
+.form__group--select {
+
+  .appearance & {
+
+    &:after {
+      content: '\2193';
+      position: absolute;
+      top: 50%;
+      right: $base-spacing-unit;
+      font-size: 1.5em;
+      color: $body-color;
     }
+
+    
+  }
 }
 
 .form__group--inline {
-    display: inline-block;
-    vertical-align: baseline;
-    label, input {
-        width: auto;
-    }
-    @include mq-max($bp-md) {
-        display: block;
-    }
+  display: inline-block;
+  vertical-align: baseline;
+
+  label, input {
+    width: auto;
+  }
+
+  @include mq-max($bp-md) {
+    display: block;
+  }
 }
 
 
 // Form Controls
 
 %form__control--focus {
-    &:focus, &.focus {
-        box-shadow: none;
-        border-color: darken($grey, 20%);
-        outline: none;
-    }
+  &:focus, &.focus {
+    box-shadow: none;
+    border-color: darken($grey, 20%);
+    outline: none;
+  }
 }
 
 .form__control {
-    width: 100%;
-    border: 1px solid $light-grey;
-    border-radius: $base-border-radius;
-    padding: $form-control-padding;
-    height: get-input-height(1);
-    @extend %form__control--focus;
-}
+  @extend %form__control--focus;
+  width: 100%;
+  border: 1px solid $light-grey;
+  border-radius: $base-border-radius;
+  padding: $base-spacing-unit/2;
+  height: get-input-height(1);
+  cursor: pointer;
+  transition: border-color $transition-default;
 
-.form__control--boxed {
-    padding: 0;
+  .form__group--boxed &,
+  .form__group--select & {
+    padding: $base-spacing-unit/2;
+    height: $base-spacing-unit*2;
     background: transparent;
-    border: none;
+    border: 2px solid $light-grey;
+    height: get-input-height(2);
+
+    &:focus {
+      border-color: $body-color
+    }
+  }
+
+  .form__group--boxed & {
+    padding-top: $base-spacing-unit*1.5;
+  }
+
+  .appearance .form__group--select & {
+    appearance: none;
+  }
 }
 
 textarea.form__control,
 select[multiple].form__control {
-    height: auto;
+  height: auto;
 }
 
 .form__checklist, .radio, .checkbox {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    label, input {
-        display: inline-block;
-        cursor: pointer;
-    }
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  label, input {
+    display: inline-block;
+    cursor: pointer;
+  }
 }
 
 // Inline Searchform with search icon
 
 .form-search {
-    display: inline-block;
-    position: relative;  
+  display: inline-block;
+  position: relative;  
 }
 
 .form-search__input {
-    margin: 0;
-    padding-right: 1.5em;
+  margin: 0;
+  padding-right: 1.5em;
 }
 
 .form-search__submit {
-    height: get-input-height(1);
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding-right: .5em;
-    color:$dark-grey;
-    &:hover {
-        color:lighten($dark-grey, 15%);
-    } 
+  height: get-input-height(1);
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: .5em;
+  color:$dark-grey;
+  &:hover {
+    color:lighten($dark-grey, 15%);
+  } 
 }
 
 /* -------------------------------------- */
@@ -171,17 +230,17 @@ select[multiple].form__control {
 // This way you know this class is supposed to be used for form validation
 
 .form__control.val-error {
-    // Form control must be used on the input itself (select,input,textarea, etc)
-    border: 1px solid $color-negative;
+  // Form control must be used on the input itself (select,input,textarea, etc)
+  border: 1px solid $color-negative;
 }
 
 // Just the border is not enough, since checkboxes and radio buttons wont change border color
 // for that we add the validation error class to the label itsel, to change the color of the label text
 label.val-error {
-    color: $color-negative;
-    small {
-        color: $body-color;
-    }
+  color: $color-negative;
+  small {
+    color: $body-color;
+  }
 }
 
 // Class to position the validation message at the top right corner 
@@ -189,20 +248,20 @@ label.val-error {
 // IMPORTANT: Make sure you message is inside a '.form__group', 
 // this will create a context to position the message
 %val-error--top-right, .val-error--top-right {
-    position: absolute;
-    top: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 // Validation Error Message
 // Either use a <small> element for a small message, or a simple <span> for regular font size
 small.val-error, span.val-error {
-    display: block;
-    color: $color-negative;
-    margin-top: $label-margin;
-    margin-bottom: $label-margin;
-    // In Case we want the message on the top
-    // Optional if you want all messages at the top right corner by default
-    // Otherwise just add the class to the element itself
-    // @extend %val-error--top-right;
+  display: block;
+  color: $color-negative;
+  margin-top: $label-margin;
+  margin-bottom: $label-margin;
+  // In Case we want the message on the top
+  // Optional if you want all messages at the top right corner by default
+  // Otherwise just add the class to the element itself
+  // @extend %val-error--top-right;
 }

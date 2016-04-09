@@ -1,45 +1,60 @@
-// import {Observable} from 'rxjs/Observable';
-// import 'rxjs/add/operator/map';
+import * as PubSub from 'pubsub-js'
+import { inRange, delegateEvent } from '../modules/utils'
 
-import * as Rx from 'rxjs-es/Observable'
-import { inRange } from '../modules/utils'
+const rootEl = document.body
+const rootClass = rootEl.classList
 
-const fromEvent = Rx.Observable.fromEvent
-const combineLatest = Rx.Observable.combineLatest
+const headerViewProto = {
+  isOpen: false,
 
-const el = document.querySelector('#site-nav')
+  init: (() => {
 
-const scrollY = fromEvent(window, 'scroll')
-  .map(e => window.scrollY)
+  })(),
 
-const calcThreshold = () => {
-  let t
-  el.style.height = 'auto'
-  t = window.innerHeight - el.offsetHeight/2
-  el.style.height = ''
-  return t
+  open() {
+    rootClass.add('is-menu-active')
+    PubSub.publish('header-view:open')
+    this.isOpen = true;
+  },
+  
+  close() {
+    rootClass.remove('is-menu-active')
+    PubSub.publish('header-view:close')
+    this.isOpen = false;
+  },
+
+  toggle() {
+
+    if(!this.isOpen) {
+      this.open()
+    } else {
+      this.close()
+    }
+
+    PubSub.publish('header-view:toggle')
+  }
 }
 
-const threshold = fromEvent(window, 'resize')
-  .map(e => calcThreshold()).startWith(calcThreshold())
+const headerView = (headerEl) => {
 
-const foldChange = combineLatest(scrollY, threshold, (y, t) => {
-  return y > t
-}).distinctUntilChanged()
+  const view = Object.create(headerViewProto)
+  const toggleEl = headerEl.querySelector('[data-nav-toggle]')
 
-const toggleBtnClicks = fromEvent(document.querySelectorAll('.js-nav-toggle'), 'click')
+  if(!headerEl || !toggleEl) {
+    return false;
+  }
 
-const headerView = (el) => {
-
-  foldChange.subscribe((bool) => {
-    let method = bool ? 'add' : 'remove'
-    document.body.classList[method]('is-below-fold')
+  toggleEl.addEventListener('click',  () => view.toggle())
+  
+  window.addEventListener('keydown', (e) => {
+    if(e.keyCode == 27) {
+      view.close()
+    }
   })
 
-  toggleBtnClicks.subscribe((el) => {
-    document.body.classList.toggle('is-menu-active')
-  })
+  return view
 
 }
+
 
 export default headerView

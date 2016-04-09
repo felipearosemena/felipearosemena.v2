@@ -90,6 +90,7 @@ a, i {
 
 %heading-style {
   margin-top: 0;
+  column-span: all;
   @include margin-trailer(1);
 }
 
@@ -133,7 +134,7 @@ h1, .alpha {
 }
 
 h2, .beta {
-  @include font-size($h2-font-size);
+  @include font-size($h2-font-size, $h2-line-height);
 
   @include mq-max($bp-sm) {
     @include font-size($h2-font-size*.8, false);

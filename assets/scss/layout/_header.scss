@@ -47,10 +47,17 @@
   background: white;
   box-shadow: $box-shadow-y-soft;
 
+  .is-menu-active & {
+    position: fixed;
+    background: transparent;
+    box-shadow: none;
+  }
+
   @include mq-min($bp-xl) {
     position: absolute;
     box-shadow: none;
     background: transparent;
+    height: 0;
   }
 
   // Don't need the float when the menu collapses

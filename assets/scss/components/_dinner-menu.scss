@@ -25,21 +25,15 @@
     transform:translate3d(0,0,0);
     opacity: 1;
     visibility: visible;
+    overflow: auto;
   }
 }
 
 .dinner-menu__inner { 
  
   min-height:100%; 
-  display:inline-block; // Contain any margin 
+  display: flex; // Contain any margin 
   width:100%;         // on it's children
-
-  // If fixed, making the dinner menu inner taller than it's 
-  // parent helps prevent the page scrolling while the menu is open
-  // Issue most visible on IOS
-  .is-menu-active & {
-    min-height: 120%;
-  }
   
 }
 

@@ -76,6 +76,11 @@
   background-position: bottom;
 }
 
+.spread__bg--bl {
+  left: 0;
+  background-position: bottom;
+}
+
 .spread__bg--r {
   left: auto;
   right: 0;
@@ -105,13 +110,13 @@
 
   figure {
     margin-left: auto;
-    // margin-right: -25%;
+    margin-right: -25%;
   }
 }
 
 .spread__img--l {
   figure {
-    // margin-left: -25%;
+    margin-left: -25%;
   }
 }
 
@@ -217,11 +222,13 @@
 
 .multi-cols__content-inner {
   @extend .container--xs;
-  @extend .ptb-1--f;
   margin-left: auto;
   margin-right: auto;
-  padding-left: $container-pad;
-  padding-right: $container-pad;
+  padding: $section-spacing-unit $container-pad;
+
+  @include mq-min($bp-sm) {
+    padding: $container-pad;
+  }
 }
 
 .media-section {

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { FILTER_RESULTS, UPDATE_SELECTION } from './actions'
+import { UPDATE_SELECTION, TOGGLE_NAVIGATION } from './actions'
 import { inArray } from './utils'
 
 function item(state, action) {
@@ -83,8 +83,28 @@ function appliedFilters(state = {}, action) {
   }
 }
 
+function header(state = {}, action) {
+
+  switch (action.type) {
+    case TOGGLE_NAVIGATION : 
+
+      return {
+        ...state,
+        isOpen: !state.isOpen
+      }
+
+    default : 
+      return state
+
+  }
+}
+
 const filterApp = combineReducers({
   appliedFilters
 })
 
-export default filterApp
+const headerReducer = combineReducers({
+  header, appliedFilters
+})
+
+export { filterApp, headerReducer }
