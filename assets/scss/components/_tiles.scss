@@ -55,7 +55,7 @@
   align-self: center;
   width:  100%;
   padding: $base-spacing-unit*2 0 $base-spacing-unit*1.5;
-  max-width: $container-sm-max;
+  max-width: $container-md-max;
   margin-left: auto;
   margin-right: auto;
 
@@ -68,7 +68,7 @@
 .tile__img {
   align-self: flex-end;
   width: 100%;
-  max-width: $container-sm-max;;
+  max-width: $container-md-max;;
   margin: 0 auto -1px;
 
   @include mq-max($bp-lg) {

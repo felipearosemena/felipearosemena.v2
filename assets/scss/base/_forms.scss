@@ -12,7 +12,7 @@
 }
 
 form {
-  @extend .ptb-1--f;
+  // @extend .mtb-1--f;
 }
 
 
@@ -72,17 +72,34 @@ legend {
 .form__group {
   @include margin-trailer(1);
   position: relative;
-  cursor: pointer;
 }
 
 .form__group--boxed,
-.form__group--select {
-  @extend %form__control--focus;
+.form__group--select,
+.form__group--radio {
   overflow: hidden;
+
+  label {
+    transition: color $transition-fast;
+    display: block;
+  }
+}
+
+.form__group--boxed {
+  label {
+    padding: $base-spacing-unit/2;
+  }
+
+  input:focus + label {
+    color: $color-secondary;
+  }
+}
+
+.form__group--select,
+.form__group--radio {
   
   label {
-    display: block;
-    padding: $base-spacing-unit/2;
+    padding: 0 $base-spacing-unit/2 $base-spacing-unit/2;
   }
 }
 
@@ -103,6 +120,20 @@ legend {
 }
 
 .form__group--select {
+  display: flex;
+  flex-wrap: wrap;
+
+  label {
+    order: 0;
+  }
+  
+  select:focus + label {
+    color: $color-secondary;
+  }
+
+  select {
+    order: 1;
+  }
 
   .appearance & {
 
@@ -111,11 +142,65 @@ legend {
       position: absolute;
       top: 50%;
       right: $base-spacing-unit;
+      margin-top: -$base-spacing-unit/5;
       font-size: 1.5em;
       color: $body-color;
+      pointer-events: none;
     }
 
     
+  }
+}
+
+.form__group--radio {
+
+  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  label:first-child {
+    width: 100%;
+    cursor: default;
+  }
+
+  span {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  input + label {
+    font-family: $body-font-family;
+    font-size: 1rem;
+    display: block;
+    display: flex;
+    align-items: center;
+    padding: $base-spacing-unit/2;
+    margin-bottom: $base-spacing-unit/2;
+    width: calc(25% - #{$base-spacing-unit/4});
+    border: 2px solid $light-grey;
+    border-radius: $base-border-radius;
+    height: get-input-height(2);
+    transition: all $transition-fast;
+
+    &:hover {
+      border-color: $body-color
+    }
+  }
+
+  input {
+    display: none;
+  }
+
+  input:focus + label {
+    border-color: $body-color
+  }
+
+  input:checked + label {
+    color: white;
+    background-color: $color-secondary;
+    border-color: $color-secondary;
   }
 }
 
@@ -146,25 +231,35 @@ legend {
 .form__control {
   @extend %form__control--focus;
   width: 100%;
+  color: $dark-grey;
   border: 1px solid $light-grey;
   border-radius: $base-border-radius;
   padding: $base-spacing-unit/2;
   height: get-input-height(1);
   cursor: pointer;
-  transition: border-color $transition-default;
+  transition: border-color $transition-fast;
+  
+  &::selection {
+    background-color: $color-secondary
+  }
+
+  .form__group--boxed:hover &,
+  .form__group--select:hover & {
+    border-color: $body-color;
+  }
 
   .form__group--boxed &,
   .form__group--select & {
     padding: $base-spacing-unit/2;
-    height: $base-spacing-unit*2;
+    height: get-input-height(2);
     background: transparent;
     border: 2px solid $light-grey;
-    height: get-input-height(2);
 
     &:focus {
-      border-color: $body-color
+      border-color: $color-secondary;
     }
   }
+
 
   .form__group--boxed & {
     padding-top: $base-spacing-unit*1.5;
@@ -189,6 +284,10 @@ select[multiple].form__control {
     display: inline-block;
     cursor: pointer;
   }
+}
+
+.form__submit {
+  text-align: right;
 }
 
 // Inline Searchform with search icon

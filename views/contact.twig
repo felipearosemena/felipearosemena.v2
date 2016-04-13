@@ -9,46 +9,20 @@
 
 {% block content %}
   
-  <section id="form-wrapper" class="form-wrapper container">
+  <div class="hero hero--contact">
+    <div class="hero__body">
+      <div class="container container--sm-left">
+        <h1 class="hero__heading">{{ post.post_title }}</h1>
+        {{ post.content }}
+      </div>
+    </div>
+  </div>
+  <section id="form-wrapper" class="form-wrapper container mb-1--f">
     <form id="contact-form" action="">
-  
-      {# <div class="form__group form__group--select">
-        <label for="field-2">Hello! I'm reaching out because:</label>
-        <select id="field-2" name="field-2" class="form__control">
-          <option value="option1">I'd like to hire you</option>
-          <option value="option2">I have an idea I would want to share with you</option>
-          <option value="option3">Just looking to connect</option>
-        </select>
-      </div>
-
-      <div class="form__group form__group--boxed">
-        <label for="field-1">What's your email?</label>
-        <input id="field-1" name="field-1" type="text" placeholder="Field 1" class="form__control" >
-      </div>
-
-      <div class="form__group form__group--boxed">
-        <label for="field-3">Field 1</label>
-        <input id="field-3" name="field-3" type="text" placeholder="Field 1" class="form__control">
-      </div>
-
-      <div class="form__group form__group--boxed">
-        <label for="field-4">Field 1</label>
-        <input id="field-4" name="field-4" type="text" placeholder="Field 1" class="form__control">
-      </div>
-
-      <div class="form__group form__group--boxed">
-        <label for="field-5">Field 1</label>
-        <input id="field-5" name="field-5" type="text" placeholder="Field 1" class="form__control">
-      </div>
-
-      <div class="form__group form__group--boxed">
-        <label for="field-1">Field 1</label>
-        <input id="field-1" name="field-1" type="text" placeholder="Field 1" class="form__control">
-      </div>   #}
     </form>
+
+    <div class="form-progress">
+    </div>
   </section>
 
-{% endblock %}
-
-{% block footer %}
 {% endblock %}
