@@ -42,7 +42,7 @@ $green        : #39c339;
 
 $red          : rgb(244,71,71);
 
-$yellow       : #D4AC02;
+$yellow       : #F4BA47;
 
 $lighter-grey : #f5f5f5;
 $light-grey   : #e5e5e5;
@@ -65,6 +65,7 @@ $box-shadow-y-soft: 0 .25rem 1rem rgba(0,0,0, 0.1);
 
 $color-primary        : $red;
 $color-secondary      : $green;
+$color-tertiary       : $yellow;
 $color-positive       : $green;
 $color-warning        : $yellow;
 $color-negative       : $red;
@@ -167,7 +168,8 @@ $container-pad            : $base-spacing-unit;
 $container-pad-lg         : $logo-width + $base-spacing-unit*2;
 $container-lg-max         : 60rem;
 $container-max            : 50rem;
-$container-sm-max         : 42rem;
+$container-md-max         : 42rem;
+$container-sm-max         : 30rem;
 $container-xs-max         : 480px;
 
 $btn-line-height          : $base-line-height/$base-font-size;

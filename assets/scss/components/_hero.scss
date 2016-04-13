@@ -29,8 +29,6 @@
   padding-bottom: $section-spacing-unit;
   // padding-left:$logo-width + $base-spacing-unit;
   .hero__heading, p {
-    margin-left: auto;
-    margin-right: auto;
   } 
 }
 
@@ -83,8 +81,6 @@ canvas.hero__bg {
 
 
 .hero__heading {
-  @extend %heading-style; 
-  color:white;
 }
 
 // add a color overlay to the background-image
@@ -139,4 +135,11 @@ canvas.hero__bg {
   @include mq-min($bp-lg) {
     padding: 10% 0;
   }
+}
+
+.hero--contact {
+  // color: white;
+  // background: lighten($color-secondary, 25%);
+  // padding: 0;
+  // @extend .mtb-1--f;
 }

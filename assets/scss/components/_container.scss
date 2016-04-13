@@ -62,12 +62,26 @@
   max-width: $container-lg-max;
 }
 
-.container--sm {
-  max-width: $container-sm-max;
+.container--md {
+  max-width: $container-md-max;
+}
+
+.container--sm-left {
+  > * {
+    max-width: $container-sm-max;
+    margin-left: 0;
+  }
 }
 
 .container--xs {
   max-width: $container-xs-max;
+}
+
+.container--xs-left {
+  > * {
+    max-width: $container-xs-max;
+    margin-left: 0;
+  }
 }
 
 .container--flush {

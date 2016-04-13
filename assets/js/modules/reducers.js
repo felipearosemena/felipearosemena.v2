@@ -1,6 +1,14 @@
 import { combineReducers } from 'redux'
-import { UPDATE_SELECTION, TOGGLE_NAVIGATION } from './actions'
-import { inArray } from './utils'
+import { inArray, map } from './utils'
+
+import { 
+  UPDATE_SELECTION, 
+  TOGGLE_NAVIGATION, 
+  ADD_ITEM,
+  REMOVE_ITEM,
+  TOGGLE_ACTIVE
+} from './actions'
+
 
 function item(state, action) {
   switch (action.type) {
@@ -99,6 +107,61 @@ function header(state = {}, action) {
   }
 }
 
+function componentReducer(state = {}, action) {
+  
+  switch(action.type) {
+    case ADD_ITEM :
+
+      state.items.push({
+        title: 'New Item'
+      })
+      
+      return {
+        ...state,
+        items: [
+          ...state.items
+        ]
+      }
+
+    case REMOVE_ITEM :
+
+      state.items.splice(-1, 1)
+      return {
+        ...state,
+        items: [
+          ...state.items
+        ]
+      }
+
+    case TOGGLE_ACTIVE : 
+
+      return {
+        ...state,
+        items: map(state.items, (item, i) => {
+
+          if(i == action.index) {
+            item.isActive = !item.isActive
+          }
+
+          return item
+        })
+      }
+
+    default: 
+      return state
+  }
+}
+
+function contactReducer(state = {}, action) {
+  
+  switch(action.type) {
+    default :
+      return {
+        ...state
+      }
+  }
+}
+
 const filterApp = combineReducers({
   appliedFilters
 })
@@ -107,4 +170,4 @@ const headerReducer = combineReducers({
   header, appliedFilters
 })
 
-export { filterApp, headerReducer }
+export { filterApp, headerReducer, componentReducer, contactReducer }

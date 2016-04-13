@@ -63,17 +63,18 @@ export function selectorMatches(el, selector) {
 
 
 export function createElement(tagname, attributes = {}, data = {}) {
+
   let el = document.createElement(tagname);
 
   if(el.setAttribute) {
-    for (var k in  attributes) {
-      if (attributes.hasOwnProperty(k)) {
-        el.setAttribute(k, attributes[k])
-      }
-    }
-  }
+    map(attributes, (k, v) => {
+      el.setAttribute(k, v)
+    })
 
-  el.dataset = data
+    map(data, (k, v) => {
+      el.setAttribute('data-' + k, v)
+    })
+  }
 
   return el;
 }
@@ -97,8 +98,8 @@ export function delegateEvent(el, eventName, delegate, handler) {
   if(typeof handler !== 'function') return;
   if(el.addEventListener) {
     el.addEventListener(eventName, (e) => {
-      if(selectorMatches(e.target, delegate)) {
-        handler(e);
+      if(selectorMatches(e.target, delegate)) {        
+        handler(e)
       }
     })
   }
@@ -107,16 +108,71 @@ export function delegateEvent(el, eventName, delegate, handler) {
 
 
 export function map(arrLike, cb) {
+
+  if(!arrLike) {
+    return false
+  }
+
   if(arrLike.length) {
+
     return Array.prototype.map.call(arrLike, cb)
+  
   } else if(arrLike.length !== 'undefined' && arrLike.length == 0) {
+  
     return [];
+  
+  } else if(typeof arrLike == 'object' && arrLike.constructor == Object) {
+    
+    const newArrLike = {}
+    for (var k in arrLike) {
+      if (arrLike.hasOwnProperty(k)) {
+        newArrLike[k] = cb(k, arrLike[k])
+      }
+    }
+    return newArrLike
+
   } else if(arrLike) {
     return Array.prototype.map.call([arrLike], cb)
+  } 
+}
+
+export function mapJoin(arrLike, cb, separator = '') {
+  return map(arrLike, cb).join(separator)
+}
+
+export function filter(arrLike, cb) {
+
+  if(!arrLike) {
+    return false
+  }
+
+  if(arrLike.length) {
+
+    return Array.prototype.filter.call(arrLike, cb)
+  
+  } else if(arrLike.length !== 'undefined' && arrLike.length == 0) {
+  
+    return [];
+  
+  } else if(typeof arrLike == 'object' && arrLike.constructor == Object) {
+    
+    // const newArrLike = {}
+    // for (var k in arrLike) {
+    //   if (arrLike.hasOwnProperty(k)) {
+    //     newArrLike[k] = cb(k, arrLike[k])
+    //   }
+    // }
+    // return newArrLike
+
   }
 }
 
 export function reduce(arrLike, cb, seed) {
+
+  if(!arrLike) {
+    return false
+  }
+
   if(arrLike.length) {
     return Array.prototype.map.reduce(arrLike, cb)
   } else if(arrLike) {
@@ -130,4 +186,16 @@ export  function extend(){
       if(arguments[i].hasOwnProperty(key))
         arguments[0][key] = arguments[i][key];
   return arguments[0];
+}
+
+export function equalsAny(item, arr) {
+  let flag = false
+
+  arr.map(i => {
+    if(i == item) {
+      flag = true
+    }
+  })
+
+  return flag
 }
