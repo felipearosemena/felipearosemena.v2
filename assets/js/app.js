@@ -72,5 +72,3 @@ page({
   popstate: false
 })
 
-// page.show(location.pathname)
-
