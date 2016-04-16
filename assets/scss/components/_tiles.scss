@@ -18,16 +18,14 @@
   transition: all $transition-slow;
 }
 
-.tile--dark {
-  // border: none;
-  // color: white;
+.tile--project {
+  border: none;
 }
 
 .tile__bg {
   @include full-cover;
   position: absolute;
   z-index: 100;
-  opacity: 0 ;
 }
 
 .tile__body {
@@ -96,6 +94,8 @@
 
 .tile__title {
   display: block;
-  margin-bottom: $base-spacing-unit/4;
-  // transform:translate3d(0,50%,0);
+  margin-bottom: $base-spacing-unit/2;
+}
+
+.tile__excerpt {
 }
