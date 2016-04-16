@@ -1,4 +1,5 @@
 import * as diff from 'diffhtml'
+import * as PubSub from 'pubsub-js'
 import { map, extend, delegateEvent } from '../modules/utils'
 
 export default function componentFactory(config) {
@@ -7,24 +8,52 @@ export default function componentFactory(config) {
 
     render(state) {
       const markup = this.markup(state)
-      diff.innerHTML(this.rootEl, markup)
+
+      if(this.rootEl) {
+        diff.innerHTML(this.rootEl, markup)
+      }
     }
 
   })
 
-  map(component.events, (eventConfig) => {
 
-    const opts = extend({}, {
-      type: '',
-      selector: '',
-      handler(){}
-    }, eventConfig)
+  /** 
+  *
+  * Attach component's events
+  *
+  */
 
-    const selector = '[' + opts.selector.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + ']'
+  // map(component.events, (eConfig) => {
 
-    delegateEvent(component.rootEl, opts.type, selector, opts.handler)
+  //   const { selector, type, handler} = extend({}, (() => {
+
+  //     return { 
+  //       type: '',
+  //       selector: false,
+  //       handler(){}
+  //     }
+
+  //   })(), eConfig)
+
+  //   const events = typeof type == 'string' ? [type] : type.length ? type : []
+
+  //   events.map(event => {
+
+  //     if(selector){
+  //       delegateEvent(
+  //         component.rootEl, 
+  //         type, 
+  //         selector, 
+  //         handler
+  //       )
+  //     } else if(component.rootEl) {
+  //       component.rootEl.addEventListener(type, handler)
+  //     }
+
+  //   })
+
   
-  })
+  // })
 
   return component
 }
