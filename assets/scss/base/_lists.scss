@@ -8,7 +8,11 @@
 
 ul, ol {
   margin-top: 0;
+  padding-left: 0;
   @include margin-trailer(1);
+}
+
+li {
 }
 
 // Definition lists
@@ -45,6 +49,7 @@ dd {
 .menu-list {
 
   line-height: 1;
+
   li {
     margin:$base-spacing-unit $base-spacing-unit;
   }
@@ -57,25 +62,6 @@ dd {
     }
   }
 
-  // .btn {
-  //     position:relative;
-  //     right:-$base-spacing-unit;
-  // }
-
-}
-
-.block-list-label {
-  display: none;
-  // background-color:white;
-  // color:$darker-grey;
-  // margin-left: $base-spacing-unit;
-  // display: inline-block;
-  // vertical-align: bottom;
-  // padding:$base-spacing-unit/4 $base-spacing-unit/2;
-  // text-align: center;
-  // float: right;
-  // display: block;
-  // margin: auto;
 }
 
 .block-list {
@@ -88,14 +74,6 @@ dd {
     padding:$base-spacing-unit/2 $base-spacing-unit;
     color:white;
     transition: background-color $transition-default;
-
-    &:after {
-      // @extend %full-cover;
-      // @include z-index(-1,fixed);
-      // content:'';
-      // background-color: currentColor;
-      // opacity: .2;
-    }
 
     &:hover {
       background-color: white;
