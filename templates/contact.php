@@ -40,14 +40,6 @@ $context['form_fields'] = array(
     'placeholder' => 'address@somewhere.biz'
   ),
 
-  // array(
-  //   'name' => 'contact_name',
-  //   'type' => 'text',
-  //   'label' => 'My name is',
-  //   'placeholder' => 'Jhon Appleseed',
-  //   'required' => false
-  // ),
-
   array(
     'name' => 'budget',
     'type' => 'radio',
@@ -73,6 +65,13 @@ $context['form_fields'] = array(
         'label' => 'More like <b>$10000+</b>'
       )
     ]
+  ),
+
+  array(
+    'name' => 'comment',
+    'type' => 'textarea',
+    'label' => 'Some additional info about me, myself and my project:',
+    'placeholder' => 'We could maybe barter?'
   ),
 
 );
