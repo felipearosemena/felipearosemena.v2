@@ -95,8 +95,6 @@ PubSub.subscribe('header-view:open', function () {
   popstate: false
 });
 
-// page.show(location.pathname)
-
 },{"./modules/polyfills":7,"./modules/utils":9,"./modules/video":10,"./views/contact":11,"./views/header":12,"./views/nav":13,"./views/pageSections":14,"page":3,"pubsub-js":17}],2:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
@@ -1132,6 +1130,8 @@ exports.toggleNavigation = toggleNavigation;
 exports.addItem = addItem;
 exports.removeItem = removeItem;
 exports.toggleActive = toggleActive;
+exports.toggleActiveAll = toggleActiveAll;
+exports.toggleAll = toggleAll;
 /*
  * action types
  */
@@ -1141,6 +1141,8 @@ var TOGGLE_NAVIGATION = exports.TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
 var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
 var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
 var TOGGLE_ACTIVE = exports.TOGGLE_ACTIVE = 'TOGGLE_ACTIVE';
+var TOGGLE_ACTIVE_ALL = exports.TOGGLE_ACTIVE_ALL = 'TOGGLE_ACTIVE_ALL';
+var TOGGLE_ALL = exports.TOGGLE_ALL = 'TOGGLE_ALL';
 
 function updateSelection(tax, value) {
   return {
@@ -1176,6 +1178,20 @@ function toggleActive(index) {
   };
 }
 
+function toggleActiveAll(allActive) {
+  return {
+    type: TOGGLE_ACTIVE_ALL,
+    allActive: allActive
+  };
+}
+
+function toggleAll(allActive) {
+  return {
+    type: TOGGLE_ALL,
+    allActive: allActive
+  };
+}
+
 },{}],6:[function(require,module,exports){
 'use strict';
 
@@ -1188,6 +1204,10 @@ var _diffhtml = require('diffhtml');
 
 var diff = _interopRequireWildcard(_diffhtml);
 
+var _pubsubJs = require('pubsub-js');
+
+var PubSub = _interopRequireWildcard(_pubsubJs);
+
 var _utils = require('../modules/utils');
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
@@ -1197,27 +1217,54 @@ function componentFactory(config) {
   var component = (0, _utils.extend)({}, config, {
     render: function render(state) {
       var markup = this.markup(state);
-      diff.innerHTML(this.rootEl, markup);
+
+      if (this.rootEl) {
+        diff.innerHTML(this.rootEl, markup);
+      }
     }
   });
 
-  (0, _utils.map)(component.events, function (eventConfig) {
+  /** 
+  *
+  * Attach component's events
+  *
+  */
 
-    var opts = (0, _utils.extend)({}, {
-      type: '',
-      selector: '',
-      handler: function handler() {}
-    }, eventConfig);
+  // map(component.events, (eConfig) => {
 
-    var selector = '[' + opts.selector.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + ']';
+  //   const { selector, type, handler} = extend({}, (() => {
 
-    (0, _utils.delegateEvent)(component.rootEl, opts.type, selector, opts.handler);
-  });
+  //     return {
+  //       type: '',
+  //       selector: false,
+  //       handler(){}
+  //     }
+
+  //   })(), eConfig)
+
+  //   const events = typeof type == 'string' ? [type] : type.length ? type : []
+
+  //   events.map(event => {
+
+  //     if(selector){
+  //       delegateEvent(
+  //         component.rootEl,
+  //         type,
+  //         selector,
+  //         handler
+  //       )
+  //     } else if(component.rootEl) {
+  //       component.rootEl.addEventListener(type, handler)
+  //     }
+
+  //   })
+
+  // })
 
   return component;
 }
 
-},{"../modules/utils":9,"diffhtml":16}],7:[function(require,module,exports){
+},{"../modules/utils":9,"diffhtml":16,"pubsub-js":17}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1427,6 +1474,14 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+/** 
+*
+* TODO
+*
+* USE REACT, LOAD JUST IN THE PAGE
+*
+*/
+
 function item(state, action) {
   switch (action.type) {
     case _actions.UPDATE_SELECTION:
@@ -1558,6 +1613,16 @@ function componentReducer() {
             item.isActive = !item.isActive;
           }
 
+          return item;
+        })
+      });
+
+    case _actions.TOGGLE_ACTIVE_ALL:
+    case _actions.TOGGLE_ALL:
+
+      return _extends({}, state, {
+        items: (0, _utils.map)(state.items, function (item) {
+          item.isActive = action.allActive;
           return item;
         })
       });
@@ -1986,6 +2051,9 @@ function formControlView(rootEl, field) {
     case 'select':
       return selectView(rootEl, field);
       break;
+    case 'textarea':
+      return textareaView(rootEl, field);
+      break;
     case 'radio':
       return radioView(rootEl, field);
       break;
@@ -1999,6 +2067,7 @@ function formControlView(rootEl, field) {
 * Move input vars declaaration to formControls instantiation step
 *
 */
+
 function contactFormView(rootEl, config) {
 
   var store = (0, _redux.createStore)(_reducers.contactReducer, {
@@ -2006,17 +2075,22 @@ function contactFormView(rootEl, config) {
   });
 
   var formView = (0, _component2.default)({
+
     rootEl: rootEl,
-    events: [],
+    events: [{
+      type: ['mousewheel', 'wheel', 'touchmove'],
+      handler: function handler(e) {}
+    }],
+
     markup: function markup(state) {
 
-      return (0, _utils.map)(state.fields, function (field) {
+      return '\n        <div class="form-rail"> \n          ' + (0, _utils.map)(state.fields, function (field) {
         return formControlView(rootEl, field);
       }).filter(function (field) {
         return field;
       }).map(function (fieldControl) {
         return fieldControl.markup();
-      }).join('');
+      }).join('') + ' \n        </div>\n      ';
     }
   });
 
