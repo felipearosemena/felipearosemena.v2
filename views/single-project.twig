@@ -70,8 +70,9 @@
     </p>
   </div>
   {% endif %}
-  {% include('includes/project-nav.twig') with { 
-    project: next_post
+  {% include('includes/project-listing.twig') with { 
+    tab_label: 'Next Project',
+    projects: [next_post]
   } %}
 
   {% include('includes/cta.twig') %}
