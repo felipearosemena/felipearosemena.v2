@@ -1,50 +1,96 @@
 
 import { createStore } from 'redux'
 import componentFactory from '../modules/component'
-import { addItem, removeItem, toggleActive } from '../modules/actions'
+import { addItem, removeItem, toggleActive, toggleActiveAll, toggleAll } from '../modules/actions'
 import { componentReducer } from '../modules/reducers'
 import { map, mapJoin, extend, delegateEvent } from '../modules/utils'
 
-const store = createStore(componentReducer, {
-  items: [
-    {
-      title: 'Some Titles',
-      isActive: false
-    },
+// const store = createStore(componentReducer, {
+//   items: [
+//     {
+//       title: 'Some Titles',
+//       isActive: false
+//     },
 
-    {
-      title: 'Second Title',
-      isActive: false
-    }
-  ],
+//     {
+//       title: 'Second Title',
+//       isActive: false
+//     },
 
-})
+//     {
+//       title: 'Some Titles',
+//       isActive: false
+//     },
 
-function listControlsView(rootEl) {
-  return componentFactory({
-    rootEl: rootEl,
-    events: [
-      {
-        type: 'click',
-        selector: 'addItem',
-        handler() {
-          store.dispatch(addItem())
-        }
-      },
+//     {
+//       title: 'Second Title',
+//       isActive: false
+//     },
 
-      {
-        type: 'click',
-        selector: 'removeItem',
-        handler() {
-          store.dispatch(removeItem())
-        }
-      },
-    ],
-    markup(state) {
-      return `<button add-item>Add</button> <button remove-item>Remove</button>`
-    }
-  })
-}
+//     {
+//       title: 'Some Titles',
+//       isActive: false
+//     },
+
+//     {
+//       title: 'Second Title',
+//       isActive: false
+//     },
+
+//     {
+//       title: 'Some Titles',
+//       isActive: false
+//     },
+
+//     {
+//       title: 'Second Title',
+//       isActive: false
+//     }
+//   ],
+
+// })
+
+// function listControlsView(rootEl) {
+//   let component =  componentFactory({
+//     rootEl: rootEl,
+//     events: [
+//       {
+//         type: 'click',
+//         selector: '#add',
+//         handler() {
+//           store.dispatch(addItem())
+//         }
+//       },
+
+//       {
+//         type: 'click',
+//         selector: '#remove',
+//         handler() {
+//           store.dispatch(removeItem())
+//         }
+//       },
+
+//       {
+//         type: 'click',
+//         selector: '#toggle',
+//         handler(e) {
+//           store.dispatch(toggleAll())
+//         }
+//       }
+//     ],
+//     markup(state) {
+//       return `
+//         <p class="text-center">
+//           <button id=add class="btn btn--secondary" add-item>Add</button> 
+//           <button id=remove class="btn btn--primary" remove-item>Remove</button>
+//           <button id=toggle class="btn btn--tertiary" toggle-all>Release the hounds</button>
+//         </p>
+//       `
+//     }
+//   })
+
+//   return component
+// }
 
 /** 
 *
@@ -54,50 +100,73 @@ function listControlsView(rootEl) {
 *
 */
 
-function listView(rootEl) {
+// function listView(rootEl) {
 
-  const controls = listControlsView(rootEl)
+//   const controls = listControlsView(rootEl)
 
-  return componentFactory({
+//   return componentFactory({
 
-    rootEl: rootEl,
-    events: [
-      {
-        type: 'click',
-        selector: 'toggleActive',
-        handler(e) {
-          store.dispatch(toggleActive(e.target.id))
-        }
-      }
-    ],
+//     rootEl: rootEl,
 
-    markup(state) {
-      return `
-        <ul class="hero" id="list-view-1">
+//     // events: [
+//     //   {
+//     //     type: 'click',
+//     //     selector: '[toggle-active]',
+//     //     handler(e) {
+//       // store.dispatch(toggleActive(e.target.id))
 
-          ${ controls.markup(state) }
+//     //       store
+//     //     }
+//     //   }
+//     // ],
 
-          ${ mapJoin(state.items, (item, i) =>
-            `<li id=${ i } class="${ item.isActive ? 'is-active' : '' }" toggle-active> ${ item.title } </li>`) 
-          }
-        </ul>
-      `
-    }
-  })
+//     onToggleActive() {
+//       store.dispatch(toggleActive(e.target.id))
+//     },
 
-}
+//     markup(state) {
 
-const list = listView(document.querySelector('#page-content'))
+//       return `
 
-const render = () => {
+//         <ul id="list-view-1">
+//           <div class="list-controls">
+//             <b>component.js</b>
+//             <h2>${ state.items.length } rows created</h2>
+            
+//             ${ controls.markup(state) }
+//           </div>
 
-  const { items } = store.getState()
+//           ${ mapJoin(state.items, (item, i) =>
+//             ` 
+//               <li id=${ i } class="${ item.isActive ? 'is-active' : '' }" onClick=check(${this}) toggle-active> 
+//                 ${ item.title } 
+                
+//                 <small class="color-primary">
+//                   ${ item.isActive ? 'Yeap' : 'Noup'}
+//                 </small>
+//               </li>
+//             `
 
-  list.render({
-    items: items
-  })
+//           )}
 
-}
+//         </ul>
+//       `
+//     }
+//   })
 
-store.subscribe(render)
-render()
+// }
+
+// const list = listView(document.querySelector('#page-content'))
+
+// const render = () => {
+
+//   const { items } = store.getState()
+
+//   list.render({
+//     items: items
+//   })
+
+// }
+
+// store.subscribe(render)
+// render()

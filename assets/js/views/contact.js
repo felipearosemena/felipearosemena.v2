@@ -101,8 +101,11 @@ function formControlView(rootEl, field) {
   }
 
   switch(field.type) {
-    case 'select':
+    case 'select' :
       return selectView(rootEl, field)
+      break
+    case 'textarea' :
+      return textareaView(rootEl, field)
       break
     case 'radio' :
       return radioView(rootEl, field)
@@ -118,6 +121,7 @@ function formControlView(rootEl, field) {
 * Move input vars declaaration to formControls instantiation step
 *
 */
+
 export default function contactFormView(rootEl, config) {
   
   const store = createStore(contactReducer, {
@@ -125,14 +129,26 @@ export default function contactFormView(rootEl, config) {
   })
 
   const formView = componentFactory({
+
     rootEl: rootEl,
-    events: [],
+    events: [
+      {
+        type: ['mousewheel', 'wheel', 'touchmove'],
+        handler(e) {
+        }
+      }
+    ],
+
     markup(state) {
 
-      return map(state.fields, field => formControlView(rootEl, field))
-        .filter(field => field)
-        .map(fieldControl => fieldControl.markup())
-        .join('')
+      return `
+        <div class="form-rail"> 
+          ${ map(state.fields, field => formControlView(rootEl, field))
+            .filter(field => field)
+            .map(fieldControl => fieldControl.markup())
+            .join('') } 
+        </div>
+      `
     }
   })
 
