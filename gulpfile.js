@@ -26,7 +26,7 @@ function getBundler() {
         debug: true
       }, watchify.args))
       .transform(babelify, {
-        presets: ["es2015", "react", "stage-2"]
+        presets: ["es2015", "stage-2"]
       })
 
     )
@@ -67,7 +67,7 @@ gulp.task('build', ['build-persistent'], function() {
     .pipe(gulp.dest('./assets/js/'))
 });
 
-gulp.task('sass', function() {
+gulp.task('styles', function() {
 
   gulp.src('./assets/scss/**/*.scss')
     .pipe(sass().on('error', sass.logError))
@@ -85,7 +85,7 @@ gulp.task('watch', ['build-persistent'], function() {
     proxy: 'felipearosemena.v2.dev'
   })
 
-  gulp.watch('./assets/scss/**/*.scss', ['sass']);
+  gulp.watch('./assets/scss/**/*.scss', ['styles']);
 
   getBundler().on('update', function() {
     gulp.start('build-persistent')
