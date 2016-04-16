@@ -1,14 +1,14 @@
 {% if tab_label %}
-<header class="container">
-  <span class="tab-label">{{ tab_label }}</span>
-</header>
+  <header class="container">
+    <span class="tab-label">{{ tab_label }}</span>
+  </header>
 {% endif %}
 
 <section class="tiles">
   {% spaceless %}
 
     {% for project in projects %}
-    <article class="tile tile--dark">
+    <article class="tile">
       <div class="tile__body">
 
         {% if project.thumbnail %}
@@ -23,16 +23,16 @@
           <h3 class="tile__title">{{ project.title }}</h3>
 
           {% if project.post_excerpt %}
-            <p >{{ project.post_excerpt }}</p>
+            <p class="tile__excerpt">{{ project.post_excerpt }}</p>
           {% endif %}
 
           <div class="mt-1">
+
             <a href="{{ project.link }}" class="btn btn--{{ project.slug }}">View Project</a>
           </div>
         </div>
       </div> 
 
-      <div class="tile__bg" style="background-color: {{ project.color }}"></div>
     </article>
     {% endfor %}
 
