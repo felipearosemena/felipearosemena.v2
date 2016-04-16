@@ -6,8 +6,18 @@ import {
   TOGGLE_NAVIGATION, 
   ADD_ITEM,
   REMOVE_ITEM,
-  TOGGLE_ACTIVE
+  TOGGLE_ACTIVE,
+  TOGGLE_ACTIVE_ALL,
+  TOGGLE_ALL
 } from './actions'
+
+/** 
+*
+* TODO
+*
+* USE REACT, LOAD JUST IN THE PAGE
+*
+*/
 
 
 function item(state, action) {
@@ -108,7 +118,7 @@ function header(state = {}, action) {
 }
 
 function componentReducer(state = {}, action) {
-  
+
   switch(action.type) {
     case ADD_ITEM :
 
@@ -143,6 +153,17 @@ function componentReducer(state = {}, action) {
             item.isActive = !item.isActive
           }
 
+          return item
+        })
+      }
+
+    case TOGGLE_ACTIVE_ALL :
+    case TOGGLE_ALL :
+
+      return {
+        ...state,
+        items: map(state.items, item => {
+          item.isActive = action.allActive
           return item
         })
       }
