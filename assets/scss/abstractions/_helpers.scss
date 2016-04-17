@@ -127,9 +127,9 @@
 .mb-1--f {
   margin-bottom: $section-spacing-unit;
 
-  @include mq-min($bp-xl) {
-    margin-bottom: $section-spacing-unit*2;
-  }
+  // @include mq-min($bp-xl) {
+  //   margin-bottom: $section-spacing-unit*2;
+  // }
 }
 
 .mb-2 {
@@ -176,30 +176,30 @@
   margin-top: $section-spacing-unit;
   margin-bottom: $section-spacing-unit;
 
-  @include mq-min($bp-xl) {
-    margin-top: $section-spacing-unit*2;
-    margin-bottom: $section-spacing-unit*2;
-  }
+  // @include mq-min($bp-xl) {
+  //   margin-top: $section-spacing-unit*2;
+  //   margin-bottom: $section-spacing-unit*2;
+  // }
 }
 
 .mtb-15--f {
   margin-top: $section-spacing-unit*1.5;
   margin-bottom: $section-spacing-unit*1.5;
 
-  @include mq-min($bp-xl) {
-    margin-top: $section-spacing-unit*3;
-    margin-bottom: $section-spacing-unit*3;
-  }
+  // @include mq-min($bp-xl) {
+  //   margin-top: $section-spacing-unit*3;
+  //   margin-bottom: $section-spacing-unit*3;
+  // }
 }
 
 .ptb-1--f {
   padding-top: $section-spacing-unit;
   padding-bottom: $section-spacing-unit;
 
-  @include mq-min($bp-xl) {
-    padding-top: $section-spacing-unit*2;
-    padding-bottom: $section-spacing-unit*2;
-  }
+  // @include mq-min($bp-xl) {
+  //   padding-top: $section-spacing-unit*2;
+  //   padding-bottom: $section-spacing-unit*2;
+  // }
 }
 
 /* display */
