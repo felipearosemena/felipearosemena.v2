@@ -178,7 +178,7 @@ legend {
     align-items: center;
     padding: $base-spacing-unit/2;
     margin-bottom: $base-spacing-unit/2;
-    width: calc(25% - #{$base-spacing-unit/4});
+    width: 100%;
     border: 2px solid $light-grey;
     border-radius: $base-border-radius;
     height: get-input-height(2);
@@ -202,6 +202,10 @@ legend {
     background-color: $color-secondary;
     border-color: $color-secondary;
   }
+}
+
+.form__radio-option {
+  width: calc(25% - #{$base-spacing-unit/4});
 }
 
 .form__group--inline {

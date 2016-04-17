@@ -532,7 +532,7 @@ legend {
             align-items: center;
     padding: 0.85rem;
     margin-bottom: 0.85rem;
-    width: calc(25% - 0.425rem);
+    width: 100%;
     border: 2px solid #e5e5e5;
     border-radius: 5px;
     height: 5rem;
@@ -548,6 +548,9 @@ legend {
     color: white;
     background-color: #39c339;
     border-color: #39c339; }
+
+.form__radio-option {
+  width: calc(25% - 0.425rem); }
 
 .form__group--inline {
   display: inline-block;
@@ -1641,8 +1644,8 @@ button.icon-search {
   overflow: hidden;
   position: relative;
   z-index: 0;
-  padding-top: 5.1rem;
-  padding-bottom: 5.1rem; }
+  padding-top: 6.8rem;
+  padding-bottom: 6.8rem; }
 
 .hero__body {
   z-index: 300;
@@ -2206,7 +2209,7 @@ body.is-menu-active {
 .multi-cols__content-inner {
   margin-left: auto;
   margin-right: auto;
-  padding: 5.1rem 1.7rem; }
+  padding: 6.8rem 1.7rem; }
   @media only screen and (min-width: 641px) {
     .multi-cols__content-inner {
       padding: 1.7rem; } }
@@ -2830,10 +2833,7 @@ body.is-menu-active {
   margin-bottom: 1.7rem; }
 
 .mb-1--f, .spread--img {
-  margin-bottom: 5.1rem; }
-  @media only screen and (min-width: 1201px) {
-    .mb-1--f, .spread--img {
-      margin-bottom: 10.2rem; } }
+  margin-bottom: 6.8rem; }
 
 .mb-2 {
   margin-bottom: 3.4rem; }
@@ -2867,28 +2867,16 @@ body.is-menu-active {
   margin-bottom: 5.1rem; }
 
 .mtb-1--f, .spread__content {
-  margin-top: 5.1rem;
-  margin-bottom: 5.1rem; }
-  @media only screen and (min-width: 1201px) {
-    .mtb-1--f, .spread__content {
-      margin-top: 10.2rem;
-      margin-bottom: 10.2rem; } }
+  margin-top: 6.8rem;
+  margin-bottom: 6.8rem; }
 
 .mtb-15--f, .multi-cols--pop {
-  margin-top: 7.65rem;
-  margin-bottom: 7.65rem; }
-  @media only screen and (min-width: 1201px) {
-    .mtb-15--f, .multi-cols--pop {
-      margin-top: 15.3rem;
-      margin-bottom: 15.3rem; } }
+  margin-top: 10.2rem;
+  margin-bottom: 10.2rem; }
 
 .ptb-1--f {
-  padding-top: 5.1rem;
-  padding-bottom: 5.1rem; }
-  @media only screen and (min-width: 1201px) {
-    .ptb-1--f {
-      padding-top: 10.2rem;
-      padding-bottom: 10.2rem; } }
+  padding-top: 6.8rem;
+  padding-bottom: 6.8rem; }
 
 /* display */
 .inline-full {
