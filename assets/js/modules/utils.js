@@ -187,15 +187,3 @@ export  function extend(){
         arguments[0][key] = arguments[i][key];
   return arguments[0];
 }
-
-export function equalsAny(item, arr) {
-  let flag = false
-
-  arr.map(i => {
-    if(i == item) {
-      flag = true
-    }
-  })
-
-  return flag
-}

@@ -9,6 +9,10 @@ var _page = require('page');
 
 var _page2 = _interopRequireDefault(_page);
 
+var _riot = require('riot');
+
+var _riot2 = _interopRequireDefault(_riot);
+
 var _utils = require('./modules/utils');
 
 var _polyfills = require('./modules/polyfills');
@@ -82,12 +86,11 @@ PubSub.subscribe('header-view:open', function () {
 });
 
 (0, _page2.default)('/contact', function () {
+
   var formFields = data.formFields.length ? data.formFields : [0];
-  var contactForm = (0, _contact2.default)(document.getElementById('contact-form'), {
+  (0, _contact2.default)({
     fields: formFields
   });
-
-  contactForm.render();
 });
 
 (0, _page2.default)({
@@ -95,7 +98,7 @@ PubSub.subscribe('header-view:open', function () {
   popstate: false
 });
 
-},{"./modules/polyfills":7,"./modules/utils":9,"./modules/video":10,"./views/contact":11,"./views/header":12,"./views/nav":13,"./views/pageSections":14,"page":3,"pubsub-js":17}],2:[function(require,module,exports){
+},{"./modules/polyfills":6,"./modules/utils":8,"./modules/video":9,"./views/contact":10,"./views/header":11,"./views/nav":12,"./views/pageSections":13,"page":3,"pubsub-js":15,"riot":26}],2:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
@@ -727,7 +730,7 @@ module.exports = Array.isArray || function (arr) {
 
 }).call(this,require('_process'))
 
-},{"_process":15,"path-to-regexp":4}],4:[function(require,module,exports){
+},{"_process":14,"path-to-regexp":4}],4:[function(require,module,exports){
 var isarray = require('isarray')
 
 /**
@@ -1193,78 +1196,6 @@ function toggleAll(allActive) {
 }
 
 },{}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = componentFactory;
-
-var _diffhtml = require('diffhtml');
-
-var diff = _interopRequireWildcard(_diffhtml);
-
-var _pubsubJs = require('pubsub-js');
-
-var PubSub = _interopRequireWildcard(_pubsubJs);
-
-var _utils = require('../modules/utils');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function componentFactory(config) {
-
-  var component = (0, _utils.extend)({}, config, {
-    render: function render(state) {
-      var markup = this.markup(state);
-
-      if (this.rootEl) {
-        diff.innerHTML(this.rootEl, markup);
-      }
-    }
-  });
-
-  /** 
-  *
-  * Attach component's events
-  *
-  */
-
-  // map(component.events, (eConfig) => {
-
-  //   const { selector, type, handler} = extend({}, (() => {
-
-  //     return {
-  //       type: '',
-  //       selector: false,
-  //       handler(){}
-  //     }
-
-  //   })(), eConfig)
-
-  //   const events = typeof type == 'string' ? [type] : type.length ? type : []
-
-  //   events.map(event => {
-
-  //     if(selector){
-  //       delegateEvent(
-  //         component.rootEl,
-  //         type,
-  //         selector,
-  //         handler
-  //       )
-  //     } else if(component.rootEl) {
-  //       component.rootEl.addEventListener(type, handler)
-  //     }
-
-  //   })
-
-  // })
-
-  return component;
-}
-
-},{"../modules/utils":9,"diffhtml":16,"pubsub-js":17}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1454,25 +1385,21 @@ var domParser = exports.domParser = function domParser() {
   })(window.DOMParser);
 };
 
-},{"viewport-units-buggyfill":28}],8:[function(require,module,exports){
+},{"viewport-units-buggyfill":27}],7:[function(require,module,exports){
 'use strict';
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.contactReducer = exports.componentReducer = exports.headerReducer = exports.filterApp = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _redux = require('redux');
 
 var _utils = require('./utils');
 
 var _actions = require('./actions');
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 /** 
 *
@@ -1509,8 +1436,9 @@ function filter(state, action) {
       var selection = state.selection;
 
       var updatedOptions = filter.options.map(function (option) {
+        var _extends2;
 
-        var newSelection = _extends({}, selection, _defineProperty({}, filter.taxonomy_name, option.option_name));
+        var newSelection = _extends({}, selection, (_extends2 = {}, _extends2[filter.taxonomy_name] = option.option_name, _extends2));
 
         var filteredItems = items.map(function (i) {
           return item({ item: i, selection: newSelection }, action);
@@ -1533,6 +1461,8 @@ function filter(state, action) {
 }
 
 function appliedFilters() {
+  var _extends3;
+
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var action = arguments[1];
 
@@ -1541,7 +1471,7 @@ function appliedFilters() {
       var items = state.items;
       var filters = state.filters;
 
-      var newSelection = _extends({}, state.selection, _defineProperty({}, action.tax, action.value));
+      var newSelection = _extends({}, state.selection, (_extends3 = {}, _extends3[action.tax] = action.value, _extends3));
       var filteredItems = items.map(function (i) {
         return item({ item: i, selection: newSelection }, action);
       });
@@ -1594,14 +1524,14 @@ function componentReducer() {
       });
 
       return _extends({}, state, {
-        items: [].concat(_toConsumableArray(state.items))
+        items: [].concat(state.items)
       });
 
     case _actions.REMOVE_ITEM:
 
       state.items.splice(-1, 1);
       return _extends({}, state, {
-        items: [].concat(_toConsumableArray(state.items))
+        items: [].concat(state.items)
       });
 
     case _actions.TOGGLE_ACTIVE:
@@ -1655,14 +1585,15 @@ exports.headerReducer = headerReducer;
 exports.componentReducer = componentReducer;
 exports.contactReducer = contactReducer;
 
-},{"./actions":5,"./utils":9,"redux":23}],9:[function(require,module,exports){
+},{"./actions":5,"./utils":8,"redux":21}],8:[function(require,module,exports){
 'use strict';
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 exports.inRange = inRange;
 exports.inCanvas = inCanvas;
 exports.randomInt = randomInt;
@@ -1680,7 +1611,6 @@ exports.mapJoin = mapJoin;
 exports.filter = filter;
 exports.reduce = reduce;
 exports.extend = extend;
-exports.equalsAny = equalsAny;
 function inRange(val, range) {
   return val > range[0] && val < range[1];
 }
@@ -1870,19 +1800,7 @@ function extend() {
   }return arguments[0];
 }
 
-function equalsAny(item, arr) {
-  var flag = false;
-
-  arr.map(function (i) {
-    if (i == item) {
-      flag = true;
-    }
-  });
-
-  return flag;
-}
-
-},{}],10:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1932,187 +1850,157 @@ function videoController() {
   *
   */
 
-},{"./utils":9}],11:[function(require,module,exports){
+},{"./utils":8}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /** 
+                                                                                                                                                                                                                                                                  *
+                                                                                                                                                                                                                                                                  * Contact
+                                                                                                                                                                                                                                                                  *
+                                                                                                                                                                                                                                                                  */
+
 exports.default = contactFormView;
 
-var _pubsubJs = require('pubsub-js');
-
-var PubSub = _interopRequireWildcard(_pubsubJs);
-
 var _redux = require('redux');
+
+var _riot = require('riot');
+
+var _riot2 = _interopRequireDefault(_riot);
 
 var _actions = require('../modules/actions');
 
 var _reducers = require('../modules/reducers');
 
-var _component = require('../modules/component');
-
-var _component2 = _interopRequireDefault(_component);
-
 var _utils = require('../modules/utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+// function inputVars(field) {
+//   return extend({}, {
+//     label: false,
+//     id: field.name,
+//     options: [],
+//     placeholder: '',
+//     required: true
+//   }, field)
 
-/** 
-*
-* Contact
-*
-*/
+// }
 
-function inputVars(field) {
-  return (0, _utils.extend)({}, {
-    label: false,
-    id: field.name,
-    options: [],
-    placeholder: '',
-    required: true
-  }, field);
-}
+// function selectView(rootEl, field) {
 
-function selectView(rootEl, field) {
-  var _inputVars = inputVars(field);
+//   let { id, label, name, options, required } = inputVars(field)
 
-  var id = _inputVars.id;
-  var label = _inputVars.label;
-  var name = _inputVars.name;
-  var options = _inputVars.options;
-  var required = _inputVars.required;
+//   return componentFactory({
+//     rootEl: rootEl,
+//     markup(state) {
 
-  return (0, _component2.default)({
-    rootEl: rootEl,
-    markup: function markup(state) {
+//       return `
+//         <div class="form__group form__group--select">
 
-      return '\n        <div class="form__group form__group--select">\n\n          <select id="' + id + '" name="' + name + '" class="form__control">\n            ' + (0, _utils.map)(options, function (option) {
-        return '<option value=' + option.value + '>' + option.label + '</option>';
-      }) + '\n          </select>\n          <label for=' + id + '>' + label + '</label>\n        </div>\n      ';
-    }
+//           <select id="{ id }" name="{ name }" class="form__control">
+//             { map(options, option => `<option value={ option.value }>{ option.label }</option>`) }
+//           </select>
+//           <label for={ id }>{ label }</label>
+//         </div>
+//       `
+//     }
+//   })
+
+// }
+
+// function submitView(label) {
+//   return `
+//     <div class="form__submit">
+//       <button type="submit" class="btn btn--lg form__submit">{ label }</button>
+//     </div>
+//   `
+// }
+
+// function radioView(rootEl, field) {
+
+//   let { id, label, name, options, required } = inputVars(field)
+
+//   return componentFactory({
+//     rootEl: rootEl,
+//     markup(state) {
+//       return `
+//         <div class="form__group form__group--radio">
+//           <label>{ label }</label>
+//           { map(options, (option, i) => `
+//               <input class="form__control" id={ id }-{ i } name={ name } type="radio">
+//               <label for={ id }-{ i }><span>{ option.label }</span></label>
+//           `).join('') }
+//         </div>
+//       `
+//     }
+//   })
+// }
+
+// }
+
+_riot2.default.tag('raw', '', function () {
+  this.root.innerHTML = this.opts.content;
+});
+
+_riot2.default.tag('form-textarea', '\n    <textarea name="" id="" cols="30" rows="10"></textarea>\n  ');
+
+_riot2.default.tag('form-select', ' \n    <div class="form__group form__group--select">\n      <select id="{ opts.name }" name="{ opts.name }" class="form__control">\n        <option each="{opts.options}" value="{ value }">{label}</option>\n      </select>\n      <label for="{ opts.name }">{ opts.label }</label>\n    </div>\n  ');
+
+_riot2.default.tag('form-radio', '\n    <div class="form__group form__group--radio">\n      <label>{ opts.label }</label>\n      <div class="form__radio-option" each="{ opts.options }">\n        <input class="form__control" id="{ id }" name="{ parent.opts.name }" type="radio" value="{ value }">\n        <label for="{ id }"><raw content="{ label }" /></label>\n      </div>\n    </div>\n  ', function () {
+  var _this = this;
+
+  this.opts.options = this.opts.options.map(function (opt, i) {
+    return _extends({}, opt, {
+      id: _this.opts.name + '-' + i
+    });
   });
-}
+});
 
-function submitView(label) {
-  return '\n    <div class="form__submit">\n      <button type="submit" class="btn btn--lg form__submit">' + label + '</button>\n    </div>\n  ';
-}
+_riot2.default.tag('form-input', '\n    <div class="form__group form__group--boxed">\n      <input id="{ opts.name }" name="{ opts.name }" type="{ opts.type }" placeholder="{ opts.placeholder }" class="form__control" >\n      <label for="{ opts.name }">{ opts.label }</label>\n    </div>\n  ');
 
-function radioView(rootEl, field) {
-  var _inputVars2 = inputVars(field);
+_riot2.default.tag('form-control', '', function () {
 
-  var id = _inputVars2.id;
-  var label = _inputVars2.label;
-  var name = _inputVars2.name;
-  var options = _inputVars2.options;
-  var required = _inputVars2.required;
+  var field = this.opts.field;
+  var tagName = (0, _utils.inArray)(field.type, ['text', 'email', 'url']) ? 'input' : field.type;
 
-  return (0, _component2.default)({
-    rootEl: rootEl,
-    markup: function markup(state) {
-      return '\n        <div class="form__group form__group--radio">\n          <label>' + label + '</label>\n          ' + (0, _utils.map)(options, function (option, i) {
-        return '\n              <input class="form__control" id=' + id + '-' + i + ' name=' + name + ' type="radio">\n              <label for=' + id + '-' + i + '><span>' + option.label + '</span></label>\n          ';
-      }).join('') + '\n        </div>\n      ';
-    }
+  _riot2.default.mount(this.root, 'form-' + tagName, field);
+});
+
+_riot2.default.tag('contact-form', '\n    <form>\n      <form-control each={fields} field={field}></form-control>\n    </form>\n  ', function () {
+  this.store = this.opts.store;
+  this.fields = this.store.getState().fields.map(function (fieldObj) {
+    return { field: fieldObj };
   });
-}
+});
 
-function inputView(rootEl, field) {
-  var _inputVars3 = inputVars(field);
+// /**
+// *
+// * TODO
+// *
+// * Move input vars declaaration to formControls instantiation step
+// *
+// */
 
-  var id = _inputVars3.id;
-  var label = _inputVars3.label;
-  var type = _inputVars3.type;
-  var placeholder = _inputVars3.placeholder;
-  var name = _inputVars3.name;
-  var required = _inputVars3.required;
-
-  return (0, _component2.default)({
-    rootEl: rootEl,
-    markup: function markup(state) {
-      return '\n        <div class="form__group form__group--boxed">\n          <input id="' + id + '" name="' + name + '" type="' + type + '" placeholder="' + placeholder + '" class="form__control" >\n          <label for="' + id + '">' + label + '</label>\n        </div>\n      ';
-    }
-  });
-}
-
-function formControlView(rootEl, field) {
-
-  if (!field.name) {
-    return false;
-  }
-
-  if ((0, _utils.equalsAny)(field.type, ['text', 'email', 'url'])) {
-    return inputView(rootEl, field);
-  }
-
-  switch (field.type) {
-    case 'select':
-      return selectView(rootEl, field);
-      break;
-    case 'textarea':
-      return textareaView(rootEl, field);
-      break;
-    case 'radio':
-      return radioView(rootEl, field);
-      break;
-  }
-}
-
-/** 
-*
-* TODO
-*
-* Move input vars declaaration to formControls instantiation step
-*
-*/
-
-function contactFormView(rootEl, config) {
+function contactFormView(config) {
 
   var store = (0, _redux.createStore)(_reducers.contactReducer, {
     fields: config.fields
   });
 
-  var formView = (0, _component2.default)({
-
-    rootEl: rootEl,
-    events: [{
-      type: ['mousewheel', 'wheel', 'touchmove'],
-      handler: function handler(e) {}
-    }],
-
-    markup: function markup(state) {
-
-      return '\n        <div class="form-rail"> \n          ' + (0, _utils.map)(state.fields, function (field) {
-        return formControlView(rootEl, field);
-      }).filter(function (field) {
-        return field;
-      }).map(function (fieldControl) {
-        return fieldControl.markup();
-      }).join('') + ' \n        </div>\n      ';
-    }
+  store.subscribe(function () {
+    _riot2.default.update();
   });
 
-  var _render = function _render() {
-    var _store$getState = store.getState();
-
-    var fields = _store$getState.fields;
-
-    formView.render({
-      fields: fields
-    });
-  };
-
-  return {
-    render: function render() {
-      store.subscribe(_render);
-      _render();
-    }
-  };
+  return _riot2.default.mount('contact-form', {
+    store: store
+  });
 }
 
-},{"../modules/actions":5,"../modules/component":6,"../modules/reducers":8,"../modules/utils":9,"pubsub-js":17,"redux":23}],12:[function(require,module,exports){
+},{"../modules/actions":5,"../modules/reducers":7,"../modules/utils":8,"redux":21,"riot":26}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2181,7 +2069,7 @@ var headerView = function headerView(headerEl) {
 
 exports.default = headerView;
 
-},{"../modules/utils":9,"pubsub-js":17}],13:[function(require,module,exports){
+},{"../modules/utils":8,"pubsub-js":15}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2227,8 +2115,12 @@ var navView = function navView(navEl) {
 
 exports.default = navView;
 
-},{"../modules/utils":9,"pubsub-js":17}],14:[function(require,module,exports){
+},{"../modules/utils":8,"pubsub-js":15}],13:[function(require,module,exports){
 'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /** 
                                                                                                                                                                                                                                                   *
@@ -2236,9 +2128,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                                                                                                                                                                                                                                   *
                                                                                                                                                                                                                                                   */
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
 exports.default = pageSections;
 
 var _pubsubJs = require('pubsub-js');
@@ -2386,7 +2275,7 @@ function pageSections(sectionEls) {
   return sectionViews;
 }
 
-},{"../modules/utils":9,"pubsub-js":17}],15:[function(require,module,exports){
+},{"../modules/utils":8,"pubsub-js":15}],14:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -2474,2917 +2363,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],16:[function(require,module,exports){
-(function (global){
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.diff = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.upgrade = upgrade;
-/**
- * Store all Custom Element definitions in this object. The tagName is the key.
- *
- * @public
- */
-var components = exports.components = {};
-
-/**
- * Ensures the element instance matches the CustomElement's prototype.
- *
- * @param nodeName - The HTML nodeName to use for the Custom Element
- * @param element - The element to upgrade
- * @param descriptor - The virtual node backing the element
- * @return {Boolean} successfully upgraded
- */
-function upgrade(nodeName, element, descriptor) {
-  // Value of the `is` attribute, if it exists.
-  var isAttr = null;
-
-  // Check for the `is` attribute. It has a known bug where it cannot be
-  // applied dynamically.
-  if (!components[nodeName] && Array.isArray(descriptor.attributes)) {
-    descriptor.attributes.some(function (attr, idx) {
-      if (attr.name === 'is') {
-        isAttr = attr.value;
-        return true;
-      }
-    });
-  }
-
-  // Hack around the `is` attribute being unable to be set dynamically.
-  if (isAttr && components[isAttr]) {
-    nodeName = isAttr;
-  }
-
-  var CustomElement = components[nodeName];
-
-  if (!CustomElement) {
-    return false;
-  }
-
-  if (CustomElement.extends && CustomElement.extends !== descriptor.nodeName) {
-    return false;
-  }
-
-  // If no Custom Element was registered, bail early. Don't need to upgrade
-  // if the element was already processed..
-  if (typeof CustomElement === 'function' && element instanceof CustomElement) {
-    return false;
-  }
-
-  // Copy the prototype into the Element.
-  element.__proto__ = Object.create(CustomElement.prototype);
-
-  // Custom elements have a createdCallback method that should be called.
-  if (CustomElement.prototype.createdCallback) {
-    CustomElement.prototype.createdCallback.call(element);
-  }
-
-  // Is the element existing in the DOM?
-  var inDOM = element.ownerDocument.contains(element);
-
-  // If the Node is in the DOM, trigger attached callback.
-  if (inDOM && CustomElement.prototype.attachedCallback) {
-    element.attachedCallback();
-  }
-
-  // The upgrade was successful.
-  return true;
-}
-
-},{}],2:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = get;
-
-var _make = _dereq_('../node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _make3 = _dereq_('../element/make');
-
-var _make4 = _interopRequireDefault(_make3);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Takes in an element descriptor and resolve it to a uuid and DOM Node.
- *
- * @param descriptor - Element descriptor
- * @return {Object} containing the uuid and DOM node
- */
-function get(descriptor) {
-  var uuid = descriptor.uuid;
-  var element = (0, _make4.default)(descriptor);
-
-  return { uuid: uuid, element: element };
-}
-
-},{"../element/make":3,"../node/make":6}],3:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = make;
-
-var _svg = _dereq_('../svg');
-
-var svg = _interopRequireWildcard(_svg);
-
-var _make = _dereq_('../node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _custom = _dereq_('./custom');
-
-var _entities = _dereq_('../util/entities');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-/**
- * Takes in a virtual descriptor and creates an HTML element. Sets the element
- * into the cache.
- *
- * @param descriptor - Element descriptor
- * @return {Element} - The newly created DOM Node
- */
-function make(descriptor) {
-  var element = null;
-  var isSvg = false;
-  // Get the Custom Element constructor for a given element.
-  var nodeName = descriptor.nodeName;
-  var CustomElement = _custom.components[nodeName];
-
-  // If the element descriptor was already created, reuse the existing element.
-  if (_make2.default.nodes[descriptor.uuid]) {
-    return _make2.default.nodes[descriptor.uuid];
-  }
-
-  if (descriptor.nodeName === '#text') {
-    element = document.createTextNode(descriptor.nodeValue);
-  } else {
-    if (svg.elements.indexOf(descriptor.nodeName) > -1) {
-      isSvg = true;
-      element = document.createElementNS(svg.namespace, descriptor.nodeName);
-    } else {
-      element = document.createElement(descriptor.nodeName);
-    }
-
-    // Copy all the attributes from the descriptor into the newly created DOM
-    // Node.
-    if (descriptor.attributes && descriptor.attributes.length) {
-      for (var i = 0; i < descriptor.attributes.length; i++) {
-        var attribute = descriptor.attributes[i];
-        element.setAttribute(attribute.name, attribute.value);
-      }
-    }
-
-    // Append all the children into the element, making sure to run them
-    // through this `make` function as well.
-    if (descriptor.childNodes && descriptor.childNodes.length) {
-      for (var _i = 0; _i < descriptor.childNodes.length; _i++) {
-        element.appendChild(make(descriptor.childNodes[_i]));
-      }
-    }
-  }
-
-  // Upgrade the element after creating it, if necessary.
-  (0, _custom.upgrade)(nodeName, element, descriptor);
-
-  // Custom elements have a createdCallback method that should be called.
-  if (CustomElement && CustomElement.prototype.createdCallback) {
-    CustomElement.prototype.createdCallback.call(element);
-  }
-
-  // Add to the nodes cache using the designated uuid as the lookup key.
-  _make2.default.nodes[descriptor.uuid] = element;
-
-  return element;
-}
-
-},{"../node/make":6,"../svg":12,"../util/entities":14,"./custom":1}],4:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var missingStackTrace = 'Browser doesn\'t support error stack traces.';
-
-/**
- * Identifies an error with transitions.
- */
-
-var TransitionStateError = exports.TransitionStateError = function (_Error) {
-  _inherits(TransitionStateError, _Error);
-
-  function TransitionStateError(message) {
-    var _this;
-
-    _classCallCheck(this, TransitionStateError);
-
-    var error = (_this = _possibleConstructorReturn(this, Object.getPrototypeOf(TransitionStateError).call(this)), _this);
-
-    _this.message = message;
-    _this.stack = error.stack || missingStackTrace;
-    return _this;
-  }
-
-  return TransitionStateError;
-}(Error);
-
-/**
- * Identifies an error with registering an element.
- */
-
-
-var DOMException = exports.DOMException = function (_Error2) {
-  _inherits(DOMException, _Error2);
-
-  function DOMException(message) {
-    var _this2;
-
-    _classCallCheck(this, DOMException);
-
-    var error = (_this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(DOMException).call(this)), _this2);
-
-    _this2.message = 'Uncaught DOMException: ' + message;
-    _this2.stack = error.stack || missingStackTrace;
-    return _this2;
-  }
-
-  return DOMException;
-}(Error);
-
-},{}],5:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.DOMException = exports.TransitionStateError = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-var _errors = _dereq_('./errors');
-
-Object.defineProperty(exports, 'TransitionStateError', {
-  enumerable: true,
-  get: function get() {
-    return _errors.TransitionStateError;
-  }
-});
-Object.defineProperty(exports, 'DOMException', {
-  enumerable: true,
-  get: function get() {
-    return _errors.DOMException;
-  }
-});
-exports.outerHTML = outerHTML;
-exports.innerHTML = innerHTML;
-exports.element = element;
-exports.release = release;
-exports.registerElement = registerElement;
-exports.addTransitionState = addTransitionState;
-exports.removeTransitionState = removeTransitionState;
-exports.enableProllyfill = enableProllyfill;
-
-var _patch = _dereq_('./node/patch');
-
-var _patch2 = _interopRequireDefault(_patch);
-
-var _release = _dereq_('./node/release');
-
-var _release2 = _interopRequireDefault(_release);
-
-var _make = _dereq_('./node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _tree = _dereq_('./node/tree');
-
-var _transitions = _dereq_('./transitions');
-
-var _custom = _dereq_('./element/custom');
-
-var _memory = _dereq_('./util/memory');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Used to diff the outerHTML contents of the passed element with the markup
- * contents.  Very useful for applying a global diff on the
- * `document.documentElement`.
- *
- * @param element
- * @param markup=''
- * @param options={}
- */
-function outerHTML(element) {
-  var markup = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-  var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-  options.inner = false;
-  (0, _patch2.default)(element, markup, options);
-}
-
-/**
- * Used to diff the innerHTML contents of the passed element with the markup
- * contents.  This is useful with libraries like Backbone that render Views
- * into element container.
- *
- * @param element
- * @param markup=''
- * @param options={}
- */
-function innerHTML(element) {
-  var markup = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
-  var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-  options.inner = true;
-  (0, _patch2.default)(element, markup, options);
-}
-
-/**
- * Used to diff two elements.  The `inner` Boolean property can be specified in
- * the options to set innerHTML\outerHTML behavior.  By default it is
- * outerHTML.
- *
- * @param element
- * @param newElement
- * @param options={}
- */
-function element(element, newElement) {
-  var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-  (0, _patch2.default)(element, newElement, options);
-}
-
-/**
- * Releases the worker and memory allocated to this element. Useful for
- * cleaning up components when removed in tests and applications.
- *
- * @param element
- */
-function release(element) {
-  (0, _release2.default)(element);
-}
-
-// Store a reference to the real `registerElement` method if it exists.
-var realRegisterElement = document.registerElement;
-
-/**
- * Register's a constructor with an element to provide lifecycle events.
- *
- * @param tagName
- * @param constructor
- */
-function registerElement(tagName, constructor) {
-  // Upgrade simple objects to inherit from HTMLElement and be usable in a real
-  // implementation.
-  var normalized = typeof constructor === 'function' ? constructor : null;
-
-  // If this is not a valid constructor, create one.
-  if (normalized === null) {
-    normalized = function HTMLElement() {};
-    normalized.__proto__ = constructor;
-    normalized.prototype = constructor.prototype || constructor;
-    normalized.prototype.__proto__ = HTMLElement.prototype;
-  }
-
-  // If the native web component specification is loaded, use that instead.
-  if (realRegisterElement) {
-    // Still store the reference internally, since we use it to circumvent the
-    // `is` attribute bug.
-    _custom.components[tagName] = normalized;
-    return realRegisterElement.call(document, tagName, normalized);
-  }
-
-  // If the element has already been registered, raise an error.
-  if (tagName in _custom.components) {
-    throw new _errors.DOMException('\n      Failed to execute \'registerElement\' on \'Document\': Registration failed\n      for type \'' + tagName + '\'. A type with that name is already registered.\n    ');
-  }
-
-  // Assign the custom element reference to the constructor.
-  _custom.components[tagName] = normalized;
-}
-
-/**
- * Adds a global transition listener.  With many elements this could be an
- * expensive operation, so try to limit the amount of listeners added if you're
- * concerned about performance.
- *
- * Since the callback triggers with various elements, most of which you
- * probably don't care about, you'll want to filter.  A good way of filtering
- * is to use the DOM `matches` method.  It's fairly well supported
- * (http://caniuse.com/#feat=matchesselector) and may suit many projects.  If
- * you need backwards compatibility, consider using jQuery's `is`.
- *
- * You can do fun, highly specific, filters:
- *
- * addTransitionState('attached', function(element) {
- *   // Fade in the main container after it's added.
- *   if (element.matches('body main.container')) {
- *     $(element).stop(true, true).fadeIn();
- *   }
- * });
- *
- * @param state - String name that matches what's available in the
- * documentation above.
- * @param callback - Function to receive the matching elements.
- */
-function addTransitionState(state, callback) {
-  if (!state) {
-    throw new _errors.TransitionStateError('Missing transition state name');
-  }
-
-  if (!callback) {
-    throw new _errors.TransitionStateError('Missing transition state callback');
-  }
-
-  // Not a valid state name.
-  if (Object.keys(_transitions.states).indexOf(state) === -1) {
-    throw new _errors.TransitionStateError('Invalid state name: ' + state);
-  }
-
-  _transitions.states[state].push(callback);
-}
-
-/**
- * Removes a global transition listener.
- *
- * When invoked with no arguments, this method will remove all transition
- * callbacks.  When invoked with the name argument it will remove all
- * transition state callbacks matching the name, and so on for the callback.
- *
- * @param state - String name that matches what's available in the
- * documentation above.
- * @param callback - Function to receive the matching elements.
- */
-function removeTransitionState(state, callback) {
-  if (!callback && state) {
-    _transitions.states[state].length = 0;
-  } else if (state && callback) {
-    // Not a valid state name.
-    if (Object.keys(_transitions.states).indexOf(state) === -1) {
-      throw new _errors.TransitionStateError('Invalid state name ' + state);
-    }
-
-    var index = _transitions.states[state].indexOf(callback);
-    _transitions.states[state].splice(index, 1);
-  } else {
-    for (var _state in _transitions.states) {
-      _transitions.states[_state].length = 0;
-    }
-  }
-}
-
-/**
- * By calling this function your browser environment is enhanced globally. This
- * project would love to hit the standards track and allow all developers to
- * benefit from the performance gains of DOM diffing.
- */
-function enableProllyfill() {
-  // Exposes the `TransitionStateError` constructor globally so that developers
-  // can instanceof check exception errors.
-  Object.defineProperty(window, 'TransitionStateError', {
-    configurable: true,
-
-    value: _errors.TransitionStateError
-  });
-
-  // Allows a developer to add transition state callbacks.
-  Object.defineProperty(document, 'addTransitionState', {
-    configurable: true,
-
-    value: function value(state, callback) {
-      addTransitionState(state, callback);
-    }
-  });
-
-  // Allows a developer to remove transition state callbacks.
-  Object.defineProperty(document, 'removeTransitionState', {
-    configurable: true,
-
-    value: function value(state, callback) {
-      removeTransitionState(state, callback);
-    }
-  });
-
-  // Exposes the API into the Element, ShadowDOM, and DocumentFragment
-  // constructors.
-  [typeof Element !== 'undefined' ? Element : undefined, typeof HTMLElement !== 'undefined' ? HTMLElement : undefined, typeof ShadowRoot !== 'undefined' ? ShadowRoot : undefined, typeof DocumentFragment !== 'undefined' ? DocumentFragment : undefined].filter(Boolean).forEach(function (Ctor) {
-    Object.defineProperty(Ctor.prototype, 'diffInnerHTML', {
-      configurable: true,
-
-      set: function set(newHTML) {
-        innerHTML(this, newHTML);
-      }
-    });
-
-    // Allows a developer to set the `outerHTML` of an element.
-    Object.defineProperty(Ctor.prototype, 'diffOuterHTML', {
-      configurable: true,
-
-      set: function set(newHTML) {
-        outerHTML(this, newHTML);
-      }
-    });
-
-    // Allows a developer to diff the current element with a new element.
-    Object.defineProperty(Ctor.prototype, 'diffElement', {
-      configurable: true,
-
-      value: function value(newElement, options) {
-        element(this, newElement, options);
-      }
-    });
-
-    // Releases the retained memory and worker instance.
-    Object.defineProperty(Ctor.prototype, 'diffRelease', {
-      configurable: true,
-
-      value: function value() {
-        (0, _release2.default)(this);
-      }
-    });
-  });
-
-  // Polyfill in the `registerElement` method if it doesn't already exist. This
-  // requires patching `createElement` as well to ensure that the proper proto
-  // chain exists.
-  Object.defineProperty(document, 'registerElement', {
-    configurable: true,
-
-    value: function value(tagName, component) {
-      registerElement(tagName, component);
-    }
-  });
-
-  // If HTMLElement is an object, rejigger it to work like a function so that
-  // it can be extended. Specifically affects IE and Safari.
-  Object.getOwnPropertyNames(window).filter(function (key) {
-    return key.indexOf('HTML') === 0 && _typeof(window[key]) === 'object';
-  }).forEach(function (key) {
-    // Fall back to the Element constructor if the HTMLElement does not exist.
-    var realElement = window[key];
-
-    // If there is no `__proto__` available, add one to the prototype.
-    if (!realElement.__proto__) {
-      var copy = {
-        set: function set(val) {
-          val = Object.keys(val).length ? val : Object.getPrototypeOf(val);
-
-          for (var _key in val) {
-            if (val.hasOwnProperty(_key)) {
-              this[_key] = val[_key];
-            }
-          }
-        }
-      };
-
-      Object.defineProperty(realElement, '__proto__', copy);
-      Object.defineProperty(realElement.prototype, '__proto__', copy);
-    }
-
-    var Element = new Function('return function ' + key + '() {};')();
-    Element.prototype = Object.create(realElement.prototype);
-    Element.__proto__ = realElement;
-
-    // Ensure that the global Element matches the HTMLElement.
-    window[key] = Element;
-  });
-
-  /**
-   * Will automatically activate any components found in the page automatically
-   * after calling `enableProllyfill`. This is useful to simulate a real-world
-   * usage of Custom Elements.
-   */
-  var activateComponents = function activateComponents() {
-    var documentElement = document.documentElement;
-    var bufferSet = false;
-
-    // If this element is already rendering, add this new render request into
-    // the buffer queue. Check and see if any element is currently rendering,
-    // can only do one at a time.
-    _tree.TreeCache.forEach(function iterateTreeCache(elementMeta, element) {
-      if (elementMeta.isRendering) {
-        bufferSet = true;
-      }
-    });
-
-    // Short circuit the rest of this render.
-    if (bufferSet) {
-      // Remove the load event listener, since it's complete.
-      return window.removeEventListener('load', activateComponents);
-    }
-
-    var descriptor = (0, _make2.default)(documentElement);
-
-    // After the initial render, clean up the resources, no point in lingering.
-    documentElement.addEventListener('renderComplete', function render() {
-      var elementMeta = _tree.TreeCache.get(documentElement) || {};
-
-      // Release resources allocated to the element.
-      if (!elementMeta.isRendering) {
-
-        // Unprotect after the activation is complete.
-        (0, _memory.unprotectElement)(descriptor, _make2.default);
-        documentElement.diffRelease(documentElement);
-      }
-
-      // Remove this event listener.
-      documentElement.removeEventListener('renderComplete', render);
-    });
-
-    // Protect the documentElement before applying the changes.
-    (0, _memory.protectElement)(descriptor);
-
-    // Diff the entire document on activation of the prollyfill.
-    documentElement.diffOuterHTML = documentElement.outerHTML;
-
-    // Remove the load event listener, since it's complete.
-    window.removeEventListener('load', activateComponents);
-  };
-
-  // If the document has already loaded, immediately activate the components.
-  if (document.readyState === 'complete') {
-    activateComponents();
-  } else {
-    // This section will automatically parse out your entire page to ensure all
-    // custom elements are hooked into.
-    window.addEventListener('load', activateComponents);
-  }
-}
-
-},{"./element/custom":1,"./errors":4,"./node/make":6,"./node/patch":7,"./node/release":8,"./node/tree":10,"./transitions":13,"./util/memory":15}],6:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = make;
-
-var _pools2 = _dereq_('../util/pools');
-
-var _custom = _dereq_('../element/custom');
-
-var pools = _pools2.pools;
-var empty = {};
-
-// Cache created nodes inside this object.
-make.nodes = {};
-
-/**
- * Converts a live node into a virtual node.
- *
- * @param node
- * @return
- */
-function make(node) {
-  var nodeType = node.nodeType;
-
-  // Whitelist: Elements, TextNodes, and Shadow Root.
-  if (nodeType !== 1 && nodeType !== 3 && nodeType !== 11) {
-    return false;
-  }
-
-  // Virtual representation of a node, containing only the data we wish to
-  // diff and patch.
-  var entry = pools.elementObject.get();
-
-  // Associate this newly allocated uuid with this Node.
-  make.nodes[entry.uuid] = node;
-
-  // Set a lowercased (normalized) version of the element's nodeName.
-  entry.nodeName = node.nodeName.toLowerCase();
-
-  // If the element is a text node set the nodeValue.
-  if (nodeType === 3) {
-    entry.nodeValue = node.textContent;
-  } else {
-    entry.nodeValue = '';
-  }
-
-  entry.childNodes.length = 0;
-  entry.attributes.length = 0;
-
-  // Collect attributes.
-  var attributes = node.attributes;
-
-  // If the element has no attributes, skip over.
-  if (attributes) {
-    var attributesLength = attributes.length;
-
-    if (attributesLength) {
-      for (var i = 0; i < attributesLength; i++) {
-        var attr = pools.attributeObject.get();
-
-        attr.name = attributes[i].name;
-        attr.value = attributes[i].value;
-
-        entry.attributes[entry.attributes.length] = attr;
-      }
-    }
-  }
-
-  // Collect childNodes.
-  var childNodes = node.childNodes ? node.childNodes : [];
-  var childNodesLength = childNodes.length;
-
-  // If the element has child nodes, convert them all to virtual nodes.
-  if (nodeType !== 3 && childNodesLength) {
-    for (var _i = 0; _i < childNodesLength; _i++) {
-      var newNode = make(childNodes[_i]);
-
-      if (newNode) {
-        entry.childNodes[entry.childNodes.length] = newNode;
-      }
-    }
-  }
-
-  // Prune out whitespace from between HTML tags in markup.
-  if (entry.nodeName === 'html') {
-    entry.childNodes = entry.childNodes.filter(function (el) {
-      return el.nodeName === 'head' || el.nodeName === 'body';
-    });
-  }
-
-  // Reset the prototype chain for this element. Upgrade will return `true`
-  // if the element was upgraded for the first time. This is useful so we
-  // don't end up in a loop when working with the same element.
-  (0, _custom.upgrade)(entry.nodeName, node, entry, true);
-
-  return entry;
-}
-
-},{"../element/custom":1,"../util/pools":17}],7:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = patchNode;
-
-var _create = _dereq_('../worker/create');
-
-var _memory = _dereq_('../util/memory');
-
-var _parser = _dereq_('../util/parser');
-
-var _render = _dereq_('../util/render');
-
-var _make = _dereq_('./make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _process = _dereq_('../patches/process');
-
-var _process2 = _interopRequireDefault(_process);
-
-var _sync = _dereq_('./sync');
-
-var _sync2 = _interopRequireDefault(_sync);
-
-var _tree = _dereq_('./tree');
-
-var _pools = _dereq_('../util/pools');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Patches an element's DOM to match that of the passed markup.
- *
- * @param element
- * @param newHTML
- */
-function patchNode(element, newHTML, options) {
-  // Ensure that the document disable worker is always picked up.
-  if (typeof options.enableWorker !== 'boolean') {
-    options.enableWorker = document.ENABLE_WORKER;
-  }
-
-  // The element meta object is a location to associate metadata with the
-  // currently rendering element. This prevents attaching properties to the
-  // instance itself.
-  var elementMeta = _tree.TreeCache.get(element) || {};
-
-  // Last options used.
-  elementMeta.options = options;
-
-  // Always ensure the most up-to-date meta object is stored.
-  _tree.TreeCache.set(element, elementMeta);
-
-  var bufferSet = false;
-  var isInner = options.inner;
-  var previousMarkup = elementMeta.previousMarkup;
-
-  // If this element is already rendering, add this new render request into the
-  // buffer queue. Check and see if any element is currently rendering, can
-  // only do one at a time.
-  _tree.TreeCache.forEach(function iterateTreeCache(_elementMeta, _element) {
-    if (_elementMeta.isRendering) {
-      elementMeta.renderBuffer = { element: element, newHTML: newHTML, options: options };
-      bufferSet = true;
-    }
-  });
-
-  // Short circuit the rest of this render.
-  if (bufferSet) {
-    return;
-  }
-
-  var sameInnerHTML = isInner ? previousMarkup === element.innerHTML : true;
-  var sameOuterHTML = !isInner ? previousMarkup === element.outerHTML : true;
-  var sameTextContent = elementMeta._textContent === element.textContent;
-
-  // If the contents haven't changed, abort, since there is no point in
-  // continuing.
-  if (elementMeta.newHTML === newHTML) {
-    return;
-  }
-
-  // Associate the last markup rendered with this element.
-  elementMeta.newHTML = newHTML;
-
-  // Start with worker being a falsy value.
-  var worker = null;
-
-  // If we can use a worker and the user wants one, try and create it.
-  if (options.enableWorker && _create.hasWorker) {
-    // Create a worker for this element.
-    worker = elementMeta.worker = elementMeta.worker || (0, _create.create)();
-  }
-
-  var rebuildTree = function rebuildTree() {
-    var oldTree = elementMeta.oldTree;
-
-    if (oldTree) {
-      (0, _memory.unprotectElement)(oldTree, _make2.default);
-      (0, _memory.cleanMemory)(_make2.default);
-    }
-
-    elementMeta.oldTree = (0, _memory.protectElement)((0, _make2.default)(element));
-    elementMeta.updateWorkerTree = true;
-  };
-
-  // The last render was done via Worker, but now we're rendering in the UI
-  // thread. This is very uncommon, but we need to ensure trees stay in sync.
-  if (elementMeta.renderedViaWorker === true && !options.enableWorker) {
-    rebuildTree();
-  }
-
-  if (!sameInnerHTML || !sameOuterHTML || !sameTextContent) {
-    rebuildTree();
-  }
-
-  // Will want to ensure that the first render went through, the worker can
-  // take a bit to startup and we want to show changes as soon as possible.
-  if (options.enableWorker && _create.hasWorker && worker) {
-    // Set a render lock as to not flood the worker.
-    elementMeta.isRendering = true;
-    elementMeta.renderedViaWorker = true;
-    elementMeta.workerCache = elementMeta.workerCache || [];
-
-    // Attach all properties here to transport.
-    var transferObject = {};
-
-    // This should only occur once, or whenever the markup changes externally
-    // to diffHTML.
-    if (!elementMeta.hasWorkerRendered || elementMeta.updateWorkerTree) {
-      transferObject.oldTree = elementMeta.oldTree;
-      elementMeta.updateWorkerTree = false;
-    }
-
-    // Wait for the worker to finish processing and then apply the patchset.
-    worker.onmessage = function onmessage(ev) {
-      var wrapRender = function wrapRender(cb) {
-        return function () {
-          elementMeta.hasWorkerRendered = true;
-          cb();
-        };
-      };
-      var invokeRender = wrapRender((0, _render.completeRender)(element, elementMeta));
-
-      // Wait until all promises have resolved, before finishing up the patch
-      // cycle.  Process the data immediately and wait until all transition
-      // callbacks have completed.
-      var promises = (0, _process2.default)(element, ev.data.patches);
-
-      // Operate synchronously unless opted into a Promise-chain.
-      if (promises.length) {
-        Promise.all(promises).then(invokeRender, function (ex) {
-          return console.log(ex);
-        });
-      } else {
-        invokeRender();
-      }
-    };
-
-    if (typeof newHTML !== 'string') {
-      transferObject.newTree = (0, _make2.default)(newHTML);
-
-      // Transfer this buffer to the worker, which will take over and process
-      // the markup.
-      worker.postMessage(transferObject);
-
-      return;
-    }
-
-    // Let the browser copy the HTML into the worker, converting to a
-    // transferable object is too expensive.
-    transferObject.newHTML = newHTML;
-
-    // Add properties to send to worker.
-    transferObject.isInner = options.inner;
-
-    // Transfer this buffer to the worker, which will take over and process the
-    // markup.
-    worker.postMessage(transferObject);
-  } else {
-    if (elementMeta.renderedViaWorker && elementMeta.oldTree) {
-      rebuildTree();
-    }
-
-    if (elementMeta.workerCache) {
-      elementMeta.workerCache.forEach(function (x) {
-        return (0, _memory.unprotectElement)(x, _make2.default);
-      });
-      delete elementMeta.workerCache;
-    }
-
-    // We're rendering in the UI thread.
-    elementMeta.isRendering = true;
-
-    // Whenever we render in the UI-thread, ensure that the Worker gets a
-    // refreshed copy of the `oldTree`.
-    elementMeta.updateWorkerTree = true;
-
-    var newTree = null;
-
-    if (typeof newHTML === 'string') {
-      newTree = (0, _parser.parseHTML)(newHTML, options.inner);
-    } else {
-      newTree = (0, _make2.default)(newHTML);
-    }
-
-    if (options.inner) {
-      var childNodes = Array.isArray(newTree) ? newTree : [newTree];
-
-      newTree = {
-        childNodes: childNodes,
-        attributes: elementMeta.oldTree.attributes,
-        uuid: elementMeta.oldTree.uuid,
-        nodeName: elementMeta.oldTree.nodeName,
-        nodeValue: elementMeta.oldTree.nodeValue
-      };
-    }
-
-    // Synchronize the tree.
-    var patches = (0, _sync2.default)(elementMeta.oldTree, newTree);
-    var invokeRender = (0, _render.completeRender)(element, elementMeta);
-
-    // Process the data immediately and wait until all transition callbacks
-    // have completed.
-    var promises = (0, _process2.default)(element, patches);
-
-    // Operate synchronously unless opted into a Promise-chain.
-    if (promises.length) {
-      Promise.all(promises).then(invokeRender, function (ex) {
-        return console.log(ex);
-      });
-    } else {
-      invokeRender();
-    }
-  }
-}
-
-},{"../patches/process":11,"../util/memory":15,"../util/parser":16,"../util/pools":17,"../util/render":18,"../worker/create":20,"./make":6,"./sync":9,"./tree":10}],8:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = releaseNode;
-
-var _tree = _dereq_('./tree');
-
-var _make = _dereq_('./make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _memory = _dereq_('../util/memory');
-
-var _pools = _dereq_('../util/pools');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/**
- * Release's the allocated objects and recycles internal memory.
- *
- * @param element
- */
-function releaseNode(element) {
-  var elementMeta = _tree.TreeCache.get(element);
-
-  // Do not remove an element that is in process of rendering. User intentions
-  // come first, so if we are cleaning up an element being used by another part
-  // of the code, keep it alive.
-  if (elementMeta) {
-    // If there is a worker associated with this element, then kill it.
-    if (elementMeta.worker) {
-      elementMeta.worker.terminate();
-      delete elementMeta.worker;
-    }
-
-    // If there was a tree set up, recycle the memory allocated for it.
-    if (elementMeta.oldTree) {
-      (0, _memory.unprotectElement)(elementMeta.oldTree, _make2.default);
-    }
-
-    if (elementMeta.workerCache) {
-      elementMeta.workerCache.forEach(function (x) {
-        return (0, _memory.unprotectElement)(x, _make2.default);
-      });
-      delete elementMeta.workerCache;
-    }
-
-    // Remove this element's meta object from the cache.
-    _tree.TreeCache.delete(element);
-  }
-
-  (0, _memory.cleanMemory)(_make2.default);
-}
-
-},{"../util/memory":15,"../util/pools":17,"./make":6,"./tree":10}],9:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.CHANGE_TEXT = exports.MODIFY_ATTRIBUTE = exports.MODIFY_ELEMENT = exports.REPLACE_ENTIRE_ELEMENT = exports.REMOVE_ENTIRE_ELEMENT = exports.REMOVE_ELEMENT_CHILDREN = undefined;
-exports.default = sync;
-
-var _pools2 = _dereq_('../util/pools');
-
-var pools = _pools2.pools;
-
-var slice = Array.prototype.slice;
-var filter = Array.prototype.filter;
-
-// Patch actions.
-var REMOVE_ELEMENT_CHILDREN = exports.REMOVE_ELEMENT_CHILDREN = -2;
-var REMOVE_ENTIRE_ELEMENT = exports.REMOVE_ENTIRE_ELEMENT = -1;
-var REPLACE_ENTIRE_ELEMENT = exports.REPLACE_ENTIRE_ELEMENT = 0;
-var MODIFY_ELEMENT = exports.MODIFY_ELEMENT = 1;
-var MODIFY_ATTRIBUTE = exports.MODIFY_ATTRIBUTE = 2;
-var CHANGE_TEXT = exports.CHANGE_TEXT = 3;
-
-/**
- * Synchronizes changes from the newTree into the oldTree.
- *
- * @param oldTree
- * @param newTree
- * @param patches - optional
- */
-function sync(oldTree, newTree, patches) {
-  patches = patches || [];
-
-  if (!Array.isArray(patches)) {
-    throw new Error('Missing Array to sync patches into');
-  }
-
-  if (!oldTree) {
-    throw new Error('Missing existing tree to sync');
-  }
-
-  var oldNodeValue = oldTree.nodeValue;
-  var oldChildNodes = oldTree.childNodes;
-  var oldChildNodesLength = oldChildNodes ? oldChildNodes.length : 0;
-  var oldElement = oldTree.uuid;
-  var oldNodeName = oldTree.nodeName;
-  var oldIsTextNode = oldNodeName === '#text';
-
-  if (!newTree) {
-    var removed = [oldTree].concat(oldChildNodes.splice(0, oldChildNodesLength));
-
-    patches.push({
-      __do__: REMOVE_ENTIRE_ELEMENT,
-      element: oldTree,
-      toRemove: removed
-    });
-
-    return patches;
-  }
-
-  var nodeValue = newTree.nodeValue;
-  var childNodes = newTree.childNodes;
-  var childNodesLength = childNodes ? childNodes.length : 0;
-  var newElement = newTree.uuid;
-  var nodeName = newTree.nodeName;
-  var newIsTextNode = nodeName === '#text';
-
-  // If the element we're replacing is totally different from the previous
-  // replace the entire element, don't bother investigating children.
-  if (oldTree.nodeName !== newTree.nodeName) {
-    patches.push({
-      __do__: REPLACE_ENTIRE_ELEMENT,
-      old: oldTree,
-      new: newTree
-    });
-
-    return patches;
-  }
-
-  // If the top level nodeValue has changed we should reflect it.
-  if (oldIsTextNode && newIsTextNode && oldNodeValue !== nodeValue) {
-    patches.push({
-      __do__: CHANGE_TEXT,
-      element: oldTree,
-      value: newTree.nodeValue
-    });
-
-    oldTree.nodeValue = newTree.nodeValue;
-
-    return;
-  }
-
-  // Most common additive elements.
-  if (childNodesLength > oldChildNodesLength) {
-    // Store elements in a DocumentFragment to increase performance and be
-    // generally simplier to work with.
-    var fragment = [];
-
-    for (var i = oldChildNodesLength; i < childNodesLength; i++) {
-      // Internally add to the tree.
-      oldChildNodes.push(childNodes[i]);
-
-      // Add to the document fragment.
-      fragment.push(childNodes[i]);
-    }
-
-    oldChildNodesLength = oldChildNodes.length;
-
-    // Assign the fragment to the patches to be injected.
-    patches.push({
-      __do__: MODIFY_ELEMENT,
-      element: oldTree,
-      fragment: fragment
-    });
-  }
-
-  // Remove these elements.
-  if (oldChildNodesLength > childNodesLength) {
-    // For now just splice out the end items.
-    var diff = oldChildNodesLength - childNodesLength;
-    var toRemove = oldChildNodes.splice(oldChildNodesLength - diff, diff);
-
-    oldChildNodesLength = oldChildNodes.length;
-
-    if (oldChildNodesLength === 0 && childNodesLength === 0) {
-      patches.push({
-        __do__: REMOVE_ELEMENT_CHILDREN,
-        element: oldTree,
-        toRemove: toRemove
-      });
-    } else {
-      for (var _i = 0; _i < toRemove.length; _i++) {
-        // Remove the element, this happens before the splice so that we
-        // still have access to the element.
-        patches.push({
-          __do__: MODIFY_ELEMENT,
-          old: toRemove[_i]
-        });
-      }
-    }
-  }
-
-  // Replace elements if they are different.
-  if (oldChildNodesLength >= childNodesLength) {
-    for (var _i2 = 0; _i2 < childNodesLength; _i2++) {
-      if (oldChildNodes[_i2].nodeName !== childNodes[_i2].nodeName) {
-        // Add to the patches.
-        patches.push({
-          __do__: MODIFY_ELEMENT,
-          old: oldChildNodes[_i2],
-          new: childNodes[_i2]
-        });
-
-        // Replace the internal tree's point of view of this element.
-        oldChildNodes[_i2] = childNodes[_i2];
-      } else {
-        sync(oldChildNodes[_i2], childNodes[_i2], patches);
-      }
-    }
-  }
-
-  // Synchronize attributes
-  var attributes = newTree.attributes;
-
-  if (attributes) {
-    var oldLength = oldTree.attributes.length;
-    var newLength = attributes.length;
-
-    // Start with the most common, additive.
-    if (newLength > oldLength) {
-      var toAdd = slice.call(attributes, oldLength);
-
-      for (var _i3 = 0; _i3 < toAdd.length; _i3++) {
-        var change = {
-          __do__: MODIFY_ATTRIBUTE,
-          element: oldTree,
-          name: toAdd[_i3].name,
-          value: toAdd[_i3].value
-        };
-
-        var attr = pools.attributeObject.get();
-        attr.name = toAdd[_i3].name;
-        attr.value = toAdd[_i3].value;
-
-        pools.attributeObject.protect(attr);
-
-        // Push the change object into into the virtual tree.
-        oldTree.attributes.push(attr);
-
-        // Add the change to the series of patches.
-        patches.push(change);
-      }
-    }
-
-    // Check for removals.
-    if (oldLength > newLength) {
-      var _toRemove = slice.call(oldTree.attributes, newLength);
-
-      for (var _i4 = 0; _i4 < _toRemove.length; _i4++) {
-        var _change = {
-          __do__: MODIFY_ATTRIBUTE,
-          element: oldTree,
-          name: _toRemove[_i4].name,
-          value: undefined
-        };
-
-        // Remove the attribute from the virtual node.
-        var _removed = oldTree.attributes.splice(_i4, 1);
-
-        for (var _i5 = 0; _i5 < _removed.length; _i5++) {
-          pools.attributeObject.unprotect(_removed[_i5]);
-        }
-
-        // Add the change to the series of patches.
-        patches.push(_change);
-      }
-    }
-
-    // Check for modifications.
-    var toModify = attributes;
-
-    for (var _i6 = 0; _i6 < toModify.length; _i6++) {
-      var oldAttrValue = oldTree.attributes[_i6] && oldTree.attributes[_i6].value;
-      var newAttrValue = attributes[_i6] && attributes[_i6].value;
-
-      // Only push in a change if the attribute or value changes.
-      if (oldAttrValue !== newAttrValue) {
-        var _change2 = {
-          __do__: MODIFY_ATTRIBUTE,
-          element: oldTree,
-          name: toModify[_i6].name,
-          value: toModify[_i6].value
-        };
-
-        // Replace the attribute in the virtual node.
-        var _attr = oldTree.attributes[_i6];
-        _attr.name = toModify[_i6].name;
-        _attr.value = toModify[_i6].value;
-
-        // Add the change to the series of patches.
-        patches.push(_change2);
-      }
-    }
-  }
-
-  return patches;
-}
-
-},{"../util/pools":17}],10:[function(_dereq_,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-// Cache prebuilt trees and lookup by element.
-var TreeCache = exports.TreeCache = new Map();
-
-},{}],11:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = process;
-
-var _transitions = _dereq_('../transitions');
-
-var transition = _interopRequireWildcard(_transitions);
-
-var _pools = _dereq_('../util/pools');
-
-var _get = _dereq_('../element/get');
-
-var _get2 = _interopRequireDefault(_get);
-
-var _custom = _dereq_('../element/custom');
-
-var _make = _dereq_('../node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _sync = _dereq_('../node/sync');
-
-var sync = _interopRequireWildcard(_sync);
-
-var _tree = _dereq_('../node/tree');
-
-var _memory = _dereq_('../util/memory');
-
-var _entities = _dereq_('../util/entities');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var blockTextElements = ['script', 'noscript', 'style', 'pre', 'template'];
-
-/**
- * Processes an array of patches.
- *
- * @param element - Element to process patchsets on.
- * @param e - Object that contains patches.
- */
-function process(element, patches) {
-  var elementMeta = _tree.TreeCache.get(element);
-  var promises = [];
-  var triggerTransition = transition.buildTrigger(promises);
-
-  // Trigger the attached transition state for this element and all childNodes.
-  var attached = function attached(descriptor, fragment, parentNode) {
-    (0, _memory.protectElement)(descriptor);
-
-    if (elementMeta.workerCache) {
-      elementMeta.workerCache.push(descriptor);
-    }
-
-    var el = (0, _get2.default)(descriptor).element;
-
-    // If the element added was a DOM text node or SVG text element, trigger
-    // the textChanged transition.
-    if (descriptor.nodeName === '#text') {
-      var textPromises = transition.makePromises('textChanged', [el], null, descriptor.nodeValue);
-
-      el.textContent = (0, _entities.decodeEntities)(descriptor.nodeValue);
-
-      if (parentNode) {
-        var nodeName = parentNode.nodeName.toLowerCase();
-
-        if (blockTextElements.indexOf(nodeName) > -1) {
-          parentNode.nodeValue = (0, _entities.decodeEntities)(descriptor.nodeValue);
-        }
-      }
-
-      triggerTransition('textChanged', textPromises, function (promises) {});
-    }
-
-    if (descriptor.attributes && descriptor.attributes.length) {
-      descriptor.attributes.forEach(function (attr) {
-        var attrChangePromises = transition.makePromises('attributeChanged', [el], attr.name, null, attr.value);
-
-        triggerTransition('attributeChanged', attrChangePromises, function (promises) {});
-      });
-    }
-
-    // Call all `childNodes` attached callbacks as well.
-    if (descriptor.childNodes && descriptor.childNodes.length) {
-      descriptor.childNodes.forEach(function (x) {
-        return attached(x, null, el);
-      });
-    }
-
-    // If a document fragment was specified, append the real element into it.
-    if (fragment) {
-      fragment.appendChild(el);
-    }
-
-    return el;
-  };
-
-  // Loop through all the patches and apply them.
-
-  var _loop = function _loop(i) {
-    var patch = patches[i];
-    var newEl = void 0,
-        oldEl = void 0,
-        el = void 0;
-
-    if (patch.element) {
-      var result = (0, _get2.default)(patch.element);
-      el = result.element;
-    }
-
-    if (patch.old) {
-      var _result = (0, _get2.default)(patch.old);
-      oldEl = _result.element;
-    }
-
-    if (patch.new) {
-      var _result2 = (0, _get2.default)(patch.new);
-      newEl = _result2.element;
-    }
-
-    // Empty the Node's contents. This is an optimization, since `innerHTML`
-    // will be faster than iterating over every element and manually removing.
-    if (patch.__do__ === sync.REMOVE_ELEMENT_CHILDREN) {
-      var childNodes = el.childNodes;
-      var detachPromises = transition.makePromises('detached', childNodes);
-
-      triggerTransition('detached', detachPromises, function (promises) {
-        patch.toRemove.forEach(function (x) {
-          return (0, _memory.unprotectElement)(x, _make2.default);
-        });
-        el.innerHTML = '';
-      });
-    }
-
-    // Remove the entire Node. Only does something if the Node has a parent
-    // element.
-    else if (patch.__do__ === sync.REMOVE_ENTIRE_ELEMENT) {
-        var _detachPromises = transition.makePromises('detached', [el]);
-
-        if (el.parentNode) {
-          triggerTransition('detached', _detachPromises, function (promises) {
-            el.parentNode.removeChild(el);
-            patch.toRemove.forEach(function (x) {
-              return (0, _memory.unprotectElement)(x, _make2.default);
-            });
-          });
-        } else {
-          patch.toRemove.forEach(function (x) {
-            return (0, _memory.unprotectElement)(x, _make2.default);
-          });
-        }
-      }
-
-      // Replace the entire Node.
-      else if (patch.__do__ === sync.REPLACE_ENTIRE_ELEMENT) {
-          (function () {
-            var allPromises = [];
-            var attachedPromises = transition.makePromises('attached', [newEl]);
-            var detachedPromises = transition.makePromises('detached', [oldEl]);
-            var replacedPromises = transition.makePromises('replaced', [oldEl], newEl);
-
-            // Add all the transition state promises into the main array, we'll use
-            // them all to decide when to alter the DOM.
-            triggerTransition('detached', detachedPromises, function (promises) {
-              allPromises.push.apply(allPromises, promises);
-            });
-
-            triggerTransition('attached', attachedPromises, function (promises) {
-              allPromises.push.apply(allPromises, promises);
-              attached(patch.new, null, newEl);
-            });
-
-            triggerTransition('replaced', replacedPromises, function (promises) {
-              allPromises.push.apply(allPromises, promises);
-            });
-
-            (0, _memory.unprotectElement)(patch.old, _make2.default);
-
-            // Reset the tree cache.
-            _tree.TreeCache.set(newEl, {
-              oldTree: patch.new,
-              element: newEl
-            });
-
-            // Once all the promises have completed, invoke the action, if no
-            // promises were added, this will be a synchronous operation.
-            if (allPromises.length) {
-              Promise.all(allPromises).then(function replaceEntireElement() {
-                if (!oldEl.parentNode) {
-                  (0, _memory.unprotectElement)(patch.new, _make2.default);
-
-                  throw new Error('Can\'t replace without parent, is this the ' + 'document root?');
-                }
-
-                oldEl.parentNode.replaceChild(newEl, oldEl);
-              }, function (ex) {
-                return console.log(ex);
-              });
-            } else {
-              if (!oldEl.parentNode) {
-                (0, _memory.unprotectElement)(patch.new, _make2.default);
-
-                throw new Error('Can\'t replace without parent, is this the ' + 'document root?');
-              }
-
-              oldEl.parentNode.replaceChild(newEl, oldEl);
-            }
-          })();
-        }
-
-        // Node manip.
-        else if (patch.__do__ === sync.MODIFY_ELEMENT) {
-            // Add.
-            if (el && patch.fragment && !oldEl) {
-              (function () {
-                var fragment = document.createDocumentFragment();
-
-                // Loop over every element to be added and process the descriptor
-                // into the real element and append into the DOM fragment.
-                toAttach = patch.fragment.map(function (el) {
-                  return attached(el, fragment, el);
-                });
-
-                // Turn elements into childNodes of the patch element.
-
-                el.appendChild(fragment);
-
-                // Trigger transitions.
-                var makeAttached = transition.makePromises('attached', toAttach);
-                triggerTransition('attached', makeAttached);
-              })();
-            }
-
-            // Remove.
-            else if (oldEl && !newEl) {
-                if (!oldEl.parentNode) {
-                  (0, _memory.unprotectElement)(patch.old, _make2.default);
-
-                  throw new Error('Can\'t remove without parent, is this the ' + 'document root?');
-                }
-
-                var makeDetached = transition.makePromises('detached', [oldEl]);
-
-                triggerTransition('detached', makeDetached, function () {
-                  // And then empty out the entire contents.
-                  oldEl.innerHTML = '';
-
-                  if (oldEl.parentNode) {
-                    oldEl.parentNode.removeChild(oldEl);
-                  }
-
-                  (0, _memory.unprotectElement)(patch.old, _make2.default);
-                });
-              }
-
-              // Replace.
-              else if (oldEl && newEl) {
-                  (function () {
-                    if (!oldEl.parentNode) {
-                      (0, _memory.unprotectElement)(patch.old, _make2.default);
-                      (0, _memory.unprotectElement)(patch.new, _make2.default);
-
-                      throw new Error('Can\'t replace without parent, is this the ' + 'document root?');
-                    }
-
-                    // Append the element first, before doing the replacement.
-                    if (oldEl.nextSibling) {
-                      oldEl.parentNode.insertBefore(newEl, oldEl.nextSibling);
-                    } else {
-                      oldEl.parentNode.appendChild(newEl);
-                    }
-
-                    // Removed state for transitions API.
-                    var allPromises = [];
-                    var attachPromises = transition.makePromises('attached', [newEl]);
-                    var detachPromises = transition.makePromises('detached', [oldEl]);
-                    var replacePromises = transition.makePromises('replaced', [oldEl], newEl);
-
-                    triggerTransition('detached', detachPromises, function (promises) {
-                      allPromises.push.apply(allPromises, promises);
-                    });
-
-                    triggerTransition('attached', attachPromises, function (promises) {
-                      allPromises.push.apply(allPromises, promises);
-                      attached(patch.new);
-                    });
-
-                    triggerTransition('replaced', replacePromises, function (promises) {
-                      allPromises.push.apply(allPromises, promises);
-                    });
-
-                    // Once all the promises have completed, invoke the action, if no
-                    // promises were added, this will be a synchronous operation.
-                    if (allPromises.length) {
-                      Promise.all(allPromises).then(function replaceElement() {
-                        oldEl.parentNode.replaceChild(newEl, oldEl);
-                        (0, _memory.unprotectElement)(patch.old, _make2.default);
-
-                        (0, _memory.protectElement)(patch.new);
-
-                        if (elementMeta.workerCache) {
-                          elementMeta.workerCache.push(patch.new);
-                        }
-                      }, function (ex) {
-                        return console.log(ex);
-                      });
-                    } else {
-                      if (!oldEl.parentNode) {
-                        (0, _memory.unprotectElement)(patch.old, _make2.default);
-                        (0, _memory.unprotectElement)(patch.new, _make2.default);
-
-                        throw new Error('Can\'t replace without parent, is this the ' + 'document root?');
-                      }
-
-                      oldEl.parentNode.replaceChild(newEl, oldEl);
-                      (0, _memory.unprotectElement)(patch.old, _make2.default);
-                      (0, _memory.protectElement)(patch.new);
-
-                      if (elementMeta.workerCache) {
-                        elementMeta.workerCache.push(patch.new);
-                      }
-                    }
-                  })();
-                }
-          }
-
-          // Attribute manipulation.
-          else if (patch.__do__ === sync.MODIFY_ATTRIBUTE) {
-              var attrChangePromises = transition.makePromises('attributeChanged', [el], patch.name, el.getAttribute(patch.name), patch.value);
-
-              triggerTransition('attributeChanged', attrChangePromises, function (promises) {
-                // Remove.
-                if (patch.value === undefined) {
-                  el.removeAttribute(patch.name);
-
-                  if (patch.name === 'checked') {
-                    el.checked = false;
-                  }
-                }
-                // Change.
-                else {
-                    el.setAttribute(patch.name, patch.value);
-
-                    // If an `is` attribute was set, we should upgrade it.
-                    (0, _custom.upgrade)(patch.element.nodeName, el, patch.element);
-
-                    // Support live updating of the value attribute.
-                    if (patch.name === 'value' || patch.name === 'checked') {
-                      el[patch.name] = patch.value;
-                    }
-                  }
-              });
-            }
-
-            // Text node manipulation.
-            else if (patch.__do__ === sync.CHANGE_TEXT) {
-                var textChangePromises = transition.makePromises('textChanged', [el], el.nodeValue, patch.value);
-
-                triggerTransition('textChanged', textChangePromises, function (promises) {
-                  patch.element.nodeValue = (0, _entities.decodeEntities)(patch.value);
-                  el.nodeValue = patch.element.nodeValue;
-
-                  if (el.parentNode) {
-                    var nodeName = el.parentNode.nodeName.toLowerCase();
-
-                    if (blockTextElements.indexOf(nodeName) > -1) {
-                      el.parentNode.nodeValue = patch.element.nodeValue;
-                    }
-                  }
-                });
-              }
-  };
-
-  for (var i = 0; i < patches.length; i++) {
-    var toAttach;
-
-    _loop(i);
-  }
-
-  // Return the Promises that were allocated so that rendering can be blocked
-  // until they resolve.
-  return promises.filter(Boolean);
-}
-
-},{"../element/custom":1,"../element/get":2,"../node/make":6,"../node/sync":9,"../node/tree":10,"../transitions":13,"../util/entities":14,"../util/memory":15,"../util/pools":17}],12:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-// List of SVG elements.
-var elements = exports.elements = ['altGlyph', 'altGlyphDef', 'altGlyphItem', 'animate', 'animateColor', 'animateMotion', 'animateTransform', 'circle', 'clipPath', 'color-profile', 'cursor', 'defs', 'desc', 'ellipse', 'feBlend', 'feColorMatrix', 'feComponentTransfer', 'feComposite', 'feConvolveMatrix', 'feDiffuseLighting', 'feDisplacementMap', 'feDistantLight', 'feFlood', 'feFuncA', 'feFuncB', 'feFuncG', 'feFuncR', 'feGaussianBlur', 'feImage', 'feMerge', 'feMergeNode', 'feMorphology', 'feOffset', 'fePointLight', 'feSpecularLighting', 'feSpotLight', 'feTile', 'feTurbulence', 'filter', 'font', 'font-face', 'font-face-format', 'font-face-name', 'font-face-src', 'font-face-uri', 'foreignObject', 'g', 'glyph', 'glyphRef', 'hkern', 'image', 'line', 'linearGradient', 'marker', 'mask', 'metadata', 'missing-glyph', 'mpath', 'path', 'pattern', 'polygon', 'polyline', 'radialGradient', 'rect', 'set', 'stop', 'svg', 'switch', 'symbol', 'text', 'textPath', 'tref', 'tspan', 'use', 'view', 'vkern'];
-
-// Namespace.
-var namespace = exports.namespace = 'http://www.w3.org/2000/svg';
-
-},{}],13:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.states = undefined;
-exports.buildTrigger = buildTrigger;
-exports.makePromises = makePromises;
-
-var _custom = _dereq_('./element/custom');
-
-var _make = _dereq_('./node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var slice = Array.prototype.slice;
-var forEach = Array.prototype.forEach;
-var concat = Array.prototype.concat;
-var empty = { prototype: {} };
-
-/**
- * Contains arrays to store transition callbacks.
- *
- * attached
- * --------
- *
- * For when elements come into the DOM. The callback triggers immediately after
- * the element enters the DOM. It is called with the element as the only
- * argument.
- *
- * detached
- * --------
- *
- * For when elements are removed from the DOM. The callback triggers just
- * before the element leaves the DOM. It is called with the element as the only
- * argument.
- *
- * replaced
- * --------
- *
- * For when elements are replaced in the DOM. The callback triggers after the
- * new element enters the DOM, and before the old element leaves. It is called
- * with old and new elements as arguments, in that order.
- *
- * attributeChanged
- * ----------------
- *
- * Triggered when an element's attribute has changed. The callback triggers
- * after the attribute has changed in the DOM. It is called with the element,
- * the attribute name, old value, and current value.
- *
- * textChanged
- * -----------
- *
- * Triggered when an element's `textContent` chnages. The callback triggers
- * after the textContent has changed in the DOM. It is called with the element,
- * the old value, and current value.
- */
-var states = exports.states = {
-  attached: [],
-  detached: [],
-  replaced: [],
-  attributeChanged: [],
-  textChanged: []
-};
-
-// Define the custom signatures necessary for the loop to fill in the "magic"
-// methods that process the transitions consistently.
-var fnSignatures = {
-  attached: {
-    mapFn: function mapFn(el) {
-      return function (cb) {
-        return cb(el);
-      };
-    },
-    customElementsFn: function customElementsFn(el) {
-      return function (cb) {
-        return cb.call(el);
-      };
-    }
-  },
-
-  detached: {
-    mapFn: function mapFn(el) {
-      return function (cb) {
-        return cb(el);
-      };
-    },
-    customElementsFn: function customElementsFn(el) {
-      return function (cb) {
-        return cb.call(el);
-      };
-    }
-  },
-
-  replaced: {
-    mapFn: function mapFn(oldEl, newEl) {
-      return function (cb) {
-        return cb(oldEl, newEl);
-      };
-    }
-  },
-
-  attributeChanged: {
-    mapFn: function mapFn(el, name, oldVal, newVal) {
-      return function (cb) {
-        return cb(el, name, oldVal, newVal);
-      };
-    },
-    customElementsFn: function customElementsFn(el, name, oldVal, newVal) {
-      return function (cb) {
-        return cb.call(el, name, oldVal, newVal);
-      };
-    }
-  },
-
-  textChanged: {
-    mapFn: function mapFn(el, oldVal, newVal) {
-      return function (cb) {
-        return cb(el, oldVal, newVal);
-      };
-    },
-    customElementsFn: function customElementsFn(el, oldVal, newVal) {
-      return function (cb) {
-        return cb.call(el, oldVal, newVal);
-      };
-    }
-  }
-};
-
-var make = {};
-
-// Dynamically fill in the custom methods instead of manually constructing
-// them.
-Object.keys(states).forEach(function iterateStates(stateName) {
-  var mapFn = fnSignatures[stateName].mapFn;
-
-  /**
-   * Make's the transition promises.
-   *
-   * @param elements
-   * @param args
-   * @param promises
-   */
-  make[stateName] = function makeTransitionPromises(elements, args, promises) {
-    forEach.call(elements, function (element) {
-      // Never pass text nodes to a state callback unless it is textChanged.
-      if (stateName !== 'textChanged' && element.nodeType !== 1) {
-        return;
-      }
-
-      // Call the map function with each element.
-      var newPromises = states[stateName].map(mapFn.apply(null, [element].concat(args))).filter(Boolean);
-
-      // Merge these Promises into the main cache.
-      promises.push.apply(promises, newPromises);
-
-      // Recursively call into the children if attached or detached.
-      if (stateName === 'attached' || stateName === 'detached') {
-        make[stateName](element.childNodes, args, promises);
-      }
-    });
-
-    return promises;
-  };
-});
-
-/**
- * Builds a reusable trigger mechanism for the element transitions.
- *
- * @param stateName
- * @param nodes
- * @param callback
- * @return
- */
-function buildTrigger(allPromises) {
-  var addPromises = allPromises.push.apply.bind(allPromises.push, allPromises);
-
-  // This becomes `triggerTransition` in process.js.
-  return function (stateName, makePromisesCallback, callback) {
-    if (states[stateName] && states[stateName].length) {
-      // Calls into each custom hook to bind Promises into the local array,
-      // these will then get merged into the main `allPromises` array.
-      var promises = makePromisesCallback([]);
-
-      // Add these promises into the global cache.
-      addPromises(promises);
-
-      if (!promises.length && callback) {
-        callback(promises);
-      } else {
-        Promise.all(promises).then(callback, function handleRejection(ex) {
-          console.log(ex);
-        });
-      }
-    } else if (callback) {
-      callback();
-    }
-  };
-}
-
-/**
- * Triggers the lifecycle events on an HTMLElement.
- *
- * @param stateName
- * @param elements
- * @return
- */
-function triggerLifecycleEvent(stateName, args, elements) {
-  // Trigger custom element
-  var customElementFn = fnSignatures[stateName].customElementsFn;
-
-  for (var i = 0; i < elements.length; i++) {
-    var element = elements[i];
-    var isTextNode = element.nodeType === 3;
-    var nodeName = element.nodeName.toLowerCase();
-    var descriptor = (0, _make2.default)(element);
-
-    // Value of the `is` attribute, if it exists.
-    var isAttr = null;
-
-    // Check for the `is` attribute. It has a known bug where it cannot be
-    // applied dynamically.
-    if (!_custom.components[nodeName] && Array.isArray(descriptor.attributes)) {
-      descriptor.attributes.some(function (attr, idx) {
-        if (attr.name === 'is') {
-          isAttr = attr.value;
-          return true;
-        }
-      });
-    }
-
-    // Hack around the `is` attribute being unable to be set dynamically.
-    if (isAttr && _custom.components[isAttr]) {
-      nodeName = isAttr;
-    }
-
-    var customElement = _custom.components[nodeName] || empty;
-    var customElementMethodName = stateName + 'Callback';
-
-    // Call the associated CustomElement's lifecycle callback, if it exists.
-    if (customElement.prototype[customElementMethodName]) {
-      customElementFn.apply(null, args)(customElement.prototype[customElementMethodName].bind(element));
-    }
-  }
-}
-
-/**
- * Make a reusable function for easy transition calling.
- *
- * @param stateName
- * @param elements
- * @return
- */
-function makePromises(stateName) {
-  for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  // Ensure elements is always an array.
-  var elements = slice.call(args[0]);
-
-  // Triggers the custom element callback.
-  triggerLifecycleEvent(stateName, args.slice(1), elements);
-
-  // Accepts the local Array of promises to use.
-  return function (promises) {
-    return make[stateName](elements, args.slice(1), promises);
-  };
-}
-
-},{"./element/custom":1,"./node/make":6}],14:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.decodeEntities = decodeEntities;
-var element = document.createElement('div');
-
-/**
- * Decodes HTML strings.
- *
- * @see http://stackoverflow.com/a/5796718
- * @param stringing
- * @return unescaped HTML
- */
-function decodeEntities(string) {
-  element.innerHTML = string;
-
-  return element.textContent;
-}
-
-},{}],15:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.protectElement = protectElement;
-exports.unprotectElement = unprotectElement;
-exports.cleanMemory = cleanMemory;
-
-var _pools2 = _dereq_('../util/pools');
-
-var _make = _dereq_('../node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var pools = _pools2.pools;
-var makeNode = _make2.default;
-
-/**
- * Ensures that an element is not recycled during a render cycle.
- *
- * @param element
- * @return element
- */
-function protectElement(element) {
-  var elementObject = pools.elementObject;
-  var attributeObject = pools.attributeObject;
-
-  elementObject.protect(element);
-
-  element.attributes.forEach(attributeObject.protect, attributeObject);
-
-  if (element.childNodes) {
-    element.childNodes.forEach(protectElement);
-  }
-
-  return element;
-}
-
-/**
- * Allows an element to be recycled during a render cycle.
- *
- * @param element
- * @return
- */
-function unprotectElement(element, makeNode) {
-  var elementObject = pools.elementObject;
-  var attributeObject = pools.attributeObject;
-
-  elementObject.unprotect(element);
-  elementObject.cache.uuid.delete(element.uuid);
-
-  element.attributes.forEach(attributeObject.unprotect, attributeObject);
-
-  if (element.childNodes) {
-    element.childNodes.forEach(function (node) {
-      return unprotectElement(node, makeNode);
-    });
-  }
-
-  if (makeNode && makeNode.nodes) {
-    delete makeNode.nodes[element.uuid];
-  }
-
-  return element;
-}
-
-/**
- * Recycles all unprotected allocations.
- */
-function cleanMemory(makeNode) {
-  var elementObject = pools.elementObject;
-  var attributeObject = pools.attributeObject;
-
-  // Clean out unused elements.
-  if (makeNode && makeNode.nodes) {
-    for (var uuid in makeNode.nodes) {
-      if (!elementObject.cache.uuid.has(uuid)) {
-        delete makeNode.nodes[uuid];
-      }
-    }
-  }
-
-  // Empty all element allocations.
-  elementObject.cache.allocated.forEach(function (v) {
-    elementObject.cache.free.push(v);
-  });
-
-  elementObject.cache.allocated.clear();
-
-  // Empty all attribute allocations.
-  attributeObject.cache.allocated.forEach(function (v) {
-    attributeObject.cache.free.push(v);
-  });
-
-  attributeObject.cache.allocated.clear();
-}
-
-},{"../node/make":6,"../util/pools":17}],16:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.parseHTML = parseHTML;
-exports.makeParser = makeParser;
-
-var _pools2 = _dereq_('./pools');
-
-var pools = _pools2.pools; // Code based off of:
-// https://github.com/ashi009/node-fast-html-parser
-
-var parser = makeParser();
-var slice = Array.prototype.slice;
-
-/**
- * parseHTML
- *
- * @param newHTML
- * @return
- */
-function parseHTML(newHTML, isInner) {
-  var documentElement = parser.parse(newHTML);
-  var nodes = documentElement.childNodes;
-
-  return isInner ? nodes : nodes[0];
-}
-
-/**
- * makeParser
- *
- * @return
- */
-function makeParser() {
-  var kMarkupPattern = /<!--[^]*?(?=-->)-->|<(\/?)([a-z\-][a-z0-9\-]*)\s*([^>]*?)(\/?)>/ig;
-
-  var kAttributePattern = /\b(id|class)\s*(=\s*("([^"]+)"|'([^']+)'|(\S+)))?/ig;
-
-  var reAttrPattern = /\b([a-z][a-z0-9\-]*)\s*(=\s*("([^"]+)"|'([^']+)'|(\S+)))?/ig;
-
-  var kSelfClosingElements = {
-    meta: true,
-    img: true,
-    link: true,
-    input: true,
-    area: true,
-    br: true,
-    hr: true
-  };
-
-  var kElementsClosedByOpening = {
-    li: {
-      li: true
-    },
-
-    p: {
-      p: true, div: true
-    },
-
-    td: {
-      td: true, th: true
-    },
-
-    th: {
-      td: true, th: true
-    }
-  };
-
-  var kElementsClosedByClosing = {
-    li: {
-      ul: true, ol: true
-    },
-
-    a: {
-      div: true
-    },
-
-    b: {
-      div: true
-    },
-
-    i: {
-      div: true
-    },
-
-    p: {
-      div: true
-    },
-
-    td: {
-      tr: true, table: true
-    },
-
-    th: {
-      tr: true, table: true
-    }
-  };
-
-  var kBlockTextElements = {
-    script: true,
-    noscript: true,
-    style: true,
-    template: true
-  };
-
-  var escapeMap = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#x27;',
-    '`': '&#x60;'
-  };
-
-  /**
-   * TextNode to contain a text element in DOM tree.
-   * @param {string} value [description]
-   */
-  function TextNode(value) {
-    var instance = pools.elementObject.get();
-
-    instance.nodeName = '#text';
-    instance.nodeValue = value;
-    instance.nodeType = 3;
-    instance.childNodes.length = 0;
-    instance.attributes.length = 0;
-
-    return instance;
-  }
-
-  /**
-   * HTMLElement, which contains a set of children.
-   *
-   * Note: this is a minimalist implementation, no complete tree structure
-   * provided (no parentNode, nextSibling, previousSibling etc).
-   *
-   * @param {string} name     nodeName
-   * @param {Object} keyAttrs id and class attribute
-   * @param {Object} rawAttrs attributes in string
-   */
-  function HTMLElement(name, keyAttrs, rawAttrs) {
-    var instance = pools.elementObject.get();
-
-    instance.nodeName = name;
-    instance.nodeValue = '';
-    instance.nodeType = 1;
-    instance.childNodes.length = 0;
-    instance.attributes.length = 0;
-
-    if (rawAttrs) {
-      for (var match; match = reAttrPattern.exec(rawAttrs);) {
-        var attr = pools.attributeObject.get();
-
-        attr.name = match[1];
-        attr.value = match[6] || match[5] || match[4] || match[1];
-
-        // Look for empty attributes.
-        if (match[6] === '""') {
-          attr.value = '';
-        }
-
-        instance.attributes.push(attr);
-      }
-    }
-
-    return instance;
-  }
-
-  /**
-   * Parses HTML and returns a root element
-   */
-  var htmlParser = {
-    /**
-     * Parse a chuck of HTML source.
-     * @param  {string} data      html
-     * @return {HTMLElement}      root element
-     */
-    parse: function parse(data) {
-      var rootObject = {};
-      var root = HTMLElement(null, rootObject);
-      var currentParent = root;
-      var stack = [root];
-      var lastTextPos = -1;
-
-      if (data.indexOf('<') === -1 && data) {
-        currentParent.childNodes.push(TextNode(data));
-
-        return root;
-      }
-
-      for (var match, text; match = kMarkupPattern.exec(data);) {
-        if (lastTextPos > -1) {
-          if (lastTextPos + match[0].length < kMarkupPattern.lastIndex) {
-            // if has content
-            text = data.slice(lastTextPos, kMarkupPattern.lastIndex - match[0].length);
-
-            currentParent.childNodes.push(TextNode(text));
-          }
-        }
-
-        lastTextPos = kMarkupPattern.lastIndex;
-
-        // This is a comment.
-        if (match[0][1] === '!') {
-          continue;
-        }
-
-        if (!match[1]) {
-          // not </ tags
-          var attrs = {};
-
-          for (var attMatch; attMatch = kAttributePattern.exec(match[3]);) {
-            attrs[attMatch[1]] = attMatch[3] || attMatch[4] || attMatch[5];
-          }
-
-          if (!match[4] && kElementsClosedByOpening[currentParent.nodeName]) {
-            if (kElementsClosedByOpening[currentParent.nodeName][match[2]]) {
-              stack.pop();
-              currentParent = stack[stack.length - 1];
-            }
-          }
-
-          currentParent = currentParent.childNodes[currentParent.childNodes.push(HTMLElement(match[2], attrs, match[3])) - 1];
-
-          stack.push(currentParent);
-
-          if (kBlockTextElements[match[2]]) {
-            // A little test to find next </script> or </style> ...
-            var closeMarkup = '</' + match[2] + '>';
-            var index = data.indexOf(closeMarkup, kMarkupPattern.lastIndex);
-            var length = match[2].length;
-
-            if (index === -1) {
-              lastTextPos = kMarkupPattern.lastIndex = data.length + 1;
-            } else {
-              lastTextPos = kMarkupPattern.lastIndex = index + closeMarkup.length;
-              match[1] = true;
-            }
-
-            var newText = data.slice(match.index + match[0].length, index);
-
-            if (newText.trim()) {
-              newText = slice.call(newText).map(function (ch) {
-                return escapeMap[ch] || ch;
-              }).join('');
-
-              currentParent.childNodes.push(TextNode(newText));
-            }
-          }
-        }
-        if (match[1] || match[4] || kSelfClosingElements[match[2]]) {
-          // </ or /> or <br> etc.
-          while (currentParent) {
-            if (currentParent.nodeName == match[2]) {
-              stack.pop();
-              currentParent = stack[stack.length - 1];
-
-              break;
-            } else {
-              // Trying to close current tag, and move on
-              if (kElementsClosedByClosing[currentParent.nodeName]) {
-                if (kElementsClosedByClosing[currentParent.nodeName][match[2]]) {
-                  stack.pop();
-                  currentParent = stack[stack.length - 1];
-
-                  continue;
-                }
-              }
-
-              // Use aggressive strategy to handle unmatching markups.
-              break;
-            }
-          }
-        }
-      }
-
-      // This is an entire document, so only allow the HTML children to be
-      // body or head.
-      if (root.childNodes.length && root.childNodes[0].nodeName === 'html') {
-        (function () {
-          // Store elements from before body end and after body end.
-          var head = { before: [], after: [] };
-          var body = { after: [] };
-          var beforeHead = true;
-          var beforeBody = true;
-          var HTML = root.childNodes[0];
-
-          // Iterate the children and store elements in the proper array for
-          // later concat, replace the current childNodes with this new array.
-          HTML.childNodes = HTML.childNodes.filter(function (el) {
-            // If either body or head, allow as a valid element.
-            if (el.nodeName === 'body' || el.nodeName === 'head') {
-              if (el.nodeName === 'head') {
-                beforeHead = false;
-              }
-
-              if (el.nodeName === 'body') {
-                beforeBody = false;
-              }
-
-              return true;
-            }
-            // Not a valid nested HTML tag element, move to respective container.
-            else if (el.nodeType === 1) {
-                if (beforeHead && beforeBody) {
-                  head.before.push(el);
-                } else if (!beforeHead && beforeBody) {
-                  head.after.push(el);
-                } else if (!beforeBody) {
-                  body.after.push(el);
-                }
-              }
-          });
-
-          // Ensure the first element is the HEAD tag.
-          if (!HTML.childNodes[0] || HTML.childNodes[0].nodeName !== 'head') {
-            var headInstance = pools.elementObject.get();
-            headInstance.nodeName = 'head';
-            headInstance.childNodes.length = 0;
-            headInstance.attributes.length = 0;
-
-            var existing = headInstance.childNodes;
-            existing.unshift.apply(existing, head.before);
-            existing.push.apply(existing, head.after);
-
-            HTML.childNodes.unshift(headInstance);
-          } else {
-            var _existing = HTML.childNodes[0].childNodes;
-            _existing.unshift.apply(_existing, head.before);
-            _existing.push.apply(_existing, head.after);
-          }
-
-          // Ensure the second element is the body tag.
-          if (!HTML.childNodes[1] || HTML.childNodes[1].nodeName !== 'body') {
-            var bodyInstance = pools.elementObject.get();
-            bodyInstance.nodeName = 'body';
-            bodyInstance.childNodes.length = 0;
-            bodyInstance.attributes.length = 0;
-
-            var _existing2 = bodyInstance.childNodes;
-            _existing2.push.apply(_existing2, body.after);
-
-            HTML.childNodes.push(bodyInstance);
-          } else {
-            var _existing3 = HTML.childNodes[1].childNodes;
-            _existing3.push.apply(_existing3, body.after);
-          }
-        })();
-      }
-
-      return root;
-    }
-  };
-
-  return htmlParser;
-}
-
-},{"./pools":17}],17:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.count = exports.pools = undefined;
-exports.createPool = createPool;
-exports.initializePools = initializePools;
-
-var _uuid2 = _dereq_('./uuid');
-
-var _uuid3 = _interopRequireDefault(_uuid2);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var uuid = _uuid3.default;
-
-var pools = exports.pools = {};
-var count = exports.count = 10000;
-
-/**
- * Creates a pool to query new or reused values from.
- *
- * @param name
- * @param opts
- * @return {Object} pool
- */
-function createPool(name, opts) {
-  var size = opts.size;
-  var fill = opts.fill;
-
-  var cache = {
-    free: [],
-    allocated: new Set(),
-    protected: new Set(),
-    uuid: new Set()
-  };
-
-  // Prime the cache with n objects.
-  for (var i = 0; i < size; i++) {
-    cache.free.push(fill());
-  }
-
-  return {
-    cache: cache,
-
-    get: function get() {
-      var value = cache.free.pop() || fill();
-      cache.allocated.add(value);
-      return value;
-    },
-    protect: function protect(value) {
-      cache.allocated.delete(value);
-      cache.protected.add(value);
-
-      if (name === 'elementObject') {
-        cache.uuid.add(value.uuid);
-      }
-    },
-    unprotect: function unprotect(value) {
-      if (cache.protected.has(value)) {
-        cache.protected.delete(value);
-        cache.free.push(value);
-      }
-    }
-  };
-}
-
-function initializePools(COUNT) {
-  pools.attributeObject = createPool('attributeObject', {
-    size: COUNT,
-
-    fill: function fill() {
-      return { name: '', value: '' };
-    }
-  });
-
-  pools.elementObject = createPool('elementObject', {
-    size: COUNT,
-
-    fill: function fill() {
-      return {
-        nodeName: '',
-        nodeValue: '',
-        uuid: uuid(),
-        childNodes: [],
-        attributes: []
-      };
-    }
-  });
-}
-
-// Create ${COUNT} items of each type.
-initializePools(count);
-
-},{"./uuid":19}],18:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.completeRender = completeRender;
-
-var _customEvent = _dereq_('custom-event');
-
-var _customEvent2 = _interopRequireDefault(_customEvent);
-
-var _patch = _dereq_('../node/patch');
-
-var _patch2 = _interopRequireDefault(_patch);
-
-var _make = _dereq_('../node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _tree = _dereq_('../node/tree');
-
-var _memory = _dereq_('../util/memory');
-
-var _pools = _dereq_('../util/pools');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function renderNext(elementMeta) {
-  var nextRender = elementMeta.renderBuffer;
-  elementMeta.renderBuffer = undefined;
-
-  // Noticing some weird performance implications with this concept.
-  (0, _patch2.default)(nextRender.element, nextRender.newHTML, nextRender.options);
-}
-
-/**
- * When the UI or Worker thread completes, clean up memory and schedule the
- * next render if necessary.
- *
- * @param element
- * @param elementMeta
- */
-function completeRender(element, elementMeta) {
-  return function invokeRender() {
-    elementMeta.previousMarkup = elementMeta.options.inner ? element.innerHTML : element.outerHTML;
-    elementMeta._textContent = element.textContent;
-
-    (0, _memory.cleanMemory)(_make2.default);
-
-    elementMeta.isRendering = false;
-
-    // Boolean to stop operations in the TreeCache loop below.
-    var stopLooping = false;
-
-    // This is designed to handle use cases where renders are being hammered
-    // or when transitions are used with Promises.
-    if (elementMeta.renderBuffer) {
-      renderNext(elementMeta);
-    } else {
-      _tree.TreeCache.forEach(function iterateTreeCache(elementMeta) {
-        if (!stopLooping && elementMeta.renderBuffer) {
-          renderNext(elementMeta);
-          stopLooping = true;
-        }
-      });
-    }
-
-    // Dispatch an event on the element once rendering has completed.
-    element.dispatchEvent(new _customEvent2.default('renderComplete'));
-  };
-}
-
-},{"../node/make":6,"../node/patch":7,"../node/tree":10,"../util/memory":15,"../util/pools":17,"custom-event":22}],19:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = uuid;
-/**
- * Generates a uuid.
- *
- * @see http://stackoverflow.com/a/2117523/282175
- * @return {string} uuid
- */
-function uuid() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    var r = Math.random() * 16 | 0;
-    var v = c == 'x' ? r : r & 0x3 | 0x8;
-    return v.toString(16);
-  });
-}
-
-},{}],20:[function(_dereq_,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.hasWorker = undefined;
-exports.create = create;
-
-var _uuid = _dereq_('../util/uuid');
-
-var _uuid2 = _interopRequireDefault(_uuid);
-
-var _pools = _dereq_('../util/pools');
-
-var _parser = _dereq_('../util/parser');
-
-var _memory = _dereq_('../util/memory');
-
-var _sync = _dereq_('../node/sync');
-
-var _sync2 = _interopRequireDefault(_sync);
-
-var _make = _dereq_('../node/make');
-
-var _make2 = _interopRequireDefault(_make);
-
-var _source = _dereq_('./source');
-
-var _source2 = _interopRequireDefault(_source);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// Tests if the browser has support for the `Worker` API.
-var hasWorker = exports.hasWorker = typeof Worker === 'function';
-
-// Find all the coverage statements and expressions.
-var COV_EXP = /__cov_([^\+\+]*)\+\+/gi;
-
-/**
- * Awful hack to remove `__cov` lines from the source before sending over to
- * the worker. Only useful while testing.
- */
-function filterOutCoverage(string) {
-  return string.replace(COV_EXP, 'null');
-}
-
-/**
- * Creates a new Web Worker per element that will be diffed. Allows multiple
- * concurrent diffing operations to occur simultaneously, leveraging the
- * multi-core nature of desktop and mobile devices.
- *
- * Attach any functions that could be used by the Worker inside the Blob below.
- * All functions are named so they can be accessed globally. Since we're
- * directly injecting the methods into the ES6 template string,
- * `Function.prototype.toString` will be invoked returning a representation of
- * the function's source. This comes at a cost since Babel rewrites variable
- * names when you `import` a module. This is why you'll see underscored
- * properties being imported and then reassigned to non-underscored names in
- * modules that are reused here. Isparta injects coverage function calls that
- * will error out in the Worker, which is why we strip them out.
- *
- * @return {Object} A Worker instance.
- */
-function create() {
-  var worker = null;
-  var workerBlob = null;
-  var workerSource = filterOutCoverage('\n    // Reusable Array methods.\n    var slice = Array.prototype.slice;\n    var filter = Array.prototype.filter;\n\n    // Add a namespace to attach pool methods to.\n    var pools = {};\n    var nodes = 0;\n    var REMOVE_ELEMENT_CHILDREN = -2;\n    var REMOVE_ENTIRE_ELEMENT = -1;\n    var MODIFY_ELEMENT = 1;\n    var MODIFY_ATTRIBUTE = 2;\n    var CHANGE_TEXT = 3;\n\n    // Inject the uuid code.\n    ' + _uuid2.default + ';\n\n    // Add in pool manipulation methods.\n    ' + _pools.createPool + ';\n    ' + _pools.initializePools + ';\n\n    initializePools(' + _pools.count + ');\n\n    // Add the ability to protect elements from free\'d memory.\n    ' + _memory.protectElement + ';\n    ' + _memory.unprotectElement + ';\n    ' + _memory.cleanMemory + ';\n\n    // Add in Node manipulation.\n    var syncNode = ' + _sync2.default + ';\n    var makeNode = ' + _make2.default + ';\n\n    // Add in the ability to parseHTML.\n    ' + _parser.parseHTML + ';\n\n    var makeParser = ' + _parser.makeParser + ';\n    var parser = makeParser();\n\n    // Add in the worker source.\n    ' + _source2.default + ';\n\n    // Metaprogramming up this worker call.\n    startup(self);\n  ');
-
-  // Set up a WebWorker if available.
-  if (hasWorker) {
-    // Construct the worker reusing code already organized into modules.  Keep
-    // this code ES5 since we do not get time to pre-process it as ES6.
-    workerBlob = new Blob([workerSource], { type: 'application/javascript' });
-
-    // Construct the worker and start it up.
-    try {
-      worker = new Worker(URL.createObjectURL(workerBlob));
-    } catch (ex) {
-      if (console && console.info) {
-        console.info('Failed to create diffhtml worker', ex);
-      }
-
-      // If we cannot create a Worker, then disable trying again, all work
-      // will happen on the main UI thread.
-      exports.hasWorker = hasWorker = false;
-    }
-  }
-
-  return worker;
-}
-
-},{"../node/make":6,"../node/sync":9,"../util/memory":15,"../util/parser":16,"../util/pools":17,"../util/uuid":19,"./source":21}],21:[function(_dereq_,module,exports){
-'use strict';
-
-// These are globally defined to avoid issues with JSHint thinking that we're
-// referencing unknown identifiers.
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = startup;
-var parseHTML;
-var syncNode;
-var pools;
-var unprotectElement;
-var protectElement;
-var cleanMemory;
-
-/**
- * This is the Web Worker source code. All globals here are defined in the
- * worker/create module. This allows code sharing and less duplication since
- * most of the logic is identical to the UI thread.
- *
- * @param worker - A worker instance
- */
-function startup(worker) {
-  var patches = [];
-  var oldTree = null;
-
-  /**
-   * Triggered whenever a `postMessage` call is made on the Worker instance
-   * from the UI thread. Signals that some work needs to occur. Will post back
-   * to the main thread with patch and node transform results.
-   *
-   * @param e - The normalized event object.
-   */
-  worker.onmessage = function onmessage(e) {
-    var data = e.data;
-    var isInner = data.isInner;
-    var newTree = null;
-
-    // If an `oldTree` was provided by the UI thread, use that in place of the
-    // current `oldTree`.
-    if (data.oldTree) {
-      if (oldTree) {
-        unprotectElement(oldTree);
-        cleanMemory();
-      }
-
-      oldTree = data.oldTree;
-    }
-
-    // If the `newTree` was provided to the worker, use that instead of trying
-    // to create one from HTML source.
-    if (data.newTree) {
-      newTree = data.newTree;
-    }
-
-    // If no `newTree` was provided, we'll have to try and create one from the
-    // HTML source provided.
-    else if (typeof data.newHTML === 'string') {
-        // Calculate a new tree.
-        newTree = parseHTML(data.newHTML, isInner);
-
-        // If the operation is for `innerHTML` then we'll retain the previous
-        // tree's attributes, nodeName, and nodeValue, and only adjust the
-        // childNodes.
-        if (isInner) {
-          var childNodes = newTree;
-
-          newTree = {
-            childNodes: childNodes,
-            attributes: oldTree.attributes,
-            uuid: oldTree.uuid,
-            nodeName: oldTree.nodeName,
-            nodeValue: oldTree.nodeValue
-          };
-        }
-      }
-
-    // Synchronize the old virtual tree with the new virtual tree.  This will
-    // produce a series of patches that will be executed to update the DOM.
-    syncNode(oldTree, newTree, patches);
-
-    // Protect the current `oldTree` so that Nodes will not be accidentally
-    // recycled in the cleanup process.
-    protectElement(oldTree);
-
-    // Send the patches back to the userland.
-    worker.postMessage({
-      // All the patches to apply to the DOM.
-      patches: patches
-    });
-
-    // Recycle allocated objects back into the pool.
-    cleanMemory();
-
-    // Wipe out the patches in memory.
-    patches.length = 0;
-  };
-}
-
-},{}],22:[function(_dereq_,module,exports){
-(function (global){
-
-var NativeCustomEvent = global.CustomEvent;
-
-function useNative () {
-  try {
-    var p = new NativeCustomEvent('cat', { detail: { foo: 'bar' } });
-    return  'cat' === p.type && 'bar' === p.detail.foo;
-  } catch (e) {
-  }
-  return false;
-}
-
-/**
- * Cross-browser `CustomEvent` constructor.
- *
- * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent.CustomEvent
- *
- * @public
- */
-
-module.exports = useNative() ? NativeCustomEvent :
-
-// IE >= 9
-'function' === typeof document.createEvent ? function CustomEvent (type, params) {
-  var e = document.createEvent('CustomEvent');
-  if (params) {
-    e.initCustomEvent(type, params.bubbles, params.cancelable, params.detail);
-  } else {
-    e.initCustomEvent(type, false, false, void 0);
-  }
-  return e;
-} :
-
-// IE <= 8
-function CustomEvent (type, params) {
-  var e = document.createEventObject();
-  e.type = type;
-  if (params) {
-    e.bubbles = Boolean(params.bubbles);
-    e.cancelable = Boolean(params.cancelable);
-    e.detail = params.detail;
-  } else {
-    e.bubbles = false;
-    e.cancelable = false;
-    e.detail = void 0;
-  }
-  return e;
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}]},{},[5])(5)
-});
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
-},{}],17:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /*
 Copyright (c) 2010,2011,2012,2013,2014 Morgan Roderick http://roderick.dk
 License: MIT - http://mrgnrdrck.mit-license.org
@@ -5631,7 +2610,7 @@ https://github.com/mroderick/PubSubJS
 	};
 }));
 
-},{}],18:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5693,7 +2672,7 @@ function applyMiddleware() {
 }
 
 module.exports = exports['default'];
-},{"./compose":21}],19:[function(require,module,exports){
+},{"./compose":19}],17:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -5748,7 +2727,7 @@ function bindActionCreators(actionCreators, dispatch) {
 }
 
 module.exports = exports['default'];
-},{"./utils/mapValues":25}],20:[function(require,module,exports){
+},{"./utils/mapValues":23}],18:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5881,7 +2860,7 @@ function combineReducers(reducers) {
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./createStore":22,"./utils/isPlainObject":24,"./utils/mapValues":25,"./utils/pick":26,"./utils/warning":27,"_process":15}],21:[function(require,module,exports){
+},{"./createStore":20,"./utils/isPlainObject":22,"./utils/mapValues":23,"./utils/pick":24,"./utils/warning":25,"_process":14}],19:[function(require,module,exports){
 /**
  * Composes single-argument functions from right to left.
  *
@@ -5914,7 +2893,7 @@ function compose() {
 }
 
 module.exports = exports["default"];
-},{}],22:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6103,7 +3082,7 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   };
 }
-},{"./utils/isPlainObject":24}],23:[function(require,module,exports){
+},{"./utils/isPlainObject":22}],21:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -6152,7 +3131,7 @@ exports.applyMiddleware = _applyMiddleware2['default'];
 exports.compose = _compose2['default'];
 }).call(this,require('_process'))
 
-},{"./applyMiddleware":18,"./bindActionCreators":19,"./combineReducers":20,"./compose":21,"./createStore":22,"./utils/warning":27,"_process":15}],24:[function(require,module,exports){
+},{"./applyMiddleware":16,"./bindActionCreators":17,"./combineReducers":18,"./compose":19,"./createStore":20,"./utils/warning":25,"_process":14}],22:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -6184,7 +3163,7 @@ function isPlainObject(obj) {
 }
 
 module.exports = exports['default'];
-},{}],25:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 /**
  * Applies a function to every key-value pair inside an object.
  *
@@ -6205,7 +3184,7 @@ function mapValues(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],26:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /**
  * Picks key-value pairs from an object where values satisfy a predicate.
  *
@@ -6228,7 +3207,7 @@ function pick(obj, fn) {
 }
 
 module.exports = exports["default"];
-},{}],27:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 /**
  * Prints a warning in the console if it exists.
  *
@@ -6256,7 +3235,2556 @@ function warning(message) {
 }
 
 module.exports = exports['default'];
-},{}],28:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
+/* Riot v2.3.18, @license MIT */
+
+;(function(window, undefined) {
+  'use strict';
+var riot = { version: 'v2.3.18', settings: {} },
+  // be aware, internal usage
+  // ATTENTION: prefix the global dynamic variables with `__`
+
+  // counter to give a unique id to all the Tag instances
+  __uid = 0,
+  // tags instances cache
+  __virtualDom = [],
+  // tags implementation cache
+  __tagImpl = {},
+
+  /**
+   * Const
+   */
+  GLOBAL_MIXIN = '__global_mixin',
+
+  // riot specific prefixes
+  RIOT_PREFIX = 'riot-',
+  RIOT_TAG = RIOT_PREFIX + 'tag',
+  RIOT_TAG_IS = 'data-is',
+
+  // for typeof == '' comparisons
+  T_STRING = 'string',
+  T_OBJECT = 'object',
+  T_UNDEF  = 'undefined',
+  T_FUNCTION = 'function',
+  // special native tags that cannot be treated like the others
+  SPECIAL_TAGS_REGEX = /^(?:t(?:body|head|foot|[rhd])|caption|col(?:group)?|opt(?:ion|group))$/,
+  RESERVED_WORDS_BLACKLIST = ['_item', '_id', '_parent', 'update', 'root', 'mount', 'unmount', 'mixin', 'isMounted', 'isLoop', 'tags', 'parent', 'opts', 'trigger', 'on', 'off', 'one'],
+
+  // version# for IE 8-11, 0 for others
+  IE_VERSION = (window && window.document || {}).documentMode | 0,
+
+  // detect firefox to fix #1374
+  FIREFOX = window && !!window.InstallTrigger
+/* istanbul ignore next */
+riot.observable = function(el) {
+
+  /**
+   * Extend the original object or create a new empty one
+   * @type { Object }
+   */
+
+  el = el || {}
+
+  /**
+   * Private variables and methods
+   */
+  var callbacks = {},
+    slice = Array.prototype.slice,
+    onEachEvent = function(e, fn) { e.replace(/\S+/g, fn) }
+
+  // extend the object adding the observable methods
+  Object.defineProperties(el, {
+    /**
+     * Listen to the given space separated list of `events` and execute the `callback` each time an event is triggered.
+     * @param  { String } events - events ids
+     * @param  { Function } fn - callback function
+     * @returns { Object } el
+     */
+    on: {
+      value: function(events, fn) {
+        if (typeof fn != 'function')  return el
+
+        onEachEvent(events, function(name, pos) {
+          (callbacks[name] = callbacks[name] || []).push(fn)
+          fn.typed = pos > 0
+        })
+
+        return el
+      },
+      enumerable: false,
+      writable: false,
+      configurable: false
+    },
+
+    /**
+     * Removes the given space separated list of `events` listeners
+     * @param   { String } events - events ids
+     * @param   { Function } fn - callback function
+     * @returns { Object } el
+     */
+    off: {
+      value: function(events, fn) {
+        if (events == '*' && !fn) callbacks = {}
+        else {
+          onEachEvent(events, function(name) {
+            if (fn) {
+              var arr = callbacks[name]
+              for (var i = 0, cb; cb = arr && arr[i]; ++i) {
+                if (cb == fn) arr.splice(i--, 1)
+              }
+            } else delete callbacks[name]
+          })
+        }
+        return el
+      },
+      enumerable: false,
+      writable: false,
+      configurable: false
+    },
+
+    /**
+     * Listen to the given space separated list of `events` and execute the `callback` at most once
+     * @param   { String } events - events ids
+     * @param   { Function } fn - callback function
+     * @returns { Object } el
+     */
+    one: {
+      value: function(events, fn) {
+        function on() {
+          el.off(events, on)
+          fn.apply(el, arguments)
+        }
+        return el.on(events, on)
+      },
+      enumerable: false,
+      writable: false,
+      configurable: false
+    },
+
+    /**
+     * Execute all callback functions that listen to the given space separated list of `events`
+     * @param   { String } events - events ids
+     * @returns { Object } el
+     */
+    trigger: {
+      value: function(events) {
+
+        // getting the arguments
+        var arglen = arguments.length - 1,
+          args = new Array(arglen),
+          fns
+
+        for (var i = 0; i < arglen; i++) {
+          args[i] = arguments[i + 1] // skip first argument
+        }
+
+        onEachEvent(events, function(name) {
+
+          fns = slice.call(callbacks[name] || [], 0)
+
+          for (var i = 0, fn; fn = fns[i]; ++i) {
+            if (fn.busy) return
+            fn.busy = 1
+            fn.apply(el, fn.typed ? [name].concat(args) : args)
+            if (fns[i] !== fn) { i-- }
+            fn.busy = 0
+          }
+
+          if (callbacks['*'] && name != '*')
+            el.trigger.apply(el, ['*', name].concat(args))
+
+        })
+
+        return el
+      },
+      enumerable: false,
+      writable: false,
+      configurable: false
+    }
+  })
+
+  return el
+
+}
+/* istanbul ignore next */
+;(function(riot) {
+
+/**
+ * Simple client-side router
+ * @module riot-route
+ */
+
+
+var RE_ORIGIN = /^.+?\/\/+[^\/]+/,
+  EVENT_LISTENER = 'EventListener',
+  REMOVE_EVENT_LISTENER = 'remove' + EVENT_LISTENER,
+  ADD_EVENT_LISTENER = 'add' + EVENT_LISTENER,
+  HAS_ATTRIBUTE = 'hasAttribute',
+  REPLACE = 'replace',
+  POPSTATE = 'popstate',
+  HASHCHANGE = 'hashchange',
+  TRIGGER = 'trigger',
+  MAX_EMIT_STACK_LEVEL = 3,
+  win = typeof window != 'undefined' && window,
+  doc = typeof document != 'undefined' && document,
+  hist = win && history,
+  loc = win && (hist.location || win.location), // see html5-history-api
+  prot = Router.prototype, // to minify more
+  clickEvent = doc && doc.ontouchstart ? 'touchstart' : 'click',
+  started = false,
+  central = riot.observable(),
+  routeFound = false,
+  debouncedEmit,
+  base, current, parser, secondParser, emitStack = [], emitStackLevel = 0
+
+/**
+ * Default parser. You can replace it via router.parser method.
+ * @param {string} path - current path (normalized)
+ * @returns {array} array
+ */
+function DEFAULT_PARSER(path) {
+  return path.split(/[/?#]/)
+}
+
+/**
+ * Default parser (second). You can replace it via router.parser method.
+ * @param {string} path - current path (normalized)
+ * @param {string} filter - filter string (normalized)
+ * @returns {array} array
+ */
+function DEFAULT_SECOND_PARSER(path, filter) {
+  var re = new RegExp('^' + filter[REPLACE](/\*/g, '([^/?#]+?)')[REPLACE](/\.\./, '.*') + '$'),
+    args = path.match(re)
+
+  if (args) return args.slice(1)
+}
+
+/**
+ * Simple/cheap debounce implementation
+ * @param   {function} fn - callback
+ * @param   {number} delay - delay in seconds
+ * @returns {function} debounced function
+ */
+function debounce(fn, delay) {
+  var t
+  return function () {
+    clearTimeout(t)
+    t = setTimeout(fn, delay)
+  }
+}
+
+/**
+ * Set the window listeners to trigger the routes
+ * @param {boolean} autoExec - see route.start
+ */
+function start(autoExec) {
+  debouncedEmit = debounce(emit, 1)
+  win[ADD_EVENT_LISTENER](POPSTATE, debouncedEmit)
+  win[ADD_EVENT_LISTENER](HASHCHANGE, debouncedEmit)
+  doc[ADD_EVENT_LISTENER](clickEvent, click)
+  if (autoExec) emit(true)
+}
+
+/**
+ * Router class
+ */
+function Router() {
+  this.$ = []
+  riot.observable(this) // make it observable
+  central.on('stop', this.s.bind(this))
+  central.on('emit', this.e.bind(this))
+}
+
+function normalize(path) {
+  return path[REPLACE](/^\/|\/$/, '')
+}
+
+function isString(str) {
+  return typeof str == 'string'
+}
+
+/**
+ * Get the part after domain name
+ * @param {string} href - fullpath
+ * @returns {string} path from root
+ */
+function getPathFromRoot(href) {
+  return (href || loc.href)[REPLACE](RE_ORIGIN, '')
+}
+
+/**
+ * Get the part after base
+ * @param {string} href - fullpath
+ * @returns {string} path from base
+ */
+function getPathFromBase(href) {
+  return base[0] == '#'
+    ? (href || loc.href || '').split(base)[1] || ''
+    : (loc ? getPathFromRoot(href) : href || '')[REPLACE](base, '')
+}
+
+function emit(force) {
+  // the stack is needed for redirections
+  var isRoot = emitStackLevel == 0
+  if (MAX_EMIT_STACK_LEVEL <= emitStackLevel) return
+
+  emitStackLevel++
+  emitStack.push(function() {
+    var path = getPathFromBase()
+    if (force || path != current) {
+      central[TRIGGER]('emit', path)
+      current = path
+    }
+  })
+  if (isRoot) {
+    while (emitStack.length) {
+      emitStack[0]()
+      emitStack.shift()
+    }
+    emitStackLevel = 0
+  }
+}
+
+function click(e) {
+  if (
+    e.which != 1 // not left click
+    || e.metaKey || e.ctrlKey || e.shiftKey // or meta keys
+    || e.defaultPrevented // or default prevented
+  ) return
+
+  var el = e.target
+  while (el && el.nodeName != 'A') el = el.parentNode
+
+  if (
+    !el || el.nodeName != 'A' // not A tag
+    || el[HAS_ATTRIBUTE]('download') // has download attr
+    || !el[HAS_ATTRIBUTE]('href') // has no href attr
+    || el.target && el.target != '_self' // another window or frame
+    || el.href.indexOf(loc.href.match(RE_ORIGIN)[0]) == -1 // cross origin
+  ) return
+
+  if (el.href != loc.href) {
+    if (
+      el.href.split('#')[0] == loc.href.split('#')[0] // internal jump
+      || base != '#' && getPathFromRoot(el.href).indexOf(base) !== 0 // outside of base
+      || !go(getPathFromBase(el.href), el.title || doc.title) // route not found
+    ) return
+  }
+
+  e.preventDefault()
+}
+
+/**
+ * Go to the path
+ * @param {string} path - destination path
+ * @param {string} title - page title
+ * @param {boolean} shouldReplace - use replaceState or pushState
+ * @returns {boolean} - route not found flag
+ */
+function go(path, title, shouldReplace) {
+  if (hist) { // if a browser
+    path = base + normalize(path)
+    title = title || doc.title
+    // browsers ignores the second parameter `title`
+    shouldReplace
+      ? hist.replaceState(null, title, path)
+      : hist.pushState(null, title, path)
+    // so we need to set it manually
+    doc.title = title
+    routeFound = false
+    emit()
+    return routeFound
+  }
+
+  // Server-side usage: directly execute handlers for the path
+  return central[TRIGGER]('emit', getPathFromBase(path))
+}
+
+/**
+ * Go to path or set action
+ * a single string:                go there
+ * two strings:                    go there with setting a title
+ * two strings and boolean:        replace history with setting a title
+ * a single function:              set an action on the default route
+ * a string/RegExp and a function: set an action on the route
+ * @param {(string|function)} first - path / action / filter
+ * @param {(string|RegExp|function)} second - title / action
+ * @param {boolean} third - replace flag
+ */
+prot.m = function(first, second, third) {
+  if (isString(first) && (!second || isString(second))) go(first, second, third || false)
+  else if (second) this.r(first, second)
+  else this.r('@', first)
+}
+
+/**
+ * Stop routing
+ */
+prot.s = function() {
+  this.off('*')
+  this.$ = []
+}
+
+/**
+ * Emit
+ * @param {string} path - path
+ */
+prot.e = function(path) {
+  this.$.concat('@').some(function(filter) {
+    var args = (filter == '@' ? parser : secondParser)(normalize(path), normalize(filter))
+    if (typeof args != 'undefined') {
+      this[TRIGGER].apply(null, [filter].concat(args))
+      return routeFound = true // exit from loop
+    }
+  }, this)
+}
+
+/**
+ * Register route
+ * @param {string} filter - filter for matching to url
+ * @param {function} action - action to register
+ */
+prot.r = function(filter, action) {
+  if (filter != '@') {
+    filter = '/' + normalize(filter)
+    this.$.push(filter)
+  }
+  this.on(filter, action)
+}
+
+var mainRouter = new Router()
+var route = mainRouter.m.bind(mainRouter)
+
+/**
+ * Create a sub router
+ * @returns {function} the method of a new Router object
+ */
+route.create = function() {
+  var newSubRouter = new Router()
+  // assign sub-router's main method
+  var router = newSubRouter.m.bind(newSubRouter)
+  // stop only this sub-router
+  router.stop = newSubRouter.s.bind(newSubRouter)
+  return router
+}
+
+/**
+ * Set the base of url
+ * @param {(str|RegExp)} arg - a new base or '#' or '#!'
+ */
+route.base = function(arg) {
+  base = arg || '#'
+  current = getPathFromBase() // recalculate current path
+}
+
+/** Exec routing right now **/
+route.exec = function() {
+  emit(true)
+}
+
+/**
+ * Replace the default router to yours
+ * @param {function} fn - your parser function
+ * @param {function} fn2 - your secondParser function
+ */
+route.parser = function(fn, fn2) {
+  if (!fn && !fn2) {
+    // reset parser for testing...
+    parser = DEFAULT_PARSER
+    secondParser = DEFAULT_SECOND_PARSER
+  }
+  if (fn) parser = fn
+  if (fn2) secondParser = fn2
+}
+
+/**
+ * Helper function to get url query as an object
+ * @returns {object} parsed query
+ */
+route.query = function() {
+  var q = {}
+  var href = loc.href || current
+  href[REPLACE](/[?&](.+?)=([^&]*)/g, function(_, k, v) { q[k] = v })
+  return q
+}
+
+/** Stop routing **/
+route.stop = function () {
+  if (started) {
+    if (win) {
+      win[REMOVE_EVENT_LISTENER](POPSTATE, debouncedEmit)
+      win[REMOVE_EVENT_LISTENER](HASHCHANGE, debouncedEmit)
+      doc[REMOVE_EVENT_LISTENER](clickEvent, click)
+    }
+    central[TRIGGER]('stop')
+    started = false
+  }
+}
+
+/**
+ * Start routing
+ * @param {boolean} autoExec - automatically exec after starting if true
+ */
+route.start = function (autoExec) {
+  if (!started) {
+    if (win) {
+      if (document.readyState == 'complete') start(autoExec)
+      // the timeout is needed to solve
+      // a weird safari bug https://github.com/riot/route/issues/33
+      else win[ADD_EVENT_LISTENER]('load', function() {
+        setTimeout(function() { start(autoExec) }, 1)
+      })
+    }
+    started = true
+  }
+}
+
+/** Prepare the router **/
+route.base()
+route.parser()
+
+riot.route = route
+})(riot)
+/* istanbul ignore next */
+
+/**
+ * The riot template engine
+ * @version v2.3.22
+ */
+
+/**
+ * riot.util.brackets
+ *
+ * - `brackets    ` - Returns a string or regex based on its parameter
+ * - `brackets.set` - Change the current riot brackets
+ *
+ * @module
+ */
+
+var brackets = (function (UNDEF) {
+
+  var
+    REGLOB = 'g',
+
+    R_MLCOMMS = /\/\*[^*]*\*+(?:[^*\/][^*]*\*+)*\//g,
+
+    R_STRINGS = /"[^"\\]*(?:\\[\S\s][^"\\]*)*"|'[^'\\]*(?:\\[\S\s][^'\\]*)*'/g,
+
+    S_QBLOCKS = R_STRINGS.source + '|' +
+      /(?:\breturn\s+|(?:[$\w\)\]]|\+\+|--)\s*(\/)(?![*\/]))/.source + '|' +
+      /\/(?=[^*\/])[^[\/\\]*(?:(?:\[(?:\\.|[^\]\\]*)*\]|\\.)[^[\/\\]*)*?(\/)[gim]*/.source,
+
+    FINDBRACES = {
+      '(': RegExp('([()])|'   + S_QBLOCKS, REGLOB),
+      '[': RegExp('([[\\]])|' + S_QBLOCKS, REGLOB),
+      '{': RegExp('([{}])|'   + S_QBLOCKS, REGLOB)
+    },
+
+    DEFAULT = '{ }'
+
+  var _pairs = [
+    '{', '}',
+    '{', '}',
+    /{[^}]*}/,
+    /\\([{}])/g,
+    /\\({)|{/g,
+    RegExp('\\\\(})|([[({])|(})|' + S_QBLOCKS, REGLOB),
+    DEFAULT,
+    /^\s*{\^?\s*([$\w]+)(?:\s*,\s*(\S+))?\s+in\s+(\S.*)\s*}/,
+    /(^|[^\\]){=[\S\s]*?}/
+  ]
+
+  var
+    cachedBrackets = UNDEF,
+    _regex,
+    _cache = [],
+    _settings
+
+  function _loopback (re) { return re }
+
+  function _rewrite (re, bp) {
+    if (!bp) bp = _cache
+    return new RegExp(
+      re.source.replace(/{/g, bp[2]).replace(/}/g, bp[3]), re.global ? REGLOB : ''
+    )
+  }
+
+  function _create (pair) {
+    if (pair === DEFAULT) return _pairs
+
+    var arr = pair.split(' ')
+
+    if (arr.length !== 2 || /[\x00-\x1F<>a-zA-Z0-9'",;\\]/.test(pair)) {
+      throw new Error('Unsupported brackets "' + pair + '"')
+    }
+    arr = arr.concat(pair.replace(/(?=[[\]()*+?.^$|])/g, '\\').split(' '))
+
+    arr[4] = _rewrite(arr[1].length > 1 ? /{[\S\s]*?}/ : _pairs[4], arr)
+    arr[5] = _rewrite(pair.length > 3 ? /\\({|})/g : _pairs[5], arr)
+    arr[6] = _rewrite(_pairs[6], arr)
+    arr[7] = RegExp('\\\\(' + arr[3] + ')|([[({])|(' + arr[3] + ')|' + S_QBLOCKS, REGLOB)
+    arr[8] = pair
+    return arr
+  }
+
+  function _brackets (reOrIdx) {
+    return reOrIdx instanceof RegExp ? _regex(reOrIdx) : _cache[reOrIdx]
+  }
+
+  _brackets.split = function split (str, tmpl, _bp) {
+    // istanbul ignore next: _bp is for the compiler
+    if (!_bp) _bp = _cache
+
+    var
+      parts = [],
+      match,
+      isexpr,
+      start,
+      pos,
+      re = _bp[6]
+
+    isexpr = start = re.lastIndex = 0
+
+    while ((match = re.exec(str))) {
+
+      pos = match.index
+
+      if (isexpr) {
+
+        if (match[2]) {
+          re.lastIndex = skipBraces(str, match[2], re.lastIndex)
+          continue
+        }
+        if (!match[3]) {
+          continue
+        }
+      }
+
+      if (!match[1]) {
+        unescapeStr(str.slice(start, pos))
+        start = re.lastIndex
+        re = _bp[6 + (isexpr ^= 1)]
+        re.lastIndex = start
+      }
+    }
+
+    if (str && start < str.length) {
+      unescapeStr(str.slice(start))
+    }
+
+    return parts
+
+    function unescapeStr (s) {
+      if (tmpl || isexpr) {
+        parts.push(s && s.replace(_bp[5], '$1'))
+      } else {
+        parts.push(s)
+      }
+    }
+
+    function skipBraces (s, ch, ix) {
+      var
+        match,
+        recch = FINDBRACES[ch]
+
+      recch.lastIndex = ix
+      ix = 1
+      while ((match = recch.exec(s))) {
+        if (match[1] &&
+          !(match[1] === ch ? ++ix : --ix)) break
+      }
+      return ix ? s.length : recch.lastIndex
+    }
+  }
+
+  _brackets.hasExpr = function hasExpr (str) {
+    return _cache[4].test(str)
+  }
+
+  _brackets.loopKeys = function loopKeys (expr) {
+    var m = expr.match(_cache[9])
+
+    return m
+      ? { key: m[1], pos: m[2], val: _cache[0] + m[3].trim() + _cache[1] }
+      : { val: expr.trim() }
+  }
+
+  _brackets.array = function array (pair) {
+    return pair ? _create(pair) : _cache
+  }
+
+  function _reset (pair) {
+    if ((pair || (pair = DEFAULT)) !== _cache[8]) {
+      _cache = _create(pair)
+      _regex = pair === DEFAULT ? _loopback : _rewrite
+      _cache[9] = _regex(_pairs[9])
+    }
+    cachedBrackets = pair
+  }
+
+  function _setSettings (o) {
+    var b
+
+    o = o || {}
+    b = o.brackets
+    Object.defineProperty(o, 'brackets', {
+      set: _reset,
+      get: function () { return cachedBrackets },
+      enumerable: true
+    })
+    _settings = o
+    _reset(b)
+  }
+
+  Object.defineProperty(_brackets, 'settings', {
+    set: _setSettings,
+    get: function () { return _settings }
+  })
+
+  /* istanbul ignore next: in the browser riot is always in the scope */
+  _brackets.settings = typeof riot !== 'undefined' && riot.settings || {}
+  _brackets.set = _reset
+
+  _brackets.R_STRINGS = R_STRINGS
+  _brackets.R_MLCOMMS = R_MLCOMMS
+  _brackets.S_QBLOCKS = S_QBLOCKS
+
+  return _brackets
+
+})()
+
+/**
+ * @module tmpl
+ *
+ * tmpl          - Root function, returns the template value, render with data
+ * tmpl.hasExpr  - Test the existence of a expression inside a string
+ * tmpl.loopKeys - Get the keys for an 'each' loop (used by `_each`)
+ */
+
+var tmpl = (function () {
+
+  var _cache = {}
+
+  function _tmpl (str, data) {
+    if (!str) return str
+
+    return (_cache[str] || (_cache[str] = _create(str))).call(data, _logErr)
+  }
+
+  _tmpl.haveRaw = brackets.hasRaw
+
+  _tmpl.hasExpr = brackets.hasExpr
+
+  _tmpl.loopKeys = brackets.loopKeys
+
+  _tmpl.errorHandler = null
+
+  function _logErr (err, ctx) {
+
+    if (_tmpl.errorHandler) {
+
+      err.riotData = {
+        tagName: ctx && ctx.root && ctx.root.tagName,
+        _riot_id: ctx && ctx._riot_id  //eslint-disable-line camelcase
+      }
+      _tmpl.errorHandler(err)
+    }
+  }
+
+  function _create (str) {
+    var expr = _getTmpl(str)
+
+    if (expr.slice(0, 11) !== 'try{return ') expr = 'return ' + expr
+
+    return new Function('E', expr + ';')    //eslint-disable-line no-new-func
+  }
+
+  var
+    CH_IDEXPR = '\u2057',
+    RE_CSNAME = /^(?:(-?[_A-Za-z\xA0-\xFF][-\w\xA0-\xFF]*)|\u2057(\d+)~):/,
+    RE_QBLOCK = RegExp(brackets.S_QBLOCKS, 'g'),
+    RE_DQUOTE = /\u2057/g,
+    RE_QBMARK = /\u2057(\d+)~/g
+
+  function _getTmpl (str) {
+    var
+      qstr = [],
+      expr,
+      parts = brackets.split(str.replace(RE_DQUOTE, '"'), 1)
+
+    if (parts.length > 2 || parts[0]) {
+      var i, j, list = []
+
+      for (i = j = 0; i < parts.length; ++i) {
+
+        expr = parts[i]
+
+        if (expr && (expr = i & 1
+
+            ? _parseExpr(expr, 1, qstr)
+
+            : '"' + expr
+                .replace(/\\/g, '\\\\')
+                .replace(/\r\n?|\n/g, '\\n')
+                .replace(/"/g, '\\"') +
+              '"'
+
+          )) list[j++] = expr
+
+      }
+
+      expr = j < 2 ? list[0]
+           : '[' + list.join(',') + '].join("")'
+
+    } else {
+
+      expr = _parseExpr(parts[1], 0, qstr)
+    }
+
+    if (qstr[0]) {
+      expr = expr.replace(RE_QBMARK, function (_, pos) {
+        return qstr[pos]
+          .replace(/\r/g, '\\r')
+          .replace(/\n/g, '\\n')
+      })
+    }
+    return expr
+  }
+
+  var
+    RE_BREND = {
+      '(': /[()]/g,
+      '[': /[[\]]/g,
+      '{': /[{}]/g
+    }
+
+  function _parseExpr (expr, asText, qstr) {
+
+    expr = expr
+          .replace(RE_QBLOCK, function (s, div) {
+            return s.length > 2 && !div ? CH_IDEXPR + (qstr.push(s) - 1) + '~' : s
+          })
+          .replace(/\s+/g, ' ').trim()
+          .replace(/\ ?([[\({},?\.:])\ ?/g, '$1')
+
+    if (expr) {
+      var
+        list = [],
+        cnt = 0,
+        match
+
+      while (expr &&
+            (match = expr.match(RE_CSNAME)) &&
+            !match.index
+        ) {
+        var
+          key,
+          jsb,
+          re = /,|([[{(])|$/g
+
+        expr = RegExp.rightContext
+        key  = match[2] ? qstr[match[2]].slice(1, -1).trim().replace(/\s+/g, ' ') : match[1]
+
+        while (jsb = (match = re.exec(expr))[1]) skipBraces(jsb, re)
+
+        jsb  = expr.slice(0, match.index)
+        expr = RegExp.rightContext
+
+        list[cnt++] = _wrapExpr(jsb, 1, key)
+      }
+
+      expr = !cnt ? _wrapExpr(expr, asText)
+           : cnt > 1 ? '[' + list.join(',') + '].join(" ").trim()' : list[0]
+    }
+    return expr
+
+    function skipBraces (ch, re) {
+      var
+        mm,
+        lv = 1,
+        ir = RE_BREND[ch]
+
+      ir.lastIndex = re.lastIndex
+      while (mm = ir.exec(expr)) {
+        if (mm[0] === ch) ++lv
+        else if (!--lv) break
+      }
+      re.lastIndex = lv ? expr.length : ir.lastIndex
+    }
+  }
+
+  // istanbul ignore next: not both
+  var // eslint-disable-next-line max-len
+    JS_CONTEXT = '"in this?this:' + (typeof window !== 'object' ? 'global' : 'window') + ').',
+    JS_VARNAME = /[,{][$\w]+:|(^ *|[^$\w\.])(?!(?:typeof|true|false|null|undefined|in|instanceof|is(?:Finite|NaN)|void|NaN|new|Date|RegExp|Math)(?![$\w]))([$_A-Za-z][$\w]*)/g,
+    JS_NOPROPS = /^(?=(\.[$\w]+))\1(?:[^.[(]|$)/
+
+  function _wrapExpr (expr, asText, key) {
+    var tb
+
+    expr = expr.replace(JS_VARNAME, function (match, p, mvar, pos, s) {
+      if (mvar) {
+        pos = tb ? 0 : pos + match.length
+
+        if (mvar !== 'this' && mvar !== 'global' && mvar !== 'window') {
+          match = p + '("' + mvar + JS_CONTEXT + mvar
+          if (pos) tb = (s = s[pos]) === '.' || s === '(' || s === '['
+        } else if (pos) {
+          tb = !JS_NOPROPS.test(s.slice(pos))
+        }
+      }
+      return match
+    })
+
+    if (tb) {
+      expr = 'try{return ' + expr + '}catch(e){E(e,this)}'
+    }
+
+    if (key) {
+
+      expr = (tb
+          ? 'function(){' + expr + '}.call(this)' : '(' + expr + ')'
+        ) + '?"' + key + '":""'
+
+    } else if (asText) {
+
+      expr = 'function(v){' + (tb
+          ? expr.replace('return ', 'v=') : 'v=(' + expr + ')'
+        ) + ';return v||v===0?v:""}.call(this)'
+    }
+
+    return expr
+  }
+
+  // istanbul ignore next: compatibility fix for beta versions
+  _tmpl.parse = function (s) { return s }
+
+  _tmpl.version = brackets.version = 'v2.3.22'
+
+  return _tmpl
+
+})()
+
+/*
+  lib/browser/tag/mkdom.js
+
+  Includes hacks needed for the Internet Explorer version 9 and below
+  See: http://kangax.github.io/compat-table/es5/#ie8
+       http://codeplanet.io/dropping-ie8/
+*/
+var mkdom = (function _mkdom() {
+  var
+    reHasYield  = /<yield\b/i,
+    reYieldAll  = /<yield\s*(?:\/>|>([\S\s]*?)<\/yield\s*>)/ig,
+    reYieldSrc  = /<yield\s+to=['"]([^'">]*)['"]\s*>([\S\s]*?)<\/yield\s*>/ig,
+    reYieldDest = /<yield\s+from=['"]?([-\w]+)['"]?\s*(?:\/>|>([\S\s]*?)<\/yield\s*>)/ig
+  var
+    rootEls = { tr: 'tbody', th: 'tr', td: 'tr', col: 'colgroup' },
+    tblTags = IE_VERSION && IE_VERSION < 10
+      ? SPECIAL_TAGS_REGEX : /^(?:t(?:body|head|foot|[rhd])|caption|col(?:group)?)$/
+
+  /**
+   * Creates a DOM element to wrap the given content. Normally an `DIV`, but can be
+   * also a `TABLE`, `SELECT`, `TBODY`, `TR`, or `COLGROUP` element.
+   *
+   * @param   {string} templ  - The template coming from the custom tag definition
+   * @param   {string} [html] - HTML content that comes from the DOM element where you
+   *           will mount the tag, mostly the original tag in the page
+   * @returns {HTMLElement} DOM element with _templ_ merged through `YIELD` with the _html_.
+   */
+  function _mkdom(templ, html) {
+    var
+      match   = templ && templ.match(/^\s*<([-\w]+)/),
+      tagName = match && match[1].toLowerCase(),
+      el = mkEl('div')
+
+    // replace all the yield tags with the tag inner html
+    templ = replaceYield(templ, html)
+
+    /* istanbul ignore next */
+    if (tblTags.test(tagName))
+      el = specialTags(el, templ, tagName)
+    else
+      el.innerHTML = templ
+
+    el.stub = true
+
+    return el
+  }
+
+  /*
+    Creates the root element for table or select child elements:
+    tr/th/td/thead/tfoot/tbody/caption/col/colgroup/option/optgroup
+  */
+  function specialTags(el, templ, tagName) {
+    var
+      select = tagName[0] === 'o',
+      parent = select ? 'select>' : 'table>'
+
+    // trim() is important here, this ensures we don't have artifacts,
+    // so we can check if we have only one element inside the parent
+    el.innerHTML = '<' + parent + templ.trim() + '</' + parent
+    parent = el.firstChild
+
+    // returns the immediate parent if tr/th/td/col is the only element, if not
+    // returns the whole tree, as this can include additional elements
+    if (select) {
+      parent.selectedIndex = -1  // for IE9, compatible w/current riot behavior
+    } else {
+      // avoids insertion of cointainer inside container (ex: tbody inside tbody)
+      var tname = rootEls[tagName]
+      if (tname && parent.childElementCount === 1) parent = $(tname, parent)
+    }
+    return parent
+  }
+
+  /*
+    Replace the yield tag from any tag template with the innerHTML of the
+    original tag in the page
+  */
+  function replaceYield(templ, html) {
+    // do nothing if no yield
+    if (!reHasYield.test(templ)) return templ
+
+    // be careful with #1343 - string on the source having `$1`
+    var src = {}
+
+    html = html && html.replace(reYieldSrc, function (_, ref, text) {
+      src[ref] = src[ref] || text   // preserve first definition
+      return ''
+    }).trim()
+
+    return templ
+      .replace(reYieldDest, function (_, ref, def) {  // yield with from - to attrs
+        return src[ref] || def || ''
+      })
+      .replace(reYieldAll, function (_, def) {        // yield without any "from"
+        return html || def || ''
+      })
+  }
+
+  return _mkdom
+
+})()
+
+/**
+ * Convert the item looped into an object used to extend the child tag properties
+ * @param   { Object } expr - object containing the keys used to extend the children tags
+ * @param   { * } key - value to assign to the new object returned
+ * @param   { * } val - value containing the position of the item in the array
+ * @returns { Object } - new object containing the values of the original item
+ *
+ * The variables 'key' and 'val' are arbitrary.
+ * They depend on the collection type looped (Array, Object)
+ * and on the expression used on the each tag
+ *
+ */
+function mkitem(expr, key, val) {
+  var item = {}
+  item[expr.key] = key
+  if (expr.pos) item[expr.pos] = val
+  return item
+}
+
+/**
+ * Unmount the redundant tags
+ * @param   { Array } items - array containing the current items to loop
+ * @param   { Array } tags - array containing all the children tags
+ */
+function unmountRedundant(items, tags) {
+
+  var i = tags.length,
+    j = items.length,
+    t
+
+  while (i > j) {
+    t = tags[--i]
+    tags.splice(i, 1)
+    t.unmount()
+  }
+}
+
+/**
+ * Move the nested custom tags in non custom loop tags
+ * @param   { Object } child - non custom loop tag
+ * @param   { Number } i - current position of the loop tag
+ */
+function moveNestedTags(child, i) {
+  Object.keys(child.tags).forEach(function(tagName) {
+    var tag = child.tags[tagName]
+    if (isArray(tag))
+      each(tag, function (t) {
+        moveChildTag(t, tagName, i)
+      })
+    else
+      moveChildTag(tag, tagName, i)
+  })
+}
+
+/**
+ * Adds the elements for a virtual tag
+ * @param { Tag } tag - the tag whose root's children will be inserted or appended
+ * @param { Node } src - the node that will do the inserting or appending
+ * @param { Tag } target - only if inserting, insert before this tag's first child
+ */
+function addVirtual(tag, src, target) {
+  var el = tag._root, sib
+  tag._virts = []
+  while (el) {
+    sib = el.nextSibling
+    if (target)
+      src.insertBefore(el, target._root)
+    else
+      src.appendChild(el)
+
+    tag._virts.push(el) // hold for unmounting
+    el = sib
+  }
+}
+
+/**
+ * Move virtual tag and all child nodes
+ * @param { Tag } tag - first child reference used to start move
+ * @param { Node } src  - the node that will do the inserting
+ * @param { Tag } target - insert before this tag's first child
+ * @param { Number } len - how many child nodes to move
+ */
+function moveVirtual(tag, src, target, len) {
+  var el = tag._root, sib, i = 0
+  for (; i < len; i++) {
+    sib = el.nextSibling
+    src.insertBefore(el, target._root)
+    el = sib
+  }
+}
+
+
+/**
+ * Manage tags having the 'each'
+ * @param   { Object } dom - DOM node we need to loop
+ * @param   { Tag } parent - parent tag instance where the dom node is contained
+ * @param   { String } expr - string contained in the 'each' attribute
+ */
+function _each(dom, parent, expr) {
+
+  // remove the each property from the original tag
+  remAttr(dom, 'each')
+
+  var mustReorder = typeof getAttr(dom, 'no-reorder') !== T_STRING || remAttr(dom, 'no-reorder'),
+    tagName = getTagName(dom),
+    impl = __tagImpl[tagName] || { tmpl: dom.outerHTML },
+    useRoot = SPECIAL_TAGS_REGEX.test(tagName),
+    root = dom.parentNode,
+    ref = document.createTextNode(''),
+    child = getTag(dom),
+    isOption = tagName.toLowerCase() === 'option', // the option tags must be treated differently
+    tags = [],
+    oldItems = [],
+    hasKeys,
+    isVirtual = dom.tagName == 'VIRTUAL'
+
+  // parse the each expression
+  expr = tmpl.loopKeys(expr)
+
+  // insert a marked where the loop tags will be injected
+  root.insertBefore(ref, dom)
+
+  // clean template code
+  parent.one('before-mount', function () {
+
+    // remove the original DOM node
+    dom.parentNode.removeChild(dom)
+    if (root.stub) root = parent.root
+
+  }).on('update', function () {
+    // get the new items collection
+    var items = tmpl(expr.val, parent),
+      // create a fragment to hold the new DOM nodes to inject in the parent tag
+      frag = document.createDocumentFragment()
+
+    // object loop. any changes cause full redraw
+    if (!isArray(items)) {
+      hasKeys = items || false
+      items = hasKeys ?
+        Object.keys(items).map(function (key) {
+          return mkitem(expr, key, items[key])
+        }) : []
+    }
+
+    // loop all the new items
+    var i = 0,
+      itemsLength = items.length
+
+    for (; i < itemsLength; i++) {
+      // reorder only if the items are objects
+      var
+        item = items[i],
+        _mustReorder = mustReorder && item instanceof Object && !hasKeys,
+        oldPos = oldItems.indexOf(item),
+        pos = ~oldPos && _mustReorder ? oldPos : i,
+        // does a tag exist in this position?
+        tag = tags[pos]
+
+      item = !hasKeys && expr.key ? mkitem(expr, item, i) : item
+
+      // new tag
+      if (
+        !_mustReorder && !tag // with no-reorder we just update the old tags
+        ||
+        _mustReorder && !~oldPos || !tag // by default we always try to reorder the DOM elements
+      ) {
+
+        tag = new Tag(impl, {
+          parent: parent,
+          isLoop: true,
+          hasImpl: !!__tagImpl[tagName],
+          root: useRoot ? root : dom.cloneNode(),
+          item: item
+        }, dom.innerHTML)
+
+        tag.mount()
+
+        if (isVirtual) tag._root = tag.root.firstChild // save reference for further moves or inserts
+        // this tag must be appended
+        if (i == tags.length || !tags[i]) { // fix 1581
+          if (isVirtual)
+            addVirtual(tag, frag)
+          else frag.appendChild(tag.root)
+        }
+        // this tag must be insert
+        else {
+          if (isVirtual)
+            addVirtual(tag, root, tags[i])
+          else root.insertBefore(tag.root, tags[i].root) // #1374 some browsers reset selected here
+          oldItems.splice(i, 0, item)
+        }
+
+        tags.splice(i, 0, tag)
+        pos = i // handled here so no move
+      } else tag.update(item, true)
+
+      // reorder the tag if it's not located in its previous position
+      if (
+        pos !== i && _mustReorder &&
+        tags[i] // fix 1581 unable to reproduce it in a test!
+      ) {
+        // update the DOM
+        if (isVirtual)
+          moveVirtual(tag, root, tags[i], dom.childNodes.length)
+        else root.insertBefore(tag.root, tags[i].root)
+        // update the position attribute if it exists
+        if (expr.pos)
+          tag[expr.pos] = i
+        // move the old tag instance
+        tags.splice(i, 0, tags.splice(pos, 1)[0])
+        // move the old item
+        oldItems.splice(i, 0, oldItems.splice(pos, 1)[0])
+        // if the loop tags are not custom
+        // we need to move all their custom tags into the right position
+        if (!child && tag.tags) moveNestedTags(tag, i)
+      }
+
+      // cache the original item to use it in the events bound to this node
+      // and its children
+      tag._item = item
+      // cache the real parent tag internally
+      defineProperty(tag, '_parent', parent)
+    }
+
+    // remove the redundant tags
+    unmountRedundant(items, tags)
+
+    // insert the new nodes
+    if (isOption) {
+      root.appendChild(frag)
+
+      // #1374 FireFox bug in <option selected={expression}>
+      if (FIREFOX && !root.multiple) {
+        for (var n = 0; n < root.length; n++) {
+          if (root[n].__riot1374) {
+            root.selectedIndex = n  // clear other options
+            delete root[n].__riot1374
+            break
+          }
+        }
+      }
+    }
+    else root.insertBefore(frag, ref)
+
+    // set the 'tags' property of the parent tag
+    // if child is 'undefined' it means that we don't need to set this property
+    // for example:
+    // we don't need store the `myTag.tags['div']` property if we are looping a div tag
+    // but we need to track the `myTag.tags['child']` property looping a custom child node named `child`
+    if (child) parent.tags[tagName] = tags
+
+    // clone the items array
+    oldItems = items.slice()
+
+  })
+
+}
+/**
+ * Object that will be used to inject and manage the css of every tag instance
+ */
+var styleManager = (function(_riot) {
+
+  if (!window) return { // skip injection on the server
+    add: function () {},
+    inject: function () {}
+  }
+
+  var styleNode = (function () {
+    // create a new style element with the correct type
+    var newNode = mkEl('style')
+    setAttr(newNode, 'type', 'text/css')
+
+    // replace any user node or insert the new one into the head
+    var userNode = $('style[type=riot]')
+    if (userNode) {
+      if (userNode.id) newNode.id = userNode.id
+      userNode.parentNode.replaceChild(newNode, userNode)
+    }
+    else document.getElementsByTagName('head')[0].appendChild(newNode)
+
+    return newNode
+  })()
+
+  // Create cache and shortcut to the correct property
+  var cssTextProp = styleNode.styleSheet,
+    stylesToInject = ''
+
+  // Expose the style node in a non-modificable property
+  Object.defineProperty(_riot, 'styleNode', {
+    value: styleNode,
+    writable: true
+  })
+
+  /**
+   * Public api
+   */
+  return {
+    /**
+     * Save a tag style to be later injected into DOM
+     * @param   { String } css [description]
+     */
+    add: function(css) {
+      stylesToInject += css
+    },
+    /**
+     * Inject all previously saved tag styles into DOM
+     * innerHTML seems slow: http://jsperf.com/riot-insert-style
+     */
+    inject: function() {
+      if (stylesToInject) {
+        if (cssTextProp) cssTextProp.cssText += stylesToInject
+        else styleNode.innerHTML += stylesToInject
+        stylesToInject = ''
+      }
+    }
+  }
+
+})(riot)
+
+
+function parseNamedElements(root, tag, childTags, forceParsingNamed) {
+
+  walk(root, function(dom) {
+    if (dom.nodeType == 1) {
+      dom.isLoop = dom.isLoop ||
+                  (dom.parentNode && dom.parentNode.isLoop || getAttr(dom, 'each'))
+                    ? 1 : 0
+
+      // custom child tag
+      if (childTags) {
+        var child = getTag(dom)
+
+        if (child && !dom.isLoop)
+          childTags.push(initChildTag(child, {root: dom, parent: tag}, dom.innerHTML, tag))
+      }
+
+      if (!dom.isLoop || forceParsingNamed)
+        setNamed(dom, tag, [])
+    }
+
+  })
+
+}
+
+function parseExpressions(root, tag, expressions) {
+
+  function addExpr(dom, val, extra) {
+    if (tmpl.hasExpr(val)) {
+      expressions.push(extend({ dom: dom, expr: val }, extra))
+    }
+  }
+
+  walk(root, function(dom) {
+    var type = dom.nodeType,
+      attr
+
+    // text node
+    if (type == 3 && dom.parentNode.tagName != 'STYLE') addExpr(dom, dom.nodeValue)
+    if (type != 1) return
+
+    /* element */
+
+    // loop
+    attr = getAttr(dom, 'each')
+
+    if (attr) { _each(dom, tag, attr); return false }
+
+    // attribute expressions
+    each(dom.attributes, function(attr) {
+      var name = attr.name,
+        bool = name.split('__')[1]
+
+      addExpr(dom, attr.value, { attr: bool || name, bool: bool })
+      if (bool) { remAttr(dom, name); return false }
+
+    })
+
+    // skip custom tags
+    if (getTag(dom)) return false
+
+  })
+
+}
+function Tag(impl, conf, innerHTML) {
+
+  var self = riot.observable(this),
+    opts = inherit(conf.opts) || {},
+    parent = conf.parent,
+    isLoop = conf.isLoop,
+    hasImpl = conf.hasImpl,
+    item = cleanUpData(conf.item),
+    expressions = [],
+    childTags = [],
+    root = conf.root,
+    tagName = root.tagName.toLowerCase(),
+    attr = {},
+    propsInSyncWithParent = [],
+    dom
+
+  // only call unmount if we have a valid __tagImpl (has name property)
+  if (impl.name && root._tag) root._tag.unmount(true)
+
+  // not yet mounted
+  this.isMounted = false
+  root.isLoop = isLoop
+
+  // keep a reference to the tag just created
+  // so we will be able to mount this tag multiple times
+  root._tag = this
+
+  // create a unique id to this tag
+  // it could be handy to use it also to improve the virtual dom rendering speed
+  defineProperty(this, '_riot_id', ++__uid) // base 1 allows test !t._riot_id
+
+  extend(this, { parent: parent, root: root, opts: opts, tags: {} }, item)
+
+  // grab attributes
+  each(root.attributes, function(el) {
+    var val = el.value
+    // remember attributes with expressions only
+    if (tmpl.hasExpr(val)) attr[el.name] = val
+  })
+
+  dom = mkdom(impl.tmpl, innerHTML)
+
+  // options
+  function updateOpts() {
+    var ctx = hasImpl && isLoop ? self : parent || self
+
+    // update opts from current DOM attributes
+    each(root.attributes, function(el) {
+      var val = el.value
+      opts[toCamel(el.name)] = tmpl.hasExpr(val) ? tmpl(val, ctx) : val
+    })
+    // recover those with expressions
+    each(Object.keys(attr), function(name) {
+      opts[toCamel(name)] = tmpl(attr[name], ctx)
+    })
+  }
+
+  function normalizeData(data) {
+    for (var key in item) {
+      if (typeof self[key] !== T_UNDEF && isWritable(self, key))
+        self[key] = data[key]
+    }
+  }
+
+  function inheritFromParent () {
+    if (!self.parent || !isLoop) return
+    each(Object.keys(self.parent), function(k) {
+      // some properties must be always in sync with the parent tag
+      var mustSync = !contains(RESERVED_WORDS_BLACKLIST, k) && contains(propsInSyncWithParent, k)
+      if (typeof self[k] === T_UNDEF || mustSync) {
+        // track the property to keep in sync
+        // so we can keep it updated
+        if (!mustSync) propsInSyncWithParent.push(k)
+        self[k] = self.parent[k]
+      }
+    })
+  }
+
+  /**
+   * Update the tag expressions and options
+   * @param   { * }  data - data we want to use to extend the tag properties
+   * @param   { Boolean } isInherited - is this update coming from a parent tag?
+   * @returns { self }
+   */
+  defineProperty(this, 'update', function(data, isInherited) {
+
+    // make sure the data passed will not override
+    // the component core methods
+    data = cleanUpData(data)
+    // inherit properties from the parent
+    inheritFromParent()
+    // normalize the tag properties in case an item object was initially passed
+    if (data && isObject(item)) {
+      normalizeData(data)
+      item = data
+    }
+    extend(self, data)
+    updateOpts()
+    self.trigger('update', data)
+    update(expressions, self)
+
+    // the updated event will be triggered
+    // once the DOM will be ready and all the re-flows are completed
+    // this is useful if you want to get the "real" root properties
+    // 4 ex: root.offsetWidth ...
+    if (isInherited && self.parent)
+      // closes #1599
+      self.parent.one('updated', function() { self.trigger('updated') })
+    else rAF(function() { self.trigger('updated') })
+
+    return this
+  })
+
+  defineProperty(this, 'mixin', function() {
+    each(arguments, function(mix) {
+      var instance
+
+      mix = typeof mix === T_STRING ? riot.mixin(mix) : mix
+
+      // check if the mixin is a function
+      if (isFunction(mix)) {
+        // create the new mixin instance
+        instance = new mix()
+        // save the prototype to loop it afterwards
+        mix = mix.prototype
+      } else instance = mix
+
+      // loop the keys in the function prototype or the all object keys
+      each(Object.getOwnPropertyNames(mix), function(key) {
+        // bind methods to self
+        if (key != 'init')
+          self[key] = isFunction(instance[key]) ?
+                        instance[key].bind(self) :
+                        instance[key]
+      })
+
+      // init method will be called automatically
+      if (instance.init) instance.init.bind(self)()
+    })
+    return this
+  })
+
+  defineProperty(this, 'mount', function() {
+
+    updateOpts()
+
+    // add global mixin
+    var globalMixin = riot.mixin(GLOBAL_MIXIN)
+    if (globalMixin) self.mixin(globalMixin)
+
+    // initialiation
+    if (impl.fn) impl.fn.call(self, opts)
+
+    // parse layout after init. fn may calculate args for nested custom tags
+    parseExpressions(dom, self, expressions)
+
+    // mount the child tags
+    toggle(true)
+
+    // update the root adding custom attributes coming from the compiler
+    // it fixes also #1087
+    if (impl.attrs)
+      walkAttributes(impl.attrs, function (k, v) { setAttr(root, k, v) })
+    if (impl.attrs || hasImpl)
+      parseExpressions(self.root, self, expressions)
+
+    if (!self.parent || isLoop) self.update(item)
+
+    // internal use only, fixes #403
+    self.trigger('before-mount')
+
+    if (isLoop && !hasImpl) {
+      // update the root attribute for the looped elements
+      root = dom.firstChild
+    } else {
+      while (dom.firstChild) root.appendChild(dom.firstChild)
+      if (root.stub) root = parent.root
+    }
+
+    defineProperty(self, 'root', root)
+
+    // parse the named dom nodes in the looped child
+    // adding them to the parent as well
+    if (isLoop)
+      parseNamedElements(self.root, self.parent, null, true)
+
+    // if it's not a child tag we can trigger its mount event
+    if (!self.parent || self.parent.isMounted) {
+      self.isMounted = true
+      self.trigger('mount')
+    }
+    // otherwise we need to wait that the parent event gets triggered
+    else self.parent.one('mount', function() {
+      // avoid to trigger the `mount` event for the tags
+      // not visible included in an if statement
+      if (!isInStub(self.root)) {
+        self.parent.isMounted = self.isMounted = true
+        self.trigger('mount')
+      }
+    })
+  })
+
+
+  defineProperty(this, 'unmount', function(keepRootTag) {
+    var el = root,
+      p = el.parentNode,
+      ptag,
+      tagIndex = __virtualDom.indexOf(self)
+
+    self.trigger('before-unmount')
+
+    // remove this tag instance from the global virtualDom variable
+    if (~tagIndex)
+      __virtualDom.splice(tagIndex, 1)
+
+    if (p) {
+
+      if (parent) {
+        ptag = getImmediateCustomParentTag(parent)
+        // remove this tag from the parent tags object
+        // if there are multiple nested tags with same name..
+        // remove this element form the array
+        if (isArray(ptag.tags[tagName]))
+          each(ptag.tags[tagName], function(tag, i) {
+            if (tag._riot_id == self._riot_id)
+              ptag.tags[tagName].splice(i, 1)
+          })
+        else
+          // otherwise just delete the tag instance
+          ptag.tags[tagName] = undefined
+      }
+
+      else
+        while (el.firstChild) el.removeChild(el.firstChild)
+
+      if (!keepRootTag)
+        p.removeChild(el)
+      else {
+        // the riot-tag and the data-is attributes aren't needed anymore, remove them
+        remAttr(p, RIOT_TAG_IS)
+        remAttr(p, RIOT_TAG) // this will be removed in riot 3.0.0
+      }
+
+    }
+
+    if (this._virts) {
+      each(this._virts, function(v) {
+        if (v.parentNode) v.parentNode.removeChild(v)
+      })
+    }
+
+    self.trigger('unmount')
+    toggle()
+    self.off('*')
+    self.isMounted = false
+    delete root._tag
+
+  })
+
+  // proxy function to bind updates
+  // dispatched from a parent tag
+  function onChildUpdate(data) { self.update(data, true) }
+
+  function toggle(isMount) {
+
+    // mount/unmount children
+    each(childTags, function(child) { child[isMount ? 'mount' : 'unmount']() })
+
+    // listen/unlisten parent (events flow one way from parent to children)
+    if (!parent) return
+    var evt = isMount ? 'on' : 'off'
+
+    // the loop tags will be always in sync with the parent automatically
+    if (isLoop)
+      parent[evt]('unmount', self.unmount)
+    else {
+      parent[evt]('update', onChildUpdate)[evt]('unmount', self.unmount)
+    }
+  }
+
+
+  // named elements available for fn
+  parseNamedElements(dom, this, childTags)
+
+}
+/**
+ * Attach an event to a DOM node
+ * @param { String } name - event name
+ * @param { Function } handler - event callback
+ * @param { Object } dom - dom node
+ * @param { Tag } tag - tag instance
+ */
+function setEventHandler(name, handler, dom, tag) {
+
+  dom[name] = function(e) {
+
+    var ptag = tag._parent,
+      item = tag._item,
+      el
+
+    if (!item)
+      while (ptag && !item) {
+        item = ptag._item
+        ptag = ptag._parent
+      }
+
+    // cross browser event fix
+    e = e || window.event
+
+    // override the event properties
+    if (isWritable(e, 'currentTarget')) e.currentTarget = dom
+    if (isWritable(e, 'target')) e.target = e.srcElement
+    if (isWritable(e, 'which')) e.which = e.charCode || e.keyCode
+
+    e.item = item
+
+    // prevent default behaviour (by default)
+    if (handler.call(tag, e) !== true && !/radio|check/.test(dom.type)) {
+      if (e.preventDefault) e.preventDefault()
+      e.returnValue = false
+    }
+
+    if (!e.preventUpdate) {
+      el = item ? getImmediateCustomParentTag(ptag) : tag
+      el.update()
+    }
+
+  }
+
+}
+
+
+/**
+ * Insert a DOM node replacing another one (used by if- attribute)
+ * @param   { Object } root - parent node
+ * @param   { Object } node - node replaced
+ * @param   { Object } before - node added
+ */
+function insertTo(root, node, before) {
+  if (!root) return
+  root.insertBefore(before, node)
+  root.removeChild(node)
+}
+
+/**
+ * Update the expressions in a Tag instance
+ * @param   { Array } expressions - expression that must be re evaluated
+ * @param   { Tag } tag - tag instance
+ */
+function update(expressions, tag) {
+
+  each(expressions, function(expr, i) {
+
+    var dom = expr.dom,
+      attrName = expr.attr,
+      value = tmpl(expr.expr, tag),
+      parent = expr.dom.parentNode
+
+    if (expr.bool) {
+      value = !!value
+    } else if (value == null) {
+      value = ''
+    }
+
+    // #1638: regression of #1612, update the dom only if the value of the
+    // expression was changed
+    if (expr.value === value) {
+      return
+    }
+    expr.value = value
+
+    // textarea and text nodes has no attribute name
+    if (!attrName) {
+      // about #815 w/o replace: the browser converts the value to a string,
+      // the comparison by "==" does too, but not in the server
+      value += ''
+      // test for parent avoids error with invalid assignment to nodeValue
+      if (parent) {
+        if (parent.tagName === 'TEXTAREA') {
+          parent.value = value                    // #1113
+          if (!IE_VERSION) dom.nodeValue = value  // #1625 IE throws here, nodeValue
+        }                                         // will be available on 'updated'
+        else dom.nodeValue = value
+      }
+      return
+    }
+
+    // ~~#1612: look for changes in dom.value when updating the value~~
+    if (attrName === 'value') {
+      dom.value = value
+      return
+    }
+
+    // remove original attribute
+    remAttr(dom, attrName)
+
+    // event handler
+    if (isFunction(value)) {
+      setEventHandler(attrName, value, dom, tag)
+
+    // if- conditional
+    } else if (attrName == 'if') {
+      var stub = expr.stub,
+        add = function() { insertTo(stub.parentNode, stub, dom) },
+        remove = function() { insertTo(dom.parentNode, dom, stub) }
+
+      // add to DOM
+      if (value) {
+        if (stub) {
+          add()
+          dom.inStub = false
+          // avoid to trigger the mount event if the tags is not visible yet
+          // maybe we can optimize this avoiding to mount the tag at all
+          if (!isInStub(dom)) {
+            walk(dom, function(el) {
+              if (el._tag && !el._tag.isMounted)
+                el._tag.isMounted = !!el._tag.trigger('mount')
+            })
+          }
+        }
+      // remove from DOM
+      } else {
+        stub = expr.stub = stub || document.createTextNode('')
+        // if the parentNode is defined we can easily replace the tag
+        if (dom.parentNode)
+          remove()
+        // otherwise we need to wait the updated event
+        else (tag.parent || tag).one('updated', remove)
+
+        dom.inStub = true
+      }
+    // show / hide
+    } else if (attrName === 'show') {
+      dom.style.display = value ? '' : 'none'
+
+    } else if (attrName === 'hide') {
+      dom.style.display = value ? 'none' : ''
+
+    } else if (expr.bool) {
+      dom[attrName] = value
+      if (value) setAttr(dom, attrName, attrName)
+      if (FIREFOX && attrName === 'selected' && dom.tagName === 'OPTION') {
+        dom.__riot1374 = value   // #1374
+      }
+
+    } else if (value === 0 || value && typeof value !== T_OBJECT) {
+      // <img src="{ expr }">
+      if (startsWith(attrName, RIOT_PREFIX) && attrName != RIOT_TAG) {
+        attrName = attrName.slice(RIOT_PREFIX.length)
+      }
+      setAttr(dom, attrName, value)
+    }
+
+  })
+
+}
+/**
+ * Specialized function for looping an array-like collection with `each={}`
+ * @param   { Array } els - collection of items
+ * @param   {Function} fn - callback function
+ * @returns { Array } the array looped
+ */
+function each(els, fn) {
+  var len = els ? els.length : 0
+
+  for (var i = 0, el; i < len; i++) {
+    el = els[i]
+    // return false -> current item was removed by fn during the loop
+    if (el != null && fn(el, i) === false) i--
+  }
+  return els
+}
+
+/**
+ * Detect if the argument passed is a function
+ * @param   { * } v - whatever you want to pass to this function
+ * @returns { Boolean } -
+ */
+function isFunction(v) {
+  return typeof v === T_FUNCTION || false   // avoid IE problems
+}
+
+/**
+ * Detect if the argument passed is an object, exclude null.
+ * NOTE: Use isObject(x) && !isArray(x) to excludes arrays.
+ * @param   { * } v - whatever you want to pass to this function
+ * @returns { Boolean } -
+ */
+function isObject(v) {
+  return v && typeof v === T_OBJECT         // typeof null is 'object'
+}
+
+/**
+ * Remove any DOM attribute from a node
+ * @param   { Object } dom - DOM node we want to update
+ * @param   { String } name - name of the property we want to remove
+ */
+function remAttr(dom, name) {
+  dom.removeAttribute(name)
+}
+
+/**
+ * Convert a string containing dashes to camel case
+ * @param   { String } string - input string
+ * @returns { String } my-string -> myString
+ */
+function toCamel(string) {
+  return string.replace(/-(\w)/g, function(_, c) {
+    return c.toUpperCase()
+  })
+}
+
+/**
+ * Get the value of any DOM attribute on a node
+ * @param   { Object } dom - DOM node we want to parse
+ * @param   { String } name - name of the attribute we want to get
+ * @returns { String | undefined } name of the node attribute whether it exists
+ */
+function getAttr(dom, name) {
+  return dom.getAttribute(name)
+}
+
+/**
+ * Set any DOM attribute
+ * @param { Object } dom - DOM node we want to update
+ * @param { String } name - name of the property we want to set
+ * @param { String } val - value of the property we want to set
+ */
+function setAttr(dom, name, val) {
+  dom.setAttribute(name, val)
+}
+
+/**
+ * Detect the tag implementation by a DOM node
+ * @param   { Object } dom - DOM node we need to parse to get its tag implementation
+ * @returns { Object } it returns an object containing the implementation of a custom tag (template and boot function)
+ */
+function getTag(dom) {
+  return dom.tagName && __tagImpl[getAttr(dom, RIOT_TAG_IS) ||
+    getAttr(dom, RIOT_TAG) || dom.tagName.toLowerCase()]
+}
+/**
+ * Add a child tag to its parent into the `tags` object
+ * @param   { Object } tag - child tag instance
+ * @param   { String } tagName - key where the new tag will be stored
+ * @param   { Object } parent - tag instance where the new child tag will be included
+ */
+function addChildTag(tag, tagName, parent) {
+  var cachedTag = parent.tags[tagName]
+
+  // if there are multiple children tags having the same name
+  if (cachedTag) {
+    // if the parent tags property is not yet an array
+    // create it adding the first cached tag
+    if (!isArray(cachedTag))
+      // don't add the same tag twice
+      if (cachedTag !== tag)
+        parent.tags[tagName] = [cachedTag]
+    // add the new nested tag to the array
+    if (!contains(parent.tags[tagName], tag))
+      parent.tags[tagName].push(tag)
+  } else {
+    parent.tags[tagName] = tag
+  }
+}
+
+/**
+ * Move the position of a custom tag in its parent tag
+ * @param   { Object } tag - child tag instance
+ * @param   { String } tagName - key where the tag was stored
+ * @param   { Number } newPos - index where the new tag will be stored
+ */
+function moveChildTag(tag, tagName, newPos) {
+  var parent = tag.parent,
+    tags
+  // no parent no move
+  if (!parent) return
+
+  tags = parent.tags[tagName]
+
+  if (isArray(tags))
+    tags.splice(newPos, 0, tags.splice(tags.indexOf(tag), 1)[0])
+  else addChildTag(tag, tagName, parent)
+}
+
+/**
+ * Create a new child tag including it correctly into its parent
+ * @param   { Object } child - child tag implementation
+ * @param   { Object } opts - tag options containing the DOM node where the tag will be mounted
+ * @param   { String } innerHTML - inner html of the child node
+ * @param   { Object } parent - instance of the parent tag including the child custom tag
+ * @returns { Object } instance of the new child tag just created
+ */
+function initChildTag(child, opts, innerHTML, parent) {
+  var tag = new Tag(child, opts, innerHTML),
+    tagName = getTagName(opts.root),
+    ptag = getImmediateCustomParentTag(parent)
+  // fix for the parent attribute in the looped elements
+  tag.parent = ptag
+  // store the real parent tag
+  // in some cases this could be different from the custom parent tag
+  // for example in nested loops
+  tag._parent = parent
+
+  // add this tag to the custom parent tag
+  addChildTag(tag, tagName, ptag)
+  // and also to the real parent tag
+  if (ptag !== parent)
+    addChildTag(tag, tagName, parent)
+  // empty the child node once we got its template
+  // to avoid that its children get compiled multiple times
+  opts.root.innerHTML = ''
+
+  return tag
+}
+
+/**
+ * Loop backward all the parents tree to detect the first custom parent tag
+ * @param   { Object } tag - a Tag instance
+ * @returns { Object } the instance of the first custom parent tag found
+ */
+function getImmediateCustomParentTag(tag) {
+  var ptag = tag
+  while (!getTag(ptag.root)) {
+    if (!ptag.parent) break
+    ptag = ptag.parent
+  }
+  return ptag
+}
+
+/**
+ * Helper function to set an immutable property
+ * @param   { Object } el - object where the new property will be set
+ * @param   { String } key - object key where the new property will be stored
+ * @param   { * } value - value of the new property
+* @param   { Object } options - set the propery overriding the default options
+ * @returns { Object } - the initial object
+ */
+function defineProperty(el, key, value, options) {
+  Object.defineProperty(el, key, extend({
+    value: value,
+    enumerable: false,
+    writable: false,
+    configurable: true
+  }, options))
+  return el
+}
+
+/**
+ * Get the tag name of any DOM node
+ * @param   { Object } dom - DOM node we want to parse
+ * @returns { String } name to identify this dom node in riot
+ */
+function getTagName(dom) {
+  var child = getTag(dom),
+    namedTag = getAttr(dom, 'name'),
+    tagName = namedTag && !tmpl.hasExpr(namedTag) ?
+                namedTag :
+              child ? child.name : dom.tagName.toLowerCase()
+
+  return tagName
+}
+
+/**
+ * Extend any object with other properties
+ * @param   { Object } src - source object
+ * @returns { Object } the resulting extended object
+ *
+ * var obj = { foo: 'baz' }
+ * extend(obj, {bar: 'bar', foo: 'bar'})
+ * console.log(obj) => {bar: 'bar', foo: 'bar'}
+ *
+ */
+function extend(src) {
+  var obj, args = arguments
+  for (var i = 1; i < args.length; ++i) {
+    if (obj = args[i]) {
+      for (var key in obj) {
+        // check if this property of the source object could be overridden
+        if (isWritable(src, key))
+          src[key] = obj[key]
+      }
+    }
+  }
+  return src
+}
+
+/**
+ * Check whether an array contains an item
+ * @param   { Array } arr - target array
+ * @param   { * } item - item to test
+ * @returns { Boolean } Does 'arr' contain 'item'?
+ */
+function contains(arr, item) {
+  return ~arr.indexOf(item)
+}
+
+/**
+ * Check whether an object is a kind of array
+ * @param   { * } a - anything
+ * @returns {Boolean} is 'a' an array?
+ */
+function isArray(a) { return Array.isArray(a) || a instanceof Array }
+
+/**
+ * Detect whether a property of an object could be overridden
+ * @param   { Object }  obj - source object
+ * @param   { String }  key - object property
+ * @returns { Boolean } is this property writable?
+ */
+function isWritable(obj, key) {
+  var props = Object.getOwnPropertyDescriptor(obj, key)
+  return typeof obj[key] === T_UNDEF || props && props.writable
+}
+
+
+/**
+ * With this function we avoid that the internal Tag methods get overridden
+ * @param   { Object } data - options we want to use to extend the tag instance
+ * @returns { Object } clean object without containing the riot internal reserved words
+ */
+function cleanUpData(data) {
+  if (!(data instanceof Tag) && !(data && typeof data.trigger == T_FUNCTION))
+    return data
+
+  var o = {}
+  for (var key in data) {
+    if (!contains(RESERVED_WORDS_BLACKLIST, key))
+      o[key] = data[key]
+  }
+  return o
+}
+
+/**
+ * Walk down recursively all the children tags starting dom node
+ * @param   { Object }   dom - starting node where we will start the recursion
+ * @param   { Function } fn - callback to transform the child node just found
+ */
+function walk(dom, fn) {
+  if (dom) {
+    // stop the recursion
+    if (fn(dom) === false) return
+    else {
+      dom = dom.firstChild
+
+      while (dom) {
+        walk(dom, fn)
+        dom = dom.nextSibling
+      }
+    }
+  }
+}
+
+/**
+ * Minimize risk: only zero or one _space_ between attr & value
+ * @param   { String }   html - html string we want to parse
+ * @param   { Function } fn - callback function to apply on any attribute found
+ */
+function walkAttributes(html, fn) {
+  var m,
+    re = /([-\w]+) ?= ?(?:"([^"]*)|'([^']*)|({[^}]*}))/g
+
+  while (m = re.exec(html)) {
+    fn(m[1].toLowerCase(), m[2] || m[3] || m[4])
+  }
+}
+
+/**
+ * Check whether a DOM node is in stub mode, useful for the riot 'if' directive
+ * @param   { Object }  dom - DOM node we want to parse
+ * @returns { Boolean } -
+ */
+function isInStub(dom) {
+  while (dom) {
+    if (dom.inStub) return true
+    dom = dom.parentNode
+  }
+  return false
+}
+
+/**
+ * Create a generic DOM node
+ * @param   { String } name - name of the DOM node we want to create
+ * @returns { Object } DOM node just created
+ */
+function mkEl(name) {
+  return document.createElement(name)
+}
+
+/**
+ * Shorter and fast way to select multiple nodes in the DOM
+ * @param   { String } selector - DOM selector
+ * @param   { Object } ctx - DOM node where the targets of our search will is located
+ * @returns { Object } dom nodes found
+ */
+function $$(selector, ctx) {
+  return (ctx || document).querySelectorAll(selector)
+}
+
+/**
+ * Shorter and fast way to select a single node in the DOM
+ * @param   { String } selector - unique dom selector
+ * @param   { Object } ctx - DOM node where the target of our search will is located
+ * @returns { Object } dom node found
+ */
+function $(selector, ctx) {
+  return (ctx || document).querySelector(selector)
+}
+
+/**
+ * Simple object prototypal inheritance
+ * @param   { Object } parent - parent object
+ * @returns { Object } child instance
+ */
+function inherit(parent) {
+  function Child() {}
+  Child.prototype = parent
+  return new Child()
+}
+
+/**
+ * Get the name property needed to identify a DOM node in riot
+ * @param   { Object } dom - DOM node we need to parse
+ * @returns { String | undefined } give us back a string to identify this dom node
+ */
+function getNamedKey(dom) {
+  return getAttr(dom, 'id') || getAttr(dom, 'name')
+}
+
+/**
+ * Set the named properties of a tag element
+ * @param { Object } dom - DOM node we need to parse
+ * @param { Object } parent - tag instance where the named dom element will be eventually added
+ * @param { Array } keys - list of all the tag instance properties
+ */
+function setNamed(dom, parent, keys) {
+  // get the key value we want to add to the tag instance
+  var key = getNamedKey(dom),
+    isArr,
+    // add the node detected to a tag instance using the named property
+    add = function(value) {
+      // avoid to override the tag properties already set
+      if (contains(keys, key)) return
+      // check whether this value is an array
+      isArr = isArray(value)
+      // if the key was never set
+      if (!value)
+        // set it once on the tag instance
+        parent[key] = dom
+      // if it was an array and not yet set
+      else if (!isArr || isArr && !contains(value, dom)) {
+        // add the dom node into the array
+        if (isArr)
+          value.push(dom)
+        else
+          parent[key] = [value, dom]
+      }
+    }
+
+  // skip the elements with no named properties
+  if (!key) return
+
+  // check whether this key has been already evaluated
+  if (tmpl.hasExpr(key))
+    // wait the first updated event only once
+    parent.one('mount', function() {
+      key = getNamedKey(dom)
+      add(parent[key])
+    })
+  else
+    add(parent[key])
+
+}
+
+/**
+ * Faster String startsWith alternative
+ * @param   { String } src - source string
+ * @param   { String } str - test string
+ * @returns { Boolean } -
+ */
+function startsWith(src, str) {
+  return src.slice(0, str.length) === str
+}
+
+/**
+ * requestAnimationFrame function
+ * Adapted from https://gist.github.com/paulirish/1579671, license MIT
+ */
+var rAF = (function (w) {
+  var raf = w.requestAnimationFrame    ||
+            w.mozRequestAnimationFrame || w.webkitRequestAnimationFrame
+
+  if (!raf || /iP(ad|hone|od).*OS 6/.test(w.navigator.userAgent)) {  // buggy iOS6
+    var lastTime = 0
+
+    raf = function (cb) {
+      var nowtime = Date.now(), timeout = Math.max(16 - (nowtime - lastTime), 0)
+      setTimeout(function () { cb(lastTime = nowtime + timeout) }, timeout)
+    }
+  }
+  return raf
+
+})(window || {})
+
+/**
+ * Mount a tag creating new Tag instance
+ * @param   { Object } root - dom node where the tag will be mounted
+ * @param   { String } tagName - name of the riot tag we want to mount
+ * @param   { Object } opts - options to pass to the Tag instance
+ * @returns { Tag } a new Tag instance
+ */
+function mountTo(root, tagName, opts) {
+  var tag = __tagImpl[tagName],
+    // cache the inner HTML to fix #855
+    innerHTML = root._innerHTML = root._innerHTML || root.innerHTML
+
+  // clear the inner html
+  root.innerHTML = ''
+
+  if (tag && root) tag = new Tag(tag, { root: root, opts: opts }, innerHTML)
+
+  if (tag && tag.mount) {
+    tag.mount()
+    // add this tag to the virtualDom variable
+    if (!contains(__virtualDom, tag)) __virtualDom.push(tag)
+  }
+
+  return tag
+}
+/**
+ * Riot public api
+ */
+
+// share methods for other riot parts, e.g. compiler
+riot.util = { brackets: brackets, tmpl: tmpl }
+
+/**
+ * Create a mixin that could be globally shared across all the tags
+ */
+riot.mixin = (function() {
+  var mixins = {}
+
+  /**
+   * Create/Return a mixin by its name
+   * @param   { String } name - mixin name (global mixin if missing)
+   * @param   { Object } mixin - mixin logic
+   * @returns { Object } the mixin logic
+   */
+  return function(name, mixin) {
+    if (isObject(name)) {
+      mixin = name
+      mixins[GLOBAL_MIXIN] = extend(mixins[GLOBAL_MIXIN] || {}, mixin)
+      return
+    }
+
+    if (!mixin) return mixins[name]
+    mixins[name] = mixin
+  }
+
+})()
+
+/**
+ * Create a new riot tag implementation
+ * @param   { String }   name - name/id of the new riot tag
+ * @param   { String }   html - tag template
+ * @param   { String }   css - custom tag css
+ * @param   { String }   attrs - root tag attributes
+ * @param   { Function } fn - user function
+ * @returns { String } name/id of the tag just created
+ */
+riot.tag = function(name, html, css, attrs, fn) {
+  if (isFunction(attrs)) {
+    fn = attrs
+    if (/^[\w\-]+\s?=/.test(css)) {
+      attrs = css
+      css = ''
+    } else attrs = ''
+  }
+  if (css) {
+    if (isFunction(css)) fn = css
+    else styleManager.add(css)
+  }
+  name = name.toLowerCase()
+  __tagImpl[name] = { name: name, tmpl: html, attrs: attrs, fn: fn }
+  return name
+}
+
+/**
+ * Create a new riot tag implementation (for use by the compiler)
+ * @param   { String }   name - name/id of the new riot tag
+ * @param   { String }   html - tag template
+ * @param   { String }   css - custom tag css
+ * @param   { String }   attrs - root tag attributes
+ * @param   { Function } fn - user function
+ * @returns { String } name/id of the tag just created
+ */
+riot.tag2 = function(name, html, css, attrs, fn) {
+  if (css) styleManager.add(css)
+  //if (bpair) riot.settings.brackets = bpair
+  __tagImpl[name] = { name: name, tmpl: html, attrs: attrs, fn: fn }
+  return name
+}
+
+/**
+ * Mount a tag using a specific tag implementation
+ * @param   { String } selector - tag DOM selector
+ * @param   { String } tagName - tag implementation name
+ * @param   { Object } opts - tag logic
+ * @returns { Array } new tags instances
+ */
+riot.mount = function(selector, tagName, opts) {
+
+  var els,
+    allTags,
+    tags = []
+
+  // helper functions
+
+  function addRiotTags(arr) {
+    var list = ''
+    each(arr, function (e) {
+      if (!/[^-\w]/.test(e)) {
+        e = e.trim().toLowerCase()
+        list += ',[' + RIOT_TAG_IS + '="' + e + '"],[' + RIOT_TAG + '="' + e + '"]'
+      }
+    })
+    return list
+  }
+
+  function selectAllTags() {
+    var keys = Object.keys(__tagImpl)
+    return keys + addRiotTags(keys)
+  }
+
+  function pushTags(root) {
+    if (root.tagName) {
+      var riotTag = getAttr(root, RIOT_TAG_IS) || getAttr(root, RIOT_TAG)
+
+      // have tagName? force riot-tag to be the same
+      if (tagName && riotTag !== tagName) {
+        riotTag = tagName
+        setAttr(root, RIOT_TAG_IS, tagName)
+        setAttr(root, RIOT_TAG, tagName) // this will be removed in riot 3.0.0
+      }
+      var tag = mountTo(root, riotTag || root.tagName.toLowerCase(), opts)
+
+      if (tag) tags.push(tag)
+    } else if (root.length) {
+      each(root, pushTags)   // assume nodeList
+    }
+  }
+
+  // ----- mount code -----
+
+  // inject styles into DOM
+  styleManager.inject()
+
+  if (isObject(tagName)) {
+    opts = tagName
+    tagName = 0
+  }
+
+  // crawl the DOM to find the tag
+  if (typeof selector === T_STRING) {
+    if (selector === '*')
+      // select all the tags registered
+      // and also the tags found with the riot-tag attribute set
+      selector = allTags = selectAllTags()
+    else
+      // or just the ones named like the selector
+      selector += addRiotTags(selector.split(/, */))
+
+    // make sure to pass always a selector
+    // to the querySelectorAll function
+    els = selector ? $$(selector) : []
+  }
+  else
+    // probably you have passed already a tag or a NodeList
+    els = selector
+
+  // select all the registered and mount them inside their root elements
+  if (tagName === '*') {
+    // get all custom tags
+    tagName = allTags || selectAllTags()
+    // if the root els it's just a single tag
+    if (els.tagName)
+      els = $$(tagName, els)
+    else {
+      // select all the children for all the different root elements
+      var nodeList = []
+      each(els, function (_el) {
+        nodeList.push($$(tagName, _el))
+      })
+      els = nodeList
+    }
+    // get rid of the tagName
+    tagName = 0
+  }
+
+  pushTags(els)
+
+  return tags
+}
+
+/**
+ * Update all the tags instances created
+ * @returns { Array } all the tags instances
+ */
+riot.update = function() {
+  return each(__virtualDom, function(tag) {
+    tag.update()
+  })
+}
+
+/**
+ * Export the Virtual DOM
+ */
+riot.vdom = __virtualDom
+
+/**
+ * Export the Tag constructor
+ */
+riot.Tag = Tag
+  // support CommonJS, AMD & browser
+  /* istanbul ignore next */
+  if (typeof exports === T_OBJECT)
+    module.exports = riot
+  else if (typeof define === T_FUNCTION && typeof define.amd !== T_UNDEF)
+    define(function() { return riot })
+  else
+    window.riot = riot
+
+})(typeof window != 'undefined' ? window : void 0);
+
+},{}],27:[function(require,module,exports){
 /*!
  * viewport-units-buggyfill v0.5.5
  * @web: https://github.com/rodneyrehm/viewport-units-buggyfill/

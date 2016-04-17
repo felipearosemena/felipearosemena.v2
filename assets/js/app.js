@@ -1,5 +1,6 @@
 import * as PubSub from 'pubsub-js'
 import page from 'page'
+import riot from 'riot'
 
 import { map, reduce } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
@@ -59,12 +60,12 @@ PubSub.subscribe(('header-view:open'), ()=> {
 })
 
 page('/contact', () => {
+
   const formFields = data.formFields.length ? data.formFields : [0]
-  const contactForm = contactFormView(document.getElementById('contact-form'), {
+  contactFormView({
     fields: formFields
   })
 
-  contactForm.render()
 })
 
 page({
