@@ -22,4 +22,5 @@ function login_logo() { ?>
     </style>
 <?php
 }
+
 add_action('login_enqueue_scripts', 'login_logo');  

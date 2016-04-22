@@ -53,17 +53,17 @@
 
 // Add this element parallel to the hero__body to separate the background from the content of the hero
 .hero__bg {
-  // @include z-index(1, absolute);
-  // width:100%;
-  // height:auto;
-  // top:50%;
-  // left:0;
-  // background-size: cover;
-  // opacity: 1;
-  // // The hero is ready to have a full size background image by default
-  // background-position: center;
-  // transform: translate(0,-50%);
-  // transition: all $transition-slow;
+  @include z-index(1, absolute);
+  width:100%;
+  height:auto;
+  top:50%;
+  left:0;
+  background-size: cover;
+  opacity: 1;
+  // The hero is ready to have a full size background image by default
+  background-position: center;
+  transform: translate(0,-50%);
+  transition: all $transition-slow;
 
   &.is-active {
     opacity: 1
@@ -135,6 +135,11 @@ canvas.hero__bg {
   @include mq-min($bp-lg) {
     padding: 10% 0;
   }
+}
+
+.hero--tight {
+  padding-top: $section-spacing-unit/2;
+  padding-bottom: $section-spacing-unit/2;
 }
 
 .hero--contact {

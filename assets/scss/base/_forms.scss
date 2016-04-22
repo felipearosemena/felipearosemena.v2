@@ -7,12 +7,13 @@
 */
 
 .form-wrapper {
-  // height: 100vh;
-  // overflow: hidden;
 }
 
 form {
-  // @extend .mtb-1--f;
+}
+
+form-control {
+  display: block;
 }
 
 
@@ -87,11 +88,28 @@ legend {
 
 .form__group--boxed {
   label {
-    padding: $base-spacing-unit/2;
+    padding: $base-spacing-unit/2 $base-spacing-unit/2 $base-spacing-unit/4;
   }
 
   input:focus + label {
     color: $color-secondary;
+  }
+  
+  label {
+    position: absolute;
+    background: white;
+    box-shadow: 0 2px 2px white;
+    top: 2px;
+    right: 2rem;
+    left: 2px;
+    border-radius: $base-border-radius;
+  }
+
+  select {
+    // Compensate for space inside <select>
+    &[multiple] {
+      margin-left: 0;
+    }
   }
 }
 
@@ -103,22 +121,6 @@ legend {
   }
 }
 
-.form__group--boxed {
-  
-  label {
-    position: absolute;
-    top: 0;
-    left: 2px;
-  }
-
-  select {
-    // Compensate for space inside <select>
-    &[multiple] {
-      margin-left: 0;
-    }
-  }
-}
-
 .form__group--select {
   display: flex;
   flex-wrap: wrap;
@@ -127,7 +129,8 @@ legend {
     order: 0;
   }
   
-  select:focus + label {
+  select:focus + label,
+  .appearance &.is-focused:after {
     color: $color-secondary;
   }
 
@@ -135,21 +138,17 @@ legend {
     order: 1;
   }
 
-  .appearance & {
-
-    &:after {
-      content: '\2193';
-      position: absolute;
-      top: 50%;
-      right: $base-spacing-unit;
-      margin-top: -$base-spacing-unit/5;
-      font-size: 1.5em;
-      color: $body-color;
-      pointer-events: none;
-    }
-
-    
+  .appearance &:after {
+    content: '\2193';
+    position: absolute;
+    top: 50%;
+    right: $base-spacing-unit;
+    margin-top: -$base-spacing-unit/5;
+    font-size: 1.5em;
+    color: $body-color;
+    pointer-events: none;
   }
+
 }
 
 .form__group--radio {
@@ -164,7 +163,7 @@ legend {
     cursor: default;
   }
 
-  span {
+  span, raw {
     display: block;
     width: 100%;
     text-align: center;
@@ -242,6 +241,7 @@ legend {
   height: get-input-height(1);
   cursor: pointer;
   transition: border-color $transition-fast;
+
   
   &::selection {
     background-color: $color-secondary
@@ -276,7 +276,7 @@ legend {
 
 textarea.form__control,
 select[multiple].form__control {
-  height: auto;
+  height: auto !important;
 }
 
 .form__checklist, .radio, .checkbox {

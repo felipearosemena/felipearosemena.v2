@@ -119,10 +119,6 @@ h1, h2, h3, h4, h5, h6 {
   @extend %heading-font;
 }
 
-.serif {
-  font-family: $serif-font;
-}
-
 // Using a Major Third Scale
 // Change the multipliers to create your own scale that suits the project
 h1, .alpha {
@@ -180,9 +176,14 @@ p,
  */
 .lead, %lead {
   @include mq-min($bp-sm) {
-    @include font-size($h4-font-size, false);
+    @include font-size($h4-font-size);
   }
   // font-family: $garamond;
+}
+
+.serif {
+  font-family: $serif-font;
+  font-weight: normal;
 }
 
 /**
