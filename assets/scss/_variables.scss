@@ -90,15 +90,15 @@ $hero-font-color      : white;
 // Set your font stacks 
 
 @font-face {
-    font-family: 'Circular';
-    src: url('../fonts/CircularPro-Book.woff') format('woff');
-    font-weight: normal;
+  font-family: 'Circular';
+  src: url('../fonts/CircularPro-Book.woff') format('woff');
+  font-weight: normal;
 }  
 
 @font-face {
-    font-family: 'Circular';
-    src: url('../fonts/CircularPro-Bold.woff') format('woff');
-    font-weight: bold;
+  font-family: 'Circular';
+  src: url('../fonts/CircularPro-Bold.woff') format('woff');
+  font-weight: bold;
 }  
 
 
@@ -112,7 +112,7 @@ $body-font-family    : $circular;
 $serif-font : $palatino;
 
 $base-font-size     : 20px;
-$base-line-height   : 34px;
+$base-line-height   : 36px;
 
 $h1-font-size        : 60px;
 $h1-line-height      : 72px;
@@ -123,7 +123,7 @@ $h2-line-height      : 68px;
 $h3-font-size        : 36px; 
 $h3-line-height      : 48px;
 
-$h4-font-size        : 25px;  
+$h4-font-size        : 24px;  
 $h4-line-height      : 35px;
 
 $h5-font-size        : 16px;   
@@ -192,7 +192,7 @@ $offcanvas-width          : 250px;
 $island-padding-y         : $container-pad;
 $island-padding-x         : $island-padding-y;
 
-$section-spacing-unit     : $base-spacing-unit*4;
+$section-spacing-unit     : $base-spacing-unit*3;
 
 $iphone-width             : 20%;
 $iphone-max-width         : 350px;

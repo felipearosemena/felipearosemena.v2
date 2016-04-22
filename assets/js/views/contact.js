@@ -6,74 +6,11 @@
 
 import { createStore } from 'redux'
 import riot from 'riot'
+import request from 'superagent'
 
 import { validateField } from '../modules/actions'
 import { contactReducer } from '../modules/reducers'
 import { delegateEvent, map, filter, extend, createElement, inArray } from '../modules/utils'
-
-
-// function inputVars(field) {
-//   return extend({}, {
-//     label: false,
-//     id: field.name,
-//     options: [],
-//     placeholder: '',
-//     required: true
-//   }, field)
-
-// }
-
-// function selectView(rootEl, field) {
-
-//   let { id, label, name, options, required } = inputVars(field)
-
-//   return componentFactory({
-//     rootEl: rootEl,
-//     markup(state) {
-
-//       return `
-//         <div class="form__group form__group--select">
-
-//           <select id="{ id }" name="{ name }" class="form__control">
-//             { map(options, option => `<option value={ option.value }>{ option.label }</option>`) }
-//           </select>
-//           <label for={ id }>{ label }</label>
-//         </div>
-//       `
-//     }
-//   })
-
-// }
-
-// function submitView(label) {
-//   return `
-//     <div class="form__submit">
-//       <button type="submit" class="btn btn--lg form__submit">{ label }</button>
-//     </div>
-//   `
-// }
-
-// function radioView(rootEl, field) {
-
-//   let { id, label, name, options, required } = inputVars(field)
-
-//   return componentFactory({
-//     rootEl: rootEl,
-//     markup(state) {
-//       return `
-//         <div class="form__group form__group--radio">
-//           <label>{ label }</label>
-//           { map(options, (option, i) => `
-//               <input class="form__control" id={ id }-{ i } name={ name } type="radio">
-//               <label for={ id }-{ i }><span>{ option.label }</span></label>
-//           `).join('') }
-//         </div>
-//       `
-//     }
-//   })
-// }
-
-// }
 
 riot.tag('raw', ``, function() {
   this.root.innerHTML = this.opts.content
@@ -81,29 +18,34 @@ riot.tag('raw', ``, function() {
 
 riot.tag('form-textarea', 
   `
-    <textarea name="" id="" cols="30" rows="10"></textarea>
+    <textarea name="{ opts.name }" id="{ opts.name }" class="form__control" rows="8"></textarea>
+    <label for="{ opts.name }">{ opts.label }</label>
   `
 )
 
 riot.tag('form-select', 
   ` 
-    <div class="form__group form__group--select">
-      <select id="{ opts.name }" name="{ opts.name }" class="form__control">
-        <option each="{opts.options}" value="{ value }">{label}</option>
-      </select>
-      <label for="{ opts.name }">{ opts.label }</label>
-    </div>
+    <select id="{ opts.name }" name="{ opts.name }" class="form__control" onfocus="{ focus }" onblur="{ blur }">
+      <option each="{opts.options}" value="{ value }">{label}</option>
+    </select>
+    <label for="{ opts.name }">{ opts.label }</label>
   `
-)
+, function() {
+  this.focus = (e) => {
+    e.target.parentNode.classList.add('is-focused')
+  }
+
+  this.blur = (e) => {
+    e.target.parentNode.classList.remove('is-focused')
+  }
+})
 
 riot.tag('form-radio', 
   `
-    <div class="form__group form__group--radio">
-      <label>{ opts.label }</label>
-      <div class="form__radio-option" each="{ opts.options }">
-        <input class="form__control" id="{ id }" name="{ parent.opts.name }" type="radio" value="{ value }">
-        <label for="{ id }"><raw content="{ label }" /></label>
-      </div>
+    <label>{ opts.label }</label>
+    <div class="form__radio-option" each="{ opts.options }">
+      <input class="form__control" id="{ id }" name="{ parent.opts.name }" type="radio" value="{ value }">
+      <label for="{ id }"><raw content="{ label }" /></label>
     </div>
   `
 , function() {
@@ -117,10 +59,8 @@ riot.tag('form-radio',
 
 riot.tag('form-input', 
   `
-    <div class="form__group form__group--boxed">
-      <input id="{ opts.name }" name="{ opts.name }" type="{ opts.type }" placeholder="{ opts.placeholder }" class="form__control" >
-      <label for="{ opts.name }">{ opts.label }</label>
-    </div>
+    <input id="{ opts.name }" name="{ opts.name }" type="{ opts.type }" placeholder="{ opts.placeholder }" class="form__control" >
+    <label for="{ opts.name }">{ opts.label }</label>
   `
 )
 
@@ -135,24 +75,40 @@ riot.tag('form-control', '', function() {
 
 riot.tag('contact-form', 
   `
-    <form>
-      <form-control each={fields} field={field}></form-control>
+    <form action="{ window.location.pathname }" onsubmit="{ submit }">
+      <form-control each={fields} field={field} class="form__group form__group--{ formControlClass }"></form-control>
+      <div class="text-right">
+        <button class="btn" type=submit>Send</button>
+      </div>
     </form>
   `
 , function() {
-  this.store = this.opts.store
-  this.fields = this.store.getState().fields.map(fieldObj => {
-    return {field: fieldObj}
-  })
-})
 
-// /** 
-// *
-// * TODO
-// *
-// * Move input vars declaaration to formControls instantiation step
-// *
-// */
+  const { store, postConfig } = this.opts
+
+  this.fields = store.getState().fields.map(fieldObj => {
+    const formControlClass = inArray(fieldObj.type, ['radio', 'select']) ? fieldObj.type : 'boxed'
+    return {
+      field: fieldObj,
+      formControlClass: formControlClass
+    }
+  })
+
+  this.submit = (e) => {
+    e.preventDefault()
+
+    request
+      .post(postConfig.url)
+      .type('form')
+      .send({
+        action: 'submit_contact_form',
+        nonce: postConfig.nonce,
+      })
+      .end((err,res) => {
+        console.log(res)
+      })
+  }
+})
 
 export default function contactFormView(config) {
   
@@ -165,7 +121,12 @@ export default function contactFormView(config) {
   })
 
   return riot.mount('contact-form', {
-    store: store
+    store: store,
+    postConfig: {
+      url: config.postUrl,
+      nonce: config.nonce,
+      action: config.postAction
+    }
   })
 
 }

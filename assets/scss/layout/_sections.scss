@@ -162,17 +162,9 @@
   &.is-out {
   }
 
-  // border-top: $base-border;
-  // border-bottom: $base-border;
-
   .spread + &,
   .multi-cols + & {
     margin-top: -1px;  
-  }
-
-  figure {
-    // border-top: $base-border;
-    // border-bottom: $base-border;
   }
 }
 
@@ -222,6 +214,7 @@
 
 .multi-cols__content-inner {
   @extend .container--xs;
+  box-sizing: content-box;
   margin-left: auto;
   margin-right: auto;
   padding: $section-spacing-unit $container-pad;
