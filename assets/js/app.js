@@ -61,8 +61,11 @@ PubSub.subscribe(('header-view:open'), ()=> {
 
 page('/contact', () => {
 
-  const formFields = data.formFields.length ? data.formFields : [0]
-  const { url, nonce } = window.FA_AJAX ? window.FA_AJAX : {
+  if(!window.data.gf_contact_form) {
+    return
+  }
+
+  const { url, nonce, fieldPrefix } = window.FA_AJAX ? window.FA_AJAX : {
     url: '/',
     nonce: false
   }
@@ -71,7 +74,8 @@ page('/contact', () => {
     nonce: nonce,
     postUrl: url,
     postAction: 'submit_contact_form',
-    fields: formFields,
+    fieldPrefix: fieldPrefix,
+    gf_form: window.data.gf_contact_form
   })
 
 })

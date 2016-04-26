@@ -87,7 +87,9 @@ PubSub.subscribe('header-view:open', function () {
 
 (0, _page2.default)('/contact', function () {
 
-  var formFields = data.formFields.length ? data.formFields : [0];
+  if (!window.data.gf_contact_form) {
+    return;
+  }
 
   var _ref = window.FA_AJAX ? window.FA_AJAX : {
     url: '/',
@@ -96,12 +98,14 @@ PubSub.subscribe('header-view:open', function () {
 
   var url = _ref.url;
   var nonce = _ref.nonce;
+  var fieldPrefix = _ref.fieldPrefix;
 
   (0, _contact2.default)({
     nonce: nonce,
     postUrl: url,
     postAction: 'submit_contact_form',
-    fields: formFields
+    fieldPrefix: fieldPrefix,
+    gf_form: window.data.gf_contact_form
   });
 });
 
@@ -1147,6 +1151,8 @@ exports.removeItem = removeItem;
 exports.toggleActive = toggleActive;
 exports.toggleActiveAll = toggleActiveAll;
 exports.toggleAll = toggleAll;
+exports.inputChange = inputChange;
+exports.formSubmitted = formSubmitted;
 /*
  * action types
  */
@@ -1158,6 +1164,8 @@ var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
 var TOGGLE_ACTIVE = exports.TOGGLE_ACTIVE = 'TOGGLE_ACTIVE';
 var TOGGLE_ACTIVE_ALL = exports.TOGGLE_ACTIVE_ALL = 'TOGGLE_ACTIVE_ALL';
 var TOGGLE_ALL = exports.TOGGLE_ALL = 'TOGGLE_ALL';
+var INPUT_CHANGE = exports.INPUT_CHANGE = 'INPUT_CHANGE';
+var FORM_SUBMITTED = exports.FORM_SUBMITTED = 'FORM_SUBMITTED';
 
 function updateSelection(tax, value) {
   return {
@@ -1204,6 +1212,21 @@ function toggleAll(allActive) {
   return {
     type: TOGGLE_ALL,
     allActive: allActive
+  };
+}
+
+function inputChange(field) {
+  return {
+    type: INPUT_CHANGE,
+    field: field
+  };
+}
+
+function formSubmitted(res, err) {
+  return {
+    type: FORM_SUBMITTED,
+    err: err,
+    res: res
   };
 }
 
@@ -1580,7 +1603,27 @@ function contactReducer() {
   var action = arguments[1];
 
   switch (action.type) {
+    case _actions.INPUT_CHANGE:
+
+      return _extends({}, state);
+
+    case _actions.FORM_SUBMITTED:
+
+      var resText = action.res ? JSON.parse(action.res.text) : {};
+      var fields = (0, _utils.map)(state.fields, function (field) {
+        return _extends({}, field, {
+          hasError: resText.validation_messages ? resText.validation_messages[field.id] : false
+        });
+      });
+
+      return _extends({}, state, {
+        fields: fields,
+        http_res: action.res,
+        http_err: action.err
+      });
+
     default:
+
       return _extends({}, state);
   }
 }
@@ -1894,71 +1937,137 @@ var _utils = require('../modules/utils');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_riot2.default.tag('raw', '', function () {
-  this.root.innerHTML = this.opts.content;
+var formControlCommon = function formControlCommon() {
+  return '\n    <label for="{opts.name}">\n      { opts.label }\n      <span class="color-primary">{ opts.isRequired ? \'*\' : \'\'}</span>\n    </label>\n\n    <validation if="{ opts.hasError }" message="{ opts.errorMessage }" class="val-error"></validation>\n  ';
+};
+
+var formControlCommonAtts = function formControlCommonAtts() {
+  return 'id="{ opts.name }" name="{ opts.name }"  type="{ opts.type }" placeholder="{ opts.placeholder }" class="form__control"';
+};
+
+_riot2.default.tag('raw', '{ root.innerHTML = opts.content }');
+
+_riot2.default.tag('validation', '{ message }', function () {
+  this.message = this.opts.message;
 });
 
-_riot2.default.tag('form-textarea', '\n    <textarea name="{ opts.name }" id="{ opts.name }" class="form__control" rows="8"></textarea>\n    <label for="{ opts.name }">{ opts.label }</label>\n  ');
+_riot2.default.tag('form-textarea', '\n    ' + formControlCommon() + '\n    <textarea ' + formControlCommonAtts() + ' rows="8"></textarea>\n  ');
 
-_riot2.default.tag('form-select', ' \n    <select id="{ opts.name }" name="{ opts.name }" class="form__control" onfocus="{ focus }" onblur="{ blur }">\n      <option each="{opts.options}" value="{ value }">{label}</option>\n    </select>\n    <label for="{ opts.name }">{ opts.label }</label>\n  ', function () {
-  this.focus = function (e) {
-    e.target.parentNode.classList.add('is-focused');
-  };
+_riot2.default.tag('form-select', ' \n    ' + formControlCommon() + '\n    <select ' + formControlCommonAtts() + '>\n      <option each="{ opts.choices }" value="{ value }">{ text }</option>\n    </select>\n  ');
 
-  this.blur = function (e) {
-    e.target.parentNode.classList.remove('is-focused');
-  };
-});
-
-_riot2.default.tag('form-radio', '\n    <label>{ opts.label }</label>\n    <div class="form__radio-option" each="{ opts.options }">\n      <input class="form__control" id="{ id }" name="{ parent.opts.name }" type="radio" value="{ value }">\n      <label for="{ id }"><raw content="{ label }" /></label>\n    </div>\n  ', function () {
+_riot2.default.tag('form-radio', '\n    ' + formControlCommon() + '\n    <div class="form__radio-option" each="{ choices }">\n      <input class="form__control" id="{ id }" name="{ parent.opts.name }" type="{ parent.opts.type }" value="{ value }">\n      <label for="{ id }">\n        <raw content="{ text }"></raw>\n      </label>\n    </div>\n  ', function () {
   var _this = this;
 
-  this.opts.options = this.opts.options.map(function (opt, i) {
+  this.choices = (0, _utils.map)(this.opts.choices, function (opt, i) {
     return _extends({}, opt, {
-      id: _this.opts.name + '-' + i
+      id: _this.opts.name + '_' + i
     });
   });
 });
 
-_riot2.default.tag('form-input', '\n    <input id="{ opts.name }" name="{ opts.name }" type="{ opts.type }" placeholder="{ opts.placeholder }" class="form__control" >\n    <label for="{ opts.name }">{ opts.label }</label>\n  ');
+_riot2.default.tag('form-input', '\n    ' + formControlCommon() + '\n    <input ' + formControlCommonAtts() + '>\n  ');
 
 _riot2.default.tag('form-control', '', function () {
+  var _this2 = this;
 
-  var field = this.opts.field;
+  var _opts = this.opts;
+  var field = _opts.field;
+  var store = _opts.store;
+
+  var _store$getState = store.getState();
+
+  var fieldPrefix = _store$getState.fieldPrefix;
+
   var tagName = (0, _utils.inArray)(field.type, ['text', 'email', 'url']) ? 'input' : field.type;
+  var cl = this.root.classList;
+
+  field.name = fieldPrefix + field.id;
 
   _riot2.default.mount(this.root, 'form-' + tagName, field);
+
+  this.on('update', function () {
+    _this2.isVisible = true;
+  });
+
+  var inputs = this.root.querySelectorAll('.form__control');
+
+  (0, _utils.map)(inputs, function (input) {
+
+    input.addEventListener('focus', function (e) {
+      return cl.add('is-focused');
+    });
+    input.addEventListener('blur', function (e) {
+      cl.remove('is-focused');
+      // store.dispatch(inputChange(field))
+    });
+    // input.addEventListener('change', e => store.dispatch(inputChange(field)))
+  });
 });
 
-_riot2.default.tag('contact-form', '\n    <form action="{ window.location.pathname }" onsubmit="{ submit }">\n      <form-control each={fields} field={field} class="form__group form__group--{ formControlClass }"></form-control>\n      <div class="text-right">\n        <button class="btn" type=submit>Send</button>\n      </div>\n    </form>\n  ', function () {
-  var _opts = this.opts;
-  var store = _opts.store;
-  var postConfig = _opts.postConfig;
+_riot2.default.tag('contact-form', '\n    <div if="{http_err}">{ http_err }</div>\n    <raw content="{formMessage}"></raw>\n    <form onsubmit="{ submit }">\n      <form-control each={fields} if={isVisible} store={parent.opts.store} field={field} class="form__group form__group--{ formControlClass }"></form-control>\n      <div class="text-right">\n        <button class="btn" type=submit>Send</button>\n      </div>\n    </form>\n  ', function () {
+  var _this3 = this;
 
-  this.fields = store.getState().fields.map(function (fieldObj) {
-    var formControlClass = (0, _utils.inArray)(fieldObj.type, ['radio', 'select']) ? fieldObj.type : 'boxed';
-    return {
-      field: fieldObj,
-      formControlClass: formControlClass
-    };
-  });
+  var store = this.opts.store;
+
+  var _store$getState2 = store.getState();
+
+  var postConfig = _store$getState2.postConfig;
 
   this.submit = function (e) {
     e.preventDefault();
 
-    _superagent2.default.post(postConfig.url).type('form').send({
-      action: 'submit_contact_form',
-      nonce: postConfig.nonce
-    }).end(function (err, res) {
-      console.log(res);
+    var formData = new FormData(e.currentTarget);
+
+    formData.append('form_id', store.getState().form_id);
+    formData.append('action', 'submit_contact_form');
+    formData.append('nonce', postConfig.nonce);
+
+    _superagent2.default.post(postConfig.url).send(formData).end(function (err, res) {
+      store.dispatch((0, _actions.formSubmitted)(res, err));
     });
   };
+
+  this.on('update', function () {
+    var _store$getState3 = store.getState();
+
+    var fields = _store$getState3.fields;
+    var http_res = _store$getState3.http_res;
+    var http_err = _store$getState3.http_err;
+
+    _this3.fields = fields.map(function (fieldObj) {
+      var formControlClass = (0, _utils.inArray)(fieldObj.type, ['radio', 'select']) ? fieldObj.type : 'boxed';
+
+      return {
+        field: fieldObj,
+        formControlClass: formControlClass
+      };
+    });
+
+    if (!http_err && http_res) {
+      var text = http_res ? JSON.parse(http_res.text) : {};
+      _this3.formMessage = text.is_valid ? text.confirmation_message : 'Something is missing form your submission, please check the form values.';
+    } else {
+      _this3.formMessage = '';
+    }
+  });
 });
 
 function contactFormView(config) {
+  var gf_form = config.gf_form;
+  var fieldPrefix = config.fieldPrefix;
+  var postUrl = config.postUrl;
+  var nonce = config.nonce;
+  var postAction = config.postAction;
 
   var store = (0, _redux.createStore)(_reducers.contactReducer, {
-    fields: config.fields
+    fields: gf_form.fields,
+    form_id: gf_form.id,
+    fieldPrefix: fieldPrefix,
+    postConfig: {
+      url: postUrl,
+      nonce: nonce,
+      action: postAction
+    }
   });
 
   store.subscribe(function () {
@@ -1966,12 +2075,7 @@ function contactFormView(config) {
   });
 
   return _riot2.default.mount('contact-form', {
-    store: store,
-    postConfig: {
-      url: config.postUrl,
-      nonce: config.nonce,
-      action: config.postAction
-    }
+    store: store
   });
 }
 
