@@ -8,7 +8,9 @@ import {
   REMOVE_ITEM,
   TOGGLE_ACTIVE,
   TOGGLE_ACTIVE_ALL,
-  TOGGLE_ALL
+  TOGGLE_ALL,
+  INPUT_CHANGE,
+  FORM_SUBMITTED
 } from './actions'
 
 /** 
@@ -176,7 +178,32 @@ function componentReducer(state = {}, action) {
 function contactReducer(state = {}, action) {
   
   switch(action.type) {
+    case INPUT_CHANGE :
+
+      return {
+        ...state
+      }
+
+    case FORM_SUBMITTED :
+
+
+      const resText = action.res ? JSON.parse(action.res.text) : {}
+      const fields = map(state.fields, field => {
+        return {
+          ...field,
+          hasError: resText.validation_messages ? resText.validation_messages[field.id] : false
+        }
+      })
+
+      return {
+        ...state,
+        fields: fields,
+        http_res: action.res,
+        http_err: action.err
+      }
+
     default :
+
       return {
         ...state
       }
