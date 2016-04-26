@@ -95,13 +95,21 @@ dd {
   background-size:cover;
   background-position: top;
   opacity: 0;
-  transform:scale(1.025);
-  transition:all $transition-default;
+  transform:scale(1);
+  transition:opacity $transition-slow, transform linear 5s ;
   pointer-events: none;
 
   a:hover & {
+    transition:opacity $transition-x-slow, transform linear 5s ;
     transition-delay: 0.1s;
-    opacity: .2;
-    transform:scale(1);
+    opacity: .3;
+    transform:scale(1.1);
+  }
+}
+
+.list-inline {
+  li {
+    display: inline-block;
+    margin: 0 $base-spacing-unit/4;
   }
 }

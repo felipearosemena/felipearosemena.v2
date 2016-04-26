@@ -18,6 +18,14 @@
   transition: all $transition-slow;
 }
 
+a.tile {
+  color: $body-color;
+}
+
+a.tile:hover {
+  background: $lightest-grey;
+}
+
 .tile--project {
   border: none;
 }

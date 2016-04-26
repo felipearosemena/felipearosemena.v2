@@ -72,14 +72,34 @@ a, i {
 
 .link-linkedin {
   color: $linkedin;
+
   &:hover {
   }
 }
 
 .link-twitter {
   color: $twitter;
+
   &:hover {
   }
+}
+
+.link-white,
+.link-twitter-white,
+.link-linkedin-white {
+  color: white;
+}
+
+.link-white:hover {
+  color: $color-primary;
+}
+
+.link-twitter-white:hover {
+  color: $twitter;
+}
+
+.link-linkedin-white:hover {
+  color: $linkedin;
 }
 
 .link-briteweb {
@@ -137,7 +157,7 @@ h2, .beta {
   }
 }
 
-h3, .gamma {
+h3, .gamma, .gamma-size {
   @include font-size($h3-font-size, $h3-line-height);
   
   @include mq-max($bp-sm) {
@@ -146,7 +166,7 @@ h3, .gamma {
 }
 
 h4, .delta {
-  @include font-size($h4-font-size);
+  @include font-size($h4-font-size, $h4-line-height);
 }
 
 h5, .epsilon {
@@ -176,7 +196,7 @@ p,
  */
 .lead, %lead {
   @include mq-min($bp-sm) {
-    @include font-size($h4-font-size);
+    font-size: $h4-font-size/$base-font-size * 1rem;
   }
   // font-family: $garamond;
 }

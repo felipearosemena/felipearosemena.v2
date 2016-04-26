@@ -44,6 +44,7 @@ $red          : rgb(244,71,71);
 
 $yellow       : #F4BA47;
 
+$lightest-grey : #fafafa;
 $lighter-grey : #f5f5f5;
 $light-grey   : #e5e5e5;
 $grey         : #d2d2d2;
@@ -120,11 +121,11 @@ $h1-line-height      : 72px;
 $h2-font-size        : 50px;
 $h2-line-height      : 68px;
 
-$h3-font-size        : 36px; 
-$h3-line-height      : 48px;
+$h3-font-size        : 32px; 
+$h3-line-height      : 50px;
 
 $h4-font-size        : 24px;  
-$h4-line-height      : 35px;
+$h4-line-height      : 42px;
 
 $h5-font-size        : 16px;   
 $h5-line-height      : 24px;
@@ -208,7 +209,7 @@ $ipad-landscape-max-width : $ipad-portrait-max-width * $ipad-ratio;
 $transition-time-fast      : .15s;
 $transition-time-default   : .3s ;
 $transition-time-slow      : .6s;
-$transition-time-x-slow    : 1.2s;
+$transition-time-x-slow    : 2s;
 $transition-timing-default : cubic-bezier(0.165, 0.840, 0.440, 1.000);;
 $transition-slow           : $transition-time-slow $transition-timing-default; 
 $transition-x-slow           : $transition-time-x-slow $transition-timing-default; 
