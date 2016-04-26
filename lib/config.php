@@ -32,7 +32,16 @@ class StarterSite extends TimberSite {
     $context['footer_util_menu'] = new TimberMenu('sub-footer-nav'); // same for this
     $context['sub_menu']         = Page_Nav_Widget::get_widget_items(); // Widget defined in lib/widgets.php
     $context['site']             = $this;
-    $context['site_settings']    = get_fields('options');
+    $site_settings               = get_fields('options');
+    $context['site_settings']    = $site_settings;
+
+    $context['briteweb_url']     = 'http://briteweb.com';
+
+    $social = array();
+    foreach($site_settings['social_accounts'] as $v) {
+      $social[$v['account_type']] = $v['account_url'];
+    }
+    $context['social'] = $social;
 
     $context['projects']         = Timber::get_posts(array(
       'post_type' => 'project',
