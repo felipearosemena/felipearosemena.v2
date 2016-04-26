@@ -1,7 +1,6 @@
-{% if site_settings.social_accounts %}
-    <ul class="nav nav--social nav--inline">
-        {% for account in site_settings.social_accounts %}
-            <li><a href="{{ account.account_url }}" target="_blank" class="icon-{{ account.account_type}}" ></a></li>
-        {% endfor %}
-    </ul>
-{% endif %}
+<div class="mt-2 space-between">
+  <a href="{{ site_settings.resume.url }}" target="_blank" class="link-underline">Résumé</a>
+  <a href="mailto:{{ site_settings.site_email_address }}" class="link-underline">Email</a>
+  <a href="{{ social.twitter }}" target="_blank" class="link-twitter">Twitter</a>
+  <a href="{{ social.linkedin }}" target="_blank" class="link-linkedin">Linkedin</a>
+</div>

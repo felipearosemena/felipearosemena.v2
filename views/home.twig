@@ -12,19 +12,20 @@
       <h2 class="mb-0">Hello there, I&rsquo;m Felipe. </h2>
       <h1 class="beta">Vancouver based Front End Developer.</h1>
 
-      <div class="grid lead mt-2 mb-1">
+      <div class="grid mt-2 mb-1">
         <p class="grid__item one-whole md-one-half">
-          I&rsquo;m currently working with the great folks at <a href="#" class="link-briteweb">Briteweb</a> doing awesome work in the non-for-profit sector.
+          I&rsquo;m currently working with the great folks at <a href="{{ briteweb_url }}" target="_blank" class="link-briteweb">Briteweb</a> doing awesome work in the non-for-profit sector.
         </p>  
         <p class="grid__item one-whole md-one-half">
-           You can find me on <a href="#" class="link-linkedin">Linkedin</a> &amp; <a href="#" class="link-twitter">Twitter</a>.<br> If you have a project you think i&rsquo;d be a good fit for, <a class="link-underline" href="/contact">Get In Touch</a>
+
+           You can find me on <a href="{{ social.linkedin }}" class="link-linkedin">Linkedin</a> &amp; <a href="{{ social.twitter }}" class="link-twitter">Twitter</a>.<br> If you have a project you think i&rsquo;d be a good fit for, <a class="link-underline" href="{{ contact.get_link }}">Get In Touch</a>
         </p>
 
-        <p class="grid__item mt-1 one-whole">
+        <p class="grid__item mb-0 one-whole md-two-thirds grow-0">
           Here is a collection of projects I&rsquo;ve worked on, with roles ranging from:
-            <b class="ib">Front End Development</b>,
-            <b class="ib">Interaction Design</b> &amp;
-            <b class="ib">Project Lead</b>
+          <b class="ib">Front End Development</b>,
+          <b class="ib">Interaction Design</b> &amp;
+          <b class="ib">Project Lead</b>
         </p>
 
       </div>
@@ -45,7 +46,5 @@
 {% endblock %}
 
 {% block bottom %}
-    
   {% include('includes/cta.twig') %}
-    
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+  
+  <div class="mtb-1--f">
+    <div class="container container--md">
+      <h1 class="mb-2">{{ post.post_title }}</h1>
+  
+      {{ post.content }}
+
+      {% include ('includes/nav-social.twig') %}
+    </div>
+
+    {# <div class="hero__bg" style="background-image:url(http://felipearosemena.v2.dev/wp-content/uploads/2016/02/felipe_a.jpg)"></div> #}
+  </div>
+
+{% endblock %}
+
+{% block bottom %}
+  {% include ('includes/bottom-nav.twig') %}
+{% endblock %}

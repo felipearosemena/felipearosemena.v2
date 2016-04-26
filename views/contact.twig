@@ -2,25 +2,29 @@
 
 {% block data %}
   data = {
-    formFields: {{ form_fields|json_encode }}
+    gf_contact_form: {{ gf_contact_form|json_encode }}
 
   }
 {% endblock %}
 
 {% block content %}
   
-  <div class="hero hero--contact">
-    <div class="hero__body">
-      <div class="container container--sm-left">
-        <h1 class="hero__heading">{{ post.post_title }}</h1>
-        {{ post.content }}
-      </div>
+  <div class="mtb-1--f">
+    <div class="container container--md ">
+      <h1>{{ post.post_title }}</h1>
+
+      {{ post.content }}
     </div>
   </div>
-  <section id="form-wrapper" class="form-wrapper container mb-1--f">
+
+  <section id="form-wrapper" class="form-wrapper container container--md mb-1--f">
     <contact-form></contact-form>
     <div class="form-progress">
     </div>
   </section>
 
+{% endblock %}
+
+{% block bottom %}
+  {% include ('includes/bottom-nav.twig') %}
 {% endblock %}
