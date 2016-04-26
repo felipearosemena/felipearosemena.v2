@@ -36,6 +36,10 @@
   color: white;
 }
 
+.color-primary {
+  color: $color-primary;
+}
+
 // FLOATS AND ALIGNMENT
 
 // Add/remove floats
@@ -202,6 +206,14 @@
   // }
 }
 
+.max-sm {
+  max-width: $container-sm-max;
+}
+
+.max-md {
+  max-width: $container-md-max;
+}
+
 /* display */
 
 .inline-full {
@@ -223,6 +235,11 @@
 
 .grow-0 {
   flex-grow: 0;
+}
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
 }
 
 /* -------------------------------------- */
