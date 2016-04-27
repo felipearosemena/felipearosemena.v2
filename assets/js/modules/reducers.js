@@ -181,18 +181,19 @@ function contactReducer(state = {}, action) {
     case INPUT_CHANGE :
 
       return {
-        ...state
+        ...state,
       }
 
     case FORM_SUBMITTED :
 
-
       const resText = action.res ? JSON.parse(action.res.text) : {}
       const fields = map(state.fields, field => {
+
         return {
           ...field,
-          hasError: resText.validation_messages ? resText.validation_messages[field.id] : false
+          hasError: resText.validation_messages ? !!resText.validation_messages[field.id] : false
         }
+
       })
 
       return {
