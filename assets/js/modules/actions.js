@@ -61,10 +61,11 @@ export function toggleAll(allActive) {
   }
 }
 
-export function inputChange(field) {
+export function inputChange(field, value) {
   return {
     type: INPUT_CHANGE,
-    field: field
+    field: field,
+    value: value
   }
 }
 
