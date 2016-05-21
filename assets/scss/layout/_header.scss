@@ -24,7 +24,6 @@
 .site-header__toggle { 
   @include z-index(6);    
   float:right;
-  margin-right: $container-pad - px-to-rem($button-toggle-padding);
 
   @include mq-max($bp-xl) {
     border-radius: 0;
@@ -33,7 +32,7 @@
 
   @include mq-min($bp-xl) {
     top: ($logo-height-lg - px-to-rem($button-toggle-width))/2;
-    margin: $base-spacing-unit;
+    margin: $base-spacing-unit ($container-pad - px-to-rem($button-toggle-padding));
   }
 }
 
@@ -54,7 +53,6 @@
   }
 
   @include mq-min($bp-xl) {
-    position: absolute;
     box-shadow: none;
     background: transparent;
     height: 0;
@@ -92,7 +90,7 @@
   @extend %cf;  
   display: inline-block;
   vertical-align: top;
-  padding: px-to-em(15px) ($container-pad); 
+  padding: px-to-em(15px) ($container-pad/2); 
   color: $body-color;
 
   @include mq-min($bp-xl) {

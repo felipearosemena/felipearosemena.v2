@@ -41,6 +41,16 @@
   }
 }
 
+.container--left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.container--right {
+  margin-right: 0;
+  margin-left: auto;
+}
+
 .container, %container {
   max-width: $container-max;
   box-sizing: content-box;
@@ -64,6 +74,14 @@
 
 .container--md {
   max-width: $container-md-max;
+}
+
+.container--sm-lg {
+  max-width: $container-sm-lg-max;
+}
+
+.container--sm {
+  max-width: $container-sm-max;
 }
 
 .container--xs {

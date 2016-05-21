@@ -99,12 +99,14 @@
 {% macro project_styles(projects) %}
   {% for project in projects %}
     {% if project.slug and project.color %}
-      .btn--{{ project.slug }} {
+      .btn--{{ project.slug }},
+      .block-list__link--{{ project.slug }}:before {
         color: {{ project.color }};
       }
 
       .btn--{{ project.slug }}:hover,
-      .btn--h-{{ project.slug }}:hover {
+      .btn--h-{{ project.slug }}:hover,
+      .block-list__link--{{ project.slug }}:after {
         background-color: {{ project.color }};
         border-color: {{ project.color  }}
       }
@@ -117,6 +119,7 @@
         background-color: {{ project.color }};
         color: white;
       }
+
     {% endif %}
   {% endfor %}
 {% endmacro %}

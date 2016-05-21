@@ -1,39 +1,35 @@
 {% extends "layouts/base.twig" %}
 
-{% block styles %}
-  {{ macros.project_styles([post, next_post, prev_post]) }}
-{% endblock %}
-
 {% block masthead %}
 
-  <section class="mtb-1--f container">
+  <section class="mtb-1--f container container--md">
 
-    <div class="grid">
-      <div class="grid__item one-whole md-seven-tenths lg-three-fifths">
+    <div class="grid grid--fluid">
+      <div class="grid__item one-whole md-seven-tenths lg-three-quarters">
         <h1>{{ post.title }}</h1>
-        <div class="container--xs mb-0--lc">{{ post.content }}</div>
+        <div class="container--sm mb-0--lc">{{ post.content }}</div>
       </div>
 
-      <div class="grid__item one-whole md-three-tenths lg-two-fifths">
+      <div class="grid__item one-whole md-three-tenths lg-one-quarter">
         
         <div class="grid">
-          <p class="grid__item one-whole xs-one-half sm-two-fifths md-one-whole mtb-05 grow-0">
+          <div class="grid__item one-whole xs-one-half sm-two-fifths md-one-whole mt-05 grow-0">
             {% if post.roles %}
             <span class="label">Role{{ post.roles|length > 1 ? 's' }}</span>
-            <span class="strong">
+            <small class="strong">
             {% for role in post.roles %}
               {{ role }}<br>
             {% endfor %}
-            </span>
+            </small>
             {% endif %}
-          </p>
-          <p class="grid__item one-whole xs-one-half sm-one-third md-one-whole mtb-05 grow-0">
+          </div>
+          <div class="grid__item one-whole xs-one-half sm-one-third md-one-whole mt-05 grow-0">
             {% if agency %}
               <span class="label">Agency</span>
-              <a href="{{ agency.website }}" class="link-underline link-plain" target="_blank">{{ agency.title }}</a>
+              <a href="{{ agency.website }}" class="link-underline link-plain small" target="_blank">{{ agency.title }}</a>
             {% endif %}
-          </p>
-          <p class="grid__item one-whole sm-one-fifth mt-05 mb-0">
+          </div>
+          <p class="grid__item one-whole sm-one-fifth mt-1 mb-0">
             {% if post.project_url %}
               <a href="{{ post.project_url }}" target="_blank" class="btn btn--squared btn--{{ post.slug }}">Visit Site</a>
             {% endif %}

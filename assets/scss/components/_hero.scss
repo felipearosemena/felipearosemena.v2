@@ -108,16 +108,15 @@ canvas.hero__bg {
 
   width: 100%;
   min-height:30rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex; 
+  align-items:center;
+  min-height:100vh;
   
   .hero__body {
     width:100%;
   }
-
-  @include mq-min(1025px){
-    display: flex; 
-    align-items:center;
-    min-height:100vh;
-  } 
 }
 
 .hero--dark {

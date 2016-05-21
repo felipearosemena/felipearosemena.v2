@@ -1,15 +1,11 @@
 {% extends "layouts/base.twig" %}
 
-{% block styles %}
-  {{ macros.project_styles(projects) }}
-{% endblock %}
-
 {% block masthead %}
 
   <section class="hero">
     <div class="container">
 
-      <h2 class="mb-0">Hello there, I&rsquo;m Felipe. </h2>
+      <h2 class="mb-0">Hello there, I&rsquo;m Felipe.</h2>
       <h1 class="beta">Vancouver based Front End Developer.</h1>
 
       <div class="grid mt-2 mb-1">
@@ -18,7 +14,10 @@
         </p>  
         <p class="grid__item one-whole md-one-half">
 
-           You can find me on <a href="{{ social.linkedin }}" class="link-linkedin">Linkedin</a> &amp; <a href="{{ social.twitter }}" class="link-twitter">Twitter</a>.<br> If you have a project you think i&rsquo;d be a good fit for, <a class="link-underline" href="{{ contact.get_link }}">Get In Touch</a>
+           You can find me on <a href="{{ social.linkedin }}" class="link-linkedin">Linkedin</a> &amp; 
+           <a href="{{ social.twitter }}" class="link-twitter">Twitter</a>. <br>
+          Learn more <a href="{{ about.get_link }}" class="link-underline">about</a> myself
+          or simply <a href="{{ contact.get_link }}" class="link-underline">say hi!</a> <br>
         </p>
 
         <p class="grid__item mb-0 one-whole md-two-thirds grow-0">
@@ -40,7 +39,7 @@
 
   {% include 'includes/project-listing.twig' with { 
     projects: projects,
-    tab_label: 'Recent Projects'
+    tab_label: 'Recent Work'
   } %}
   
 {% endblock %}

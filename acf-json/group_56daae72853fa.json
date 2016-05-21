@@ -55,9 +55,9 @@
                 "id": ""
             },
             "choices": {
+                "Full Stack Development": "Full Stack Development",
                 "Front End Development": "Front End Development",
-                "Interaction Design": "Interaction Design",
-                "Full Stack Development": "Full Stack Development"
+                "Interaction Design": "Interaction Design"
             },
             "default_value": [],
             "allow_null": 0,
@@ -124,5 +124,5 @@
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1458788186
+    "modified": 1463329810
 }

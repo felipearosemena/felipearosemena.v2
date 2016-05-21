@@ -1,15 +1,11 @@
 import * as PubSub from 'pubsub-js'
-import { inRange, delegateEvent } from '../modules/utils'
+import { inRange, delegateEvent, whichTransitionEnd } from '../modules/utils'
 
 const rootEl = document.body
 const rootClass = rootEl.classList
 
 const headerViewProto = {
   isOpen: false,
-
-  init: (() => {
-
-  })(),
 
   open() {
     rootClass.add('is-menu-active')

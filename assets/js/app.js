@@ -6,10 +6,12 @@ import { map, reduce } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
 import { videoController } from './modules/video'
+
 import pageSections from './views/pageSections'
 import headerView from './views/header'
 import navView from './views/nav'
 import contactFormView from './views/contact'
+import canvasView from './views/canvas'
 
 // Polyfills
 classList()
@@ -28,6 +30,10 @@ map(sections, (section) => {
     section.player = player
   }
 
+})
+
+map(document.querySelectorAll('.btn'), button => {
+  button.title = button.title || button.innerText
 })
 
 function handleSection(eventName, sectionView) {
@@ -84,4 +90,5 @@ page({
   click: false,
   popstate: false
 })
+
 

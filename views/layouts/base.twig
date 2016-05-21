@@ -6,6 +6,7 @@
 
     <style>
       {% block styles %}
+        {{ macros.project_styles(projects) }}
       {% endblock %}
     </style> 
 
@@ -26,7 +27,8 @@
         {% block content %}{% endblock %}
 
       </main>
-    
+      
+      {# FIX CONTACT FORM #}
       {% block bottom %}{% endblock %}
 
     </div><!-- page-wrap -->

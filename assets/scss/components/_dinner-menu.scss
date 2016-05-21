@@ -22,7 +22,7 @@
   transition: opacity $transition-slow, transform $transition-slow, visibility $transition-default; 
   
   .is-menu-active & {
-    transform:translate3d(0,0,0);
+    transform: none;
     opacity: 1;
     visibility: visible;
     overflow: auto;
@@ -40,7 +40,6 @@
 
 .dinner-menu-active,
 .dinner-menu-active body {
-  overflow:hidden;
 }
 
 .dinner-menu-active--relative body {

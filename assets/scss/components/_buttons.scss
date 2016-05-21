@@ -4,43 +4,39 @@
 
 */
 
+button:focus {
+  outline: none;
+}
+
 /* Base Button */
 .btn {
+  position: relative;
   display: inline-block;
   vertical-align: middle;
   font-family: inherit;
-  font-size: 100%;
   font-weight: normal; // Important for <button> element
-  cursor: pointer;
+  font-size: 100%;
+  line-height: $btn-line-height;
   white-space: nowrap;
-  border: none;
   margin: 0;
   padding-top: 0;
   padding-bottom: 0;
-  line-height: $btn-line-height;
   padding: $base-spacing-unit/4 $base-spacing-unit $base-spacing-unit/3;
+  border: none;
   border-radius: 10rem;
-  // Half circle rounded borders
+  box-shadow: inset 0 0 0 2px currentColor;
+  color: inherit;
+  background-color: transparent !important;
   text-decoration: none;
   text-align: center;
-  transition: all $transition-default;
-}
-
-.btn {
-  color: inherit;
-  border: 2px solid;
-  background-color: transparent;
+  cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
+  @include hover-slash;
+  
   &:hover {
-    color: white;
     background-color: $body-color;
-    border-color: $body-color;
-  }  
-
-  &:active,
-  &:focus {
-    outline: none;
+    border-color: $body-color;    
   }
 
 }
@@ -93,7 +89,7 @@
   color: $color-primary;
 
   &:hover {
-    color: white;
+    // color: white;
     background:$color-primary;
     border-color:$color-primary;
   }
@@ -103,7 +99,7 @@
   color: $color-secondary;
   
   &:hover {
-    color: white;
+    // color: white;
     background: $color-secondary;
     border-color: $color-secondary;
   }
@@ -155,12 +151,15 @@
 
 // since the toggle button is likely to have content other than text inside (icon, spans), 
 // we just set a padding all around to ensure proper padding.
-.btn--toggle {
+.btn-toggle {
+  background: transparent;
+  border-radius: 50%;
   padding: $button-toggle-padding;
   width: $button-toggle-width;
   height: $button-toggle-width; 
   color: $body-color;
   border: none;
+  box-shadow: none;
   overflow: hidden;
   transition: background-color $transition-default, color $transition-default;
 

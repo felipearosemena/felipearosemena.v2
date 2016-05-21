@@ -187,3 +187,31 @@ export  function extend(){
         arguments[0][key] = arguments[i][key];
   return arguments[0];
 }
+
+
+/**
+ *
+ * Detect if browser supports transitionend event.
+ * 
+ * @returns {string|false} The prefixed (or unprefixed) supported event name 
+ *                         or false if it doesn't support any.
+ *
+ */
+
+export function whichTransitionEnd() {
+
+  let transEndEventNames = {
+    WebkitTransition : 'webkitTransitionEnd',
+    MozTransition    : 'transitionend',
+    OTransition      : 'oTransitionEnd otransitionend',
+    transition       : 'transitionend'
+  }
+
+  for (let name in transEndEventNames) {
+    if (document.body.style[name] !== undefined) {
+      return transEndEventNames[name];
+    }
+  }
+
+  return false
+}

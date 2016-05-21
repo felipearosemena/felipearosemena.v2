@@ -5,7 +5,7 @@
   // align-self: bottom;
   vertical-align: top;
 
-  @include mq-max($bp-xs) {
+  @include mq-max(560px) {
     margin-left: -$container-pad/2;
     margin-right: -$container-pad/2;
   }
@@ -33,11 +33,12 @@
 
 .browser-shot--video {
   margin: auto;
+  width: 100%;
 }
 
 .browser-shot--scroll {
   transform: translate3d(0, 0, 0);
-  transition:all $transition-x-slow;
+  transition:transform $transition-slow, opacity $transition-slow;
 
   &.is-out {
     transform: translate3d(0, $base-spacing-unit, 0);

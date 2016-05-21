@@ -20,14 +20,14 @@
       {{ macros.img(layout.image) }}
     {% endset %}
     
-    <div class="{{ image_class}}" style="background-image: url({{ layout.image.url }})"></div>
+    <div class="{{ image_class}}" style="background-image: url({{ layout.image.url }})" data-scroll-section></div>
 
   {% endif %}
 
 
   {% set push = ('l' in layout.image_position|lower) and (layout.image_type == 'default') ? 'push-one-half' %}
   <div class="spread__content {{ push }}">
-    <div class="container container--xs container--flush">
+    <div class="spread__content-container">
       {{ layout.content|wpautop }}
     </div>
   </div>
