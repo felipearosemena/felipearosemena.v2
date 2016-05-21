@@ -15,7 +15,12 @@ var gulp = require('gulp'),
   reload = browserSync.reload,
   sass = require('gulp-sass'),
   autoprefixer = require('gulp-autoprefixer'),
+  // env = require('gulp-env'),
   bundler
+
+// const envs = env.set({
+//   NODE_ENV: 'production'
+// })
 
 function getBundler() {
 
@@ -38,7 +43,6 @@ function getBundler() {
 function bundle() {
 
   return getBundler()
-    
     .bundle()
     .on('error', function(err) {
       console.log('Error: ' + err.message);
@@ -60,8 +64,10 @@ gulp.task('build-persistent', function() {
 });
 
 gulp.task('build', ['build-persistent'], function() {
+
   gulp
     .src('./assets/js/main.js')
+    // .pipe(envs)
     .pipe(uglify())
     .pipe(rename('main.min.js'))
     .pipe(gulp.dest('./assets/js/'))
@@ -70,7 +76,7 @@ gulp.task('build', ['build-persistent'], function() {
 gulp.task('styles', function() {
 
   gulp.src('./assets/scss/**/*.scss')
-    .pipe(sass().on('error', sass.logError))
+    .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(gulp.dest('./assets/css'))
     .pipe(reload({

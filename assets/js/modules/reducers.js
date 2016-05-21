@@ -10,7 +10,8 @@ import {
   TOGGLE_ACTIVE_ALL,
   TOGGLE_ALL,
   INPUT_CHANGE,
-  FORM_SUBMITTED
+  FORM_SUBMITTED,
+  INPUT_VALIDATE
 } from './actions'
 
 /** 
@@ -178,8 +179,8 @@ function componentReducer(state = {}, action) {
 function contactReducer(state = {}, action) {
   
   switch(action.type) {
-    case INPUT_CHANGE :
-
+    case INPUT_VALIDATE :
+      
       return {
         ...state,
       }

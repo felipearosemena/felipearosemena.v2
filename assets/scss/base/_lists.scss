@@ -47,63 +47,94 @@ dd {
 }
 
 .menu-list {
-
   line-height: 1;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
 
   li {
-    margin:$base-spacing-unit $base-spacing-unit;
+    display: inline-block;
+    // margin:$base-spacing-unit $base-spacing-unit;
   }
-
-  a:not(.btn) {
+  
+  a {
+    padding: $base-spacing-unit/2 $base-spacing-unit;
+    display: inline-block;
     color:white;
+    font-size: $h2-font-size;
+    transition: color $transition-slow;
 
     &:hover {
-      color:$grey;
+      color: $color-primary;
     }
+
+    // border-bottom: 1px solid;
+    // font-weight: normal;
   }
 
 }
 
+.block-list-label {
+  display: block;
+  padding: $base-spacing-unit/4 $base-spacing-unit;
+  background-color: white;
+  color: $body-color;
+  font-weight: bold;
+  text-align: center;
+}
+
 .block-list {
+  display: block;
+  margin-bottom: 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid;
+  text-align: center;
   
+  li {
+    margin-left: -$base-spacing-unit;
+    margin-right: -$base-spacing-unit;
+  }
+
   a {
-
-    border:2px solid;
-    border-bottom:0; 
+    position: relative;
     display: block;
-    padding:$base-spacing-unit/2 $base-spacing-unit;
+    padding:$base-spacing-unit/4 $base-spacing-unit;
     color:white;
-    transition: background-color $transition-default;
-
-    &:hover {
-      background-color: white;
-      border-color:white;
-      color:$darker-grey;
+    @include hover-slash($body-color);
+    
+    &:after {
+      color: white;
+      // font-weight: normal;
     }
-
   }
 
   li:last-child a {
-    border-bottom:2px solid;
+    // border-bottom:2px solid;
   }
 
 }
 
 .block-list__bg {
   @extend %full-cover;
-  @include z-index(-1,fixed);
+  @include z-index(-1,absolute);
   background-size:cover;
   background-position: top;
   opacity: 0;
   transform:scale(1);
-  transition:opacity $transition-slow, transform linear 5s ;
+  transition: opacity $transition-slow, transform $transition-slow;
   pointer-events: none;
+  
+  .touchevents & {
+    background-image: none !important;
+  }
 
-  a:hover & {
-    transition:opacity $transition-x-slow, transform linear 5s ;
-    transition-delay: 0.1s;
-    opacity: .3;
-    transform:scale(1.1);
+  a:hover + & {
+    transition:opacity $transition-x-slow, transform linear 8s;
+    transition-delay: 0.2s;
+    opacity: 0.6;
+    transform:scale(1.2);
   }
 }
 

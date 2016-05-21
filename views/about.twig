@@ -2,20 +2,24 @@
 
 {% block content %}
   
-  <div class="mtb-1--f">
-    <div class="container container--md">
-      <h1 class="mb-2">{{ post.post_title }}</h1>
-  
-      {{ post.content }}
+  <section class="page-section page-section--about mtb-1--f spread">
 
-      {% include ('includes/nav-social.twig') %}
+    <div class="spread__content one-whole">
+      <div class="container container--md container--flush">
+        <h1 class="beta mb-2">{{ post.post_title }}</h1>
+        {{ post.content }}
+      </div>
     </div>
 
-    {# <div class="hero__bg" style="background-image:url(http://felipearosemena.v2.dev/wp-content/uploads/2016/02/felipe_a.jpg)"></div> #}
-  </div>
+  </section>
+
+  {% include 'includes/project-listing.twig' with { 
+    projects:[projects[0]],
+    tab_label: 'Recent Work'
+  } %}
 
 {% endblock %}
 
 {% block bottom %}
-  {% include ('includes/bottom-nav.twig') %}
+  {% include ('includes/cta.twig') %}
 {% endblock %}

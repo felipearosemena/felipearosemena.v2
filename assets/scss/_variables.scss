@@ -48,12 +48,12 @@ $lightest-grey : #fafafa;
 $lighter-grey : #f5f5f5;
 $light-grey   : #e5e5e5;
 $grey         : #d2d2d2;
-$dark-grey    : #333333;
-$darker-grey  : #222222;
+$dark-grey    : #212121;
+$darker-grey  : #151515;
 
 $linkedin : #0077B5;
 $twitter : #55acee;
-$briteweb: #ED1D73;
+$briteweb: #f52a4c;
 
 $box-shadow-y: 0 .25rem 3rem rgba(0,0,0,0.075);
 $box-shadow-x: .25rem 0 3rem rgba(0,0,0,0.075);
@@ -122,7 +122,7 @@ $h2-font-size        : 50px;
 $h2-line-height      : 68px;
 
 $h3-font-size        : 32px; 
-$h3-line-height      : 50px;
+$h3-line-height      : 40px;
 
 $h4-font-size        : 24px;  
 $h4-line-height      : 42px;
@@ -130,7 +130,8 @@ $h4-line-height      : 42px;
 $h5-font-size        : 16px;   
 $h5-line-height      : 24px;
 
-$h6-font-size        : 12px;  
+$h6-font-size        : 15px;   
+$h6-line-height      : 18px;
 
 $small-font-size     : $h5-font-size;
 
@@ -160,7 +161,7 @@ $horz-spacing-unit        : $base-spacing-unit;
 
 $base-border-radius       : 5px;
 $base-border-width        : 1px;
-$base-border              : $base-border-width solid $light-grey;
+$base-border              : $base-border-width solid $grey;
 
 $grid-gutter              : $base-spacing-unit;
 $fluid-grid-gutter        : 5%;
@@ -170,6 +171,7 @@ $container-pad-lg         : $logo-width + $base-spacing-unit*2;
 $container-lg-max         : 60rem;
 $container-max            : 50rem;
 $container-md-max         : 42rem;
+$container-sm-lg-max      : 36rem;
 $container-sm-max         : 30rem;
 $container-xs-max         : 480px;
 

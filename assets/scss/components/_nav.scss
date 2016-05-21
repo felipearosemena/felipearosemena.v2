@@ -8,19 +8,20 @@
  */
 
 .nav, %nav {
+  margin-left: -$base-spacing-unit;
+  margin-right: -$base-spacing-unit;
   margin-bottom:0;
   padding-left:0;
-  margin-left: -$base-spacing-unit / 4;
   
   li {
     display: inline-block;
     vertical-align: middle;
-    padding: 0 ($base-spacing-unit / 4);
+    padding: 0 ($base-spacing-unit);
   }
 
   a {
     display: block;
-    padding:  $base-spacing-unit/4;
+    // padding:  $base-spacing-unit/4;
   }
 
 }
@@ -43,11 +44,16 @@
 }
 
 .nav--social {
+  // display: flex;
+  // justify-content: space-between;
+  // max-width: $container-sm-max;
+  // justify-content: center;
+  // margin-left: 0;
+  // margin-right: 0;
+  text-align: center;
 
   li {
-  }
-
-  a {
+    // padding: 0;
   }
 
   [class*=icon] {

@@ -30,6 +30,14 @@ class ContactForm {
       die('GFAPI is not defined');
     }
 
+
+    /*
+    
+      Replace the form prefix to the default GF 'input_' format.
+      This is a workaround to prevent GF capturing the form submission
+    
+    */
+
     $fields = array();
     foreach ($_POST as $k => $v) {
       if(strpos($k, FORM_FIELD_PREFIX) !== false) {

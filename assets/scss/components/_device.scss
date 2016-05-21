@@ -33,8 +33,13 @@
 }
 
 .device--ipad-landscape {
-  width: $iphone-width * $ipad-iphone-ratio * $ipad-ratio;
+  width: $iphone-width * $ipad-iphone-ratio * $ipad-ratio * 1.4;
   max-width: $ipad-landscape-max-width;
+
+
+  @include mq-min($bp-sm) {
+    width: $iphone-width * $ipad-iphone-ratio * $ipad-ratio;
+  }
 
   .device__mask {
     background-image:url(../img/ipad.png);
@@ -46,8 +51,12 @@
 }
 
 .device--ipad-portrait {
-  width: $iphone-width * $ipad-iphone-ratio;
+  width: $iphone-width * $ipad-iphone-ratio * 1.4;
   max-width: $ipad-portrait-max-width;
+
+  @include mq-min($bp-sm) {
+    width: $iphone-width * $ipad-iphone-ratio;
+  }
 
   .device__mask {
     background-image:url(../img/ipad-portrait.png);
@@ -61,8 +70,12 @@
 
 //iphone: 0.4815
 .device--iphone {
-  width: $iphone-width;
+  width: $iphone-width * 1.24;
   max-width: $iphone-max-width;
+  
+  @include mq-min($bp-sm) {
+    width: $iphone-width;
+  }
 
   .device__mask {
     background-image:url(../img/iphone-6.png);

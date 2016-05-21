@@ -23,7 +23,8 @@ function scripts_and_styles() {
   wp_register_script( 'scripts', get_stylesheet_directory_uri() . '/assets/js/main.js', array(), '', true );
   wp_localize_script( 'scripts', AJAX_NAMESPACE, array(
       'url'   => admin_url( 'admin-ajax.php' ),
-      'nonce' => wp_create_nonce( AJAX_NONCE )
+      'nonce' => wp_create_nonce( AJAX_NONCE ),
+      'fieldPrefix' => FORM_FIELD_PREFIX
     )
   );
 

@@ -15,6 +15,7 @@ class StarterSite extends TimberSite {
     add_filter('init', array($this, 'register_menus'));
     add_filter('init', array($this, 'global_site_resets'));
     add_filter('init', array($this, 'register_acf_defaults'));
+    add_filter('init', array($this, 'register_shortcodes'));
     add_filter('body_class', array($this, 'additional_body_classes'));
     add_filter('timber_context', array($this, 'add_to_context'));
 
@@ -121,6 +122,26 @@ class StarterSite extends TimberSite {
     }
     
     return $classes;
+  }
+
+  public function register_shortcodes() {
+    
+    $context = Timber::get_context();
+
+    $shortcodes = array(
+      'social-nav' => function () use ($context) {
+        return Timber::compile('includes/nav-social.twig', $context);
+      },
+
+      'site-email' => function () use ($context) {
+        return $context['site_settings']['site_email_address'];
+      }
+    );
+
+    foreach($shortcodes as $k => $v) {
+      add_shortcode($k, $v);
+    }
+
   }
 
   public function register_custom_filters($twig) {

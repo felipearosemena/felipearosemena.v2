@@ -11,6 +11,7 @@ export const TOGGLE_ACTIVE_ALL = 'TOGGLE_ACTIVE_ALL'
 export const TOGGLE_ALL = 'TOGGLE_ALL'
 export const INPUT_CHANGE = 'INPUT_CHANGE'
 export const FORM_SUBMITTED = 'FORM_SUBMITTED'
+export const INPUT_VALIDATE = 'INPUT_VALIDATE'
 
 export function updateSelection(tax, value) {
   return {
@@ -74,6 +75,14 @@ export function formSubmitted(res, err) {
     type: FORM_SUBMITTED,
     err: err,
     res: res
+  }
+}
+
+export function inputValidate(field, value) {
+  return {
+    type: INPUT_VALIDATE,
+    field: field,
+    value: value
   }
 }
 

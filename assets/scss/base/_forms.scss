@@ -43,7 +43,7 @@ input[type="radio"] {
 }
 
 input[type="submit"] {
-  @extend .btn;
+  // @extend .btn;
 }
 
 label {
@@ -112,14 +112,6 @@ legend {
   }
 }
 
-.form__group--select,
-.form__group--radio {
-  
-  label {
-    padding: 0 $base-spacing-unit/2 $base-spacing-unit/2;
-  }
-}
-
 .form__group--select {
   display: flex;
   flex-wrap: wrap;
@@ -135,6 +127,10 @@ legend {
     pointer-events: none;
   }
 
+  label {
+    padding: 0 $base-spacing-unit/2 $base-spacing-unit/2;
+  }
+
 }
 
 .form__group--radio {
@@ -143,10 +139,12 @@ legend {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-left: -$base-spacing-unit/2;
 
   > label {
     width: 100%;
     cursor: default;
+    padding: 0 calc(#{$base-spacing-unit} + 2px ) $base-spacing-unit/2;
   }
 
   span, raw {
@@ -162,11 +160,10 @@ legend {
     display: flex;
     align-items: center;
     padding: $base-spacing-unit/2;
-    margin-bottom: $base-spacing-unit/2;
     width: 100%;
     border: 2px solid $light-grey;
     border-radius: $base-border-radius;
-    height: get-input-height(2);
+    min-height: get-input-height(2);
     transition: all $transition-fast;
     color: $body-color;
 
@@ -183,6 +180,8 @@ legend {
     display: block;
     height: 0;
     opacity: 0;
+    width: 0;
+    margin-right: $base-spacing-unit/2;
   }
 
   input:checked + label {
@@ -194,6 +193,8 @@ legend {
 
 .form__radio-option {
   width: calc(25% - #{$base-spacing-unit/4});
+  display: flex;
+  flex-grow: 1;
 }
 
 .form__group--inline {
