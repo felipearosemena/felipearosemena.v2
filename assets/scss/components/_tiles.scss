@@ -66,8 +66,8 @@ a.tile:hover {
   margin-right: auto;
 
   @include mq-min($bp-lg) {
-    padding: $base-spacing-unit*2;
     width: 40%;
+    padding: $base-spacing-unit*2 $base-spacing-unit;
   }
 }
 
