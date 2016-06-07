@@ -8,7 +8,7 @@ import { createStore } from 'redux'
 import riot from 'riot'
 import request from 'superagent'
 
-import { inputChange, formåbmitted, inputValidate } from '../modules/actions'
+import { inputChange, formSubmitted, inputValidate } from '../modules/actions'
 import { contactReducer } from '../modules/reducers'
 import { delegateEvent, map, filter, extend, createElement, inArray } from '../modules/utils'
 
@@ -112,7 +112,7 @@ riot.tag('contact-form',
       <form-control each={fields} if={isVisible} store={parent.opts.store} field={field} class="form__group form__group--{ formControlClass }"></form-control>
       <div class="text-right">
          <raw content="{formMessage}"></raw>
-        <button class="btn" type=submit title=Send >Send</button>
+        <button class="btn btn--secondary" type=submit title=Send >Send</button>
       </div>
     </form>
   `
