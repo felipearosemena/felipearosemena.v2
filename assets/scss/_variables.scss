@@ -82,28 +82,6 @@ $hero-overlay-color   : $color-primary;
 $hero-font-color      : white;
 
 
-
-/* -------------------------------------- */
-
-
-
-// TYPOGRAPHY
-
-// Set your font stacks 
-
-@font-face {
-  font-family: 'Circular';
-  src: url('../fonts/CircularPro-Book.woff') format('woff');
-  font-weight: normal;
-}  
-
-@font-face {
-  font-family: 'Circular';
-  src: url('../fonts/CircularPro-Bold.woff') format('woff');
-  font-weight: bold;
-}  
-
-
 $pt-serif : 'PT Serif Caption', serif;
 $garamond : 'EB Garamond', serif;
 $palatino :  Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;;
