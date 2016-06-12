@@ -4,7 +4,23 @@
 
   Base typographic styles
   
-*/  
+*/
+
+@font-face {
+  font-family: 'Circular';
+  src: 
+    url('../fonts/CircularPro-Book.woff2') format('woff2'),
+    url('../fonts/CircularPro-Book.woff') format('woff');
+  font-weight: normal;
+}  
+
+@font-face {
+  font-family: 'Circular';
+  src: 
+    url('../fonts/CircularPro-Bold.woff2') format('woff'),
+    url('../fonts/CircularPro-Bold.woff') format('woff');
+  font-weight: bold;
+}   
 
 html {
   font-family: $body-font-family;
