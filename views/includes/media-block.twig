@@ -1,0 +1,16 @@
+{# Full Image #}
+<section class="page-section mtb-1--f container"  data-scroll-section>
+
+  <figure class="browser-shot browser-shot--{{ type }}">
+    {% if type == 'img' %}
+      {{ macros.img(image, 'masthead') }}
+    {% endif %}
+  </figure>
+
+  {% if title %}
+    <figcaption>
+      {{ title }}
+    </figcaption>
+  {% endif %}
+
+</section>

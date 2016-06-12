@@ -1,0 +1,42 @@
+/*
+
+  Island
+
+  Abstraction for a padded block element
+  
+*/
+
+%island, .island,
+%islet, .islet {
+  display: block;
+  @extend %cf;
+  // add this class to the clearfix class
+  // one line of margin after
+  & > :last-child,
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+
+.islet, .island {
+  padding: ($island-padding-y / 2) ($island-padding-x / 2);
+}
+
+.island  {
+
+  @include mq-min($bp-xl) {
+    padding: $island-padding-y $island-padding-x;
+  }
+}
+
+.island--box,
+.islet--box {
+  background: $dark-grey;
+  color: white;
+}
+
+.island-y {
+  padding-top: $island-padding-y;
+  padding-bottom: $island-padding-y;
+}

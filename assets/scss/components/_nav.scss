@@ -1,0 +1,62 @@
+/*
+
+  Nav
+
+  Extend horizontal list to create a nav with padded items. 
+  Offset the nav to keep alignment
+
+ */
+
+.nav, %nav {
+  margin-left: -$base-spacing-unit;
+  margin-right: -$base-spacing-unit;
+  margin-bottom:0;
+  padding-left:0;
+  
+  li {
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0 ($base-spacing-unit);
+  }
+
+  a {
+    display: block;
+    // padding:  $base-spacing-unit/4;
+  }
+
+}
+
+// Use When the nav goes in with the content (ex: after an heading)
+// Ex: <h4>title</h4>
+//     <ul class="nav nav--inline"></ul>
+.nav--inline {
+  display: inline-block;
+  @include margin-trailer(1);
+}
+
+.nav--split {
+  margin-right: -$base-spacing-unit/4;
+
+  li:last-child {
+    float:right;
+    text-align: right;
+  }
+}
+
+.nav--social {
+  // display: flex;
+  // justify-content: space-between;
+  // max-width: $container-sm-max;
+  // justify-content: center;
+  // margin-left: 0;
+  // margin-right: 0;
+  text-align: center;
+
+  li {
+    // padding: 0;
+  }
+
+  [class*=icon] {
+    // @include font-size($h3-font-size, $h3-font-size);
+  }
+}

@@ -1,0 +1,8 @@
+<form role="search" method="get" class="form-search" action="{{ site.url }}">
+    
+    {# specify the post type you want to serch for #}
+    <input type="hidden" value="post" name="post_type">
+
+    <input class="form-search__input form__control" type="text" value="{{query}}" name="s">
+    <button class="form-search__submit icon-search" type="submit"></button>
+</form>

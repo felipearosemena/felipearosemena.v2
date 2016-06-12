@@ -1,0 +1,12 @@
+<form role="search" method="get" id="searchform" class="searchform" action="{{ site.url }}">
+
+    <div class="form__group">
+        <label class="screen-reader-text" for="s">Search for</label>
+        <input class="form__control" type="text" value="{{query}}" name="s" id="s" />
+    </div>
+    
+    <div class="form__group">
+        <button class="btn" type="submit" id="searchsubmit" >Search</button>
+    </div>
+
+</form>

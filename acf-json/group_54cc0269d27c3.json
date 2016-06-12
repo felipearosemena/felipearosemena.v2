@@ -1,0 +1,94 @@
+{
+    "key": "group_54cc0269d27c3",
+    "title": "Social Accounts",
+    "fields": [
+        {
+            "key": "field_54cc0e16bfe76",
+            "label": "Social Accounts",
+            "name": "social_accounts",
+            "type": "repeater",
+            "instructions": "You may reorder the accounts to change the display order on the site's front end",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "min": "",
+            "max": "",
+            "layout": "table",
+            "button_label": "Add Account",
+            "sub_fields": [
+                {
+                    "key": "field_54cc0e35bfe77",
+                    "label": "Account Type",
+                    "name": "account_type",
+                    "type": "select",
+                    "instructions": "Account Type Value should be equal to icon name",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "facebook": "Facebook",
+                        "instagram": "Instagram",
+                        "twitter": "Twitter",
+                        "linkedin": "Linkedin",
+                        "google-plus": "Google Plus",
+                        "pinterest": "Pinterest",
+                        "youtube": "Youtube",
+                        "vimeo": "Vimeo",
+                        "tumblr": "Tumblr",
+                        "github": "Github"
+                    },
+                    "default_value": [],
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 0,
+                    "ajax": 0,
+                    "placeholder": "",
+                    "disabled": 0,
+                    "readonly": 0
+                },
+                {
+                    "key": "field_54cc0f19bfe78",
+                    "label": "Account URL",
+                    "name": "account_url",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "options_page",
+                "operator": "==",
+                "value": "site-general-settings"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1462673510
+}

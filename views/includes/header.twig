@@ -1,0 +1,22 @@
+<header id="site-header" class="site-header is-compressed">
+
+  <a href="/" class="site-branding">
+    <div class="site-branding__logo">
+      {{ '/img/fa-logo.svg'|assets_uri|file_content }}
+    </div>
+  </a>
+  
+  <button class="btn-toggle site-header__toggle" data-nav-toggle>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>    
+  </button>
+
+</header>
+
+{% include('includes/header-nav.twig') %}
+
+
+
+        

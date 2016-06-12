@@ -1,0 +1,225 @@
+/*
+
+  Buttons
+
+*/
+
+button:focus {
+  outline: none;
+}
+
+/* Base Button */
+.btn {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+  font-family: inherit;
+  font-weight: normal; // Important for <button> element
+  font-size: 100%;
+  line-height: $btn-line-height;
+  white-space: nowrap;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding: $base-spacing-unit/4 $base-spacing-unit $base-spacing-unit/3;
+  border: none;
+  border-radius: 10rem;
+  box-shadow: inset 0 0 0 2px currentColor;
+  color: inherit;
+  background-color: transparent !important;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  @include hover-slash;
+  
+  &:hover {
+    background-color: $body-color;
+    border-color: $body-color;    
+  }
+
+}
+
+.btn--brand {
+
+}
+
+// Button padding size variants.
+// Make the button look bigger, while keeping the same font size;
+.btn--sm {
+   padding: $btn-small-padding $btn-small-padding * 2;
+}
+
+.btn--lg {
+  padding: $btn-large-padding $btn-large-padding * 2;
+} 
+
+.btn--wide {
+  min-width:100%;
+  text-align: center;
+
+  @include mq-min($bp-xs) {
+    min-width: 12rem;
+  }
+}
+
+.btn--white {
+  color: white;
+
+  &:hover {
+    color: $body-color;
+    background: white;
+    border-color: white;
+  }
+}
+
+/* Fill width of container */
+.btn--full {
+  width: 100%; 
+  text-align: center;
+} 
+
+.btn--squared {
+  border-radius:.25rem;
+}
+
+/* Button Functions */
+.btn--primary {
+  color: $color-primary;
+
+  &:hover {
+    // color: white;
+    background:$color-primary;
+    border-color:$color-primary;
+  }
+}
+
+.btn--secondary {
+  color: $color-secondary;
+  
+  &:hover {
+    // color: white;
+    background: $color-secondary;
+    border-color: $color-secondary;
+  }
+}
+
+.btn--positive {
+  background-color: $color-positive;
+  &:hover {
+    background-color: darken($color-positive, 10%);
+  }
+}
+
+.btn--negative {
+  background-color: $color-negative;
+  &:hover {
+    background-color: darken($color-negative, 10%);
+  }
+}
+
+.btn--disabled,
+.btn--disabled:hover,
+.btn--disabled:active,
+.btn--disabled:focus {
+  background-color: $light-grey;
+  color: $grey;
+  cursor: default;
+  box-shadow: none;
+}
+
+.btn--cta {
+  // @extend .btn--secondary;
+  @extend .btn--lg;
+  @extend .btn--wide;
+  @extend .btn--squared;
+}
+
+/*  
+
+  Toggle Button Structure
+
+  <button class="btn--toggle">
+    <span class="sr-only">Toggle navigation</span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+    <span class="icon-bar"></span>
+  </button>
+
+*/
+
+// since the toggle button is likely to have content other than text inside (icon, spans), 
+// we just set a padding all around to ensure proper padding.
+.btn-toggle {
+  background: transparent;
+  border-radius: 50%;
+  padding: $button-toggle-padding;
+  width: $button-toggle-width;
+  height: $button-toggle-width; 
+  color: $body-color;
+  border: none;
+  box-shadow: none;
+  overflow: hidden;
+  transition: background-color $transition-default, color $transition-default;
+
+  span {
+    display: block; 
+    position: relative;
+    width: $icon-bar-width;
+    border-top: $icon-bar-height solid;
+    margin: $icon-bar-spacing auto;
+    transition: transform $transition-slow, opacity $transition-slow;
+  }
+
+  .sr-only {
+    @extend %element-invisible;
+  }
+
+  .is-inverse &,
+  .is-menu-active & {
+    
+    color: white;
+
+    &:hover {
+      color:$body-color;
+      background:white;
+      border-color:white; 
+      box-shadow:0 .1rem rgba(0,0,0,0.25)
+    }
+
+  }
+
+  &:hover {
+    background:$body-color;
+    color:white;
+    border-color:$body-color;
+    box-shadow:none;
+  }
+
+  .is-menu-active & {
+    span:nth-of-type(2) {
+      transform: rotate(45deg) translate3d(2px,2px,0);
+      // top: $icon-bar-height + $icon-bar-spacing;
+    }
+    span:nth-of-type(3) {
+      transform:translate3d(200%,0,0)
+    }
+
+    span:nth-of-type(1) {
+      transform:translate3d(-200%,0,0)
+    }
+
+    span:nth-of-type(4) {
+      transform: rotate(-45deg) translate3d(5px,-5px,0);
+      // top: -($icon-bar-height + $icon-bar-spacing);
+    }
+  }
+}
+
+button.icon-search {
+  background: none;
+  border: none;
+  line-height: 1; 
+  outline: none !important;
+}

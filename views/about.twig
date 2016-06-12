@@ -1,0 +1,25 @@
+{% extends "layouts/base.twig" %}
+
+{% block content %}
+  
+  <section class="page-section page-section--about mtb-1--f spread">
+
+    <div class="spread__content one-whole">
+      <div class="container container--md container--flush">
+        <h1 class="beta mb-2">{{ post.post_title }}</h1>
+        {{ post.content }}
+      </div>
+    </div>
+
+  </section>
+
+  {% include 'includes/project-listing.twig' with { 
+    projects:[projects[0]],
+    tab_label: 'Recent Work'
+  } %}
+
+{% endblock %}
+
+{% block bottom %}
+  {% include ('includes/cta.twig') %}
+{% endblock %}

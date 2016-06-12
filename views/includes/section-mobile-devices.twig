@@ -1,0 +1,32 @@
+<section class="page-section mtb-1--f">
+  <div class="flex-center container container--lg">
+
+    <div class="device-grid">
+
+      {% if layout.phone %}
+      <figure class="device device--iphone" data-scroll-section data-offset="200">
+        <div class="device__mask"></div>
+        <div class="device__inner">
+          {{ macros.img_or_video(layout.phone) }}
+        </div>
+      </figure>
+      {% endif %}
+
+      {% set orientation_class = 'ipad-landscape' %}
+      {% if layout.tablet_orientation == 'v' %}
+        {% set orientation_class = 'ipad-portrait' %}
+      {% endif %}
+
+      {% if layout.tablet %}
+      <figure class="device device--{{ orientation_class }}" data-scroll-section data-offset="200">
+        <div class="device__mask"></div>
+        <div class="device__inner device__inner--{{ orientation_class }}">
+          {{ macros.img_or_video(layout.tablet) }}
+        </div>
+      </figure>
+      {% endif %}
+      
+    </div>
+
+  </div>
+</section>

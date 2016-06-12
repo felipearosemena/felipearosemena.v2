@@ -1,0 +1,27 @@
+/*
+
+    Collapse
+
+    Basic styles for the collapsable 'accordion' style component. Uses on Bootstrap's accordion JS.
+    JS included in gruntfile.
+
+*/
+
+.collapse {
+    display: none;
+    visibility: hidden;
+}
+
+.collapse.in {
+    display: block;
+    visibility: visible;
+}
+
+.collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height, visibility;
+}

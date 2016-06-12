@@ -1,0 +1,60 @@
+/*
+
+  Tabs
+
+  Styles for tab js component.
+
+  Links in tab__nav must map to an anchor inside the tab container
+
+  Usage:
+
+  <div class="js-tab">
+
+    <ul class="tabs__nav">
+      <li><a href="#tab-1" data-toggle="tabs" class="active">Tab 1</a></li>
+      <li><a href="#tab-2" data-toggle="tabs">Tab 2</a></li>
+      <li><a href="#tab-3" data-toggle="tabs">Tab 3</a></li>
+    </ul>
+
+    <div class="tabs__items">
+      <div class="tabs__item" id="tab-1" class="active"></div>
+      <div class="tabs__item" id="tab-2"></div>
+      <div class="tabs__item" id="tab-3"></div>
+    </div>
+
+  </div>
+  
+*/
+
+$tab-border: 1px solid $grey;
+
+.tabs__nav {
+    @extend %hlist;
+    border-bottom: $tab-border;
+    a {
+        background: white;
+        margin-bottom: -1px;
+        display: inline-block;
+        border: $tab-border;
+        padding: $base-spacing-unit / 2;
+        -webkit-tap-highlight-color: transparent;
+        &.active {
+            border-bottom-color: transparent;
+        }
+    }
+}
+
+.tabs__items {
+    padding: $base-spacing-unit / 2;
+    border: $tab-border;
+    border-top: none;
+}
+
+.tabs__item {
+    display: none;
+    position: absolute;
+    &.active {
+        display: block;
+        position: relative;
+    }
+}

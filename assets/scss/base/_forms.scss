@@ -1,0 +1,363 @@
+/*
+
+  $FORMS
+
+  Base form styles
+  
+*/
+
+.form-wrapper {
+}
+
+form {
+}
+
+form-control {
+  display: block;
+}
+
+
+// Basic Form Elements
+
+select,
+input,
+textarea {
+  color: $body-color;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type="text"]::-ms-clear {
+  display: none;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  margin-right: $label-margin;
+
+  & + label {
+    font-weight: normal;
+  }
+}
+
+input[type="submit"] {
+  // @extend .btn;
+}
+
+label {
+  @extend .small;
+  font-weight: bold;
+  vertical-align: top;
+  display: inline-block;
+  cursor: pointer;
+}
+
+fieldset {
+  margin-left: 0;
+  margin-right: 0;
+  padding: ($vert-spacing-unit / 2) $horz-spacing-unit $vert-spacing-unit $horz-spacing-unit;
+  border-color: $light-grey;
+}
+
+legend {
+  @include font-size(18px);
+  padding: 0 0.8em;
+  color: $grey;
+}
+
+// Form groups
+
+.form__group {
+  @include margin-trailer(1);
+  position: relative;
+}
+
+.form__group--boxed,
+.form__group--select,
+.form__group--radio {
+  overflow: hidden;
+
+  label {
+    transition: color $transition-fast;
+    display: block;
+  }
+
+  &.is-focused {
+    color: $color-secondary;
+  }
+}
+
+.form__group--boxed {
+  label {
+    padding: $base-spacing-unit/2 $base-spacing-unit/2 $base-spacing-unit/4;
+  }
+  
+  label {
+    position: absolute;
+    background: white;
+    top: 2px;
+    right: 2px;
+    left: 2px;
+    border-top-right-radius: $base-border-radius/2;
+    border-top-left-radius: $base-border-radius/2;
+  }
+
+  select {
+    // Compensate for space inside <select>
+    &[multiple] {
+      margin-left: 0;
+    }
+  }
+}
+
+.form__group--select {
+  display: flex;
+  flex-wrap: wrap;
+
+  .appearance &:after {
+    content: '\2193';
+    position: absolute;
+    top: 50%;
+    right: $base-spacing-unit;
+    margin-top: -$base-spacing-unit/5;
+    font-size: 1.5em;
+    color: $body-color;
+    pointer-events: none;
+  }
+
+  label {
+    padding: 0 $base-spacing-unit/2 $base-spacing-unit/2;
+  }
+
+}
+
+.form__group--radio {
+
+  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-left: -$base-spacing-unit/2;
+
+  > label {
+    width: 100%;
+    cursor: default;
+    padding: 0 calc(#{$base-spacing-unit} + 2px ) $base-spacing-unit/2;
+  }
+
+  span, raw {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+
+  input + label {
+    font-family: $body-font-family;
+    font-size: 1rem;
+    display: block;
+    display: flex;
+    align-items: center;
+    padding: $base-spacing-unit/2;
+    width: 100%;
+    border: 2px solid $light-grey;
+    border-radius: $base-border-radius;
+    min-height: get-input-height(2);
+    transition: all $transition-fast;
+    color: $body-color;
+
+    &:hover {
+      border-color: $body-color
+    }
+  }
+  
+  &.is-focused input + label {
+    border-color: $color-secondary;
+  }
+
+  input {
+    display: block;
+    height: 0;
+    opacity: 0;
+    width: 0;
+    margin-right: $base-spacing-unit/2;
+  }
+
+  input:checked + label {
+    color: white;
+    background-color: $color-secondary;
+    border-color: $color-secondary;
+  }
+}
+
+.form__radio-option {
+  width: calc(25% - #{$base-spacing-unit/4});
+  display: flex;
+  flex-grow: 1;
+}
+
+.form__group--inline {
+  display: inline-block;
+  vertical-align: baseline;
+
+  label, input {
+    width: auto;
+  }
+
+  @include mq-max($bp-md) {
+    display: block;
+  }
+}
+
+
+// Form Controls
+
+%form__control--focus {
+  &:focus, &.focus {
+    box-shadow: none;
+    border-color: darken($grey, 20%);
+    outline: none;
+  }
+}
+
+.form__control {
+  @extend %form__control--focus;
+  width: 100%;
+  color: $dark-grey;
+  border: 2px solid $light-grey;
+  border-radius: $base-border-radius;
+  padding: $base-spacing-unit/2;
+  height: get-input-height(1);
+  cursor: pointer;
+  transition: border-color $transition-fast;
+
+  
+  &::selection {
+    background-color: $color-secondary
+  }
+
+  .form__group--boxed:hover &,
+  .form__group--select:hover & {
+    border-color: $body-color;
+  }
+
+  .form__group.is-focused & {
+    border-color: $color-secondary;
+  }
+
+  .form__group--boxed &,
+  .form__group--select & {
+    padding: $base-spacing-unit/2;
+    height: get-input-height(2);
+    background: transparent;
+    border: 2px solid $light-grey;
+  }
+
+
+  .form__group--boxed & {
+    padding-top: $base-spacing-unit*1.5;
+  }
+
+  .appearance .form__group--select & {
+    appearance: none;
+  }
+}
+
+textarea.form__control,
+select[multiple].form__control {
+  min-height: $base-line-height*8;
+  cursor: initial;
+}
+
+.form__checklist, .radio, .checkbox {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  label, input {
+    display: inline-block;
+    cursor: pointer;
+  }
+}
+
+.form__submit {
+  text-align: right;
+}
+
+// Inline Searchform with search icon
+
+.form-search {
+  display: inline-block;
+  position: relative;  
+}
+
+.form-search__input {
+  margin: 0;
+  padding-right: 1.5em;
+}
+
+.form-search__submit {
+  height: get-input-height(1);
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding-right: .5em;
+  color:$dark-grey;
+  &:hover {
+    color:lighten($dark-grey, 15%);
+  } 
+}
+
+/* -------------------------------------- */
+
+/*
+  
+  $FORM VALIDATION
+
+  Form Validation Classes
+  
+*/
+
+// Instead of just using an '.error' class
+// we make unambiguous by prepending 'val-'
+// This way you know this class is supposed to be used for form validation
+
+.form__control.val-error {
+  // Form control must be used on the input itself (select,input,textarea, etc)
+  border: 1px solid $color-negative;
+}
+
+// Just the border is not enough, since checkboxes and radio buttons wont change border color
+// for that we add the validation error class to the label itsel, to change the color of the label text
+label.val-error {
+  color: $color-negative;
+  small {
+    color: $body-color;
+  }
+}
+
+// Class to position the validation message at the top right corner 
+// of the form group
+// IMPORTANT: Make sure you message is inside a '.form__group', 
+// this will create a context to position the message
+%val-error--top-right, .val-error--top-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+// Validation Error Message
+.val-error {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: block;
+  color: $color-negative;
+  margin-top: $label-margin;
+  margin-bottom: $label-margin;
+  // In Case we want the message on the top
+  // Optional if you want all messages at the top right corner by default
+  // Otherwise just add the class to the element itself
+  // @extend %val-error--top-right;
+}

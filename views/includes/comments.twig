@@ -1,0 +1,24 @@
+<section class="comments-section">
+    
+    {% if comments_open %}
+        <h3 class="comments__title">Comments ({{ comments | length }})</h3>
+        
+        <div class="comments">
+            
+            {% if comments %}
+                <ul> {{ comment_list }} </ul>
+            {% else %}
+                <p>Be the first one to comment on this post</p>
+            {% endif %}
+            
+        </div>
+        
+        {{ comment_form }}
+
+    {% else %}
+        <h3 class="comments__title">Comments are closed for this post</h3>
+    {% endif %}
+    
+</section>
+
+

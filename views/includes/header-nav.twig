@@ -1,0 +1,40 @@
+<nav id="navigation" class="dinner-menu">
+  <div class="dinner-menu__inner">
+
+    <section class="hero hero--vert hero--darker">
+      <div class="container container--sm">
+        <div class="grid">
+          {% spaceless %}
+          <div class="grid__item grid__item--main-menu">
+
+            <ul class="menu-list">
+              <li><a href="/about" title="About">About</a></li>
+              {# <li><a href="#" title="Writing">Writing</a></li> #}
+              <li><a href="/contact" title="Contact">Contact</a></li>
+            </ul>
+
+          </div>
+          <div class="grid__item grid__item--util-menu">
+
+            <small class="block-list-label">Projects</small>
+            
+            <ul class="block-list">
+              {% for project in projects %}
+              <li>
+                <a href="{{ project.get_permalink }}" title="{{ project.title|striptags }}" class="block-list__link--{{ project.slug }}">{{ project.title|striptags }}
+                </a>
+                <div class="block-list__bg"  data-style="background-image: url({{ project.get_field('nav_image').sizes.featured }})">
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+
+
+          </div>
+          {% endspaceless %}
+        </div>
+      </div>
+    </section>
+    
+  </div>
+</nav>

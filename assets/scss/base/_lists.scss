@@ -1,0 +1,146 @@
+/*
+
+  Lists
+
+  Base list element and list classes styles
+  
+*/
+
+ul, ol {
+  margin-top: 0;
+  padding-left: 0;
+  @include margin-trailer(1);
+}
+
+li {
+}
+
+// Definition lists
+
+dt {
+  font-weight: bold;
+}
+
+dd {
+  margin: 0;
+}
+
+
+// Bordered List Style
+
+.border-list, %border-list {
+  padding: 0;
+  list-style: none;
+  li {
+    border-bottom: 1px solid $grey;
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.menu-list, 
+.list--unstyled,
+.block-list {
+  list-style: none;
+  padding: 0;
+}
+
+.menu-list {
+  line-height: 1;
+  margin-bottom: 0;
+  width: 100%;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    // margin:$base-spacing-unit $base-spacing-unit;
+  }
+  
+  a {
+    padding: $base-spacing-unit/2 $base-spacing-unit;
+    display: inline-block;
+    color:white;
+    font-size: $h2-font-size;
+    transition: color $transition-slow;
+
+    &:hover {
+      color: $color-primary;
+    }
+
+    // border-bottom: 1px solid;
+    // font-weight: normal;
+  }
+
+}
+
+.block-list-label {
+  display: block;
+  padding: $base-spacing-unit/4 $base-spacing-unit;
+  background-color: white;
+  color: $body-color;
+  font-weight: bold;
+  text-align: center;
+}
+
+.block-list {
+  display: block;
+  margin-bottom: 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid;
+  text-align: center;
+  
+  li {
+    margin-left: -$base-spacing-unit;
+    margin-right: -$base-spacing-unit;
+  }
+
+  a {
+    position: relative;
+    display: block;
+    padding:$base-spacing-unit/4 $base-spacing-unit;
+    color:white;
+    @include hover-slash($body-color);
+    
+    &:after {
+      color: white;
+      // font-weight: normal;
+    }
+  }
+
+  li:last-child a {
+    // border-bottom:2px solid;
+  }
+
+}
+
+.block-list__bg {
+  @extend %full-cover;
+  @include z-index(-1,absolute);
+  background-size:cover;
+  background-position: top;
+  opacity: 0;
+  transform:scale(1);
+  transition: opacity $transition-slow, transform $transition-slow;
+  pointer-events: none;
+  
+  .touchevents & {
+    background-image: none !important;
+  }
+
+  a:hover + & {
+    transition:opacity $transition-x-slow, transform linear 8s;
+    transition-delay: 0.2s;
+    opacity: 0.6;
+    transform:scale(1.2);
+  }
+}
+
+.list-inline {
+  li {
+    display: inline-block;
+    margin: 0 $base-spacing-unit/4;
+  }
+}

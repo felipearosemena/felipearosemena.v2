@@ -1,0 +1,142 @@
+/*
+
+ Hero
+ 
+ Styles to make big full width mastheads or sections
+
+ Usage: 
+
+ <section class="hero">
+  <div class="hero__body">
+   <div class="container">
+    <h1 class="hero__heading"></h1>
+    <p></p>
+   </div>
+  </div>
+ </section>
+ 
+*/
+
+.hero {
+  // color: $hero-font-color;
+  background-size: cover;
+  // The hero is ready to have a full size background image by default
+  background-position: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 0;
+  padding-top: $section-spacing-unit; 
+  padding-bottom: $section-spacing-unit;
+  // padding-left:$logo-width + $base-spacing-unit;
+  .hero__heading, p {
+  } 
+}
+
+.hero__body {
+  @include z-index(3);
+  margin:auto;
+
+  > *:last-child, > * > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@keyframes fadeIn {
+  0 {
+    opacity: 0
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
+// Add this element parallel to the hero__body to separate the background from the content of the hero
+.hero__bg {
+  @include z-index(1, absolute);
+  width:100%;
+  height:auto;
+  top:50%;
+  left:0;
+  background-size: cover;
+  opacity: 1;
+  // The hero is ready to have a full size background image by default
+  background-position: center;
+  transform: translate(0,-50%);
+  transition: all $transition-slow;
+
+  &.is-active {
+    opacity: 1
+  }
+}
+
+canvas.hero__bg {
+  width: 100%;
+  // max-width:$container-max;
+  // left:50%;
+  // top:50%;
+  // transform:translate(-50%,-50%);
+}
+
+
+
+.hero__heading {
+}
+
+// add a color overlay to the background-image
+.hero--overlay {
+  // The overlay
+  &:before {
+    @include z-index(2, absolute);
+    @extend %full-cover;
+    content: '';
+    background-color: $hero-overlay-color;
+    opacity: $hero-overlay-opacity;
+  }
+}
+
+// Hero Vert
+
+// Use table positioning to allow the content of the hero to be vertically centered
+// You can then either set a height in pixels, or if it's placed inside an element with a
+// set height, the hero will stretch to the full height of it's parent
+
+// IMPORTANT: if setting a height on hero--vert or hero--full, use height not min-height. 
+// min-height don't play well with table elements
+
+.hero--vert { 
+
+  width: 100%;
+  min-height:30rem;
+  padding-top: 0;
+  padding-bottom: 0;
+  display: flex; 
+  align-items:center;
+  min-height:100vh;
+  
+  .hero__body {
+    width:100%;
+  }
+}
+
+.hero--dark {
+  background:$dark-grey;
+  color:white;
+}
+
+.hero--darker {
+  background:$darker-grey;
+  color:white;
+}
+
+.hero--fluid {
+  padding: 15% 0;
+  @include mq-min($bp-lg) {
+    padding: 10% 0;
+  }
+}
+
+.hero--tight {
+  padding-top: $section-spacing-unit/2;
+  padding-bottom: $section-spacing-unit/2;
+}

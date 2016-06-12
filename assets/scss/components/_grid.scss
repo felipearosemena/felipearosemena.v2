@@ -1,0 +1,140 @@
+/*
+
+  Grid
+
+  Fluid and nestable grid system, e.g.:
+  
+
+  <div class="grid">
+
+    <div class="grid__item  one-third"> 
+      content
+    </div> 
+
+    <div class="grid__item  two-thirds"> 
+      content
+    </div>
+
+   </div>
+
+*/
+
+.grid, %grid {
+  @extend %cf;
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$grid-gutter;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+
+  @include mq-min($bp-lg) {
+    margin-left: -$grid-gutter*2;
+  }
+}
+
+// Very infrequently occuring grid wrappers as children of grid wrappers.
+.grid > .grid, %grid > %grid {
+  margin-left: 0;
+}
+
+.grid__item, %grid__item {
+  padding-left: $grid-gutter;
+  flex-grow: 1;
+
+  @include mq-min($bp-lg) {
+    padding-left: $grid-gutter*2;
+  }
+
+  .grid--stretch & {
+    flex-basis: 0;
+
+    &.one-third {
+      flex-shrink: 0;
+      flex-grow: 0.5;
+    }
+  }
+
+}
+
+.grid__item--center {
+  display: flex;
+  align-items: center;
+}
+
+.grid__item--padded {
+  padding: $base-spacing-unit*2;
+}
+
+.grid--full, %grid--full {
+  margin-left: 0;
+  .grid__item {
+    padding-left: 0;
+  }
+}
+
+.grid--fluid, %grid--fluid {
+  @extend %cf;
+  @include fluid-grid($fluid-grid-gutter);
+  > .grid__item {
+    padding-left: $fluid-grid-gutter;
+  }
+}
+
+// Grid with inline-block grid items
+// Gives you auto-clearing rows
+// Must clear whitespace between grid items
+
+//See example at top
+
+.grid--block, %grid--block {
+  > .grid__item {
+    float: none;
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.grid__item--main-menu,
+.grid__item--util-menu {
+  width: 100%;
+  transition: all $transition-default;
+
+  .is-menu-active & {
+    transition: opacity $transition-x-slow;
+  } 
+}
+
+.grid__item--main-menu {
+  display: flex;
+  opacity: 0;
+  // transform: translate3d(0, $section-spacing-unit/2, 0);
+
+  @include mq-min($bp-md) {
+    // margin-top: $base-spacing-unit * 2;
+  }
+
+  .is-menu-active & {
+    opacity: 1;
+    // transform: translate3d(0, 0%, 0);
+    transition-delay: $transition-time-default;
+  }
+}
+
+.grid__item--util-menu {
+  padding-top: $base-spacing-unit * 2;
+  flex-grow: 0;
+  transition-duration: 0;
+  opacity: 0;
+  // transition: all $transition-slow;
+
+  .is-menu-active & {
+    opacity: 1;
+    transition-delay: $transition-time-default * 2;
+  }
+}
+
+
+
+
+

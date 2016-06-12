@@ -1,0 +1,65 @@
+/*
+
+  Dinner Menu
+
+  Responsive Overlay Navigation
+
+  Author: Felipe Arosemena
+
+*/
+
+.dinner-menu {
+  @include z-index(5,fixed);
+  left: 0;
+  top:0;
+  width: 100%;
+  min-height:100%;
+  height: 0;
+  overflow: hidden;
+  // opacity:0;
+  // visibility:hidden;
+  transform:translate3d(0,-100%,0);
+  transition: opacity $transition-slow, transform $transition-slow, visibility $transition-default; 
+  
+  .is-menu-active & {
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    overflow: auto;
+  }
+}
+
+.dinner-menu__inner { 
+ 
+  min-height:100%; 
+  display: flex; // Contain any margin 
+  width:100%;         // on it's children
+  
+}
+
+
+.dinner-menu-active,
+.dinner-menu-active body {
+}
+
+.dinner-menu-active--relative body {
+
+  // Lock the body into place is it's not fixed
+  // Not used for fixed menu, cause it'll make the page jump up to the top
+  height:100%;
+}
+ 
+.dinner-menu {
+  
+  .dinner-menu-transiting & ,
+  .dinner-menu-active & {
+    height: 100%;
+    -webkit-backface-visibility:hidden;
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+  } 
+}
+
+.dinner-menu-active .dinner-menu {
+  opacity: 1; 
+}

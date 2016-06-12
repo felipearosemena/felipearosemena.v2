@@ -1,0 +1,27 @@
+/* 
+
+  Nav Dropdown
+
+  Pure css dropdown nav
+
+*/
+
+.nav-dropdown {
+    > ul > li {
+        position: relative;
+        &:hover, &:focus, &:active {
+            > ul {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        > ul {
+            transition: opacity $transition-default, visibility $transition-default;
+            transition-delay: 100ms;
+            opacity: 0;
+            visibility: hidden;
+            min-width: 10em;
+            @include z-index(5, absolute);
+        }
+    }
+}

@@ -1,0 +1,279 @@
+/** 
+*
+* Full Screen section
+*
+*/
+
+
+
+.page-section {
+  transition: opacity $transition-x-slow, transform $transition-slow;
+
+  &.is-out {
+    transform: translate3d(0, $base-spacing-unit*3, 0);
+    opacity: 0;
+  }
+}
+
+.page-section--about {
+}
+
+.page-section--editor {
+
+  transition: opacity $transition-x-slow;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.spread {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  overflow: hidden;
+  transition: none !important;
+
+  @include mq-min($bp-lg) {
+    min-height: 100vh;
+  }
+}
+
+.spread--img {
+  min-height: 0;
+  padding-bottom: 1rem;
+  margin-bottom: -1rem;
+
+  @include mq-min($bp-md) {
+    margin-top: $section-spacing-unit * 1.5;
+    margin-bottom: $section-spacing-unit * 1.5;
+  }
+}
+
+.spread__bg {
+  @include z-index(-1, absolute);
+  width: 50%;
+  height: 100%;
+  max-height: 40rem;
+  bottom: 0;
+  display: flex;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 85%;
+
+  @include mq-max($bp-md) {
+    opacity: .25;
+  }
+
+  &.is-out {
+    opacity: 0;
+  }
+}
+
+.spread__img,
+.spread__bg {
+  transition: transform $transition-slow, opacity $transition-x-slow;
+}
+
+.spread__bg--r,
+.spread__bg--l,
+.spread__img--l,
+.spread__img--r {
+  width: 80%;
+  align-items: center;
+
+  @include mq-max($bp-md) {
+    order: 2;
+  }
+
+  @include mq-min($bp-md) {
+    width: 50%;
+  }
+}
+
+.spread__bg--br {
+  right: 0;
+  background-position: bottom;
+}
+
+.spread__bg--bl {
+  left: 0;
+  background-position: bottom;
+}
+
+.spread__bg--r {
+  left: auto;
+  right: 0;
+  background-position: right;
+}
+
+.spread__bg--l {
+  background-position: left;
+}
+
+.spread__bg--dim {
+  opacity: 0.85;
+}
+
+.spread__img {
+  display: flex;
+
+  &.is-out {
+    opacity: 0;
+    transform: translate3d(-$base-spacing-unit, 0, 0);
+  }
+}
+
+.spread__img--r {
+  order: 2;
+  margin-left: auto;
+  
+  &.is-out {
+    transform: translate3d($base-spacing-unit, 0, 0);
+  }
+
+  figure {
+    margin-left: auto;
+    margin-right: -25%;
+  }
+}
+
+.spread__img--l {
+  figure {
+    margin-left: -25%;
+  }
+}
+
+.spread__content {
+  @extend .flex-center;
+  // @extend .mtb-1--f;
+  width: 100%;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+
+  @include mq-min($bp-md) {
+    width: 50%;
+  }
+}
+
+.spread__content-container {
+  @extend .container--xs;
+  @extend .container--flush;
+
+
+  .spread__img + .spread__content & {
+    @extend .container;
+  }
+
+  .spread__bg + .spread__content & {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .spread__bg + .spread__content[class*=push] & {
+    margin-right: auto;
+    margin-left: 0;
+  }
+}
+
+
+.half-screen,
+.third-screen {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  > * {
+    flex-grow: 2;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.half-screen {
+  min-height: 50vh;
+}
+
+.third-screen {
+  min-height: 33vh;
+}
+
+.multi-cols {
+  display: flex;
+  flex-wrap: wrap;
+  transition: all $transition-x-slow;
+
+  &.is-out {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .spread + &,
+  .multi-cols + & {
+    margin-top: -1px;  
+  }
+}
+
+.multi-cols--pop {
+  @extend .mtb-15--f;
+}
+
+.multi-cols__img,
+.multi-cols__content {
+  width: 100%;
+
+
+  @include mq-max($bp-sm) {
+    &.one-third,
+    &.two-thirds {
+      width: 100%;
+    }
+  }
+
+  @include mq-min($bp-sm) {
+    width: 50%;
+  }
+}
+
+.multi-cols__img {
+
+  .multi-cols--pop & {
+
+    &:first-child {
+      box-shadow: $box-shadow-x-l;
+    }
+ 
+    &:last-child {
+      box-shadow: $box-shadow-x-r;
+    }
+  }
+}
+
+.multi-cols__content {
+  display: flex;
+  align-items: center;
+
+  *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.multi-cols__content-inner {
+  @extend .container--xs;
+  box-sizing: content-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding: $section-spacing-unit $container-pad;
+
+  @include mq-min($bp-sm) {
+    padding: $container-pad;
+  }
+}
+
+.media-section {
+  // border-bottom: 1px solid $light-grey;
+}

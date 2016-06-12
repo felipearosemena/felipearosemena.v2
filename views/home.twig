@@ -1,0 +1,49 @@
+{% extends "layouts/base.twig" %}
+
+{% block masthead %}
+
+  <section class="hero">
+    <div class="container">
+
+      <h2 class="mb-0">Hello there, I&rsquo;m Felipe. Yay</h2>
+      <h1 class="beta">Vancouver based Front End Developer.</h1>
+
+      <div class="grid mt-2 mb-1">
+        <p class="grid__item one-whole md-one-half">
+          I&rsquo;m currently working with the great folks at <a href="{{ briteweb_url }}" target="_blank" class="link-briteweb">Briteweb</a> doing awesome work in the non-for-profit sector.
+        </p>  
+        <p class="grid__item one-whole md-one-half">
+
+           You can find me on <a href="{{ social.linkedin }}" class="link-linkedin">Linkedin</a> &amp; 
+           <a href="{{ social.twitter }}" class="link-twitter">Twitter</a>. <br>
+          Learn more <a href="{{ about.get_link }}" class="link-underline">about</a> myself
+          or simply <a href="{{ contact.get_link }}" class="link-underline">say hi!</a> <br>
+        </p>
+
+        <p class="grid__item mb-0 one-whole md-two-thirds grow-0">
+          Here is a collection of projects I&rsquo;ve worked on, with roles ranging from:
+          <b class="ib">Front End Development</b>,
+          <b class="ib">Interaction Design</b> &amp;
+          <b class="ib">Project Lead</b>
+        </p>
+
+      </div>
+      
+    </div>
+
+  </section>
+
+{% endblock %}
+
+{% block content %}
+
+  {% include 'includes/project-listing.twig' with { 
+    projects: projects,
+    tab_label: 'Recent Work'
+  } %}
+  
+{% endblock %}
+
+{% block bottom %}
+  {% include('includes/cta.twig') %}
+{% endblock %}
