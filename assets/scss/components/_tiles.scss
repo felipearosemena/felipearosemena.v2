@@ -68,11 +68,11 @@ a.tile:hover {
   @include mq-min($bp-lg) {
     width: 40%;
 
-    &:first-child {
+    .tile:nth-child(odd) & {
       padding: $base-spacing-unit*2 $base-spacing-unit*2 $base-spacing-unit*2 $base-spacing-unit;
     }
 
-    &:last-child {
+    .tile:nth-child(even) & {
       padding: $base-spacing-unit*2 $base-spacing-unit $base-spacing-unit*2 $base-spacing-unit*2;
     }
   }
