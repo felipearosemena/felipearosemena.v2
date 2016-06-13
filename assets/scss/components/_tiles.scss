@@ -67,7 +67,14 @@ a.tile:hover {
 
   @include mq-min($bp-lg) {
     width: 40%;
-    padding: $base-spacing-unit*2 $base-spacing-unit;
+
+    &:first-child {
+      padding: $base-spacing-unit*2 $base-spacing-unit*2 $base-spacing-unit*2 $base-spacing-unit;
+    }
+
+    &:last-child {
+      padding: $base-spacing-unit*2 $base-spacing-unit $base-spacing-unit*2 $base-spacing-unit*2;
+    }
   }
 }
 
