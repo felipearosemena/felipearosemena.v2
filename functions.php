@@ -1,9 +1,9 @@
 <?php  
 
-define(AJAX_NAMESPACE, 'FA_AJAX');
-define(AJAX_NONCE, 'fa-ajax-nonce');
-define(FORM_FIELD_PREFIX, 'form_control_');
-define(GF_FIELD_PREFIX, 'input_');
+define('AJAX_NAMESPACE', 'FA_AJAX');
+define('AJAX_NONCE', 'fa-ajax-nonce');
+define('FORM_FIELD_PREFIX', 'form_control_');
+define('GF_FIELD_PREFIX', 'input_');
 
 // backend/administration
 include('lib/admin.php');                           // Admin config

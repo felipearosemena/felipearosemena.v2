@@ -78,6 +78,7 @@ gulp.task('styles', function() {
   gulp.src('./assets/scss/**/*.scss')
     .pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
     .pipe(autoprefixer())
+    .pipe(rename('main.min.css'))
     .pipe(gulp.dest('./assets/css'))
     .pipe(reload({
       stream: true
