@@ -18,9 +18,7 @@ var gulp = require('gulp'),
   // env = require('gulp-env'),
   bundler
 
-// const envs = env.set({
-//   NODE_ENV: 'production'
-// })
+process.env.NODE_ENV = 'production'
 
 function getBundler() {
 
@@ -28,7 +26,7 @@ function getBundler() {
     bundler = watchify(
 
       browserify('./assets/js/app.js', _.extend({
-        debug: true
+        // debug: true
       }, watchify.args))
       .transform(babelify, {
         presets: ["es2015", "stage-2"]
@@ -65,12 +63,16 @@ gulp.task('build-persistent', function() {
 
 gulp.task('build', ['build-persistent'], function() {
 
+
   gulp
     .src('./assets/js/main.js')
     // .pipe(envs)
     .pipe(uglify())
     .pipe(rename('main.min.js'))
     .pipe(gulp.dest('./assets/js/'))
+    .on('end', function() {
+      process.exit()
+    })
 });
 
 gulp.task('styles', function() {
