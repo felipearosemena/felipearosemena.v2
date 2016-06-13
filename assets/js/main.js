@@ -71,6 +71,7 @@ function handleSection(eventName, sectionView) {
   var images = el.images;
   var player = el.player;
 
+
   if (player) {
     if (isInView) {
       if (!player.isLoaded) {
@@ -108,6 +109,7 @@ PubSub.subscribe('header-view:open', function () {
   var nonce = _ref.nonce;
   var fieldPrefix = _ref.fieldPrefix;
 
+
   (0, _contact2.default)({
     nonce: nonce,
     postUrl: url,
@@ -122,12 +124,1446 @@ PubSub.subscribe('header-view:open', function () {
   popstate: false
 });
 
-},{"./modules/polyfills":6,"./modules/utils":8,"./modules/video":9,"./views/canvas":10,"./views/contact":11,"./views/header":12,"./views/nav":13,"./views/pageSections":14,"page":3,"pubsub-js":21,"riot":30}],2:[function(require,module,exports){
+},{"./modules/polyfills":3,"./modules/utils":5,"./modules/video":6,"./views/canvas":7,"./views/contact":8,"./views/header":9,"./views/nav":10,"./views/pageSections":11,"page":17,"pubsub-js":20,"riot":29}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.updateSelection = updateSelection;
+exports.toggleNavigation = toggleNavigation;
+exports.addItem = addItem;
+exports.removeItem = removeItem;
+exports.toggleActive = toggleActive;
+exports.toggleActiveAll = toggleActiveAll;
+exports.toggleAll = toggleAll;
+exports.inputChange = inputChange;
+exports.formSubmitted = formSubmitted;
+exports.inputValidate = inputValidate;
+/*
+ * action types
+ */
+
+var UPDATE_SELECTION = exports.UPDATE_SELECTION = 'UPDATE_SELECTION';
+var TOGGLE_NAVIGATION = exports.TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
+var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
+var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
+var TOGGLE_ACTIVE = exports.TOGGLE_ACTIVE = 'TOGGLE_ACTIVE';
+var TOGGLE_ACTIVE_ALL = exports.TOGGLE_ACTIVE_ALL = 'TOGGLE_ACTIVE_ALL';
+var TOGGLE_ALL = exports.TOGGLE_ALL = 'TOGGLE_ALL';
+var INPUT_CHANGE = exports.INPUT_CHANGE = 'INPUT_CHANGE';
+var FORM_SUBMITTED = exports.FORM_SUBMITTED = 'FORM_SUBMITTED';
+var INPUT_VALIDATE = exports.INPUT_VALIDATE = 'INPUT_VALIDATE';
+
+function updateSelection(tax, value) {
+  return {
+    type: UPDATE_SELECTION,
+    value: value,
+    tax: tax
+  };
+}
+
+function toggleNavigation(isOpen) {
+  return {
+    type: TOGGLE_NAVIGATION,
+    isOpen: isOpen
+  };
+}
+
+function addItem() {
+  return {
+    type: ADD_ITEM
+  };
+}
+
+function removeItem() {
+  return {
+    type: REMOVE_ITEM
+  };
+}
+
+function toggleActive(index) {
+  return {
+    type: TOGGLE_ACTIVE,
+    index: index
+  };
+}
+
+function toggleActiveAll(allActive) {
+  return {
+    type: TOGGLE_ACTIVE_ALL,
+    allActive: allActive
+  };
+}
+
+function toggleAll(allActive) {
+  return {
+    type: TOGGLE_ALL,
+    allActive: allActive
+  };
+}
+
+function inputChange(field, value) {
+  return {
+    type: INPUT_CHANGE,
+    field: field,
+    value: value
+  };
+}
+
+function formSubmitted(res, err) {
+  return {
+    type: FORM_SUBMITTED,
+    err: err,
+    res: res
+  };
+}
+
+function inputValidate(field, value) {
+  return {
+    type: INPUT_VALIDATE,
+    field: field,
+    value: value
+  };
+}
+
+},{}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.domParser = exports.dataset = exports.classList = exports.vu = undefined;
+
+var _viewportUnitsBuggyfill = require("viewport-units-buggyfill");
+
+var _viewportUnitsBuggyfill2 = _interopRequireDefault(_viewportUnitsBuggyfill);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var vu = exports.vu = _viewportUnitsBuggyfill2.default.init;
+
+// console.log(vuBuggyfill.init)
+
+var classList = exports.classList = function classList() {
+
+  if (typeof window.Element === "undefined" || "classList" in document.documentElement) return;
+
+  var prototype = Array.prototype,
+      push = prototype.push,
+      splice = prototype.splice,
+      join = prototype.join;
+
+  function DOMTokenList(el) {
+    this.el = el;
+    // The className needs to be trimmed and split on whitespace
+    // to retrieve a list of classes.
+    var classes = el.className.replace(/^\s+|\s+$/g, '').split(/\s+/);
+    for (var i = 0; i < classes.length; i++) {
+      push.call(this, classes[i]);
+    }
+  }
+
+  DOMTokenList.prototype = {
+    add: function add(token) {
+      if (this.contains(token)) return;
+      push.call(this, token);
+      this.el.className = this.toString();
+    },
+    contains: function contains(token) {
+      return this.el.className.indexOf(token) != -1;
+    },
+    item: function item(index) {
+      return this[index] || null;
+    },
+    remove: function remove(token) {
+      if (!this.contains(token)) return;
+      for (var i = 0; i < this.length; i++) {
+        if (this[i] == token) break;
+      }
+      splice.call(this, i, 1);
+      this.el.className = this.toString();
+    },
+    toString: function toString() {
+      return join.call(this, ' ');
+    },
+    toggle: function toggle(token) {
+      if (!this.contains(token)) {
+        this.add(token);
+      } else {
+        this.remove(token);
+      }
+
+      return this.contains(token);
+    }
+  };
+
+  window.DOMTokenList = DOMTokenList;
+
+  function defineElementGetter(obj, prop, getter) {
+    if (Object.defineProperty) {
+      Object.defineProperty(obj, prop, {
+        get: getter
+      });
+    } else {
+      obj.__defineGetter__(prop, getter);
+    }
+  }
+
+  defineElementGetter(Element.prototype, 'classList', function () {
+    return new DOMTokenList(this);
+  });
+};
+
+var dataset = exports.dataset = function dataset() {
+
+  var forEach = [].forEach,
+      regex = /^data-(.+)/,
+      dashChar = /\-([a-z])/ig,
+      el = document.createElement('div'),
+      mutationSupported = false,
+      match;
+
+  function detectMutation() {
+    mutationSupported = true;
+    this.removeEventListener('DOMAttrModified', detectMutation, false);
+  }
+
+  function toCamelCase(s) {
+    return s.replace(dashChar, function (m, l) {
+      return l.toUpperCase();
+    });
+  }
+
+  function updateDataset() {
+    var dataset = {};
+    forEach.call(this.attributes, function (attr) {
+      if (match = attr.name.match(regex)) dataset[toCamelCase(match[1])] = attr.value;
+    });
+    return dataset;
+  }
+
+  // only add support if the browser doesn't support data-* natively
+  if (el.dataset != undefined) return;
+
+  el.addEventListener('DOMAttrModified', detectMutation, false);
+  el.setAttribute('foo', 'bar');
+
+  function defineElementGetter(obj, prop, getter) {
+    if (Object.defineProperty) {
+      Object.defineProperty(obj, prop, {
+        get: getter
+      });
+    } else {
+      obj.__defineGetter__(prop, getter);
+    }
+  }
+
+  defineElementGetter(Element.prototype, 'dataset', mutationSupported ? function () {
+    if (!this._datasetCache) {
+      this._datasetCache = updateDataset.call(this);
+    }
+    return this._datasetCache;
+  } : updateDataset);
+
+  document.addEventListener('DOMAttrModified', function (event) {
+    delete event.target._datasetCache;
+  }, false);
+};
+
+var domParser = exports.domParser = function domParser() {
+
+  /*
+   * DOMParser HTML extension
+   * 2012-09-04
+   * 
+   * By Eli Grey, http://eligrey.com
+   * Public domain.
+   * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
+   */
+
+  /*! @source https://gist.github.com/1129031 */
+  /*global document, DOMParser*/
+
+  (function (DOMParser) {
+    "use strict";
+
+    var DOMParser_proto = DOMParser.prototype,
+        real_parseFromString = DOMParser_proto.parseFromString;
+
+    // Firefox/Opera/IE throw errors on unsupported types
+    try {
+      // WebKit returns null on unsupported types
+      if (new DOMParser().parseFromString("", "text/html")) {
+        // text/html parsing is natively supported
+        return;
+      }
+    } catch (ex) {}
+
+    DOMParser_proto.parseFromString = function (markup, type) {
+      if (/^\s*text\/html\s*(?:|$)/i.test(type)) {
+        var doc = document.implementation.createHTMLDocument("");
+
+        if (markup.toLowerCase().indexOf('<!doctype') > -1) {
+          doc.documentElement.innerHTML = markup;
+        } else {
+          doc.body.innerHTML = markup;
+        }
+        return doc;
+      } else {
+        return real_parseFromString.apply(this, arguments);
+      }
+    };
+  })(window.DOMParser);
+};
+
+},{"viewport-units-buggyfill":37}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.contactReducer = exports.componentReducer = exports.headerReducer = exports.filterApp = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _redux = require('redux');
+
+var _utils = require('./utils');
+
+var _actions = require('./actions');
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+/** 
+*
+* TODO
+*
+* USE REACT, LOAD JUST IN THE PAGE
+*
+*/
+
+function item(state, action) {
+  switch (action.type) {
+    case _actions.UPDATE_SELECTION:
+      var item = state.item;
+      var selection = state.selection;
+
+      var isFiltered = item.taxonomies.reduce(function (bool, tax) {
+        return bool ? bool : selection[tax.taxonomy_name] && selection[tax.taxonomy_name] !== tax.value ? true : false;
+      }, false);
+
+      return _extends({}, item, {
+        isFiltered: isFiltered
+      });
+
+    default:
+      return state;
+  }
+}
+
+function filter(state, action) {
+  switch (action.type) {
+    case _actions.UPDATE_SELECTION:
+      var filter = state.filter;
+      var items = state.items;
+      var selection = state.selection;
+
+      var updatedOptions = filter.options.map(function (option) {
+
+        var newSelection = _extends({}, selection, _defineProperty({}, filter.taxonomy_name, option.option_name));
+
+        var filteredItems = items.map(function (i) {
+          return item({ item: i, selection: newSelection }, action);
+        }).map(function (item) {
+          return item.isFiltered;
+        });
+
+        return _extends({}, option, {
+          isValid: (0, _utils.inArray)(false, filteredItems)
+        });
+      });
+
+      return _extends({}, filter, {
+        options: updatedOptions
+      });
+
+    default:
+      return state;
+  }
+}
+
+function appliedFilters() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case _actions.UPDATE_SELECTION:
+      var items = state.items;
+      var filters = state.filters;
+
+      var newSelection = _extends({}, state.selection, _defineProperty({}, action.tax, action.value));
+      var filteredItems = items.map(function (i) {
+        return item({ item: i, selection: newSelection }, action);
+      });
+      var updatedFilters = filters.map(function (f) {
+        return filter({
+          filter: f,
+          items: filteredItems,
+          selection: newSelection
+        }, action);
+      });
+
+      return _extends({}, state, {
+        items: filteredItems,
+        selection: newSelection,
+        filters: updatedFilters
+      });
+
+    default:
+      return state;
+
+  }
+}
+
+function header() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+
+  switch (action.type) {
+    case _actions.TOGGLE_NAVIGATION:
+
+      return _extends({}, state, {
+        isOpen: !state.isOpen
+      });
+
+    default:
+      return state;
+
+  }
+}
+
+function componentReducer() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+
+  switch (action.type) {
+    case _actions.ADD_ITEM:
+
+      state.items.push({
+        title: 'New Item'
+      });
+
+      return _extends({}, state, {
+        items: [].concat(_toConsumableArray(state.items))
+      });
+
+    case _actions.REMOVE_ITEM:
+
+      state.items.splice(-1, 1);
+      return _extends({}, state, {
+        items: [].concat(_toConsumableArray(state.items))
+      });
+
+    case _actions.TOGGLE_ACTIVE:
+
+      return _extends({}, state, {
+        items: (0, _utils.map)(state.items, function (item, i) {
+
+          if (i == action.index) {
+            item.isActive = !item.isActive;
+          }
+
+          return item;
+        })
+      });
+
+    case _actions.TOGGLE_ACTIVE_ALL:
+    case _actions.TOGGLE_ALL:
+
+      return _extends({}, state, {
+        items: (0, _utils.map)(state.items, function (item) {
+          item.isActive = action.allActive;
+          return item;
+        })
+      });
+
+    default:
+      return state;
+  }
+}
+
+function contactReducer() {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+  var action = arguments[1];
+
+
+  switch (action.type) {
+    case _actions.INPUT_VALIDATE:
+
+      return _extends({}, state);
+
+    case _actions.FORM_SUBMITTED:
+
+      var resText = action.res ? JSON.parse(action.res.text) : {};
+      var fields = (0, _utils.map)(state.fields, function (field) {
+
+        return _extends({}, field, {
+          hasError: resText.validation_messages ? !!resText.validation_messages[field.id] : false
+        });
+      });
+
+      return _extends({}, state, {
+        fields: fields,
+        http_res: action.res,
+        http_err: action.err
+      });
+
+    default:
+
+      return _extends({}, state);
+  }
+}
+
+var filterApp = (0, _redux.combineReducers)({
+  appliedFilters: appliedFilters
+});
+
+var headerReducer = (0, _redux.combineReducers)({
+  header: header, appliedFilters: appliedFilters
+});
+
+exports.filterApp = filterApp;
+exports.headerReducer = headerReducer;
+exports.componentReducer = componentReducer;
+exports.contactReducer = contactReducer;
+
+},{"./actions":2,"./utils":5,"redux":27}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+exports.inRange = inRange;
+exports.inCanvas = inCanvas;
+exports.randomInt = randomInt;
+exports.randomNum = randomNum;
+exports.coords = coords;
+exports.inArray = inArray;
+exports.vw = vw;
+exports.vh = vh;
+exports.recur = recur;
+exports.selectorMatches = selectorMatches;
+exports.createElement = createElement;
+exports.delegateEvent = delegateEvent;
+exports.map = map;
+exports.mapJoin = mapJoin;
+exports.filter = filter;
+exports.reduce = reduce;
+exports.extend = extend;
+exports.whichTransitionEnd = whichTransitionEnd;
+function inRange(val, range) {
+  return val > range[0] && val < range[1];
+}
+
+function inCanvas(x, y, r, canvas) {
+  var w = canvas.width,
+      h = canvas.height;
+
+  return inRange(x, [-r, w + r]) && inRange(y, [-r, h + r]);
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function randomNum(min, max) {
+  return Math.random() * (max - min) + min;
+}
+
+function coords(x, y, canvas) {
+  return {
+    x: x * canvas.width / canvas.clientWidth,
+    y: y * canvas.height / canvas.clientHeight
+  };
+}
+
+function inArray(item, array) {
+  return array.indexOf(item) > -1;
+}
+
+function vw() {
+  var ratio = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+  return window.innerWidth * ratio;
+}
+
+function vh() {
+  var ratio = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
+
+  return window.innerHeight * ratio;
+}
+
+function recur(fn, seed) {
+  var result = fn(seed);
+  if (!!result) {
+    recur(fn, result);
+  }
+}
+
+function selectorMatches(el, selector) {
+  var p = Element.prototype;
+  var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
+    return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
+  };
+  return f.call(el, selector);
+}
+
+/**
+ *
+ * Create a new DOM element
+ *
+ * @param {string} tagname - Element tagname ('iframe', 'div')
+ * @param {object} attributes - Object of attributes to be assigned to the object.
+ * @returns {HTMLElement} The DOM element
+ *
+ */
+
+function createElement(tagname) {
+  var attributes = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+  var data = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+
+  var el = document.createElement(tagname);
+
+  if (el.setAttribute) {
+    map(attributes, function (k, v) {
+      el.setAttribute(k, v);
+    });
+
+    map(data, function (k, v) {
+      el.setAttribute('data-' + k, v);
+    });
+  }
+
+  return el;
+}
+
+/**
+ *
+ *  Element.addEventListener with event delegation
+ *
+ *  @param {HTMLElement} el - DOM element to which to append the eventListener
+ *  @param {string} eventName - Name of the DOM event to be attached.
+ *  @param {string} delegate - Selector string to use for delegation
+ *  @param {function} handler - Event handler function
+ *
+ * @returns {undefined}
+ * 
+ */
+
+function delegateEvent(el, eventName, delegate, handler) {
+
+  if (typeof handler !== 'function') return;
+  if (el.addEventListener) {
+    el.addEventListener(eventName, function (e) {
+      if (selectorMatches(e.target, delegate)) {
+        handler(e);
+      }
+    });
+  }
+}
+
+function map(arrLike, cb) {
+
+  if (!arrLike) {
+    return false;
+  }
+
+  if (arrLike.length) {
+
+    return Array.prototype.map.call(arrLike, cb);
+  } else if (arrLike.length !== 'undefined' && arrLike.length == 0) {
+
+    return [];
+  } else if ((typeof arrLike === 'undefined' ? 'undefined' : _typeof(arrLike)) == 'object' && arrLike.constructor == Object) {
+
+    var newArrLike = {};
+    for (var k in arrLike) {
+      if (arrLike.hasOwnProperty(k)) {
+        newArrLike[k] = cb(k, arrLike[k]);
+      }
+    }
+    return newArrLike;
+  } else if (arrLike) {
+    return Array.prototype.map.call([arrLike], cb);
+  }
+}
+
+function mapJoin(arrLike, cb) {
+  var separator = arguments.length <= 2 || arguments[2] === undefined ? '' : arguments[2];
+
+  return map(arrLike, cb).join(separator);
+}
+
+function filter(arrLike, cb) {
+
+  if (!arrLike) {
+    return false;
+  }
+
+  if (arrLike.length) {
+
+    return Array.prototype.filter.call(arrLike, cb);
+  } else if (arrLike.length !== 'undefined' && arrLike.length == 0) {
+
+    return [];
+  } else if ((typeof arrLike === 'undefined' ? 'undefined' : _typeof(arrLike)) == 'object' && arrLike.constructor == Object) {
+
+    // const newArrLike = {}
+    // for (var k in arrLike) {
+    //   if (arrLike.hasOwnProperty(k)) {
+    //     newArrLike[k] = cb(k, arrLike[k])
+    //   }
+    // }
+    // return newArrLike
+
+  }
+}
+
+function reduce(arrLike, cb, seed) {
+
+  if (!arrLike) {
+    return false;
+  }
+
+  if (arrLike.length) {
+    return Array.prototype.map.reduce(arrLike, cb);
+  } else if (arrLike) {
+    return Array.prototype.map.reduce([arrLike], cb);
+  }
+}
+
+function extend() {
+  for (var i = 1; i < arguments.length; i++) {
+    for (var key in arguments[i]) {
+      if (arguments[i].hasOwnProperty(key)) arguments[0][key] = arguments[i][key];
+    }
+  }return arguments[0];
+}
+
+/**
+ *
+ * Detect if browser supports transitionend event.
+ * 
+ * @returns {string|false} The prefixed (or unprefixed) supported event name 
+ *                         or false if it doesn't support any.
+ *
+ */
+
+function whichTransitionEnd() {
+
+  var transEndEventNames = {
+    WebkitTransition: 'webkitTransitionEnd',
+    MozTransition: 'transitionend',
+    OTransition: 'oTransitionEnd otransitionend',
+    transition: 'transitionend'
+  };
+
+  for (var name in transEndEventNames) {
+    if (document.body.style[name] !== undefined) {
+      return transEndEventNames[name];
+    }
+  }
+
+  return false;
+}
+
+},{}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.videoController = videoController;
+
+var _utils = require('./utils');
+
+function videoController() {
+  var videoEl = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+
+
+  if (!videoEl || !videoEl.play) {
+    return false;
+  }
+
+  var srcs = (0, _utils.map)(videoEl.querySelectorAll('source'), function (sourceEl) {
+    sourceEl.src = sourceEl.dataset.src;
+  });
+
+  return {
+    el: videoEl,
+
+    isLoaded: false,
+
+    load: function load() {
+      videoEl.load();
+      this.isLoaded = true;
+    },
+    play: function play() {
+      videoEl.play();
+    },
+    pause: function pause() {
+      videoEl.pause();
+    },
+    togglePlay: function togglePlay() {
+      if (videoEl.paused) {
+        videoEl.play();
+      } else {
+        videoEl.pause();
+      }
+    }
+  };
+} /** 
+  *
+  * Video
+  *
+  */
+
+},{"./utils":5}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = canvasView;
+function canvasView() {
+  console.log('view');
+}
+
+},{}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = contactFormView;
+
+var _redux = require('redux');
+
+var _riot = require('riot');
+
+var _riot2 = _interopRequireDefault(_riot);
+
+var _superagent = require('superagent');
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+var _actions = require('../modules/actions');
+
+var _reducers = require('../modules/reducers');
+
+var _utils = require('../modules/utils');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/** 
+*
+* Contact
+*
+*/
+
+var formControlCommon = function formControlCommon() {
+  return '\n    <label for="{opts.name}">\n      { opts.label }\n    </label>\n\n    <validation if="{ hasError }"  message="{ opts.errorMessage }" class="val-error"></validation>\n  ';
+};
+
+var formControlCommonAtts = function formControlCommonAtts() {
+  return '\n    id="{ opts.name }" \n    name="{ opts.name }"\n    type="{ opts.type }"\n    placeholder="{ opts.placeholder }"\n    class="form__control"\n  ';
+};
+
+_riot2.default.tag('raw', '{ root.innerHTML = opts.content }');
+
+_riot2.default.tag('validation', '{ message }', function () {
+  this.message = this.opts.message;
+});
+
+_riot2.default.tag('form-textarea', '\n    ' + formControlCommon() + '\n    <textarea ' + formControlCommonAtts() + ' rows="8"></textarea>\n  ');
+
+_riot2.default.tag('form-select', ' \n    ' + formControlCommon() + '\n    <select ' + formControlCommonAtts() + '>\n      <option each="{ opts.choices }" value="{ value }">{ text }</option>\n    </select>\n  ');
+
+_riot2.default.tag('form-radio', '\n    ' + formControlCommon() + '\n    <div class="form__radio-option" each="{ choice, i in opts.choices }">\n      <input class="form__control" id="{ parent.opts.name + i }" name="{ parent.opts.name }" type="{ parent.opts.type }">\n      <label for="{ parent.opts.name + i }">\n        <raw content="{ choice.text }"></raw>\n      </label>\n    </div>\n  ');
+
+_riot2.default.tag('form-input', '\n    ' + formControlCommon() + '\n    <input ' + formControlCommonAtts() + '>\n  ');
+
+_riot2.default.tag('form-control', '', function () {
+  var _this = this;
+
+  var _opts = this.opts;
+  var field = _opts.field;
+  var store = _opts.store;
+
+  var _store$getState = store.getState();
+
+  var fieldPrefix = _store$getState.fieldPrefix;
+
+  var tagName = (0, _utils.inArray)(field.type, ['text', 'email', 'url']) ? 'input' : field.type;
+  var cl = this.root.classList;
+
+  field.name = fieldPrefix + field.id;
+
+  var input = _riot2.default.mount(this.root, 'form-' + tagName, field)[0];
+
+  this.on('update', function () {
+    _this.isVisible = true;
+    _this.field = (0, _utils.filter)(store.getState().fields, function (f) {
+      return f.id == _this.field.id;
+    })[0];
+    input.update(_this.field);
+  });
+
+  var inputs = this.root.querySelectorAll('.form__control');
+
+  (0, _utils.map)(inputs, function (input) {
+
+    input.addEventListener('focus', function (e) {
+      return cl.add('is-focused');
+    });
+    input.addEventListener('blur', function (e) {
+      cl.remove('is-focused');
+      store.dispatch((0, _actions.inputValidate)(field, input.checkValidity()));
+    });
+
+    input.addEventListener('change', function (e) {
+      return store.dispatch((0, _actions.inputChange)(field, input.value));
+    });
+  });
+});
+
+_riot2.default.tag('contact-form', '\n    <div if="{http_err}">{ http_err }</div>\n    <form onsubmit="{ submit }">\n      <form-control each={fields} if={isVisible} store={parent.opts.store} field={field} class="form__group form__group--{ formControlClass }"></form-control>\n      <div class="text-right">\n         <raw content="{formMessage}"></raw>\n        <button class="btn btn--secondary" type=submit title=Send >Send</button>\n      </div>\n    </form>\n  ', function () {
+  var _this2 = this;
+
+  var store = this.opts.store;
+
+  var _store$getState2 = store.getState();
+
+  var postConfig = _store$getState2.postConfig;
+
+  /** 
+  *
+  * TODO
+  *
+  * Prevent Form Submitting multiple times
+  *
+  */
+
+  this.submit = function (e) {
+    e.preventDefault();
+
+    var formData = new FormData(e.currentTarget);
+
+    formData.append('form_id', store.getState().form_id);
+    formData.append('action', 'submit_contact_form');
+    formData.append('nonce', postConfig.nonce);
+
+    /** 
+    *
+    * TODO
+    *
+    * Dispatch before submit event
+    *
+    */
+
+    _superagent2.default.post(postConfig.url).send(formData).end(function (err, res) {
+      store.dispatch((0, _actions.formSubmitted)(res, err));
+    });
+  };
+
+  var _store$getState3 = store.getState();
+
+  var fields = _store$getState3.fields;
+
+
+  this.fields = fields.map(function (fieldObj) {
+    var formControlClass = (0, _utils.inArray)(fieldObj.type, ['radio', 'select']) ? fieldObj.type : 'boxed';
+
+    return {
+      field: fieldObj,
+      formControlClass: formControlClass
+    };
+  });
+
+  this.on('update', function () {
+    var _store$getState4 = store.getState();
+
+    var http_res = _store$getState4.http_res;
+    var http_err = _store$getState4.http_err;
+
+
+    if (!http_err && http_res) {
+      var text = http_res ? JSON.parse(http_res.text) : {};
+      _this2.formMessage = text.is_valid ? text.confirmation_message : 'Something is missing form your submission, please check the form values.';
+    } else {
+      _this2.formMessage = '';
+    }
+  });
+});
+
+function contactFormView(config) {
+  var gf_form = config.gf_form;
+  var fieldPrefix = config.fieldPrefix;
+  var postUrl = config.postUrl;
+  var nonce = config.nonce;
+  var postAction = config.postAction;
+
+
+  var store = (0, _redux.createStore)(_reducers.contactReducer, {
+    fields: gf_form.fields,
+    form_id: gf_form.id,
+    fieldPrefix: fieldPrefix,
+    postConfig: {
+      url: postUrl,
+      nonce: nonce,
+      action: postAction
+    }
+  });
+
+  store.subscribe(function () {
+    _riot2.default.update();
+  });
+
+  return _riot2.default.mount('contact-form', {
+    store: store
+  });
+}
+
+},{"../modules/actions":2,"../modules/reducers":4,"../modules/utils":5,"redux":27,"riot":29,"superagent":30}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _pubsubJs = require('pubsub-js');
+
+var PubSub = _interopRequireWildcard(_pubsubJs);
+
+var _utils = require('../modules/utils');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var rootEl = document.body;
+var rootClass = rootEl.classList;
+
+var headerViewProto = {
+  isOpen: false,
+
+  open: function open() {
+    rootClass.add('is-menu-active');
+    PubSub.publish('header-view:open');
+    this.isOpen = true;
+  },
+  close: function close() {
+    rootClass.remove('is-menu-active');
+    PubSub.publish('header-view:close');
+    this.isOpen = false;
+  },
+  toggle: function toggle() {
+
+    if (!this.isOpen) {
+      this.open();
+    } else {
+      this.close();
+    }
+
+    PubSub.publish('header-view:toggle');
+  }
+};
+
+var headerView = function headerView(headerEl) {
+
+  var view = Object.create(headerViewProto);
+  var toggleEl = headerEl.querySelector('[data-nav-toggle]');
+
+  if (!headerEl || !toggleEl) {
+    return false;
+  }
+
+  toggleEl.addEventListener('click', function () {
+    return view.toggle();
+  });
+
+  window.addEventListener('keydown', function (e) {
+    if (e.keyCode == 27) {
+      view.close();
+    }
+  });
+
+  return view;
+};
+
+exports.default = headerView;
+
+},{"../modules/utils":5,"pubsub-js":20}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _pubsubJs = require('pubsub-js');
+
+var PubSub = _interopRequireWildcard(_pubsubJs);
+
+var _utils = require('../modules/utils');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var navViewProto = {
+  isOpen: false,
+
+  init: function init() {
+    this.setStyle();
+  },
+  setStyle: function setStyle() {
+    var bgEls = this.el.querySelectorAll('[data-style]');
+    (0, _utils.map)(bgEls, function (el) {
+      if (el.dataset.style) {
+        el.setAttribute('style', el.dataset.style);
+      }
+    });
+  }
+};
+
+var navView = function navView(navEl) {
+
+  var view = Object.create(navViewProto);
+
+  if (!navEl) {
+    return false;
+  }
+
+  view.el = navEl;
+
+  return view;
+};
+
+exports.default = navView;
+
+},{"../modules/utils":5,"pubsub-js":20}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /** 
+                                                                                                                                                                                                                                                  *
+                                                                                                                                                                                                                                                  * Page Sections
+                                                                                                                                                                                                                                                  *
+                                                                                                                                                                                                                                                  */
+
+exports.default = pageSections;
+
+var _pubsubJs = require('pubsub-js');
+
+var PubSub = _interopRequireWildcard(_pubsubJs);
+
+var _utils = require('../modules/utils');
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+var emitter = function emitter(el, eventName) {
+
+  var event = false;
+
+  if ((typeof el === 'undefined' ? 'undefined' : _typeof(el)) == 'object') {
+    el.addEventListener(eventName, function (e) {
+      PubSub.publish(eventName, e);
+    });
+  }
+};
+
+var em = emitter(window, 'scroll');
+
+var pageSectionsProto = {};
+
+var scrollSubscription = function scrollSubscription(callback) {
+  return PubSub.subscribe('scroll', function (eventName, e) {
+    if (typeof callback == 'function') {
+      callback(e);
+    }
+  });
+};
+
+function requestAnimation(cb) {
+  if ('requestAnimationFrame' in window) {
+    requestAnimationFrame(cb);
+  }
+}
+
+function elementInViewport(top, height) {
+  var _window = window;
+  var scrollY = _window.scrollY;
+  var innerHeight = _window.innerHeight;
+
+  return scrollY - height < top && scrollY + innerHeight > top;
+}
+
+function getOffsetTop(el) {
+  var top = 0;
+
+  while (el = el.offsetParent) {
+    if (!isNaN(el.offsetTop)) {
+      top += el.offsetTop;
+    }
+  }
+
+  return top;
+}
+
+function elementOffset(el) {
+
+  var top = void 0,
+      height = void 0,
+      rect = void 0;
+  var parent = el.parentElement;
+
+  var update = function update() {
+    // top = getOffsetTop(el),
+    height = el.offsetHeight;
+  };
+
+  window.addEventListener('resize', update);
+  window.addEventListener('load', update);
+
+  update();
+
+  return {
+    height: height
+  };
+}
+
+function sectionView(section, cb) {
+
+  var x = 0;
+  var y = window.scrollY * 0.2 + 'px';
+  var offset = elementOffset(section);
+  var classList = section.classList;
+
+  var cf = {
+    offset: 0
+  };
+
+  return {
+
+    el: section,
+
+    isInView: false,
+
+    set: function set(k, v) {
+      cf[k] = v;
+
+      return this;
+    },
+    render: function render() {
+      var _this = this;
+
+      var rect = section.getBoundingClientRect();
+      var pub = function pub(eventName) {
+        PubSub.publish(eventName, _this);
+      };
+
+      this.isInView = 0 > rect.top - innerHeight + parseInt(cf.offset);
+
+      if (this.isInView) {
+        classList.remove('is-out');
+        pub('section-view:enter');
+      } else if (!this.isInView && !classList.contains('is-out')) {
+        classList.add('is-out');
+        pub('section-view:leave');
+      }
+
+      return this;
+    }
+  };
+}
+
+/** 
+*
+* Single Project View
+*
+*/
+
+function pageSections(sectionEls) {
+
+  var sectionViews = (0, _utils.map)(sectionEls, function (section) {
+    return sectionView(section).set('offset', section.dataset.offset || 50);
+  });
+
+  var subscriptionID = scrollSubscription(function (e) {
+    sectionViews.map(function (view) {
+      return view.render();
+    });
+  });
+
+  return sectionViews;
+}
+
+},{"../modules/utils":5,"pubsub-js":20}],12:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],3:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetPrototype = Object.getPrototypeOf;
+
+/**
+ * Gets the `[[Prototype]]` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {null|Object} Returns the `[[Prototype]]`.
+ */
+function getPrototype(value) {
+  return nativeGetPrototype(Object(value));
+}
+
+module.exports = getPrototype;
+
+},{}],14:[function(require,module,exports){
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+module.exports = isHostObject;
+
+},{}],15:[function(require,module,exports){
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+module.exports = isObjectLike;
+
+},{}],16:[function(require,module,exports){
+var getPrototype = require('./_getPrototype'),
+    isHostObject = require('./_isHostObject'),
+    isObjectLike = require('./isObjectLike');
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object,
+ *  else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+module.exports = isPlainObject;
+
+},{"./_getPrototype":13,"./_isHostObject":14,"./isObjectLike":15}],17:[function(require,module,exports){
 (function (process){
   /* globals require, module */
 
@@ -753,8 +2189,7 @@ module.exports = Array.isArray || function (arr) {
   page.sameOrigin = sameOrigin;
 
 }).call(this,require('_process'))
-
-},{"_process":15,"path-to-regexp":4}],4:[function(require,module,exports){
+},{"_process":19,"path-to-regexp":18}],18:[function(require,module,exports){
 var isarray = require('isarray')
 
 /**
@@ -1146,1291 +2581,7 @@ function pathToRegexp (path, keys, options) {
   return stringToRegexp(path, keys, options)
 }
 
-},{"isarray":2}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.updateSelection = updateSelection;
-exports.toggleNavigation = toggleNavigation;
-exports.addItem = addItem;
-exports.removeItem = removeItem;
-exports.toggleActive = toggleActive;
-exports.toggleActiveAll = toggleActiveAll;
-exports.toggleAll = toggleAll;
-exports.inputChange = inputChange;
-exports.formSubmitted = formSubmitted;
-exports.inputValidate = inputValidate;
-/*
- * action types
- */
-
-var UPDATE_SELECTION = exports.UPDATE_SELECTION = 'UPDATE_SELECTION';
-var TOGGLE_NAVIGATION = exports.TOGGLE_NAVIGATION = 'TOGGLE_NAVIGATION';
-var ADD_ITEM = exports.ADD_ITEM = 'ADD_ITEM';
-var REMOVE_ITEM = exports.REMOVE_ITEM = 'REMOVE_ITEM';
-var TOGGLE_ACTIVE = exports.TOGGLE_ACTIVE = 'TOGGLE_ACTIVE';
-var TOGGLE_ACTIVE_ALL = exports.TOGGLE_ACTIVE_ALL = 'TOGGLE_ACTIVE_ALL';
-var TOGGLE_ALL = exports.TOGGLE_ALL = 'TOGGLE_ALL';
-var INPUT_CHANGE = exports.INPUT_CHANGE = 'INPUT_CHANGE';
-var FORM_SUBMITTED = exports.FORM_SUBMITTED = 'FORM_SUBMITTED';
-var INPUT_VALIDATE = exports.INPUT_VALIDATE = 'INPUT_VALIDATE';
-
-function updateSelection(tax, value) {
-  return {
-    type: UPDATE_SELECTION,
-    value: value,
-    tax: tax
-  };
-}
-
-function toggleNavigation(isOpen) {
-  return {
-    type: TOGGLE_NAVIGATION,
-    isOpen: isOpen
-  };
-}
-
-function addItem() {
-  return {
-    type: ADD_ITEM
-  };
-}
-
-function removeItem() {
-  return {
-    type: REMOVE_ITEM
-  };
-}
-
-function toggleActive(index) {
-  return {
-    type: TOGGLE_ACTIVE,
-    index: index
-  };
-}
-
-function toggleActiveAll(allActive) {
-  return {
-    type: TOGGLE_ACTIVE_ALL,
-    allActive: allActive
-  };
-}
-
-function toggleAll(allActive) {
-  return {
-    type: TOGGLE_ALL,
-    allActive: allActive
-  };
-}
-
-function inputChange(field, value) {
-  return {
-    type: INPUT_CHANGE,
-    field: field,
-    value: value
-  };
-}
-
-function formSubmitted(res, err) {
-  return {
-    type: FORM_SUBMITTED,
-    err: err,
-    res: res
-  };
-}
-
-function inputValidate(field, value) {
-  return {
-    type: INPUT_VALIDATE,
-    field: field,
-    value: value
-  };
-}
-
-},{}],6:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.domParser = exports.dataset = exports.classList = exports.vu = undefined;
-
-var _viewportUnitsBuggyfill = require("viewport-units-buggyfill");
-
-var _viewportUnitsBuggyfill2 = _interopRequireDefault(_viewportUnitsBuggyfill);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var vu = exports.vu = _viewportUnitsBuggyfill2.default.init;
-
-// console.log(vuBuggyfill.init)
-
-var classList = exports.classList = function classList() {
-
-  if (typeof window.Element === "undefined" || "classList" in document.documentElement) return;
-
-  var prototype = Array.prototype,
-      push = prototype.push,
-      splice = prototype.splice,
-      join = prototype.join;
-
-  function DOMTokenList(el) {
-    this.el = el;
-    // The className needs to be trimmed and split on whitespace
-    // to retrieve a list of classes.
-    var classes = el.className.replace(/^\s+|\s+$/g, '').split(/\s+/);
-    for (var i = 0; i < classes.length; i++) {
-      push.call(this, classes[i]);
-    }
-  }
-
-  DOMTokenList.prototype = {
-    add: function add(token) {
-      if (this.contains(token)) return;
-      push.call(this, token);
-      this.el.className = this.toString();
-    },
-    contains: function contains(token) {
-      return this.el.className.indexOf(token) != -1;
-    },
-    item: function item(index) {
-      return this[index] || null;
-    },
-    remove: function remove(token) {
-      if (!this.contains(token)) return;
-      for (var i = 0; i < this.length; i++) {
-        if (this[i] == token) break;
-      }
-      splice.call(this, i, 1);
-      this.el.className = this.toString();
-    },
-    toString: function toString() {
-      return join.call(this, ' ');
-    },
-    toggle: function toggle(token) {
-      if (!this.contains(token)) {
-        this.add(token);
-      } else {
-        this.remove(token);
-      }
-
-      return this.contains(token);
-    }
-  };
-
-  window.DOMTokenList = DOMTokenList;
-
-  function defineElementGetter(obj, prop, getter) {
-    if (Object.defineProperty) {
-      Object.defineProperty(obj, prop, {
-        get: getter
-      });
-    } else {
-      obj.__defineGetter__(prop, getter);
-    }
-  }
-
-  defineElementGetter(Element.prototype, 'classList', function () {
-    return new DOMTokenList(this);
-  });
-};
-
-var dataset = exports.dataset = function dataset() {
-
-  var forEach = [].forEach,
-      regex = /^data-(.+)/,
-      dashChar = /\-([a-z])/ig,
-      el = document.createElement('div'),
-      mutationSupported = false,
-      match;
-
-  function detectMutation() {
-    mutationSupported = true;
-    this.removeEventListener('DOMAttrModified', detectMutation, false);
-  }
-
-  function toCamelCase(s) {
-    return s.replace(dashChar, function (m, l) {
-      return l.toUpperCase();
-    });
-  }
-
-  function updateDataset() {
-    var dataset = {};
-    forEach.call(this.attributes, function (attr) {
-      if (match = attr.name.match(regex)) dataset[toCamelCase(match[1])] = attr.value;
-    });
-    return dataset;
-  }
-
-  // only add support if the browser doesn't support data-* natively
-  if (el.dataset != undefined) return;
-
-  el.addEventListener('DOMAttrModified', detectMutation, false);
-  el.setAttribute('foo', 'bar');
-
-  function defineElementGetter(obj, prop, getter) {
-    if (Object.defineProperty) {
-      Object.defineProperty(obj, prop, {
-        get: getter
-      });
-    } else {
-      obj.__defineGetter__(prop, getter);
-    }
-  }
-
-  defineElementGetter(Element.prototype, 'dataset', mutationSupported ? function () {
-    if (!this._datasetCache) {
-      this._datasetCache = updateDataset.call(this);
-    }
-    return this._datasetCache;
-  } : updateDataset);
-
-  document.addEventListener('DOMAttrModified', function (event) {
-    delete event.target._datasetCache;
-  }, false);
-};
-
-var domParser = exports.domParser = function domParser() {
-
-  /*
-   * DOMParser HTML extension
-   * 2012-09-04
-   * 
-   * By Eli Grey, http://eligrey.com
-   * Public domain.
-   * NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
-   */
-
-  /*! @source https://gist.github.com/1129031 */
-  /*global document, DOMParser*/
-
-  (function (DOMParser) {
-    "use strict";
-
-    var DOMParser_proto = DOMParser.prototype,
-        real_parseFromString = DOMParser_proto.parseFromString;
-
-    // Firefox/Opera/IE throw errors on unsupported types
-    try {
-      // WebKit returns null on unsupported types
-      if (new DOMParser().parseFromString("", "text/html")) {
-        // text/html parsing is natively supported
-        return;
-      }
-    } catch (ex) {}
-
-    DOMParser_proto.parseFromString = function (markup, type) {
-      if (/^\s*text\/html\s*(?:|$)/i.test(type)) {
-        var doc = document.implementation.createHTMLDocument("");
-
-        if (markup.toLowerCase().indexOf('<!doctype') > -1) {
-          doc.documentElement.innerHTML = markup;
-        } else {
-          doc.body.innerHTML = markup;
-        }
-        return doc;
-      } else {
-        return real_parseFromString.apply(this, arguments);
-      }
-    };
-  })(window.DOMParser);
-};
-
-},{"viewport-units-buggyfill":37}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.contactReducer = exports.componentReducer = exports.headerReducer = exports.filterApp = undefined;
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _redux = require('redux');
-
-var _utils = require('./utils');
-
-var _actions = require('./actions');
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-/** 
-*
-* TODO
-*
-* USE REACT, LOAD JUST IN THE PAGE
-*
-*/
-
-function item(state, action) {
-  switch (action.type) {
-    case _actions.UPDATE_SELECTION:
-      var item = state.item;
-      var selection = state.selection;
-
-      var isFiltered = item.taxonomies.reduce(function (bool, tax) {
-        return bool ? bool : selection[tax.taxonomy_name] && selection[tax.taxonomy_name] !== tax.value ? true : false;
-      }, false);
-
-      return _extends({}, item, {
-        isFiltered: isFiltered
-      });
-
-    default:
-      return state;
-  }
-}
-
-function filter(state, action) {
-  switch (action.type) {
-    case _actions.UPDATE_SELECTION:
-      var filter = state.filter;
-      var items = state.items;
-      var selection = state.selection;
-
-      var updatedOptions = filter.options.map(function (option) {
-
-        var newSelection = _extends({}, selection, _defineProperty({}, filter.taxonomy_name, option.option_name));
-
-        var filteredItems = items.map(function (i) {
-          return item({ item: i, selection: newSelection }, action);
-        }).map(function (item) {
-          return item.isFiltered;
-        });
-
-        return _extends({}, option, {
-          isValid: (0, _utils.inArray)(false, filteredItems)
-        });
-      });
-
-      return _extends({}, filter, {
-        options: updatedOptions
-      });
-
-    default:
-      return state;
-  }
-}
-
-function appliedFilters() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _actions.UPDATE_SELECTION:
-      var items = state.items;
-      var filters = state.filters;
-
-      var newSelection = _extends({}, state.selection, _defineProperty({}, action.tax, action.value));
-      var filteredItems = items.map(function (i) {
-        return item({ item: i, selection: newSelection }, action);
-      });
-      var updatedFilters = filters.map(function (f) {
-        return filter({
-          filter: f,
-          items: filteredItems,
-          selection: newSelection
-        }, action);
-      });
-
-      return _extends({}, state, {
-        items: filteredItems,
-        selection: newSelection,
-        filters: updatedFilters
-      });
-
-    default:
-      return state;
-
-  }
-}
-
-function header() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _actions.TOGGLE_NAVIGATION:
-
-      return _extends({}, state, {
-        isOpen: !state.isOpen
-      });
-
-    default:
-      return state;
-
-  }
-}
-
-function componentReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _actions.ADD_ITEM:
-
-      state.items.push({
-        title: 'New Item'
-      });
-
-      return _extends({}, state, {
-        items: [].concat(_toConsumableArray(state.items))
-      });
-
-    case _actions.REMOVE_ITEM:
-
-      state.items.splice(-1, 1);
-      return _extends({}, state, {
-        items: [].concat(_toConsumableArray(state.items))
-      });
-
-    case _actions.TOGGLE_ACTIVE:
-
-      return _extends({}, state, {
-        items: (0, _utils.map)(state.items, function (item, i) {
-
-          if (i == action.index) {
-            item.isActive = !item.isActive;
-          }
-
-          return item;
-        })
-      });
-
-    case _actions.TOGGLE_ACTIVE_ALL:
-    case _actions.TOGGLE_ALL:
-
-      return _extends({}, state, {
-        items: (0, _utils.map)(state.items, function (item) {
-          item.isActive = action.allActive;
-          return item;
-        })
-      });
-
-    default:
-      return state;
-  }
-}
-
-function contactReducer() {
-  var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-  var action = arguments[1];
-
-  switch (action.type) {
-    case _actions.INPUT_VALIDATE:
-
-      return _extends({}, state);
-
-    case _actions.FORM_SUBMITTED:
-
-      var resText = action.res ? JSON.parse(action.res.text) : {};
-      var fields = (0, _utils.map)(state.fields, function (field) {
-
-        return _extends({}, field, {
-          hasError: resText.validation_messages ? !!resText.validation_messages[field.id] : false
-        });
-      });
-
-      return _extends({}, state, {
-        fields: fields,
-        http_res: action.res,
-        http_err: action.err
-      });
-
-    default:
-
-      return _extends({}, state);
-  }
-}
-
-var filterApp = (0, _redux.combineReducers)({
-  appliedFilters: appliedFilters
-});
-
-var headerReducer = (0, _redux.combineReducers)({
-  header: header, appliedFilters: appliedFilters
-});
-
-exports.filterApp = filterApp;
-exports.headerReducer = headerReducer;
-exports.componentReducer = componentReducer;
-exports.contactReducer = contactReducer;
-
-},{"./actions":5,"./utils":8,"redux":28}],8:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
-
-exports.inRange = inRange;
-exports.inCanvas = inCanvas;
-exports.randomInt = randomInt;
-exports.randomNum = randomNum;
-exports.coords = coords;
-exports.inArray = inArray;
-exports.vw = vw;
-exports.vh = vh;
-exports.recur = recur;
-exports.selectorMatches = selectorMatches;
-exports.createElement = createElement;
-exports.delegateEvent = delegateEvent;
-exports.map = map;
-exports.mapJoin = mapJoin;
-exports.filter = filter;
-exports.reduce = reduce;
-exports.extend = extend;
-exports.whichTransitionEnd = whichTransitionEnd;
-function inRange(val, range) {
-  return val > range[0] && val < range[1];
-}
-
-function inCanvas(x, y, r, canvas) {
-  var w = canvas.width,
-      h = canvas.height;
-
-  return inRange(x, [-r, w + r]) && inRange(y, [-r, h + r]);
-}
-
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function randomNum(min, max) {
-  return Math.random() * (max - min) + min;
-}
-
-function coords(x, y, canvas) {
-  return {
-    x: x * canvas.width / canvas.clientWidth,
-    y: y * canvas.height / canvas.clientHeight
-  };
-}
-
-function inArray(item, array) {
-  return array.indexOf(item) > -1;
-}
-
-function vw() {
-  var ratio = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
-  return window.innerWidth * ratio;
-}
-
-function vh() {
-  var ratio = arguments.length <= 0 || arguments[0] === undefined ? 1 : arguments[0];
-
-  return window.innerHeight * ratio;
-}
-
-function recur(fn, seed) {
-  var result = fn(seed);
-  if (!!result) {
-    recur(fn, result);
-  }
-}
-
-function selectorMatches(el, selector) {
-  var p = Element.prototype;
-  var f = p.matches || p.webkitMatchesSelector || p.mozMatchesSelector || p.msMatchesSelector || function (s) {
-    return [].indexOf.call(document.querySelectorAll(s), this) !== -1;
-  };
-  return f.call(el, selector);
-}
-
-/**
- *
- * Create a new DOM element
- *
- * @param {string} tagname - Element tagname ('iframe', 'div')
- * @param {object} attributes - Object of attributes to be assigned to the object.
- * @returns {HTMLElement} The DOM element
- *
- */
-
-function createElement(tagname) {
-  var attributes = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-  var data = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
-
-  var el = document.createElement(tagname);
-
-  if (el.setAttribute) {
-    map(attributes, function (k, v) {
-      el.setAttribute(k, v);
-    });
-
-    map(data, function (k, v) {
-      el.setAttribute('data-' + k, v);
-    });
-  }
-
-  return el;
-}
-
-/**
- *
- *  Element.addEventListener with event delegation
- *
- *  @param {HTMLElement} el - DOM element to which to append the eventListener
- *  @param {string} eventName - Name of the DOM event to be attached.
- *  @param {string} delegate - Selector string to use for delegation
- *  @param {function} handler - Event handler function
- *
- * @returns {undefined}
- * 
- */
-
-function delegateEvent(el, eventName, delegate, handler) {
-
-  if (typeof handler !== 'function') return;
-  if (el.addEventListener) {
-    el.addEventListener(eventName, function (e) {
-      if (selectorMatches(e.target, delegate)) {
-        handler(e);
-      }
-    });
-  }
-}
-
-function map(arrLike, cb) {
-
-  if (!arrLike) {
-    return false;
-  }
-
-  if (arrLike.length) {
-
-    return Array.prototype.map.call(arrLike, cb);
-  } else if (arrLike.length !== 'undefined' && arrLike.length == 0) {
-
-    return [];
-  } else if ((typeof arrLike === 'undefined' ? 'undefined' : _typeof(arrLike)) == 'object' && arrLike.constructor == Object) {
-
-    var newArrLike = {};
-    for (var k in arrLike) {
-      if (arrLike.hasOwnProperty(k)) {
-        newArrLike[k] = cb(k, arrLike[k]);
-      }
-    }
-    return newArrLike;
-  } else if (arrLike) {
-    return Array.prototype.map.call([arrLike], cb);
-  }
-}
-
-function mapJoin(arrLike, cb) {
-  var separator = arguments.length <= 2 || arguments[2] === undefined ? '' : arguments[2];
-
-  return map(arrLike, cb).join(separator);
-}
-
-function filter(arrLike, cb) {
-
-  if (!arrLike) {
-    return false;
-  }
-
-  if (arrLike.length) {
-
-    return Array.prototype.filter.call(arrLike, cb);
-  } else if (arrLike.length !== 'undefined' && arrLike.length == 0) {
-
-    return [];
-  } else if ((typeof arrLike === 'undefined' ? 'undefined' : _typeof(arrLike)) == 'object' && arrLike.constructor == Object) {
-
-    // const newArrLike = {}
-    // for (var k in arrLike) {
-    //   if (arrLike.hasOwnProperty(k)) {
-    //     newArrLike[k] = cb(k, arrLike[k])
-    //   }
-    // }
-    // return newArrLike
-
-  }
-}
-
-function reduce(arrLike, cb, seed) {
-
-  if (!arrLike) {
-    return false;
-  }
-
-  if (arrLike.length) {
-    return Array.prototype.map.reduce(arrLike, cb);
-  } else if (arrLike) {
-    return Array.prototype.map.reduce([arrLike], cb);
-  }
-}
-
-function extend() {
-  for (var i = 1; i < arguments.length; i++) {
-    for (var key in arguments[i]) {
-      if (arguments[i].hasOwnProperty(key)) arguments[0][key] = arguments[i][key];
-    }
-  }return arguments[0];
-}
-
-/**
- *
- * Detect if browser supports transitionend event.
- * 
- * @returns {string|false} The prefixed (or unprefixed) supported event name 
- *                         or false if it doesn't support any.
- *
- */
-
-function whichTransitionEnd() {
-
-  var transEndEventNames = {
-    WebkitTransition: 'webkitTransitionEnd',
-    MozTransition: 'transitionend',
-    OTransition: 'oTransitionEnd otransitionend',
-    transition: 'transitionend'
-  };
-
-  for (var name in transEndEventNames) {
-    if (document.body.style[name] !== undefined) {
-      return transEndEventNames[name];
-    }
-  }
-
-  return false;
-}
-
-},{}],9:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.videoController = videoController;
-
-var _utils = require('./utils');
-
-function videoController() {
-  var videoEl = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
-
-  if (!videoEl || !videoEl.play) {
-    return false;
-  }
-
-  var srcs = (0, _utils.map)(videoEl.querySelectorAll('source'), function (sourceEl) {
-    sourceEl.src = sourceEl.dataset.src;
-  });
-
-  return {
-    el: videoEl,
-
-    isLoaded: false,
-
-    load: function load() {
-      videoEl.load();
-      this.isLoaded = true;
-    },
-    play: function play() {
-      videoEl.play();
-    },
-    pause: function pause() {
-      videoEl.pause();
-    },
-    togglePlay: function togglePlay() {
-      if (videoEl.paused) {
-        videoEl.play();
-      } else {
-        videoEl.pause();
-      }
-    }
-  };
-} /** 
-  *
-  * Video
-  *
-  */
-
-},{"./utils":8}],10:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = canvasView;
-function canvasView() {
-  console.log('view');
-}
-
-},{}],11:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = contactFormView;
-
-var _redux = require('redux');
-
-var _riot = require('riot');
-
-var _riot2 = _interopRequireDefault(_riot);
-
-var _superagent = require('superagent');
-
-var _superagent2 = _interopRequireDefault(_superagent);
-
-var _actions = require('../modules/actions');
-
-var _reducers = require('../modules/reducers');
-
-var _utils = require('../modules/utils');
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/** 
-*
-* Contact
-*
-*/
-
-var formControlCommon = function formControlCommon() {
-  return '\n    <label for="{opts.name}">\n      { opts.label }\n    </label>\n\n    <validation if="{ hasError }"  message="{ opts.errorMessage }" class="val-error"></validation>\n  ';
-};
-
-var formControlCommonAtts = function formControlCommonAtts() {
-  return '\n    id="{ opts.name }" \n    name="{ opts.name }"\n    type="{ opts.type }"\n    placeholder="{ opts.placeholder }"\n    class="form__control"\n  ';
-};
-
-_riot2.default.tag('raw', '{ root.innerHTML = opts.content }');
-
-_riot2.default.tag('validation', '{ message }', function () {
-  this.message = this.opts.message;
-});
-
-_riot2.default.tag('form-textarea', '\n    ' + formControlCommon() + '\n    <textarea ' + formControlCommonAtts() + ' rows="8"></textarea>\n  ');
-
-_riot2.default.tag('form-select', ' \n    ' + formControlCommon() + '\n    <select ' + formControlCommonAtts() + '>\n      <option each="{ opts.choices }" value="{ value }">{ text }</option>\n    </select>\n  ');
-
-_riot2.default.tag('form-radio', '\n    ' + formControlCommon() + '\n    <div class="form__radio-option" each="{ choice, i in opts.choices }">\n      <input class="form__control" id="{ parent.opts.name + i }" name="{ parent.opts.name }" type="{ parent.opts.type }">\n      <label for="{ parent.opts.name + i }">\n        <raw content="{ choice.text }"></raw>\n      </label>\n    </div>\n  ');
-
-_riot2.default.tag('form-input', '\n    ' + formControlCommon() + '\n    <input ' + formControlCommonAtts() + '>\n  ');
-
-_riot2.default.tag('form-control', '', function () {
-  var _this = this;
-
-  var _opts = this.opts;
-  var field = _opts.field;
-  var store = _opts.store;
-
-  var _store$getState = store.getState();
-
-  var fieldPrefix = _store$getState.fieldPrefix;
-
-  var tagName = (0, _utils.inArray)(field.type, ['text', 'email', 'url']) ? 'input' : field.type;
-  var cl = this.root.classList;
-
-  field.name = fieldPrefix + field.id;
-
-  var input = _riot2.default.mount(this.root, 'form-' + tagName, field)[0];
-
-  this.on('update', function () {
-    _this.isVisible = true;
-    _this.field = (0, _utils.filter)(store.getState().fields, function (f) {
-      return f.id == _this.field.id;
-    })[0];
-    input.update(_this.field);
-  });
-
-  var inputs = this.root.querySelectorAll('.form__control');
-
-  (0, _utils.map)(inputs, function (input) {
-
-    input.addEventListener('focus', function (e) {
-      return cl.add('is-focused');
-    });
-    input.addEventListener('blur', function (e) {
-      cl.remove('is-focused');
-      store.dispatch((0, _actions.inputValidate)(field, input.checkValidity()));
-    });
-
-    input.addEventListener('change', function (e) {
-      return store.dispatch((0, _actions.inputChange)(field, input.value));
-    });
-  });
-});
-
-_riot2.default.tag('contact-form', '\n    <div if="{http_err}">{ http_err }</div>\n    <form onsubmit="{ submit }">\n      <form-control each={fields} if={isVisible} store={parent.opts.store} field={field} class="form__group form__group--{ formControlClass }"></form-control>\n      <div class="text-right">\n         <raw content="{formMessage}"></raw>\n        <button class="btn" type=submit title=Send >Send</button>\n      </div>\n    </form>\n  ', function () {
-  var _this2 = this;
-
-  var store = this.opts.store;
-
-  var _store$getState2 = store.getState();
-
-  var postConfig = _store$getState2.postConfig;
-
-  /** 
-  *
-  * TODO
-  *
-  * Prevent Form Submitting multiple times
-  *
-  */
-
-  this.submit = function (e) {
-    e.preventDefault();
-
-    var formData = new FormData(e.currentTarget);
-
-    formData.append('form_id', store.getState().form_id);
-    formData.append('action', 'submit_contact_form');
-    formData.append('nonce', postConfig.nonce);
-
-    /** 
-    *
-    * TODO
-    *
-    * Dispatch before submit event
-    *
-    */
-
-    _superagent2.default.post(postConfig.url).send(formData).end(function (err, res) {
-      store.dispatch(formSubmitted(res, err));
-    });
-  };
-
-  var _store$getState3 = store.getState();
-
-  var fields = _store$getState3.fields;
-
-  this.fields = fields.map(function (fieldObj) {
-    var formControlClass = (0, _utils.inArray)(fieldObj.type, ['radio', 'select']) ? fieldObj.type : 'boxed';
-
-    return {
-      field: fieldObj,
-      formControlClass: formControlClass
-    };
-  });
-
-  this.on('update', function () {
-    var _store$getState4 = store.getState();
-
-    var http_res = _store$getState4.http_res;
-    var http_err = _store$getState4.http_err;
-
-    if (!http_err && http_res) {
-      var text = http_res ? JSON.parse(http_res.text) : {};
-      _this2.formMessage = text.is_valid ? text.confirmation_message : 'Something is missing form your submission, please check the form values.';
-    } else {
-      _this2.formMessage = '';
-    }
-  });
-});
-
-function contactFormView(config) {
-  var gf_form = config.gf_form;
-  var fieldPrefix = config.fieldPrefix;
-  var postUrl = config.postUrl;
-  var nonce = config.nonce;
-  var postAction = config.postAction;
-
-  var store = (0, _redux.createStore)(_reducers.contactReducer, {
-    fields: gf_form.fields,
-    form_id: gf_form.id,
-    fieldPrefix: fieldPrefix,
-    postConfig: {
-      url: postUrl,
-      nonce: nonce,
-      action: postAction
-    }
-  });
-
-  store.subscribe(function () {
-    _riot2.default.update();
-  });
-
-  return _riot2.default.mount('contact-form', {
-    store: store
-  });
-}
-
-},{"../modules/actions":5,"../modules/reducers":7,"../modules/utils":8,"redux":28,"riot":30,"superagent":31}],12:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _pubsubJs = require('pubsub-js');
-
-var PubSub = _interopRequireWildcard(_pubsubJs);
-
-var _utils = require('../modules/utils');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var rootEl = document.body;
-var rootClass = rootEl.classList;
-
-var headerViewProto = {
-  isOpen: false,
-
-  open: function open() {
-    rootClass.add('is-menu-active');
-    PubSub.publish('header-view:open');
-    this.isOpen = true;
-  },
-  close: function close() {
-    rootClass.remove('is-menu-active');
-    PubSub.publish('header-view:close');
-    this.isOpen = false;
-  },
-  toggle: function toggle() {
-
-    if (!this.isOpen) {
-      this.open();
-    } else {
-      this.close();
-    }
-
-    PubSub.publish('header-view:toggle');
-  }
-};
-
-var headerView = function headerView(headerEl) {
-
-  var view = Object.create(headerViewProto);
-  var toggleEl = headerEl.querySelector('[data-nav-toggle]');
-
-  if (!headerEl || !toggleEl) {
-    return false;
-  }
-
-  toggleEl.addEventListener('click', function () {
-    return view.toggle();
-  });
-
-  window.addEventListener('keydown', function (e) {
-    if (e.keyCode == 27) {
-      view.close();
-    }
-  });
-
-  return view;
-};
-
-exports.default = headerView;
-
-},{"../modules/utils":8,"pubsub-js":21}],13:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _pubsubJs = require('pubsub-js');
-
-var PubSub = _interopRequireWildcard(_pubsubJs);
-
-var _utils = require('../modules/utils');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var navViewProto = {
-  isOpen: false,
-
-  init: function init() {
-    this.setStyle();
-  },
-  setStyle: function setStyle() {
-    var bgEls = this.el.querySelectorAll('[data-style]');
-    (0, _utils.map)(bgEls, function (el) {
-      if (el.dataset.style) {
-        el.setAttribute('style', el.dataset.style);
-      }
-    });
-  }
-};
-
-var navView = function navView(navEl) {
-
-  var view = Object.create(navViewProto);
-
-  if (!navEl) {
-    return false;
-  }
-
-  view.el = navEl;
-
-  return view;
-};
-
-exports.default = navView;
-
-},{"../modules/utils":8,"pubsub-js":21}],14:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; }; /** 
-                                                                                                                                                                                                                                                  *
-                                                                                                                                                                                                                                                  * Page Sections
-                                                                                                                                                                                                                                                  *
-                                                                                                                                                                                                                                                  */
-
-exports.default = pageSections;
-
-var _pubsubJs = require('pubsub-js');
-
-var PubSub = _interopRequireWildcard(_pubsubJs);
-
-var _utils = require('../modules/utils');
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-var emitter = function emitter(el, eventName) {
-
-  var event = false;
-
-  if ((typeof el === 'undefined' ? 'undefined' : _typeof(el)) == 'object') {
-    el.addEventListener(eventName, function (e) {
-      PubSub.publish(eventName, e);
-    });
-  }
-};
-
-var em = emitter(window, 'scroll');
-
-var pageSectionsProto = {};
-
-var scrollSubscription = function scrollSubscription(callback) {
-  return PubSub.subscribe('scroll', function (eventName, e) {
-    if (typeof callback == 'function') {
-      callback(e);
-    }
-  });
-};
-
-function requestAnimation(cb) {
-  if ('requestAnimationFrame' in window) {
-    requestAnimationFrame(cb);
-  }
-}
-
-function elementInViewport(top, height) {
-  var _window = window;
-  var scrollY = _window.scrollY;
-  var innerHeight = _window.innerHeight;
-
-  return scrollY - height < top && scrollY + innerHeight > top;
-}
-
-function getOffsetTop(el) {
-  var top = 0;
-
-  while (el = el.offsetParent) {
-    if (!isNaN(el.offsetTop)) {
-      top += el.offsetTop;
-    }
-  }
-
-  return top;
-}
-
-function elementOffset(el) {
-
-  var top = undefined,
-      height = undefined,
-      rect = undefined;
-  var parent = el.parentElement;
-
-  var update = function update() {
-    // top = getOffsetTop(el),
-    height = el.offsetHeight;
-  };
-
-  window.addEventListener('resize', update);
-  window.addEventListener('load', update);
-
-  update();
-
-  return {
-    height: height
-  };
-}
-
-function sectionView(section, cb) {
-
-  var x = 0;
-  var y = window.scrollY * 0.2 + 'px';
-  var offset = elementOffset(section);
-  var classList = section.classList;
-
-  var cf = {
-    offset: 0
-  };
-
-  return {
-
-    el: section,
-
-    isInView: false,
-
-    set: function set(k, v) {
-      cf[k] = v;
-
-      return this;
-    },
-    render: function render() {
-      var _this = this;
-
-      var rect = section.getBoundingClientRect();
-      var pub = function pub(eventName) {
-        PubSub.publish(eventName, _this);
-      };
-
-      this.isInView = 0 > rect.top - innerHeight + parseInt(cf.offset);
-
-      if (this.isInView) {
-        classList.remove('is-out');
-        pub('section-view:enter');
-      } else if (!this.isInView && !classList.contains('is-out')) {
-        classList.add('is-out');
-        pub('section-view:leave');
-      }
-
-      return this;
-    }
-  };
-}
-
-/** 
-*
-* Single Project View
-*
-*/
-
-function pageSections(sectionEls) {
-
-  var sectionViews = (0, _utils.map)(sectionEls, function (section) {
-    return sectionView(section).set('offset', section.dataset.offset || 50);
-  });
-
-  var subscriptionID = scrollSubscription(function (e) {
-    sectionViews.map(function (view) {
-      return view.render();
-    });
-  });
-
-  return sectionViews;
-}
-
-},{"../modules/utils":8,"pubsub-js":21}],15:[function(require,module,exports){
+},{"isarray":12}],19:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -2518,312 +2669,7 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 
-},{}],16:[function(require,module,exports){
-
-/**
- * Expose `Emitter`.
- */
-
-module.exports = Emitter;
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-},{}],17:[function(require,module,exports){
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeGetPrototype = Object.getPrototypeOf;
-
-/**
- * Gets the `[[Prototype]]` of `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {null|Object} Returns the `[[Prototype]]`.
- */
-function getPrototype(value) {
-  return nativeGetPrototype(Object(value));
-}
-
-module.exports = getPrototype;
-
-},{}],18:[function(require,module,exports){
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-module.exports = isHostObject;
-
-},{}],19:[function(require,module,exports){
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return !!value && typeof value == 'object';
-}
-
-module.exports = isObjectLike;
-
 },{}],20:[function(require,module,exports){
-var getPrototype = require('./_getPrototype'),
-    isHostObject = require('./_isHostObject'),
-    isObjectLike = require('./isObjectLike');
-
-/** `Object#toString` result references. */
-var objectTag = '[object Object]';
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to resolve the decompiled source of functions. */
-var funcToString = Function.prototype.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/** Used to infer the `Object` constructor. */
-var objectCtorString = funcToString.call(Object);
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString = objectProto.toString;
-
-/**
- * Checks if `value` is a plain object, that is, an object created by the
- * `Object` constructor or one with a `[[Prototype]]` of `null`.
- *
- * @static
- * @memberOf _
- * @since 0.8.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a plain object,
- *  else `false`.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- * }
- *
- * _.isPlainObject(new Foo);
- * // => false
- *
- * _.isPlainObject([1, 2, 3]);
- * // => false
- *
- * _.isPlainObject({ 'x': 0, 'y': 0 });
- * // => true
- *
- * _.isPlainObject(Object.create(null));
- * // => true
- */
-function isPlainObject(value) {
-  if (!isObjectLike(value) ||
-      objectToString.call(value) != objectTag || isHostObject(value)) {
-    return false;
-  }
-  var proto = getPrototype(value);
-  if (proto === null) {
-    return true;
-  }
-  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
-  return (typeof Ctor == 'function' &&
-    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
-}
-
-module.exports = isPlainObject;
-
-},{"./_getPrototype":17,"./_isHostObject":18,"./isObjectLike":19}],21:[function(require,module,exports){
 /*
 Copyright (c) 2010,2011,2012,2013,2014 Morgan Roderick http://roderick.dk
 License: MIT - http://mrgnrdrck.mit-license.org
@@ -3070,7 +2916,7 @@ https://github.com/mroderick/PubSubJS
 	};
 }));
 
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 
 /**
  * Reduce `arr` with `fn`.
@@ -3095,7 +2941,7 @@ module.exports = function(arr, fn, initial){
   
   return curr;
 };
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3154,7 +3000,7 @@ function applyMiddleware() {
     };
   };
 }
-},{"./compose":26}],24:[function(require,module,exports){
+},{"./compose":25}],23:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3206,8 +3052,7 @@ function bindActionCreators(actionCreators, dispatch) {
   }
   return boundActionCreators;
 }
-},{}],25:[function(require,module,exports){
-(function (process){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3311,7 +3156,7 @@ function combineReducers(reducers) {
       throw sanityError;
     }
 
-    if (process.env.NODE_ENV !== 'production') {
+    if ("production" !== 'production') {
       var warningMessage = getUnexpectedStateShapeWarningMessage(state, finalReducers, action);
       if (warningMessage) {
         (0, _warning2["default"])(warningMessage);
@@ -3335,9 +3180,7 @@ function combineReducers(reducers) {
     return hasChanged ? nextState : state;
   };
 }
-}).call(this,require('_process'))
-
-},{"./createStore":27,"./utils/warning":29,"_process":15,"lodash/isPlainObject":20}],26:[function(require,module,exports){
+},{"./createStore":26,"./utils/warning":28,"lodash/isPlainObject":16}],25:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -3378,7 +3221,7 @@ function compose() {
     if (typeof _ret === "object") return _ret.v;
   }
 }
-},{}],27:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3641,8 +3484,7 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[_symbolObservable2["default"]] = observable, _ref2;
 }
-},{"lodash/isPlainObject":20,"symbol-observable":35}],28:[function(require,module,exports){
-(function (process){
+},{"lodash/isPlainObject":16,"symbol-observable":35}],27:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3680,7 +3522,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 */
 function isCrushed() {}
 
-if (process.env.NODE_ENV !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+if ("production" !== 'production' && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
   (0, _warning2["default"])('You are currently using minified code outside of NODE_ENV === \'production\'. ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or DefinePlugin for webpack (http://stackoverflow.com/questions/30030031) ' + 'to ensure you have the correct code for your production build.');
 }
 
@@ -3689,9 +3531,7 @@ exports.combineReducers = _combineReducers2["default"];
 exports.bindActionCreators = _bindActionCreators2["default"];
 exports.applyMiddleware = _applyMiddleware2["default"];
 exports.compose = _compose2["default"];
-}).call(this,require('_process'))
-
-},{"./applyMiddleware":23,"./bindActionCreators":24,"./combineReducers":25,"./compose":26,"./createStore":27,"./utils/warning":29,"_process":15}],29:[function(require,module,exports){
+},{"./applyMiddleware":22,"./bindActionCreators":23,"./combineReducers":24,"./compose":25,"./createStore":26,"./utils/warning":28}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3717,12 +3557,12 @@ function warning(message) {
   } catch (e) {}
   /* eslint-enable no-empty */
 }
-},{}],30:[function(require,module,exports){
-/* Riot v2.4.0, @license MIT */
+},{}],29:[function(require,module,exports){
+/* Riot v2.4.1, @license MIT */
 
 ;(function(window, undefined) {
   'use strict';
-var riot = { version: 'v2.4.0', settings: {} },
+var riot = { version: 'v2.4.1', settings: {} },
   // be aware, internal usage
   // ATTENTION: prefix the global dynamic variables with `__`
 
@@ -4686,7 +4526,7 @@ var tmpl = (function () {
 var mkdom = (function _mkdom() {
   var
     reHasYield  = /<yield\b/i,
-    reYieldAll  = /<yield\s*(?:\/>|>([\S\s]*?)<\/yield\s*>)/ig,
+    reYieldAll  = /<yield\s*(?:\/>|>([\S\s]*?)<\/yield\s*>|>)/ig,
     reYieldSrc  = /<yield\s+to=['"]([^'">]*)['"]\s*>([\S\s]*?)<\/yield\s*>/ig,
     reYieldDest = /<yield\s+from=['"]?([-\w]+)['"]?\s*(?:\/>|>([\S\s]*?)<\/yield\s*>)/ig
   var
@@ -4930,7 +4770,7 @@ function _each(dom, parent, expr) {
       // reorder only if the items are objects
       var
         item = items[i],
-        _mustReorder = mustReorder && item instanceof Object && !hasKeys,
+        _mustReorder = mustReorder && typeof item == T_OBJECT && !hasKeys,
         oldPos = oldItems.indexOf(item),
         pos = ~oldPos && _mustReorder ? oldPos : i,
         // does a tag exist in this position?
@@ -5192,7 +5032,9 @@ function Tag(impl, conf, innerHTML) {
   // it could be handy to use it also to improve the virtual dom rendering speed
   defineProperty(this, '_riot_id', ++__uid) // base 1 allows test !t._riot_id
 
-  extend(this, { parent: parent, root: root, opts: opts, tags: {} }, item)
+  extend(this, { parent: parent, root: root, opts: opts}, item)
+  // protect the "tags" property from being overridden
+  defineProperty(this, 'tags', {})
 
   // grab attributes
   each(root.attributes, function(el) {
@@ -6167,9 +6009,20 @@ riot.mixin = (function() {
     var store = g ? globals : mixins
 
     // Getter
-    if (!mixin) return store[name]
+    if (!mixin) {
+      if (typeof store[name] === T_UNDEF) {
+        throw new Error('Unregistered mixin: ' + name)
+      }
+      return store[name]
+    }
     // Setter
-    store[name] = extend(store[name] || {}, mixin)
+    if (isFunction(mixin)) {
+      extend(mixin.prototype, store[name] || {})
+      store[name] = mixin
+    }
+    else {
+      store[name] = extend(store[name] || {}, mixin)
+    }
   }
 
 })()
@@ -6347,7 +6200,7 @@ riot.Tag = Tag
 
 })(typeof window != 'undefined' ? window : void 0);
 
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -7426,7 +7279,7 @@ request.put = function(url, data, fn){
   return req;
 };
 
-},{"./is-object":32,"./request":34,"./request-base":33,"emitter":16,"reduce":22}],32:[function(require,module,exports){
+},{"./is-object":31,"./request":33,"./request-base":32,"emitter":34,"reduce":21}],31:[function(require,module,exports){
 /**
  * Check if `obj` is an object.
  *
@@ -7441,7 +7294,7 @@ function isObject(obj) {
 
 module.exports = isObject;
 
-},{}],33:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 /**
  * Module of mixed-in functions shared between node and client code
  */
@@ -7609,7 +7462,7 @@ exports.field = function(name, val) {
   return this;
 };
 
-},{"./is-object":32}],34:[function(require,module,exports){
+},{"./is-object":31}],33:[function(require,module,exports){
 // The node and browser modules expose versions of this with the
 // appropriate constructor function bound as first argument
 /**
@@ -7643,6 +7496,171 @@ function request(RequestConstructor, method, url) {
 
 module.exports = request;
 
+},{}],34:[function(require,module,exports){
+
+/**
+ * Expose `Emitter`.
+ */
+
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
+}
+
+/**
+ * Initialize a new `Emitter`.
+ *
+ * @api public
+ */
+
+function Emitter(obj) {
+  if (obj) return mixin(obj);
+};
+
+/**
+ * Mixin the emitter properties.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function mixin(obj) {
+  for (var key in Emitter.prototype) {
+    obj[key] = Emitter.prototype[key];
+  }
+  return obj;
+}
+
+/**
+ * Listen on the given `event` with `fn`.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.on =
+Emitter.prototype.addEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
+    .push(fn);
+  return this;
+};
+
+/**
+ * Adds an `event` listener that will be invoked a single
+ * time then automatically removed.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.once = function(event, fn){
+  function on() {
+    this.off(event, on);
+    fn.apply(this, arguments);
+  }
+
+  on.fn = fn;
+  this.on(event, on);
+  return this;
+};
+
+/**
+ * Remove the given callback for `event` or all
+ * registered callbacks.
+ *
+ * @param {String} event
+ * @param {Function} fn
+ * @return {Emitter}
+ * @api public
+ */
+
+Emitter.prototype.off =
+Emitter.prototype.removeListener =
+Emitter.prototype.removeAllListeners =
+Emitter.prototype.removeEventListener = function(event, fn){
+  this._callbacks = this._callbacks || {};
+
+  // all
+  if (0 == arguments.length) {
+    this._callbacks = {};
+    return this;
+  }
+
+  // specific event
+  var callbacks = this._callbacks['$' + event];
+  if (!callbacks) return this;
+
+  // remove all handlers
+  if (1 == arguments.length) {
+    delete this._callbacks['$' + event];
+    return this;
+  }
+
+  // remove specific handler
+  var cb;
+  for (var i = 0; i < callbacks.length; i++) {
+    cb = callbacks[i];
+    if (cb === fn || cb.fn === fn) {
+      callbacks.splice(i, 1);
+      break;
+    }
+  }
+  return this;
+};
+
+/**
+ * Emit `event` with the given args.
+ *
+ * @param {String} event
+ * @param {Mixed} ...
+ * @return {Emitter}
+ */
+
+Emitter.prototype.emit = function(event){
+  this._callbacks = this._callbacks || {};
+  var args = [].slice.call(arguments, 1)
+    , callbacks = this._callbacks['$' + event];
+
+  if (callbacks) {
+    callbacks = callbacks.slice(0);
+    for (var i = 0, len = callbacks.length; i < len; ++i) {
+      callbacks[i].apply(this, args);
+    }
+  }
+
+  return this;
+};
+
+/**
+ * Return array of callbacks for `event`.
+ *
+ * @param {String} event
+ * @return {Array}
+ * @api public
+ */
+
+Emitter.prototype.listeners = function(event){
+  this._callbacks = this._callbacks || {};
+  return this._callbacks['$' + event] || [];
+};
+
+/**
+ * Check if this emitter has `event` handlers.
+ *
+ * @param {String} event
+ * @return {Boolean}
+ * @api public
+ */
+
+Emitter.prototype.hasListeners = function(event){
+  return !! this.listeners(event).length;
+};
+
 },{}],35:[function(require,module,exports){
 (function (global){
 /* global window */
@@ -7651,7 +7669,6 @@ module.exports = request;
 module.exports = require('./ponyfill')(global || window || this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-
 },{"./ponyfill":36}],36:[function(require,module,exports){
 'use strict';
 
@@ -8109,7 +8126,6 @@ module.exports = function symbolObservablePonyfill(root) {
 
 }));
 
-},{}]},{},[1])
-
+},{}]},{},[1]);
 
 //# sourceMappingURL=main.js.map
