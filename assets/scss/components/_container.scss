@@ -41,6 +41,13 @@
   }
 }
 
+.container--tight {
+  @include mq-min($bp-xxl) {
+    padding-left: $container-pad*2;
+    padding-right: $container-pad*2;
+  }
+}
+
 .container--left {
   margin-left: 0;
   margin-right: auto;

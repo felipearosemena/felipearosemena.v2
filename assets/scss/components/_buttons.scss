@@ -176,16 +176,14 @@ button:focus {
     @extend %element-invisible;
   }
 
-  .is-inverse &,
   .is-menu-active & {
     
     color: white;
 
     &:hover {
-      color:$body-color;
-      background:white;
-      border-color:white; 
-      box-shadow:0 .1rem rgba(0,0,0,0.25)
+      color:$color-primary;
+      background: transparent;
+      border-color: inherit; 
     }
 
   }

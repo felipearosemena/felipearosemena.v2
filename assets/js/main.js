@@ -1170,6 +1170,9 @@ var headerViewProto = {
     this.isOpen = true;
   },
   close: function close() {
+
+    console.log('closing');
+
     rootClass.remove('is-menu-active');
     PubSub.publish('header-view:close');
     this.isOpen = false;
@@ -1189,14 +1192,18 @@ var headerViewProto = {
 var headerView = function headerView(headerEl) {
 
   var view = Object.create(headerViewProto);
-  var toggleEl = headerEl.querySelector('[data-nav-toggle]');
+  var toggleEl = document.querySelector('[data-nav-toggle]');
+  var closeEl = document.querySelector('[data-nav-close]');
 
   if (!headerEl || !toggleEl) {
     return false;
   }
 
-  toggleEl.addEventListener('click', function () {
-    return view.toggle();
+  toggleEl.addEventListener('click', function (e) {
+    e.preventDefault();view.toggle();
+  });
+  closeEl.addEventListener('click', function () {
+    return view.close();
   });
 
   window.addEventListener('keydown', function (e) {

@@ -126,10 +126,10 @@ $small-font-size     : $h5-font-size;
 
 // Set consistent vertical and horizontal spacing units.
 
-$logo-width               : 1.5rem; 
+$logo-width               : 1.8rem; 
 $logo-height              : $logo-width*1.5;
 
-$logo-width-lg            : 1.8rem; 
+$logo-width-lg            : $logo-width; 
 $logo-height-lg           : $logo-width-lg*1.5;
 
 $base-spacing-unit        : $base-line-height/$base-font-size * 1rem;
@@ -160,8 +160,8 @@ $btn-default-padding      : .4em;
 $btn-large-padding        : .8em;
 
 $button-toggle-padding    : 10px;
-$button-toggle-width      : 60px;
-$icon-bar-width           : 25px;  // Icon Bar Dimensions are better off in fixed pixel sizing
+$button-toggle-width      : 70px;
+$icon-bar-width           : 30px;  // Icon Bar Dimensions are better off in fixed pixel sizing
 $icon-bar-height          : 2px;   //
 $icon-bar-spacing         : 3px;
 
@@ -191,7 +191,8 @@ $transition-time-fast      : .15s;
 $transition-time-default   : .3s ;
 $transition-time-slow      : .6s;
 $transition-time-x-slow    : 2s;
-$transition-timing-default : cubic-bezier(0.165, 0.840, 0.440, 1.000);;
+$transition-timing-default : cubic-bezier(0.165, 0.840, 0.440, 1.000);
+$transition-timing-default-inverse : cubic-bezier(0.895, 0.030, 0.685, 0.220);
 $transition-slow           : $transition-time-slow $transition-timing-default; 
 $transition-x-slow           : $transition-time-x-slow $transition-timing-default; 
 $transition-default        : $transition-time-default $transition-timing-default; 

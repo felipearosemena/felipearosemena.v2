@@ -14,6 +14,9 @@ const headerViewProto = {
   },
   
   close() {
+
+    console.log('closing')
+
     rootClass.remove('is-menu-active')
     PubSub.publish('header-view:close')
     this.isOpen = false;
@@ -34,13 +37,15 @@ const headerViewProto = {
 const headerView = (headerEl) => {
 
   const view = Object.create(headerViewProto)
-  const toggleEl = headerEl.querySelector('[data-nav-toggle]')
+  const toggleEl = document.querySelector('[data-nav-toggle]')
+  const closeEl = document.querySelector('[data-nav-close]')
 
   if(!headerEl || !toggleEl) {
     return false;
   }
 
-  toggleEl.addEventListener('click',  () => view.toggle())
+  toggleEl.addEventListener('click', e => { e.preventDefault(); view.toggle() })
+  closeEl.addEventListener('click', () => view.close())
   
   window.addEventListener('keydown', (e) => {
     if(e.keyCode == 27) {

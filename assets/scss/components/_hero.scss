@@ -28,6 +28,7 @@
   padding-top: $section-spacing-unit; 
   padding-bottom: $section-spacing-unit;
   // padding-left:$logo-width + $base-spacing-unit;
+
   .hero__heading, p {
   } 
 }
@@ -108,8 +109,6 @@ canvas.hero__bg {
 
   width: 100%;
   min-height:30rem;
-  padding-top: 0;
-  padding-bottom: 0;
   display: flex; 
   align-items:center;
   min-height:100vh;

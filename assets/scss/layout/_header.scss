@@ -22,8 +22,9 @@
 // Mobile Toggle
 
 .site-header__toggle { 
-  @include z-index(6);    
+  @include z-index(7);   
   float:right;
+  margin-right: 0.8rem;
 
   @include mq-max($bp-xl) {
     border-radius: 0;
@@ -39,17 +40,21 @@
 // Navigation Sections
 
 .site-header {
-  @include z-index(6, fixed);
+  @include z-index(7, fixed);
   top: 0;
   width: 100%;
-  transition: background $transition-slow, box-shadow $transition-slow;
+  transition: background $transition-fast, box-shadow $transition-fast, transform $transition-slow;
   background: white;
   box-shadow: $box-shadow-y-soft;
 
   .is-menu-active & {
-    position: fixed;
     background: transparent;
     box-shadow: none;
+    transform: translate3d(0, $base-spacing-unit/2, 0);
+  }
+
+  @include mq-min($bp-sm) {
+    transform: none !important;
   }
 
   @include mq-min($bp-xl) {
@@ -90,7 +95,7 @@
   @extend %cf;  
   display: inline-block;
   vertical-align: top;
-  padding: px-to-em(15px) ($container-pad/2); 
+  padding: px-to-em(15px) ($container-pad); 
   color: $body-color;
 
   @include mq-min($bp-xl) {
@@ -111,14 +116,12 @@
   path {
     fill: currentColor;
     opacity: 1;
-    transition: $transition-default;
 
     .site-branding:hover & {
       fill: $color-primary;
     }
 
-    .is-inverse &,
-    .is-menu-active & {
+    .is-inverse & {
       fill: white;
     }
   }
@@ -127,11 +130,24 @@
 .site-branding__logo { 
   width:$logo-width; 
   height:$logo-height;
+  
+  path {
+    transition: all $transition-time-slow $transition-timing-default;
+
+    // @include mq-max($bp-sm) {
+      .is-menu-active & {
+        transition: all $transition-time-slow $transition-timing-default-inverse;
+        fill: white;
+      }
+    // }
+  }
 
   @include mq-min($bp-xl) {
     width:$logo-width-lg; 
     height:$logo-height-lg;
   }
+
+
 
   svg {
     max-height: 100%;
