@@ -4,4 +4,11 @@
     {{ macros.img(layout.image) }}
   </figure>
 
+
+  {% if layout.image.caption %}
+    <figcaption>
+      {{ layout.image.caption }}
+    </figcaption>
+  {% endif %}
+
 </section>
