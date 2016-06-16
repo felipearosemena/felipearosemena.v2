@@ -37,7 +37,7 @@
 }
 
 .browser-shot--scroll {
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 2%, 0);
   transition:transform $transition-slow, opacity $transition-slow;
 
   &.is-out {

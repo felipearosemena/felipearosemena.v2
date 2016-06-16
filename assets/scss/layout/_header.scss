@@ -134,12 +134,12 @@
   path {
     transition: all $transition-time-slow $transition-timing-default;
 
-    // @include mq-max($bp-sm) {
+    @include mq-max($bp-sm) {
       .is-menu-active & {
         transition: all $transition-time-slow $transition-timing-default-inverse;
         fill: white;
       }
-    // }
+    }
   }
 
   @include mq-min($bp-xl) {
