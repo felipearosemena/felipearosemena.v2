@@ -39,7 +39,7 @@ body {
   // Ensures nothing inside page can overlap navigation
 
   @include mq-max($bp-xl) {
-    padding-top: $button-toggle-width;
+    padding-top: 2.5rem;
   }
 }
 
