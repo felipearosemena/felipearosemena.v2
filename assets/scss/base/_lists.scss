@@ -61,7 +61,7 @@ dd {
     padding: $base-spacing-unit/2 $base-spacing-unit;
     display: inline-block;
     color:white;
-    font-size: $h2-font-size;
+    font-size: $h3-font-size;
     transition: color $transition-slow;
 
     &:hover {
@@ -100,7 +100,7 @@ dd {
   a {
     position: relative;
     display: block;
-    padding:$base-spacing-unit/4 $base-spacing-unit;
+    padding:$base-spacing-unit/3 $base-spacing-unit;
     color:white;
     @include hover-slash($body-color);
     
