@@ -152,7 +152,7 @@
   height: 100%;
 }
 
-@mixin hover-slash($label-color: white) {
+@mixin hover-slash($label-color: white, $transition: $transition-slow) {
   &:before,
   &:after {
     content: attr(title);
@@ -165,7 +165,7 @@
     background: inherit;
     border-radius: inherit;
     clip-path: polygon(-1% -1%, -30% 0%, 0% 100%, 0% 100%);
-    transition: all $transition-slow;
+    transition: all $transition;
   }
   
   &:before {
