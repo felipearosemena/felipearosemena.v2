@@ -84,14 +84,15 @@ a, i {
 .link-twitter,
 .link-briteweb {
   @include link-underline;
-  color: $body-color;
+  // color: $body-color;
 
   &:hover {
-    color: $color-primary;
+    // color: $color-primary;
   }
 }
 
 .link-linkedin {
+  color: $linkedin;
 
   &:hover {
     color: $linkedin;
@@ -99,6 +100,7 @@ a, i {
 }
 
 .link-twitter {
+  color: $twitter;
 
   &:hover {
     color: $twitter;
@@ -106,6 +108,7 @@ a, i {
 }
 
 .link-briteweb {
+    cor: $briteweb;
   
   &:hover {
     color: $briteweb;
