@@ -11,7 +11,23 @@
 }
 
 form {
+  transition: $transition-slow;
+  margin-bottom: $base-spacing-unit * 4;
+
+  &.is-processing {
+    opacity: .33;
+    position: relative;
+
+    &:before {
+      @include full-cover;
+      content: '';
+      position: absolute;
+      z-index: 1000;
+    }
+  }
 }
+
+
 
 form-control {
   display: block;
@@ -287,6 +303,24 @@ select[multiple].form__control {
   text-align: right;
 }
 
+.form__validation-message {
+  @include font-size($h3-font-size);
+  display: block;
+  overflow: hidden;
+  text-align: center;
+  font-weight: bold;
+  color: $color-positive;
+  transition: transform $transition-slow, opacity $transition-slow;
+  transform: translate3d(0, $base-spacing-unit * 2, 0);
+  opacity: 0;
+
+  &.is-active {
+    margin-top: $base-spacing-unit * 2;
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
 // Inline Searchform with search icon
 
 .form-search {
@@ -351,13 +385,12 @@ label.val-error {
 
 // Validation Error Message
 .val-error {
+  @extend .small;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: $base-spacing-unit/2;
+  right: $base-spacing-unit/2;
   display: block;
   color: $color-negative;
-  margin-top: $label-margin;
-  margin-bottom: $label-margin;
   // In Case we want the message on the top
   // Optional if you want all messages at the top right corner by default
   // Otherwise just add the class to the element itself
