@@ -7,6 +7,7 @@
 */
 
 .form-wrapper {
+  min-height: 32rem;
 }
 
 form {
@@ -144,6 +145,7 @@ legend {
   > label {
     width: 100%;
     cursor: default;
+    color: $body-color;
     padding: 0 calc(#{$base-spacing-unit} + 2px ) $base-spacing-unit/2;
   }
 
