@@ -102,7 +102,7 @@ dd {
     display: block;
     padding:$base-spacing-unit/3 $base-spacing-unit;
     color:white;
-    @include hover-slash($body-color);
+    @include hover-slash($body-color, 1s $transition-timing-default);
     
     &:after {
       color: white;
@@ -132,8 +132,8 @@ dd {
 
   a:hover + & {
     transition:opacity $transition-x-slow, transform linear 8s;
-    transition-delay: 0.2s;
-    opacity: 0.6;
+    transition-delay: 0.3s;
+    opacity: 0.33;
     transform:scale(1.2);
   }
 }
