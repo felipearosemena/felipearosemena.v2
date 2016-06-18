@@ -26,7 +26,7 @@ class ContactForm {
       die( 'No form id has been provided');
     }
 
-    if(!class_exists(GFAPI)) {
+    if(!class_exists('GFAPI')) {
       die('GFAPI is not defined');
     }
 
