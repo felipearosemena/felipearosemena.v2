@@ -84,19 +84,31 @@ a, i {
 .link-twitter,
 .link-briteweb {
   @include link-underline;
+  color: $body-color;
+
+  &:hover {
+    color: $color-primary;
+  }
 }
 
 .link-linkedin {
-  color: $linkedin;
 
   &:hover {
+    color: $linkedin;
   }
 }
 
 .link-twitter {
-  color: $twitter;
 
   &:hover {
+    color: $twitter;
+  }
+}
+
+.link-briteweb {
+  
+  &:hover {
+    color: $briteweb;
   }
 }
 
@@ -104,24 +116,6 @@ a, i {
 .link-twitter-white,
 .link-linkedin-white {
   color: white;
-}
-
-.link-white:hover {
-  color: $color-primary;
-}
-
-.link-twitter-white:hover {
-  color: $twitter;
-}
-
-.link-linkedin-white:hover {
-  color: $linkedin;
-}
-
-.link-briteweb {
-  color: $briteweb;
-  &:hover {
-  }
 }
 
 .link-secondary {
@@ -173,7 +167,7 @@ h2, .beta {
   @include font-size($h2-font-size, $h2-line-height);
 
   @include mq-max($bp-sm) {
-    @include font-size($h2-font-size*.8, false);
+    @include font-size($h2-font-size*.65, false);
   }
 }
 
