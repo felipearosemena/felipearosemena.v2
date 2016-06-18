@@ -4,11 +4,13 @@
 *
 */
 
+import $ from 'jquery'
+
 import { createStore } from 'redux'
 import riot from 'riot'
 import request from 'superagent'
 
-import { inputChange, formSubmitted, inputValidate } from '../modules/actions'
+import { inputChange, formResponse, formSubmitted, inputValidate } from '../modules/actions'
 import { contactReducer } from '../modules/reducers'
 import { delegateEvent, map, filter, extend, createElement, inArray } from '../modules/utils'
 
@@ -108,10 +110,14 @@ riot.tag('form-control', '', function() {
 riot.tag('contact-form', 
   `
     <div if="{http_err}">{ http_err }</div>
-    <form onsubmit="{ submit }">
+
+    
+    <form class="{isProcessing ? 'is-processing' : ''} {successMessage ? 'is-succesful' : ''}" onsubmit="{ submit }">
       <form-control each={fields} if={isVisible} store={parent.opts.store} field={field} class="form__group form__group--{ formControlClass }"></form-control>
-      <div class="text-right">
-         <raw content="{formMessage}"></raw>
+      
+      <raw class="form__validation-message { successMessage ? 'is-active' : '' }" content="{successMessage}"></raw>
+      
+      <div if={!successMessage} class="mb-3 text-right">
         <button class="btn btn--secondary" type=submit title=Send >Send</button>
       </div>
     </form>
@@ -133,6 +139,12 @@ riot.tag('contact-form',
   this.submit = (e) => {
     e.preventDefault()
 
+    if(this.successMessage) {
+      return;
+    }
+
+    store.dispatch(formSubmitted())
+
     const formData = new FormData(e.currentTarget)
 
     formData.append('form_id', store.getState().form_id)
@@ -151,7 +163,9 @@ riot.tag('contact-form',
       .post(postConfig.url)
       .send(formData)
       .end((err,res) => {
-        store.dispatch(formSubmitted(res, err))
+        setTimeout(() => {
+          store.dispatch(formResponse(res, err))
+        }, 1000)
       })
   }
 
@@ -169,13 +183,17 @@ riot.tag('contact-form',
 
   this.on('update', () => {
 
-    const {http_res, http_err} = store.getState()
+    const {http_res, http_err, isProcessing } = store.getState()
+
+    this.isProcessing = isProcessing
 
     if(!http_err && http_res) {
       const text = http_res ? JSON.parse(http_res.text) : {}
-      this.formMessage = text.is_valid ? text.confirmation_message : 'Something is missing form your submission, please check the form values.'   
+
+      this.successMessage = text.is_valid ? text.confirmation_message : '';
+      this.errorMessage = !text.is_valid ? 'Something is missing form your submission, please check the form values.' : ''
     } else {
-      this.formMessage = ''
+      this.successMessage = this.formMessage = ''
     }
 
   })

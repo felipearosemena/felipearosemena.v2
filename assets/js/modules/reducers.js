@@ -11,6 +11,7 @@ import {
   TOGGLE_ALL,
   INPUT_CHANGE,
   FORM_SUBMITTED,
+  FORM_RESPONSE,
   INPUT_VALIDATE
 } from './actions'
 
@@ -187,6 +188,13 @@ function contactReducer(state = {}, action) {
 
     case FORM_SUBMITTED :
 
+      return {
+        ...state,
+        isProcessing: true
+      }
+
+    case FORM_RESPONSE :
+
       const resText = action.res ? JSON.parse(action.res.text) : {}
       const fields = map(state.fields, field => {
 
@@ -201,7 +209,8 @@ function contactReducer(state = {}, action) {
         ...state,
         fields: fields,
         http_res: action.res,
-        http_err: action.err
+        http_err: action.err,
+        isProcessing: false
       }
 
     default :
