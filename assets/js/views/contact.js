@@ -163,9 +163,7 @@ riot.tag('contact-form',
       .post(postConfig.url)
       .send(formData)
       .end((err,res) => {
-        setTimeout(() => {
-          store.dispatch(formResponse(res, err))
-        }, 1000)
+        store.dispatch(formResponse(res, err))
       })
   }
 

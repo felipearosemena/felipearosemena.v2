@@ -1104,9 +1104,7 @@ _riot2.default.tag('contact-form', '\n    <div if="{http_err}">{ http_err }</div
     */
 
     _superagent2.default.post(postConfig.url).send(formData).end(function (err, res) {
-      setTimeout(function () {
-        store.dispatch((0, _actions.formResponse)(res, err));
-      }, 1000);
+      store.dispatch((0, _actions.formResponse)(res, err));
     });
   };
 
