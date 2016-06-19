@@ -10,7 +10,9 @@
     {% endset %}
 
     <div class="{{ image_class}}" data-scroll-section>
-      {{ image }}
+      <div class="spread__img-inner">
+        {{ image }}
+      </div>
     </div>
 
   {% elseif layout.image_type == 'default' %}

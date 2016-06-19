@@ -132,17 +132,24 @@
   &.is-out {
     transform: translate3d($base-spacing-unit, 0, 0);
   }
+}
 
-  figure {
+.spread__img-inner {
+  min-width: 100%;
+
+  .spread__img--r & {
     margin-left: auto;
     margin-right: -25%;
+  }
+
+  .spread__img--l & {
+    margin-left: -25%;
   }
 }
 
 .spread__img--l {
-  figure {
-    margin-left: -25%;
-  }
+  // figure {
+  // }
 }
 
 .spread__content {

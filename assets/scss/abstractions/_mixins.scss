@@ -155,10 +155,11 @@
 @mixin hover-slash($label-color: white, $transition: $transition-slow) {
   
   overflow: hidden;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
 
   &:before,
   &:after {
-    // content: '';
     content: attr(title);
     position: absolute;
     top: 0;
@@ -168,33 +169,28 @@
     padding: inherit;
     background: inherit;
     border-radius: inherit;
-    opacity: 0;
-    // clip-path: polygon(-1% -1%, -30% 0%, 0% 100%, 0% 100%);
-    transition: all $transition;
+    transition: $transition;
   }
   
   &:before {
+    transform: translate3d(-100%, 0,  0);
     background: currentColor;
-    // border: 1px solid;
-    // border-color: currentColor;
   }
 
   &:after {
     color: $label-color;
-    // transform: translate3d(0, $base-spacing-unit/2, 0);
+    opacity: 0;
   }
 
   &:hover {
     
-    &:after {
-      transition-delay: .1s;
+    &:before {
+      transform: translate3d(0, 0, 0);
     }
 
-    &:before,
     &:after {
       opacity: 1;
-      transform: none;
-      // clip-path: polygon(0% 0%, 100% 0%, 130% 100%, 0% 100%);
+      transition-delay: .1s;
     }
   }  
 }
