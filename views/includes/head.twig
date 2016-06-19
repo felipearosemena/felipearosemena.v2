@@ -28,5 +28,10 @@
       ga('create', 'UA-51331131-1', 'auto');
       ga('send', 'pageview');
 
+      if(localStorage && localStorage.getItem('fonts-loaded')) {
+        setTimeout(() => {
+          document.body.className += ' fonts-loaded'
+        }, 0)
+      }
     </script>
   </head>

@@ -48,7 +48,7 @@
 {% endmacro %}
 
 {% macro video(src_arr) %}
-  <video loop data-video-player>    
+  <video loop autoplay data-video-player>    
     {% for file in src_arr %}
       {% if file %}
         <source data-src="{{ file.url }}" type="{{ file.mime_type }}">
