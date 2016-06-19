@@ -23,14 +23,22 @@
 }   
 
 html {
-  font-family: $body-font-family;
   font-size: $base-font-size*.8;
   line-height: $base-line-height / $base-font-size;
   color: $body-color;
   text-rendering: optimizeLegibility;
-  
+
+
   @include mq-min($bp-xl) {
     font-size:$base-font-size;
+  }
+}
+
+body {
+  font-family: $loading-font-family;
+  
+  &.fonts-loaded {
+    // font-family: $body-font-family; 
   }
 }
 
@@ -133,7 +141,13 @@ a, i {
 
 %heading-font {
   font-weight: bold;
-  font-family: $heading-font-family;
+  font-family: $heading-font-family; 
+  
+  // font-family: $loading-font-family;
+  
+  // .fonts-loaded & {
+  //   font-family: $body-font-family; 
+  // }
 }
 
 /**
@@ -162,7 +176,7 @@ h1, .alpha {
   @include font-size($h1-font-size, $h1-line-height);
   
   @include mq-max($bp-sm) {
-    @include font-size($h1-font-size*.8, false);
+    @include font-size($h1-font-size*.85, false);
   }
 }
 
@@ -184,6 +198,10 @@ h3, .gamma, .gamma-size {
 
 h4, .delta, .lead{
   @include font-size($h4-font-size, $h4-line-height);
+
+  @include mq-max($bp-sm) {
+    @include font-size($h4-font-size*1.2, false);
+  }
 }
 
 h5, .epsilon {

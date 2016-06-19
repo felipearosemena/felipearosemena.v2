@@ -86,9 +86,11 @@ $pt-serif : 'PT Serif Caption', serif;
 $garamond : 'EB Garamond', serif;
 $palatino :  Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", Georgia, serif;;
 $baskerville :  "Baskerville", Georgia, serif;;
+$helvetica : Helvetica Neue, Helvetica, Arial, sans-serif; 
 $circular : 'Circular', Helvetica Neue, Arial, sans-serif; 
 $heading-font-family : $circular; 
 $body-font-family    : $circular; 
+$loading-font-family    : $helvetica; 
 $serif-font : $palatino;
 
 $base-font-size     : 20px;

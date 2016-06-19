@@ -39,7 +39,7 @@ body {
   // Ensures nothing inside page can overlap navigation
 
   @include mq-max($bp-xl) {
-    padding-top: 2.5rem;
+    padding-top: $logo-height + $base-spacing-unit;
   }
 }
 
