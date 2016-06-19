@@ -40,20 +40,20 @@ export function videoController(videoEl = null) {
       this.isLoaded = true;
     },
 
-    play() {
-      // videoEl.play()
-    },
+    // play() {
+    //   videoEl.play()
+    // },
 
-    pause() {
-      // videoEl.pause()
-    },
+    // pause() {
+    //   videoEl.pause()
+    // },
 
-    togglePlay() {
-      // if(videoEl.paused) {
-      //   videoEl.play()
-      // } else {
-      //   videoEl.pause()
-      // }
-    } 
+    // togglePlay() {
+    //   if(videoEl.paused) {
+    //     videoEl.play()
+    //   } else {
+    //     videoEl.pause()
+    //   }
+    // } 
   }
 }

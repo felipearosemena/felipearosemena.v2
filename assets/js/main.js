@@ -977,19 +977,6 @@ function videoController() {
     load: function load() {
       videoEl.load();
       this.isLoaded = true;
-    },
-    play: function play() {
-      // videoEl.play()
-    },
-    pause: function pause() {
-      // videoEl.pause()
-    },
-    togglePlay: function togglePlay() {
-      // if(videoEl.paused) {
-      //   videoEl.play()
-      // } else {
-      //   videoEl.pause()
-      // }
     }
   };
 } /** 
