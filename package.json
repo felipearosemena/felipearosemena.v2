@@ -16,6 +16,7 @@
     "browserify": "^6.3.4",
     "color": "^0.11.1",
     "diffhtml": "^0.6.6",
+    "fontfaceobserver": "^1.7.1",
     "gulp": "~3.9.0",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-env": "^0.4.0",
