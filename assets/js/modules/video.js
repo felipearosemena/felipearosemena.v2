@@ -12,8 +12,22 @@ export function videoController(videoEl = null) {
     return false
   }
 
+  let string = '';
+  for(var k in Modernizr.video ) {
+    string += ' ' + k + '  : ' + Modernizr.video[k] + ';'
+  }
+
+  // Set the source for the video elements
   let srcs = map(videoEl.querySelectorAll('source'), sourceEl => {
-    sourceEl.src = sourceEl.dataset.src
+    
+    const match = type => sourceEl.type.match(type)
+
+    if(Modernizr.video.webm && match('webm')) {
+      sourceEl.src = sourceEl.dataset.src
+    } else if(!Modernizr.video.webm && Modernizr.video.h264 && match('mp4')) {
+      sourceEl.src = sourceEl.dataset.src
+    }
+
   })
 
   return {
@@ -27,19 +41,19 @@ export function videoController(videoEl = null) {
     },
 
     play() {
-      videoEl.play()
+      // videoEl.play()
     },
 
     pause() {
-      videoEl.pause()
+      // videoEl.pause()
     },
 
     togglePlay() {
-      if(videoEl.paused) {
-        videoEl.play()
-      } else {
-        videoEl.pause()
-      }
+      // if(videoEl.paused) {
+      //   videoEl.play()
+      // } else {
+      //   videoEl.pause()
+      // }
     } 
   }
 }

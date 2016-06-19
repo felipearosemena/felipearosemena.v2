@@ -51,6 +51,11 @@ export function selectorMatches(el, selector) {
   return f.call(el, selector)
 }
 
+export function isMobile() {
+  const re = /Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle/
+  return window.navigator.userAgent.match(re)
+}
+
 /**
  *
  * Create a new DOM element
@@ -187,7 +192,6 @@ export  function extend(){
         arguments[0][key] = arguments[i][key];
   return arguments[0];
 }
-
 
 /**
  *

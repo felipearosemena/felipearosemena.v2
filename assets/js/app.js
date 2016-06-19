@@ -1,8 +1,9 @@
 import * as PubSub from 'pubsub-js'
+import FontFaceObserver from 'fontfaceobserver'
 import page from 'page'
 import riot from 'riot'
 
-import { map, reduce } from './modules/utils'
+import { map, reduce, isMobile } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
 import { videoController } from './modules/video'
@@ -18,8 +19,23 @@ classList()
 dataset()
 vu()
 
+
+const fonts = [
+  // (new FontFaceObserver('Circular')).load(),
+  (new FontFaceObserver('Circular', {weight: 'bold'})).load(),
+]
+
+Promise.all(fonts).then(function () {
+  
+  document.body.className += ' fonts-loaded'
+
+  if(window.localStorage) {
+    localStorage.setItem('fonts-loaded', 1)
+  }
+})
+
 const sections = document.querySelectorAll('[data-scroll-section]')
-const sectionViews = pageSections(sections);
+const sectionViews = pageSections(sections)
 
 map(sections, (section) => {
 
@@ -41,12 +57,20 @@ function handleSection(eventName, sectionView) {
   let { isInView, el} = sectionView
   let { images, player } = el
 
+  if(!player) {
+    return
+  }
+
+  if(isInView && !player.isLoaded) {
+    player.load()
+  }
+
+  if(isMobile()) {
+    return
+  }
+
   if(player) {
     if(isInView) {
-      if(!player.isLoaded) {
-        player.load()
-      }
-
       player.play()
 
     } else {
