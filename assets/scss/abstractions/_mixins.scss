@@ -153,8 +153,12 @@
 }
 
 @mixin hover-slash($label-color: white, $transition: $transition-slow) {
+  
+  overflow: hidden;
+
   &:before,
   &:after {
+    // content: '';
     content: attr(title);
     position: absolute;
     top: 0;
@@ -164,23 +168,33 @@
     padding: inherit;
     background: inherit;
     border-radius: inherit;
-    clip-path: polygon(-1% -1%, -30% 0%, 0% 100%, 0% 100%);
+    opacity: 0;
+    // clip-path: polygon(-1% -1%, -30% 0%, 0% 100%, 0% 100%);
     transition: all $transition;
   }
   
   &:before {
-    background-color: currentColor;
+    background: currentColor;
+    // border: 1px solid;
+    // border-color: currentColor;
   }
 
   &:after {
     color: $label-color;
+    // transform: translate3d(0, $base-spacing-unit/2, 0);
   }
 
   &:hover {
+    
+    &:after {
+      transition-delay: .1s;
+    }
 
     &:before,
     &:after {
-      clip-path: polygon(0% 0%, 100% 0%, 130% 100%, 0% 100%);
+      opacity: 1;
+      transform: none;
+      // clip-path: polygon(0% 0%, 100% 0%, 130% 100%, 0% 100%);
     }
   }  
 }
