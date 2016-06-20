@@ -58,7 +58,7 @@ new _fontfaceobserver2.default('Circular', { weight: 'bold' }).load()];
 
 Promise.all(fonts).then(function () {
 
-  document.body.className += ' fonts-loaded';
+  document.body.classList.add('fonts-loaded');
 
   if (window.localStorage) {
     localStorage.setItem('fonts-loaded', 1);
@@ -977,6 +977,16 @@ function videoController() {
     load: function load() {
       videoEl.load();
       this.isLoaded = true;
+    },
+    play: function play() {
+      if (videoEl.paused) {
+        videoEl.play();
+      }
+    },
+    pause: function pause() {
+      if (!videoEl.paused) {
+        videoEl.pause();
+      }
     }
   };
 } /** 

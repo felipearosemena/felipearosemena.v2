@@ -19,7 +19,11 @@
   overflow: hidden;
   transform:translate3d(100%,0,0);
   transition: opacity $transition-slow, transform $transition-slow, visibility $transition-default; 
-  
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+
+  &::-webkit-scrollbar { width: 0 !important }
+
   @include mq-min($bp-sm) {
     width: 66%;
   }
@@ -39,8 +43,6 @@
 .dinner-menu-overlay {
   @include z-index(5, fixed);
   @include full-cover;
-  // background-color: rgba($body-color, .25);
-  // left: 100%;
   transition: transform $transition-slow;
   transform: translate3d(100%, 0, 0);
 
@@ -53,7 +55,7 @@
 .dinner-menu__inner {  
   min-height:100%; 
   display: flex; // Contain any margin 
-  width:100%;         // on it's children
+  width:100%;    // on it's children
 }
 
 

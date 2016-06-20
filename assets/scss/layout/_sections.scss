@@ -148,13 +148,10 @@
 }
 
 .spread__img--l {
-  // figure {
-  // }
 }
 
 .spread__content {
   @extend .flex-center;
-  // @extend .mtb-1--f;
   width: 100%;
 
   > *:last-child {

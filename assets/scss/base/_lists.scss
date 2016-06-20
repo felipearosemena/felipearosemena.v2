@@ -44,6 +44,11 @@ dd {
 .block-list {
   list-style: none;
   padding: 0;
+
+  a {
+    font-family: $heading-font-family;
+    font-weight: normal;
+  }
 }
 
 .menu-list {
@@ -58,7 +63,7 @@ dd {
   }
   
   a {
-    padding: $base-spacing-unit/2 $base-spacing-unit;
+    padding: $base-spacing-unit/4 $base-spacing-unit;
     display: inline-block;
     color:white;
     font-size: $h3-font-size;
@@ -79,6 +84,7 @@ dd {
   padding: $base-spacing-unit/4 $base-spacing-unit;
   background-color: white;
   color: $body-color;
+  font-family: $heading-font-family;
   font-weight: bold;
   text-align: center;
 }
@@ -100,7 +106,7 @@ dd {
   a {
     position: relative;
     display: block;
-    padding:$base-spacing-unit/3 $base-spacing-unit;
+    padding:$base-spacing-unit/4 $base-spacing-unit;
     color:white !important;
     @include hover-slash(false, 1s $transition-timing-default);
 

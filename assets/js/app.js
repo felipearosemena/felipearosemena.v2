@@ -27,7 +27,7 @@ const fonts = [
 
 Promise.all(fonts).then(function () {
   
-  document.body.className += ' fonts-loaded'
+  document.body.classList.add('fonts-loaded')
 
   if(window.localStorage) {
     localStorage.setItem('fonts-loaded', 1)

@@ -24,6 +24,7 @@
 
 html {
   font-size: $base-font-size*.8;
+  font-weight: 300;
   line-height: $base-line-height / $base-font-size;
   color: $body-color;
   text-rendering: optimizeLegibility;
@@ -38,7 +39,6 @@ body {
   font-family: $loading-font-family;
   
   &.fonts-loaded {
-    // font-family: $body-font-family; 
   }
 }
 
@@ -68,6 +68,7 @@ a {
   color: $color-primary;
   transition:color $transition-fast;
   font-weight: bold;
+  font-family: $heading-font-family;
   
   &:hover {
     // color: black
@@ -116,7 +117,7 @@ a, i {
 }
 
 .link-briteweb {
-    cor: $briteweb;
+  color: $briteweb;
   
   &:hover {
     color: $briteweb;
@@ -269,6 +270,7 @@ blockquote {
 
 .strong {
   font-weight: bold;
+  font-family: $heading-font-family;
 }
 
 small, .small {
