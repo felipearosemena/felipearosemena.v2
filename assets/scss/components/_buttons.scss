@@ -188,7 +188,7 @@ button:focus {
 
   }
 
-  &:hover {
+  html:not(.touchevents) &:hover {
     background:$body-color;
     color:white;
     border-color:$body-color;

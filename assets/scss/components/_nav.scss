@@ -8,15 +8,27 @@
  */
 
 .nav, %nav {
-  margin-left: -$base-spacing-unit;
-  margin-right: -$base-spacing-unit;
+  max-width: 24rem;
+  margin-left: auto;
+  margin-right: auto;
   margin-bottom:0;
   padding-left:0;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   
   li {
     display: inline-block;
     vertical-align: middle;
-    padding: 0 ($base-spacing-unit);
+    padding: 0 ($base-spacing-unit/2);
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
   }
 
   a {
@@ -44,19 +56,11 @@
 }
 
 .nav--social {
-  // display: flex;
-  // justify-content: space-between;
-  // max-width: $container-sm-max;
-  // justify-content: center;
-  // margin-left: 0;
-  // margin-right: 0;
   text-align: center;
 
   li {
-    // padding: 0;
   }
 
   [class*=icon] {
-    // @include font-size($h3-font-size, $h3-font-size);
   }
 }

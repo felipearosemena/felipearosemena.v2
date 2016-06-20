@@ -162,7 +162,12 @@ legend {
     width: 100%;
     cursor: default;
     color: $body-color;
-    padding: 0 calc(#{$base-spacing-unit} + 2px ) $base-spacing-unit/2;
+    padding: 0 $base-spacing-unit $base-spacing-unit/2;
+    
+
+    @include mq-min($bp-xs) {
+      padding: 0 calc(#{$base-spacing-unit} + 2px ) $base-spacing-unit/2;
+    }
   }
 
   span, raw {
@@ -178,12 +183,18 @@ legend {
     display: flex;
     align-items: center;
     padding: $base-spacing-unit/2;
+    margin-bottom: $base-spacing-unit/2;
     width: 100%;
     border: 2px solid $light-grey;
     border-radius: $base-border-radius;
-    min-height: get-input-height(2);
+    min-height: get-input-height(1);
     transition: all $transition-fast;
     color: $body-color;
+
+    @include mq-min($bp-xs) {
+      margin-bottom: 0;
+      min-height: get-input-height(2);
+    }
 
     &:hover {
       border-color: $body-color
@@ -210,9 +221,13 @@ legend {
 }
 
 .form__radio-option {
-  width: calc(25% - #{$base-spacing-unit/4});
+  width: 100%;
   display: flex;
   flex-grow: 1;
+
+  @include mq-min($bp-xs) {
+    width: calc(25% - #{$base-spacing-unit/4});
+  }
 }
 
 .form__group--inline {
@@ -381,16 +396,22 @@ label.val-error {
   position: absolute;
   top: 0;
   right: 0;
+
 }
 
 // Validation Error Message
 .val-error {
-  @extend .small;
+  @include font-size($h5-font-size, $h5-line-height);
   position: absolute;
-  top: $base-spacing-unit/2;
-  right: $base-spacing-unit/2;
+  top: 2px;
+  right: $base-spacing-unit/4;
   display: block;
   color: $color-negative;
+
+  @include mq-min($bp-xs) {
+    top: $base-spacing-unit/2;
+    right: $base-spacing-unit/2;
+  }
   // In Case we want the message on the top
   // Optional if you want all messages at the top right corner by default
   // Otherwise just add the class to the element itself

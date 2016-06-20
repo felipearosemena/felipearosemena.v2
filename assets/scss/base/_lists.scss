@@ -59,11 +59,10 @@ dd {
 
   li {
     display: inline-block;
-    // margin:$base-spacing-unit $base-spacing-unit;
   }
   
   a {
-    padding: $base-spacing-unit/4 $base-spacing-unit;
+    padding: $base-spacing-unit/2 $base-spacing-unit;
     display: inline-block;
     color:white;
     font-size: $h3-font-size;
@@ -72,9 +71,6 @@ dd {
     &:hover {
       color: $color-primary;
     }
-
-    // border-bottom: 1px solid;
-    // font-weight: normal;
   }
 
 }

@@ -4,7 +4,7 @@
     <div class="device-grid">
 
       {% if layout.phone %}
-      <figure class="device device--iphone" data-scroll-section data-offset="200">
+      <figure class="device device--iphone" data-scroll-section data-offset="100">
         <div class="device__mask"></div>
         <div class="device__inner">
           {{ macros.img_or_video(layout.phone) }}
@@ -18,7 +18,7 @@
       {% endif %}
 
       {% if layout.tablet %}
-      <figure class="device device--{{ orientation_class }}" data-scroll-section data-offset="200">
+      <figure class="device device--{{ orientation_class }}" data-scroll-section data-offset="100">
         <div class="device__mask"></div>
         <div class="device__inner device__inner--{{ orientation_class }}">
           {{ macros.img_or_video(layout.tablet) }}

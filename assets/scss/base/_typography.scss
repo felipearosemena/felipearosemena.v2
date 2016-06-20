@@ -211,6 +211,10 @@ h5, .epsilon {
 
 h6, .zeta {
   @include font-size($h6-font-size);
+
+  @include mq-max($bp-sm) {
+    // @include font-size($h5-font-size * 1.2, $h5-line-height * 1.6);
+  }
 }
 
 p, blockquote,
