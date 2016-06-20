@@ -26,9 +26,7 @@
 
   {% endif %}
 
-
-  {% set push = ('l' in layout.image_position|lower) and (layout.image_type == 'default') ? 'push-one-half' %}
-  <div class="spread__content {{ push }}">
+  <div class="spread__content spread__content--right">
     <div class="spread__content-container">
       {{ layout.content|wpautop }}
     </div>

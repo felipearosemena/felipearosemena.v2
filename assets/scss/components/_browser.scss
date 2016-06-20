@@ -1,18 +1,10 @@
 .browser-shot {
   display: block;
-  // max-width: 100%;
-  // display: flex;
-  // align-self: bottom;
   vertical-align: top;
 
   @include mq-max(560px) {
     margin-left: -$container-pad/2;
     margin-right: -$container-pad/2;
-  }
-
-  @include mq-min($bp-lg) {
-    // margin-left:-$base-spacing-unit*2;
-    // margin-right:-$base-spacing-unit*2;
   }
 
   img, video {

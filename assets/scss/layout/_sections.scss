@@ -34,6 +34,7 @@
   align-items: center;
   overflow: hidden;
   transition: none !important;
+  min-height: 24rem;
 
   @include mq-min($bp-lg) {
     min-height: 100vh;
@@ -53,7 +54,7 @@
 
 .spread__bg {
   @include z-index(-1, absolute);
-  width: 50%;
+  width: 100%;
   height: 100%;
   max-height: 40rem;
   bottom: 0;
@@ -64,6 +65,10 @@
 
   @include mq-max($bp-md) {
     opacity: .25;
+  }
+
+  @include mq-min($bp-sm) {
+    width: 50%;
   }
 
   &.is-out {
@@ -119,6 +124,10 @@
 .spread__img {
   display: flex;
 
+  @include mq-max($bp-md) {
+    margin-bottom: $base-spacing-unit*2;
+  }
+
   &.is-out {
     opacity: 0;
     transform: translate3d(-$base-spacing-unit, 0, 0);
@@ -153,7 +162,7 @@
 .spread__content {
   @extend .flex-center;
   width: 100%;
-
+  
   > *:last-child {
     margin-bottom: 0;
   }
@@ -163,23 +172,45 @@
   }
 }
 
+.spread__content--right {
+
+  .spread__bg + & {
+    @include mq-min($bp-md) {
+      left: 50%;
+      position: relative;
+    }
+  }
+}
+
 .spread__content-container {
   @extend .container--xs;
-  @extend .container--flush;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $container-pad;
+  padding-right: $container-pad;
+  padding-top: $container-pad;
+  padding-bottom: $container-pad;
+
+  .spread__bg + .spread__content & {
+    padding-top: $section-spacing-unit;
+    padding-bottom: $section-spacing-unit;
+  }
 
 
   .spread__img + .spread__content & {
     @extend .container;
   }
+  
+  @include mq-min($bp-lg) {
+    .spread__bg + .spread__content & {
+      margin-right: 0;
+      margin-left: auto;
+    }
 
-  .spread__bg + .spread__content & {
-    margin-right: 0;
-    margin-left: auto;
-  }
-
-  .spread__bg + .spread__content[class*=push] & {
-    margin-right: auto;
-    margin-left: 0;
+    .spread__bg + .spread__content--right & {
+      margin-right: auto;
+      margin-left: 0;
+    }
   }
 }
 
@@ -229,22 +260,40 @@
 .multi-cols__img,
 .multi-cols__content {
   width: 100%;
+  order: 1;
 
 
   @include mq-max($bp-sm) {
-    &.one-third,
-    &.two-thirds {
-      width: 100%;
-    }
-  }
-
-  @include mq-min($bp-sm) {
-    width: 50%;
+    width: 100% !important;
   }
 }
 
 .multi-cols__img {
+  overflow: hidden;
+  position: relative;
 
+
+  @include mq-min($bp-sm) {
+    width: 33.33%;
+
+    img {
+      position: absolute;
+      height: 100%;
+      max-width: none;
+      width: auto;
+    }
+  }
+
+  @include mq-min($bp-lg) {
+    width: 50%;
+
+    img {
+      position: relative;
+      height: auto;
+      max-width: 100%;
+    }
+  }
+  
   .multi-cols--pop & {
 
     &:first-child {
@@ -257,14 +306,58 @@
   }
 }
 
+.multi-cols__img--one-third {}
+.multi-cols__img--two-thirds {
+
+
+  @include mq-min($bp-sm) {
+    width: 100%;
+
+    img {
+      position: relative;
+      width: 100%;
+    }
+  }
+
+  @include mq-min($bp-md) {
+    width: 66.66%;
+  }
+}
+
 .multi-cols__content {
   display: flex;
   align-items: center;
+
+  @include mq-max($bp-sm) {
+    order: 2;
+  }
+
+  @include mq-min($bp-sm) {
+    width: 66.66%;
+  }
+
+  @include mq-min($bp-lg) {
+    width: 50%;
+  }
 
   *:last-child {
     margin-bottom: 0;
   }
 }
+
+.multi-cols__content--one-third {
+  order:1;
+
+  @include mq-min($bp-sm) {
+    width: 100%;
+  }
+
+  @include mq-min($bp-md) {
+    width: 33.33%;
+  }
+}
+
+.multi-cols__content--two-thirds {}
 
 .multi-cols__content-inner {
   @extend .container--xs;
@@ -274,7 +367,7 @@
   padding: $section-spacing-unit $container-pad;
 
   @include mq-min($bp-sm) {
-    padding: $container-pad;
+    padding: $container-pad*2 $container-pad;
   }
 }
 

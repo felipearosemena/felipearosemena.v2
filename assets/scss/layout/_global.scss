@@ -35,6 +35,7 @@ body {
 
 .page-wrap {
   flex: 1 0 auto;
+  overflow: hidden;
   // @include z-index(6);
   // Ensures nothing inside page can overlap navigation
 

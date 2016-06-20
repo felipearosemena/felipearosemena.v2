@@ -10,14 +10,14 @@
     {% set col_color = (col.width == 'one-third') ? 'c-w bg-' ~ post.slug : 'bg-g--' %}
 
     {% if col.type == 'content' %}
-      <div class="multi-cols__content  {{ col.width }} {{ col_color }}">
+      <div class="multi-cols__content  {{ col.width ? 'multi-cols__content--' ~ col.width }} {{ col_color }}">
         <div class="multi-cols__content-inner">
           {{ col.content }}
         </div>
       </div>
 
     {% elseif col.type == 'image'%}
-      <div class="multi-cols__img {{ col.width }}">
+      <div class="multi-cols__img {{ col.width ? 'multi-cols__img--' ~ col.width }}">
         <figure>
           {{ macros.img(col.image, null, 'one-whole') }}
         </figure>

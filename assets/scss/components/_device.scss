@@ -6,6 +6,11 @@
   align-items: flex-end;
   justify-content: center;
   font-size: 0;
+
+  @include mq-max($bp-sm) {
+    margin-left: -$container-pad * 2;
+    margin-right: -$container-pad * 2;
+  }
 }
 
 .device {
@@ -15,6 +20,10 @@
   vertical-align: middle;
   transition: all $transition-x-slow;
   background-visibility: hidden;
+
+  @include mq-max($bp-sm) {
+    transform-origin: 75% 100%;
+  }
 
   &.is-out {
     opacity: 0;
@@ -70,8 +79,9 @@
 
 //iphone: 0.4815
 .device--iphone {
-  width: $iphone-width * 1.24;
+  width: $iphone-width * 1.6;
   max-width: $iphone-max-width;
+  z-index: 300;
   
   @include mq-min($bp-sm) {
     width: $iphone-width;
