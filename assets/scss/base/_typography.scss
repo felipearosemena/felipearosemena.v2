@@ -211,10 +211,6 @@ h5, .epsilon {
 
 h6, .zeta {
   @include font-size($h6-font-size);
-
-  @include mq-max($bp-sm) {
-    // @include font-size($h5-font-size * 1.2, $h5-line-height * 1.6);
-  }
 }
 
 p, blockquote,
@@ -232,20 +228,13 @@ p + p {
  * $PARAGRAPHS
  */
 p,
-%p {
-}
+%p {}
 
 /**
  * The `.lead` class is used to make the introductory text (usually a paragraph)
  * of a document slightly larger.
  */
-.lead, %lead {
-  
-  // @include mq-min($bp-sm) {
-  //   font-size: $h4-font-size/$base-font-size * 1rem;
-  // }
-  // font-family: $garamond;
-}
+.lead, %lead {}
 
 .serif {
   font-family: $serif-font;

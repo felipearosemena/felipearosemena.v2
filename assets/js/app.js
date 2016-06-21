@@ -21,7 +21,7 @@ vu()
 
 
 const fonts = [
-  // (new FontFaceObserver('Circular')).load(),
+  (new FontFaceObserver('Circular')).load(),
   (new FontFaceObserver('Circular', {weight: 'bold'})).load(),
 ]
 
