@@ -241,15 +241,20 @@
 .multi-cols {
   display: flex;
   flex-wrap: wrap;
-  transition: all $transition-x-slow;
+  transition: transform $transition-slow;
 
   &.is-out {
-    transform: translate3d(0, 0, 0);
+    opacity: 1;
   }
 
   .spread + &,
   .multi-cols + & {
     margin-top: -1px;  
+  }
+
+  @include mq-min($main-breakpoint) {
+    position: relative;
+    z-index: 800;
   }
 }
 
