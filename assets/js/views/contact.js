@@ -4,8 +4,6 @@
 *
 */
 
-import $ from 'jquery'
-
 import { createStore } from 'redux'
 import riot from 'riot'
 import request from 'superagent'
