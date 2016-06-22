@@ -29,7 +29,30 @@ body {
 }
 
 // Page main wrapper
+@keyframes enter {
+    0% {
+        opacity: 0;
+        transform:translate3d(0, $base-spacing-unit * 2 ,0);
+    }
 
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+        transform:translate3d(0,0,0);
+    }
+}
+
+.csstransforms3d {
+  /* The element to apply the animation to */
+  .page-wrap { 
+    animation-name: enter;
+    animation-duration: $transition-time-slow;
+    animation-timing-function: $transition-timing-default;
+  } 
+
+}
 
 .page-wrap {
   flex: 1 0 auto;
