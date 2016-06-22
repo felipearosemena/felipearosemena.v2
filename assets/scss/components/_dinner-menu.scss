@@ -43,6 +43,7 @@
 .dinner-menu-overlay {
   @include z-index(5, fixed);
   @include full-cover;
+  cursor: pointer;
   transition: transform $transition-slow;
   transform: translate3d(100%, 0, 0);
 
