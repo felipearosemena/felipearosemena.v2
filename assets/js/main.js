@@ -52,7 +52,9 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 (0, _polyfills.dataset)();
 (0, _polyfills.vu)();
 
-var fonts = [new _fontfaceobserver2.default('Circular').load(), new _fontfaceobserver2.default('Circular', { weight: 'bold' }).load()];
+var fonts = [
+// (new FontFaceObserver('Circular')).load(),
+new _fontfaceobserver2.default('Circular', { weight: 'bold' }).load()];
 
 Promise.all(fonts).then(function () {
 
