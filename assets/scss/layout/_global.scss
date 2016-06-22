@@ -35,7 +35,6 @@ body {
   flex: 1 0 auto;
   overflow: hidden;
   transition: opacity $transition-slow;
-  will-change: opacity;
 
   .is-menu-active & {
     opacity: 0.25;
