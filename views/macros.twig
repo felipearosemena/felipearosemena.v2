@@ -96,7 +96,7 @@
 
 {% endmacro %}
 
-{% macro project_styles(projects) %}
+{% macro project_styles(projects, id) %}
   {% for project in projects %}
     {% if project.slug and project.color %}
       .btn--{{ project.slug }},
@@ -119,6 +119,13 @@
         background-color: {{ project.color }};
         color: white;
       }
+
+      {% if id == project.id %}
+        .site-branding:hover .site-branding__logo path {
+          fill: {{ project.color }}
+        }
+      {% endif %}
+
 
     {% endif %}
   {% endfor %}

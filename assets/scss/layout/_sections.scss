@@ -245,6 +245,7 @@
 
   &.is-out {
     opacity: 1;
+    transform: none;
   }
 
   .spread + &,
