@@ -50,6 +50,10 @@
     margin-top: $section-spacing-unit * 1.5;
     margin-bottom: $section-spacing-unit * 1.5;
   }
+
+  @include mq-min($bp-xl) {
+    z-index: 900;
+  }
 }
 
 .spread__bg {
@@ -123,6 +127,7 @@
 
 .spread__img {
   display: flex;
+  
 
   @include mq-max($bp-md) {
     margin-bottom: $base-spacing-unit*2;

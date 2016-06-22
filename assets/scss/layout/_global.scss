@@ -34,8 +34,13 @@ body {
 .page-wrap {
   flex: 1 0 auto;
   overflow: hidden;
+  transition: transform $transition-default;
   // @include z-index(6);
   // Ensures nothing inside page can overlap navigation
+
+  .is-menu-active & {
+    transform: translate3d(-20%, 0, 0);
+  }
 
   @include mq-max($bp-xl) {
     padding-top: $logo-height + $base-spacing-unit;
