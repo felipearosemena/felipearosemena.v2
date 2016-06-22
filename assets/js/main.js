@@ -147,7 +147,7 @@ PubSub.subscribe('header-view:open', function () {
   popstate: false
 });
 
-},{"./modules/polyfills":3,"./modules/utils":5,"./modules/video":6,"./views/canvas":7,"./views/contact":8,"./views/header":9,"./views/nav":10,"./views/pageSections":11,"fontfaceobserver":12,"page":18,"pubsub-js":21,"riot":30}],2:[function(require,module,exports){
+},{"./modules/polyfills":3,"./modules/utils":5,"./modules/video":6,"./views/canvas":7,"./views/contact":8,"./views/header":9,"./views/nav":10,"./views/pageSections":11,"fontfaceobserver":13,"page":19,"pubsub-js":21,"riot":30}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -456,6 +456,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.contactReducer = exports.componentReducer = exports.headerReducer = exports.filterApp = undefined;
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _redux = require('redux');
@@ -477,86 +479,110 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 */
 
 function item(state, action) {
-  switch (action.type) {
-    case _actions.UPDATE_SELECTION:
-      var item = state.item;
-      var selection = state.selection;
+  var _ret = function () {
+    switch (action.type) {
+      case _actions.UPDATE_SELECTION:
+        var item = state.item;
+        var selection = state.selection;
 
-      var isFiltered = item.taxonomies.reduce(function (bool, tax) {
-        return bool ? bool : selection[tax.taxonomy_name] && selection[tax.taxonomy_name] !== tax.value ? true : false;
-      }, false);
+        var isFiltered = item.taxonomies.reduce(function (bool, tax) {
+          return bool ? bool : selection[tax.taxonomy_name] && selection[tax.taxonomy_name] !== tax.value ? true : false;
+        }, false);
 
-      return _extends({}, item, {
-        isFiltered: isFiltered
-      });
+        return {
+          v: _extends({}, item, {
+            isFiltered: isFiltered
+          })
+        };
 
-    default:
-      return state;
-  }
+      default:
+        return {
+          v: state
+        };
+    }
+  }();
+
+  if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
 }
 
 function filter(state, action) {
-  switch (action.type) {
-    case _actions.UPDATE_SELECTION:
-      var filter = state.filter;
-      var items = state.items;
-      var selection = state.selection;
+  var _ret2 = function () {
+    switch (action.type) {
+      case _actions.UPDATE_SELECTION:
+        var filter = state.filter;
+        var items = state.items;
+        var selection = state.selection;
 
-      var updatedOptions = filter.options.map(function (option) {
+        var updatedOptions = filter.options.map(function (option) {
 
-        var newSelection = _extends({}, selection, _defineProperty({}, filter.taxonomy_name, option.option_name));
+          var newSelection = _extends({}, selection, _defineProperty({}, filter.taxonomy_name, option.option_name));
 
-        var filteredItems = items.map(function (i) {
-          return item({ item: i, selection: newSelection }, action);
-        }).map(function (item) {
-          return item.isFiltered;
+          var filteredItems = items.map(function (i) {
+            return item({ item: i, selection: newSelection }, action);
+          }).map(function (item) {
+            return item.isFiltered;
+          });
+
+          return _extends({}, option, {
+            isValid: (0, _utils.inArray)(false, filteredItems)
+          });
         });
 
-        return _extends({}, option, {
-          isValid: (0, _utils.inArray)(false, filteredItems)
-        });
-      });
+        return {
+          v: _extends({}, filter, {
+            options: updatedOptions
+          })
+        };
 
-      return _extends({}, filter, {
-        options: updatedOptions
-      });
+      default:
+        return {
+          v: state
+        };
+    }
+  }();
 
-    default:
-      return state;
-  }
+  if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
 }
 
 function appliedFilters() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var action = arguments[1];
 
-  switch (action.type) {
-    case _actions.UPDATE_SELECTION:
-      var items = state.items;
-      var filters = state.filters;
+  var _ret3 = function () {
+    switch (action.type) {
+      case _actions.UPDATE_SELECTION:
+        var items = state.items;
+        var filters = state.filters;
 
-      var newSelection = _extends({}, state.selection, _defineProperty({}, action.tax, action.value));
-      var filteredItems = items.map(function (i) {
-        return item({ item: i, selection: newSelection }, action);
-      });
-      var updatedFilters = filters.map(function (f) {
-        return filter({
-          filter: f,
-          items: filteredItems,
-          selection: newSelection
-        }, action);
-      });
+        var newSelection = _extends({}, state.selection, _defineProperty({}, action.tax, action.value));
+        var filteredItems = items.map(function (i) {
+          return item({ item: i, selection: newSelection }, action);
+        });
+        var updatedFilters = filters.map(function (f) {
+          return filter({
+            filter: f,
+            items: filteredItems,
+            selection: newSelection
+          }, action);
+        });
 
-      return _extends({}, state, {
-        items: filteredItems,
-        selection: newSelection,
-        filters: updatedFilters
-      });
+        return {
+          v: _extends({}, state, {
+            items: filteredItems,
+            selection: newSelection,
+            filters: updatedFilters
+          })
+        };
 
-    default:
-      return state;
+      default:
+        return {
+          v: state
+        };
 
-  }
+    }
+  }();
+
+  if ((typeof _ret3 === 'undefined' ? 'undefined' : _typeof(_ret3)) === "object") return _ret3.v;
 }
 
 function header() {
@@ -632,39 +658,51 @@ function contactReducer() {
   var state = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
   var action = arguments[1];
 
+  var _ret4 = function () {
 
-  switch (action.type) {
-    case _actions.INPUT_VALIDATE:
+    switch (action.type) {
+      case _actions.INPUT_VALIDATE:
 
-      return _extends({}, state);
+        return {
+          v: _extends({}, state)
+        };
 
-    case _actions.FORM_SUBMITTED:
+      case _actions.FORM_SUBMITTED:
 
-      return _extends({}, state, {
-        isProcessing: true
-      });
+        return {
+          v: _extends({}, state, {
+            isProcessing: true
+          })
+        };
 
-    case _actions.FORM_RESPONSE:
+      case _actions.FORM_RESPONSE:
 
-      var resText = action.res ? JSON.parse(action.res.text) : {};
-      var fields = (0, _utils.map)(state.fields, function (field) {
+        var resText = action.res ? JSON.parse(action.res.text) : {};
+        var fields = (0, _utils.map)(state.fields, function (field) {
 
-        return _extends({}, field, {
-          hasError: resText.validation_messages ? !!resText.validation_messages[field.id] : false
+          return _extends({}, field, {
+            hasError: resText.validation_messages ? !!resText.validation_messages[field.id] : false
+          });
         });
-      });
 
-      return _extends({}, state, {
-        fields: fields,
-        http_res: action.res,
-        http_err: action.err,
-        isProcessing: false
-      });
+        return {
+          v: _extends({}, state, {
+            fields: fields,
+            http_res: action.res,
+            http_err: action.err,
+            isProcessing: false
+          })
+        };
 
-    default:
+      default:
 
-      return _extends({}, state);
-  }
+        return {
+          v: _extends({}, state)
+        };
+    }
+  }();
+
+  if ((typeof _ret4 === 'undefined' ? 'undefined' : _typeof(_ret4)) === "object") return _ret4.v;
 }
 
 var filterApp = (0, _redux.combineReducers)({
@@ -1491,6 +1529,127 @@ function pageSections(sectionEls) {
 }
 
 },{"../modules/utils":5,"pubsub-js":21}],12:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+(function () {
+  try {
+    cachedSetTimeout = setTimeout;
+  } catch (e) {
+    cachedSetTimeout = function () {
+      throw new Error('setTimeout is not defined');
+    }
+  }
+  try {
+    cachedClearTimeout = clearTimeout;
+  } catch (e) {
+    cachedClearTimeout = function () {
+      throw new Error('clearTimeout is not defined');
+    }
+  }
+} ())
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = cachedSetTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    cachedClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        cachedSetTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],13:[function(require,module,exports){
 (function(){var k=!!document.addEventListener;function l(a,b){k?a.addEventListener("scroll",b,!1):a.attachEvent("scroll",b)}function v(a){document.body?a():k?document.addEventListener("DOMContentLoaded",a):document.attachEvent("onreadystatechange",function(){"interactive"!=document.readyState&&"complete"!=document.readyState||a()})};function w(a){this.a=document.createElement("div");this.a.setAttribute("aria-hidden","true");this.a.appendChild(document.createTextNode(a));this.b=document.createElement("span");this.c=document.createElement("span");this.h=document.createElement("span");this.f=document.createElement("span");this.g=-1;this.b.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.c.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";
 this.f.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.h.style.cssText="display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.b.appendChild(this.h);this.c.appendChild(this.f);this.a.appendChild(this.b);this.a.appendChild(this.c)}
 function y(a,b){a.a.style.cssText="max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;left:-999px;white-space:nowrap;font:"+b+";"}function z(a){var b=a.a.offsetWidth,c=b+100;a.f.style.width=c+"px";a.c.scrollLeft=c;a.b.scrollLeft=a.b.scrollWidth+100;return a.g!==b?(a.g=b,!0):!1}function A(a,b){function c(){var a=m;z(a)&&null!==a.a.parentNode&&b(a.g)}var m=a;l(a.b,c);l(a.c,c);z(a)};function B(a,b){var c=b||{};this.family=a;this.style=c.style||"normal";this.weight=c.weight||"normal";this.stretch=c.stretch||"normal"}var C=null,D=null,H=!!window.FontFace;function I(){if(null===D){var a=document.createElement("div");try{a.style.font="condensed 100px sans-serif"}catch(b){}D=""!==a.style.font}return D}function J(a,b){return[a.style,a.weight,I()?a.stretch:"","100px",b].join(" ")}
@@ -1499,12 +1658,12 @@ h)(b=f!=g&&f!=h&&g!=h)||(null===C&&(b=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))/.exec
 h=p.a.offsetWidth,q();G=setTimeout(F,50)}}var e=new w(m),n=new w(m),p=new w(m),f=-1,g=-1,h=-1,r=-1,t=-1,u=-1,d=document.createElement("div"),G=0;d.dir="ltr";y(e,J(c,"sans-serif"));y(n,J(c,"serif"));y(p,J(c,"monospace"));d.appendChild(e.a);d.appendChild(n.a);d.appendChild(p.a);document.body.appendChild(d);r=e.a.offsetWidth;t=n.a.offsetWidth;u=p.a.offsetWidth;F();A(e,function(a){f=a;q()});y(e,J(c,'"'+c.family+'",sans-serif'));A(n,function(a){g=a;q()});y(n,J(c,'"'+c.family+'",serif'));A(p,function(a){h=
 a;q()});y(p,J(c,'"'+c.family+'",monospace'))})})};window.FontFaceObserver=B;window.FontFaceObserver.prototype.check=window.FontFaceObserver.prototype.load=B.prototype.load;"undefined"!==typeof module&&(module.exports=window.FontFaceObserver);}());
 
-},{}],13:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
   return Object.prototype.toString.call(arr) == '[object Array]';
 };
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 /* Built-in method references for those with the same name as other `lodash` methods. */
 var nativeGetPrototype = Object.getPrototypeOf;
 
@@ -1521,7 +1680,7 @@ function getPrototype(value) {
 
 module.exports = getPrototype;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 /**
  * Checks if `value` is a host object in IE < 9.
  *
@@ -1543,7 +1702,7 @@ function isHostObject(value) {
 
 module.exports = isHostObject;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -1574,7 +1733,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 var getPrototype = require('./_getPrototype'),
     isHostObject = require('./_isHostObject'),
     isObjectLike = require('./isObjectLike');
@@ -1646,7 +1805,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_getPrototype":14,"./_isHostObject":15,"./isObjectLike":16}],18:[function(require,module,exports){
+},{"./_getPrototype":15,"./_isHostObject":16,"./isObjectLike":17}],19:[function(require,module,exports){
 (function (process){
   /* globals require, module */
 
@@ -2272,7 +2431,8 @@ module.exports = isPlainObject;
   page.sameOrigin = sameOrigin;
 
 }).call(this,require('_process'))
-},{"_process":20,"path-to-regexp":19}],19:[function(require,module,exports){
+
+},{"_process":12,"path-to-regexp":20}],20:[function(require,module,exports){
 var isarray = require('isarray')
 
 /**
@@ -2664,95 +2824,7 @@ function pathToRegexp (path, keys, options) {
   return stringToRegexp(path, keys, options)
 }
 
-},{"isarray":13}],20:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-
-process.nextTick = (function () {
-    var canSetImmediate = typeof window !== 'undefined'
-    && window.setImmediate;
-    var canMutationObserver = typeof window !== 'undefined'
-    && window.MutationObserver;
-    var canPost = typeof window !== 'undefined'
-    && window.postMessage && window.addEventListener
-    ;
-
-    if (canSetImmediate) {
-        return function (f) { return window.setImmediate(f) };
-    }
-
-    var queue = [];
-
-    if (canMutationObserver) {
-        var hiddenDiv = document.createElement("div");
-        var observer = new MutationObserver(function () {
-            var queueList = queue.slice();
-            queue.length = 0;
-            queueList.forEach(function (fn) {
-                fn();
-            });
-        });
-
-        observer.observe(hiddenDiv, { attributes: true });
-
-        return function nextTick(fn) {
-            if (!queue.length) {
-                hiddenDiv.setAttribute('yes', 'no');
-            }
-            queue.push(fn);
-        };
-    }
-
-    if (canPost) {
-        window.addEventListener('message', function (ev) {
-            var source = ev.source;
-            if ((source === window || source === null) && ev.data === 'process-tick') {
-                ev.stopPropagation();
-                if (queue.length > 0) {
-                    var fn = queue.shift();
-                    fn();
-                }
-            }
-        }, true);
-
-        return function nextTick(fn) {
-            queue.push(fn);
-            window.postMessage('process-tick', '*');
-        };
-    }
-
-    return function nextTick(fn) {
-        setTimeout(fn, 0);
-    };
-})();
-
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-
-},{}],21:[function(require,module,exports){
+},{"isarray":14}],21:[function(require,module,exports){
 /*
 Copyright (c) 2010,2011,2012,2013,2014 Morgan Roderick http://roderick.dk
 License: MIT - http://mrgnrdrck.mit-license.org
@@ -3263,7 +3335,7 @@ function combineReducers(reducers) {
     return hasChanged ? nextState : state;
   };
 }
-},{"./createStore":27,"./utils/warning":29,"lodash/isPlainObject":17}],26:[function(require,module,exports){
+},{"./createStore":27,"./utils/warning":29,"lodash/isPlainObject":18}],26:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -3567,7 +3639,7 @@ function createStore(reducer, initialState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[_symbolObservable2["default"]] = observable, _ref2;
 }
-},{"lodash/isPlainObject":17,"symbol-observable":36}],28:[function(require,module,exports){
+},{"lodash/isPlainObject":18,"symbol-observable":36}],28:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -7752,6 +7824,7 @@ Emitter.prototype.hasListeners = function(event){
 module.exports = require('./ponyfill')(global || window || this);
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+
 },{"./ponyfill":37}],37:[function(require,module,exports){
 'use strict';
 
@@ -8209,6 +8282,7 @@ module.exports = function symbolObservablePonyfill(root) {
 
 }));
 
-},{}]},{},[1]);
+},{}]},{},[1])
+
 
 //# sourceMappingURL=main.js.map
