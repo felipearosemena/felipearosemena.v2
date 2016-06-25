@@ -14,6 +14,7 @@
   {% if not size %}
     {% set src = image.url %}
     {% set srcset = function('wp_get_attachment_image_srcset', image.id) %}
+    {% set sizes = function('wp_get_attachment_image_sizes', image.id, size) %}
     {% set width = image.width %}
     {% set height = image.height %}
 
@@ -21,6 +22,7 @@
 
     {% set src = image.get_src(size) %}
     {% set srcset = function('wp_get_attachment_image_srcset', image.ID, size) %}
+    {% set sizes = function('wp_get_attachment_image_sizes', image.ID, size) %}
     {% set width = image.sizes[size] ? image.sizes[size]['width'] : image.width %}
     {% set height = image.sizes[size] ? image.sizes[size]['height'] : image.height %}
 
@@ -34,16 +36,15 @@
 
   {% endif %}
   
-  {# <div class="img-wrap" style="padding-bottom: {{height/width * 100}}%"> #}
-    <img 
-      class="js-img-fade {{ imgClass }}"
-      width="{{ width }}"
-      height="{{ height }}"
-      src="{{ src }}"
-      srcset="{{ srcset }}"
-      alt="{{ image.alt }}" 
-      title="{{ image.title }}" > 
-  {# </div> #}
+  <img 
+    class="js-img-fade {{ imgClass }}"
+    width="{{ width }}"
+    height="{{ height }}"
+    src="{{ src }}"
+    srcset="{{ srcset }}"
+    sizes="{{ sizes }}"
+    alt="{{ image.alt }}" 
+    title="{{ image.title }}" > 
 
 {% endmacro %}
 
