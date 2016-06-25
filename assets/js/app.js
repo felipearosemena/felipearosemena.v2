@@ -1,5 +1,4 @@
 import * as PubSub from 'pubsub-js'
-import FontFaceObserver from 'fontfaceobserver'
 import page from 'page'
 import riot from 'riot'
 
@@ -18,21 +17,6 @@ import canvasView from './views/canvas'
 classList()
 dataset()
 vu()
-
-
-const fonts = [
-  // (new FontFaceObserver('Circular')).load(),
-  (new FontFaceObserver('Circular', {weight: 'bold'})).load(),
-]
-
-Promise.all(fonts).then(function () {
-  
-  document.body.classList.add('fonts-loaded')
-
-  if(window.localStorage) {
-    localStorage.setItem('fonts-loaded', 1)
-  }
-})
 
 const sections = document.querySelectorAll('[data-scroll-section]')
 const sectionViews = pageSections(sections)
