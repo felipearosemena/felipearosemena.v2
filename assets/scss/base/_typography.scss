@@ -6,6 +6,13 @@
   
 */
 
+@font-face {
+  font-family: 'Circular';
+  src: 
+    url('../fonts/CircularPro-Book.woff2') format('woff'),
+    url('../fonts/CircularPro-Book.woff') format('woff');
+  font-weight: normal;
+}   
 
 @font-face {
   font-family: 'Circular';
@@ -17,7 +24,7 @@
 
 html {
   font-size: $base-font-size*.8;
-  font-weight: 300;
+  font-weight: 400;
   line-height: $base-line-height / $base-font-size;
   color: $body-color;
   text-rendering: optimizeLegibility;
@@ -239,6 +246,7 @@ p,
  */
 blockquote {
   @include font-size($h3-font-size, false);
+  font-weight: 300;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
