@@ -5,10 +5,6 @@ var _pubsubJs = require('pubsub-js');
 
 var PubSub = _interopRequireWildcard(_pubsubJs);
 
-var _fontfaceobserver = require('fontfaceobserver');
-
-var _fontfaceobserver2 = _interopRequireDefault(_fontfaceobserver);
-
 var _page = require('page');
 
 var _page2 = _interopRequireDefault(_page);
@@ -22,6 +18,8 @@ var _utils = require('./modules/utils');
 var _polyfills = require('./modules/polyfills');
 
 var _video = require('./modules/video');
+
+require('./modules/ajax');
 
 var _pageSections = require('./views/pageSections');
 
@@ -51,19 +49,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 (0, _polyfills.classList)();
 (0, _polyfills.dataset)();
 (0, _polyfills.vu)();
-
-var fonts = [
-// (new FontFaceObserver('Circular')).load(),
-new _fontfaceobserver2.default('Circular', { weight: 'bold' }).load()];
-
-Promise.all(fonts).then(function () {
-
-  document.body.classList.add('fonts-loaded');
-
-  if (window.localStorage) {
-    localStorage.setItem('fonts-loaded', 1);
-  }
-});
 
 var sections = document.querySelectorAll('[data-scroll-section]');
 var sectionViews = (0, _pageSections2.default)(sections);
@@ -149,7 +134,7 @@ PubSub.subscribe('header-view:open', function () {
   popstate: false
 });
 
-},{"./modules/polyfills":3,"./modules/utils":5,"./modules/video":6,"./views/canvas":7,"./views/contact":8,"./views/header":9,"./views/nav":10,"./views/pageSections":11,"fontfaceobserver":13,"page":19,"pubsub-js":21,"riot":30}],2:[function(require,module,exports){
+},{"./modules/ajax":3,"./modules/polyfills":4,"./modules/utils":6,"./modules/video":7,"./views/canvas":8,"./views/contact":9,"./views/header":10,"./views/nav":11,"./views/pageSections":12,"page":19,"pubsub-js":21,"riot":30}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -261,6 +246,47 @@ function inputValidate(field, value) {
 }
 
 },{}],3:[function(require,module,exports){
+'use strict';
+
+var _utils = require('./utils');
+
+var _superagent = require('superagent');
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import { createStore } from 'redux'
+
+var buffer = (0, _utils.createElement)('div');
+var rootEl = document.querySelector('.page-wrap');
+
+(0, _utils.delegateEvent)(rootEl, (0, _utils.whichTransitionEnd)(), '.page-wrap', function (e) {
+  console.log(e);
+});
+
+(0, _utils.delegateEvent)(document, 'click', '[href*="' + window.location.host + '"]', function (e) {
+  e.preventDefault();
+
+  document.body.classList.add('is-transiting');
+
+  setTimeout(function () {
+    window.location = e.target.href;
+  }, 50);
+
+  // request
+  //   .get(e.target.href)
+  //   // MAKE SURE TO HANDLE ERROR!!
+  //   .end((err, res) => {
+  //     buffer.innerHTML = res.text
+  //     const newRoot = buffer.querySelector('.page-ajax-wrap')
+  //     rootEl.parentNode.insertBefore(newRoot, rootEl)
+  //     rootEl = newRoot
+  //     document.body.classList.remove('is-transiting')
+  //   })
+});
+
+},{"./utils":6,"superagent":31}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -450,7 +476,7 @@ var domParser = exports.domParser = function domParser() {
   })(window.DOMParser);
 };
 
-},{"viewport-units-buggyfill":38}],4:[function(require,module,exports){
+},{"viewport-units-buggyfill":38}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -720,7 +746,7 @@ exports.headerReducer = headerReducer;
 exports.componentReducer = componentReducer;
 exports.contactReducer = contactReducer;
 
-},{"./actions":2,"./utils":5,"redux":28}],5:[function(require,module,exports){
+},{"./actions":2,"./utils":6,"redux":28}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -970,7 +996,7 @@ function whichTransitionEnd() {
   return false;
 }
 
-},{}],6:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1033,7 +1059,7 @@ function videoController() {
   *
   */
 
-},{"./utils":5}],7:[function(require,module,exports){
+},{"./utils":6}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1044,7 +1070,7 @@ function canvasView() {
   console.log('view');
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1250,7 +1276,7 @@ function contactFormView(config) {
   });
 }
 
-},{"../modules/actions":2,"../modules/reducers":4,"../modules/utils":5,"redux":28,"riot":30,"superagent":31}],9:[function(require,module,exports){
+},{"../modules/actions":2,"../modules/reducers":5,"../modules/utils":6,"redux":28,"riot":30,"superagent":31}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1324,7 +1350,7 @@ var headerView = function headerView(headerEl) {
 
 exports.default = headerView;
 
-},{"../modules/utils":5,"pubsub-js":21}],10:[function(require,module,exports){
+},{"../modules/utils":6,"pubsub-js":21}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1370,7 +1396,7 @@ var navView = function navView(navEl) {
 
 exports.default = navView;
 
-},{"../modules/utils":5,"pubsub-js":21}],11:[function(require,module,exports){
+},{"../modules/utils":6,"pubsub-js":21}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1530,7 +1556,7 @@ function pageSections(sectionEls) {
   return sectionViews;
 }
 
-},{"../modules/utils":5,"pubsub-js":21}],12:[function(require,module,exports){
+},{"../modules/utils":6,"pubsub-js":21}],13:[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -1650,15 +1676,6 @@ process.chdir = function (dir) {
     throw new Error('process.chdir is not supported');
 };
 process.umask = function() { return 0; };
-
-},{}],13:[function(require,module,exports){
-(function(){var k=!!document.addEventListener;function l(a,b){k?a.addEventListener("scroll",b,!1):a.attachEvent("scroll",b)}function v(a){document.body?a():k?document.addEventListener("DOMContentLoaded",a):document.attachEvent("onreadystatechange",function(){"interactive"!=document.readyState&&"complete"!=document.readyState||a()})};function w(a){this.a=document.createElement("div");this.a.setAttribute("aria-hidden","true");this.a.appendChild(document.createTextNode(a));this.b=document.createElement("span");this.c=document.createElement("span");this.h=document.createElement("span");this.f=document.createElement("span");this.g=-1;this.b.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.c.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";
-this.f.style.cssText="max-width:none;display:inline-block;position:absolute;height:100%;width:100%;overflow:scroll;font-size:16px;";this.h.style.cssText="display:inline-block;width:200%;height:200%;font-size:16px;max-width:none;";this.b.appendChild(this.h);this.c.appendChild(this.f);this.a.appendChild(this.b);this.a.appendChild(this.c)}
-function y(a,b){a.a.style.cssText="max-width:none;min-width:20px;min-height:20px;display:inline-block;overflow:hidden;position:absolute;width:auto;margin:0;padding:0;top:-999px;left:-999px;white-space:nowrap;font:"+b+";"}function z(a){var b=a.a.offsetWidth,c=b+100;a.f.style.width=c+"px";a.c.scrollLeft=c;a.b.scrollLeft=a.b.scrollWidth+100;return a.g!==b?(a.g=b,!0):!1}function A(a,b){function c(){var a=m;z(a)&&null!==a.a.parentNode&&b(a.g)}var m=a;l(a.b,c);l(a.c,c);z(a)};function B(a,b){var c=b||{};this.family=a;this.style=c.style||"normal";this.weight=c.weight||"normal";this.stretch=c.stretch||"normal"}var C=null,D=null,H=!!window.FontFace;function I(){if(null===D){var a=document.createElement("div");try{a.style.font="condensed 100px sans-serif"}catch(b){}D=""!==a.style.font}return D}function J(a,b){return[a.style,a.weight,I()?a.stretch:"","100px",b].join(" ")}
-B.prototype.load=function(a,b){var c=this,m=a||"BESbswy",x=b||3E3,E=(new Date).getTime();return new Promise(function(a,b){if(H){var K=new Promise(function(a,b){function e(){(new Date).getTime()-E>=x?b():document.fonts.load(J(c,c.family),m).then(function(c){1<=c.length?a():setTimeout(e,25)},function(){b()})}e()}),L=new Promise(function(a,c){setTimeout(c,x)});Promise.race([L,K]).then(function(){a(c)},function(){b(c)})}else v(function(){function q(){var b;if(b=-1!=f&&-1!=g||-1!=f&&-1!=h||-1!=g&&-1!=
-h)(b=f!=g&&f!=h&&g!=h)||(null===C&&(b=/AppleWebKit\/([0-9]+)(?:\.([0-9]+))/.exec(window.navigator.userAgent),C=!!b&&(536>parseInt(b[1],10)||536===parseInt(b[1],10)&&11>=parseInt(b[2],10))),b=C&&(f==r&&g==r&&h==r||f==t&&g==t&&h==t||f==u&&g==u&&h==u)),b=!b;b&&(null!==d.parentNode&&d.parentNode.removeChild(d),clearTimeout(G),a(c))}function F(){if((new Date).getTime()-E>=x)null!==d.parentNode&&d.parentNode.removeChild(d),b(c);else{var a=document.hidden;if(!0===a||void 0===a)f=e.a.offsetWidth,g=n.a.offsetWidth,
-h=p.a.offsetWidth,q();G=setTimeout(F,50)}}var e=new w(m),n=new w(m),p=new w(m),f=-1,g=-1,h=-1,r=-1,t=-1,u=-1,d=document.createElement("div"),G=0;d.dir="ltr";y(e,J(c,"sans-serif"));y(n,J(c,"serif"));y(p,J(c,"monospace"));d.appendChild(e.a);d.appendChild(n.a);d.appendChild(p.a);document.body.appendChild(d);r=e.a.offsetWidth;t=n.a.offsetWidth;u=p.a.offsetWidth;F();A(e,function(a){f=a;q()});y(e,J(c,'"'+c.family+'",sans-serif'));A(n,function(a){g=a;q()});y(n,J(c,'"'+c.family+'",serif'));A(p,function(a){h=
-a;q()});y(p,J(c,'"'+c.family+'",monospace'))})})};window.FontFaceObserver=B;window.FontFaceObserver.prototype.check=window.FontFaceObserver.prototype.load=B.prototype.load;"undefined"!==typeof module&&(module.exports=window.FontFaceObserver);}());
 
 },{}],14:[function(require,module,exports){
 module.exports = Array.isArray || function (arr) {
@@ -2434,7 +2451,7 @@ module.exports = isPlainObject;
 
 }).call(this,require('_process'))
 
-},{"_process":12,"path-to-regexp":20}],20:[function(require,module,exports){
+},{"_process":13,"path-to-regexp":20}],20:[function(require,module,exports){
 var isarray = require('isarray')
 
 /**

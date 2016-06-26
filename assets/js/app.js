@@ -2,10 +2,11 @@ import * as PubSub from 'pubsub-js'
 import page from 'page'
 import riot from 'riot'
 
-import { map, reduce, isMobile } from './modules/utils'
+import { map, reduce, isMobile, delegateEvent } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
 import { videoController } from './modules/video'
+import './modules/ajax'
 
 import pageSections from './views/pageSections'
 import headerView from './views/header'
@@ -17,6 +18,18 @@ import canvasView from './views/canvas'
 classList()
 dataset()
 vu()
+
+// Click listener for internal links
+// For fading out the current page
+// New pages fade in through CSS3 animation, instead of transition
+delegateEvent(document, 'click', '[href*="' + window.location.host + '"]', e => {
+  e.preventDefault();
+  document.body.classList.add('is-transiting')
+  setTimeout(() => {
+    window.location = e.target.href
+  }, 50)
+})
+
 
 const sections = document.querySelectorAll('[data-scroll-section]')
 const sectionViews = pageSections(sections)
