@@ -1,5 +1,5 @@
 import * as PubSub from 'pubsub-js'
-import { inRange, delegateEvent, whichTransitionEnd } from '../modules/utils'
+import { inRange, delegateEvent } from '../modules/utils'
 
 const rootEl = document.body
 const rootClass = rootEl.classList
