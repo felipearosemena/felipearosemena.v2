@@ -19,18 +19,20 @@
 
     <!--begin page content -->
     <div class="page-wrap" role="document">
-
-      {% block masthead %}{% endblock %} 
+      
+      <header class="page-masthead">
+        {% block masthead %}{% endblock %} 
+      </header>
 
       <main id="page-content" class="page-content">
-
         {% block content %}{% endblock %}
-
       </main>
       
-      {# FIX CONTACT FORM #}
-      {% block bottom %}{% endblock %}
-
+      <aside class="page-bottom">
+        {# FIX CONTACT FORM #}
+        {% block bottom %}{% endblock %}
+      </aside>
+      
     </div><!-- page-wrap -->
     
     {% block footer %}
