@@ -306,14 +306,15 @@ pre, code {
 }
 
 .tab-label {
-  position: absolute;
+  position: relative;
+  margin-bottom: -1rem;
+  bottom: -.4rem;
   display: inline-block;
   line-height: $base-spacing-unit;
   padding:$base-spacing-unit/2 $base-spacing-unit;
   background:$body-color;
   color:white;
   z-index: 120;
-  margin-top: -$base-spacing-unit*1.18;
 }
 
 @font-face {

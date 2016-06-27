@@ -33,7 +33,7 @@
 
   @include mq-min($bp-xl) {
     top: ($logo-height-lg - px-to-rem($button-toggle-width))/2;
-    margin: $base-spacing-unit ($container-pad - px-to-rem($button-toggle-padding));
+    margin: $base-spacing-unit $container-pad/2;
   }
 }
 
