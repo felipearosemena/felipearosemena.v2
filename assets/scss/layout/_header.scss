@@ -47,7 +47,7 @@
   background: white;
   box-shadow: $box-shadow-y-soft;
 
-  .is-menu-active & {
+  .is-menu-active:not(.is-transiting) & {
     background: transparent;
     box-shadow: none;
     transform: translate3d(0, $base-spacing-unit/2, 0);
@@ -135,7 +135,7 @@
     transition: all $transition-time-slow $transition-timing-default;
 
     @include mq-max($bp-sm) {
-      .is-menu-active & {
+      .is-menu-active:not(.is-transiting) & {
         transition: all $transition-time-slow $transition-timing-default-inverse;
         fill: white;
       }
