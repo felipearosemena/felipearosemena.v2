@@ -18,6 +18,7 @@ classList()
 dataset()
 vu()
 
+
 // Click listener for internal links
 // For fading out the current page
 // New pages fade in through CSS3 animation, instead of transition
@@ -28,6 +29,11 @@ delegateEvent(document, 'click', '[href*="' + window.location.host + '"]', e => 
     window.location = e.target.href
   }, 50)
 })
+
+// Handle showing the page again when hitting 
+// the back button (IOS, Safari)
+window.onpageshow = e => e.persisted ? 
+  document.body.classList.remove('is-transiting') : null 
 
 
 const sections = document.querySelectorAll('[data-scroll-section]')

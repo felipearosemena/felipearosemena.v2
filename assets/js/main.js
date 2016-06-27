@@ -59,6 +59,10 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
   }, 50);
 });
 
+window.onpageshow = function (e) {
+  return e.persisted ? document.body.classList.remove('is-transiting') : null;
+};
+
 var sections = document.querySelectorAll('[data-scroll-section]');
 var sectionViews = (0, _pageSections2.default)(sections);
 
