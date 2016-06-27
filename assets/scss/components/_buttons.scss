@@ -194,10 +194,9 @@ button:focus {
     box-shadow:none;
   }
 
-  .is-menu-active & {
+  .is-menu-active:not(.is-transiting) & {
     span:nth-of-type(2) {
       transform: rotate(45deg) translate3d(2px,2px,0);
-      // top: $icon-bar-height + $icon-bar-spacing;
     }
     span:nth-of-type(3) {
       transform:translate3d(200%,0,0)
@@ -209,7 +208,6 @@ button:focus {
 
     span:nth-of-type(4) {
       transform: rotate(-45deg) translate3d(5px,-5px,0);
-      // top: -($icon-bar-height + $icon-bar-spacing);
     }
   }
 }
