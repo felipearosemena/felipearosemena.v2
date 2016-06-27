@@ -28,7 +28,9 @@ html {
   line-height: $base-line-height / $base-font-size;
   color: $body-color;
   text-rendering: optimizeLegibility;
-
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -.02em;
 
   @include mq-min($bp-xl) {
     font-size:$base-font-size;
@@ -36,7 +38,7 @@ html {
 }
 
 body {
-  font-family: $loading-font-family;
+  font-family: $body-font-family;
   
   &.fonts-loaded {
   }
@@ -142,13 +144,7 @@ a, i {
 
 %heading-font {
   font-weight: bold;
-  font-family: $heading-font-family; 
-  
-  // font-family: $loading-font-family;
-  
-  // .fonts-loaded & {
-  //   font-family: $body-font-family; 
-  // }
+  font-family: $heading-font-family;
 }
 
 /**
