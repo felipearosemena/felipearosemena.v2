@@ -176,8 +176,7 @@ button:focus {
     @extend %element-invisible;
   }
 
-  .is-menu-active & {
-    
+  .is-menu-active:not(.is-transiting) & {
     color: white;
 
     &:hover {

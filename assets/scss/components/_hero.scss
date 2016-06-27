@@ -124,6 +124,12 @@ canvas.hero__bg {
   color:white;
 }
 
+.hero--cta {
+  @extend .hero--dark;
+  z-index: 200;
+  margin-top: -1px; // *hack to make sure it overlaps the bottom of the content area (subpixel rendering)
+}
+
 .hero--fluid {
   padding: 15% 0;
   @include mq-min($bp-lg) {

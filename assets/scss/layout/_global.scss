@@ -44,30 +44,43 @@ body {
     }
 }
 
-.csstransforms3d {
-  /* The element to apply the animation to */
-  .page-wrap { 
-    animation-name: enter;
-    animation-duration: $transition-time-slow;
-    animation-timing-function: $transition-timing-default;
-  } 
-
-}
-
 .page-wrap {
   flex: 1 0 auto;
   overflow: hidden;
-  transition: opacity $transition-slow;
-
-  .is-menu-active & {
-    opacity: 0.25;
-  }
+  
 
   @include mq-max($bp-xl) {
     padding-top: $logo-height + $base-spacing-unit;
   }
 }
 
+.page-content,
+.page-masthead {
+  transition: all $transition-default;
 
-.page-content {
+  .is-menu-active & {
+    opacity: 0.25;
+  }
+
+  .is-transiting & {
+    opacity: 0;
+    transform: translate3d(0, -$base-spacing-unit, 0)
+  }
+
+  /* The element to apply the animation to */
+  .csstransforms3d & { 
+    animation-name: enter;
+    animation-duration: $transition-time-default;
+    animation-timing-function: $transition-timing-default;
+  } 
+  
+}
+
+.page-bottom {
+  transform: translate3d(0, 0, 0);
+  transition: opacity $transition-slow;
+
+  .is-transiting & {
+    opacity: 0;
+  }
 }
