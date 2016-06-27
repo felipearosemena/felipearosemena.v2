@@ -6,7 +6,6 @@ import { map, reduce, isMobile, delegateEvent } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
 import { videoController } from './modules/video'
-import './modules/ajax'
 
 import pageSections from './views/pageSections'
 import headerView from './views/header'
