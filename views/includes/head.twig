@@ -29,7 +29,7 @@
       ga('send', 'pageview');
 
       if(localStorage && localStorage.getItem('fonts-loaded')) {
-        setTimeout(() => {
+        setTimeout(function(){
           document.body.className += ' fonts-loaded'
         }, 0)
       }
