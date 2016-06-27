@@ -156,6 +156,7 @@
   
   overflow: hidden;
   transform: translate3d(0, 0, 0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Hack to clip overflow while animating on Safari <= 8 */
   backface-visibility: hidden;
 
   &:before,
