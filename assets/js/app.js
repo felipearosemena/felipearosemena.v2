@@ -6,6 +6,7 @@ import { map, reduce, isMobile, delegateEvent } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
 import { videoController } from './modules/video'
+import hoverTransition from './modules/hoverTransition'
 
 import pageSections from './views/pageSections'
 import headerView from './views/header'
@@ -33,8 +34,9 @@ delegateEvent(document, 'click', '[href*="' + window.location.host + '"]', e => 
 // Handle showing the page again when hitting 
 // the back button (IOS, Safari)
 window.onpageshow = e => e.persisted ? 
-  document.body.classList.remove('is-transiting') : null 
+  document.body.classList.remove('is-transiting') : null
 
+hoverTransition('a')
 
 const sections = document.querySelectorAll('[data-scroll-section]')
 const sectionViews = pageSections(sections)
