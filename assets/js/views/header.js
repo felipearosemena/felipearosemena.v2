@@ -14,9 +14,6 @@ const headerViewProto = {
   },
   
   close() {
-
-    console.log('closing')
-
     rootClass.remove('is-menu-active')
     PubSub.publish('header-view:close')
     this.isOpen = false;
