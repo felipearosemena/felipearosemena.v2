@@ -191,12 +191,12 @@ $ipad-landscape-max-width : $ipad-portrait-max-width * $ipad-ratio;
 
 $transition-time-fast      : .15s;
 $transition-time-default   : .3s ;
-$transition-time-slow      : .6s;
+$transition-time-slow      : .45s;
 $transition-time-x-slow    : 2s;
 $transition-timing-default : cubic-bezier(0.165, 0.840, 0.440, 1.000);
 $transition-timing-default-inverse : cubic-bezier(0.895, 0.030, 0.685, 0.220);
 $transition-slow           : $transition-time-slow $transition-timing-default; 
-$transition-x-slow           : $transition-time-x-slow $transition-timing-default; 
+$transition-x-slow         : $transition-time-x-slow $transition-timing-default; 
 $transition-default        : $transition-time-default $transition-timing-default; 
 $transition-fast           : $transition-time-fast $transition-timing-default; 
 
