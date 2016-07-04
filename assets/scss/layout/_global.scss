@@ -30,18 +30,18 @@ body {
 
 // Page main wrapper
 @keyframes enter {
-    0% {
-        opacity: 0;
-        transform:translate3d(0, $base-spacing-unit * 2 ,0);
-    }
+  0% {
+    opacity: 0;
+    transform:translate3d(0, $base-spacing-unit * 5 ,0);
+  }
 
-    50% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-        transform:translate3d(0,0,0);
-    }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform:translate3d(0,0,0);
+  } 
 }
 
 .page-wrap {
@@ -55,7 +55,9 @@ body {
 }
 
 .page-content,
-.page-masthead {
+.page-masthead,
+.page-bottom,
+.site-footer {  
   transition: all $transition-default;
 
   .is-menu-active & {
@@ -66,21 +68,27 @@ body {
     opacity: 0;
     transform: translate3d(0, -$base-spacing-unit, 0)
   }
+}
+
+.page-content,
+.page-masthead {
+
 
   /* The element to apply the animation to */
   .csstransforms3d & { 
     animation-name: enter;
-    animation-duration: $transition-time-default;
+    animation-duration: 1s;
     animation-timing-function: $transition-timing-default;
   } 
   
 }
 
-.page-bottom {
-  transform: translate3d(0, 0, 0);
-  transition: opacity $transition-slow;
+.page-content {
+  position: relative;
+  z-index: 100;
+}
 
-  .is-transiting & {
-    opacity: 0;
-  }
+.page-bottom {
+  position: relative;
+  z-index: 200;
 }

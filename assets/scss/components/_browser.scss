@@ -1,5 +1,5 @@
 .browser-shot {
-  display: block;
+  display: inline-block;
   vertical-align: top;
 
   @include mq-max(560px) {
