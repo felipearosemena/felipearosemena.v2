@@ -106,6 +106,7 @@
   @include z-index(1, absolute);
   @extend %full-cover;
   background-size:contain;
+  pointer-events: none;
 }
 
 .device__inner {
