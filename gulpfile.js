@@ -96,6 +96,8 @@ gulp.task('watch', ['build-persistent'], function() {
 
   gulp.watch('./assets/scss/**/*.scss', ['styles']);
 
+  gulp.watch('./views/*', reload)
+
   getBundler().on('update', function() {
     gulp.start('build-persistent')
   });
