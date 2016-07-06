@@ -161,7 +161,7 @@
   height: 100%;
 }
 
-@mixin hover-slash($label-color: white, $transition: $transition-slow, $transition-out: $transition-default) {
+@mixin hover-slash($label-color: white, $transition: $transition-slow, $transition-out: $transition-slow) {
   
   overflow: hidden;
   transform: translate3d(0, 0, 0);

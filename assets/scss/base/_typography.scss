@@ -68,7 +68,7 @@ head {
 a {
   text-decoration: none;
   color: $color-primary;
-  transition:color $transition-fast;
+  transition: color $transition-default;
   font-weight: bold;
   font-family: $heading-font-family;
   
@@ -86,7 +86,7 @@ a, i {
   -webkit-tap-highlight-color: transparent;
 }
 
-.link-plain {
+.link-plain:not(:hover) {
   color: $body-color;
 }
 
@@ -95,7 +95,6 @@ a, i {
 .link-twitter,
 .link-briteweb {
   @include link-underline;
-  // color: $body-color;
 
   &:hover {
     // color: $color-primary;

@@ -1,5 +1,59 @@
-{% extends "layouts/layout-sidebar.twig" %}
+{% extends "layouts/base.twig" %}
+
+{% block masthead %}
+  <header class="container container--md mtb-1--f text-center">
+    <h1>{{ post.post_title }}</h1>
+
+    <p>Rambles of my wandering mind (may or may not involve code).</p>
+  </header>
+{% endblock %}
 
 {% block content %}
+  
+  <section class="tiles js-feed">
+    {% for post in posts %}
+      <article class="tile js-feed-item">
+        <div class="container mtb-1--f">
 
+          <div class="grid">
+            <header class="grid__item one-third">
+              <h2 class="gamma mb-0">
+                <a href="{{ post.get_permalink }}" class="ib link-plain">
+                  {{ post.post_title }}
+                </a>
+              </h2>
+              
+              <time class="label">
+                {{ post.display_date }}
+              </time>
+            </header>
+            
+            <main class="grid__item two-thirds">
+              {% if post.post_excerpt %}
+                <p class="w-6-12">{{ post.post_excerpt}}</p>      
+              {% endif %}
+
+              <p class="mb-0 text-right">
+                <a href="{{ post.get_permalink }}"  class="btn">Read more</a>
+              </p>
+            </main>
+          </div>
+
+        </div>
+      </article>
+    {% endfor %}
+
+    {% if pagination.next %}
+    <div class="one-whole">
+      <p class="text-center mtb-1--f">
+        <a href="{{ pagination.next.link }}" class="btn btn--cta js-load-more">Load More</a>
+      </p>
+    </div>
+    {% endif %}
+  </section>
+
+{% endblock %}
+
+{% block bottom %}
+  {% include 'includes/bottom-about.twig' %}
 {% endblock %}
