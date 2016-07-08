@@ -1,11 +1,13 @@
 {% extends "layouts/base.twig" %}
 
 {% block masthead %}
-  <header class="container container--md mtb-1--f text-center">
-    <h1>{{ post.post_title }}</h1>
+  {% if pagination.current == 1 %}
+    <header class="container container--md mtb-1--f text-center">
+      <h1>{{ post.post_title }}</h1>
 
-    <p>Rambles of my wandering mind (may or may not involve code).</p>
-  </header>
+      <p>Rambles of my wandering mind (may or may not involve code).</p>
+    </header>
+  {% endif %}
 {% endblock %}
 
 {% block content %}

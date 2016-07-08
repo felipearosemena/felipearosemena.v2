@@ -1,14 +1,68 @@
 {% extends "layouts/base.twig" %}
 
 {% block content %}
-  
-  <div class="mtb-1--f">
-    <div class="container container--md">
-      <h1>{{ post.post_title }}</h1>
-  
-      {{ post.content }}
-    </div>
 
-  </div>
+  <article>
+    <div class="container mtb-1--f">
+
+      <header class="mb-1 container--md">
+        <h1 class="mb-0">
+          {{ post.post_title }}
+        </h1>
+        
+        <time class="label">
+          {{ post.display_date }}
+        </time>
+      </header>
+      
+      <aside class="float-right">
+        <h3 class="mb-05 delta">Sharing is caring</h3>
+        <ul class="list--unstyled">
+          <li> <a href="#" class="link-plain link-underline">Tweet</a>  </li>
+          <li> <a href="#" class="link-plain link-underline">Share</a>  </li>
+          <li> <a href="#" class="link-plain link-underline">Bookmark</a>  </li>
+        </ul>
+      </aside>
+      
+      <main class="container--sm">
+        {{ post.content }}
+        
+        Languague label top right
+        <b>https://bitsofco.de/generic-css-data-types/</b>
+
+
+<pre>
+/**
+ *
+ * Detect if browser supports transitionend event.
+ * 
+ * @returns {string|false} The prefixed (or unprefixed) supported event name 
+ *                         or false if it doesn't support any.
+ *
+ */
+
+export function whichTransitionEnd() {
+
+  let transEndEventNames = {
+    WebkitTransition : 'webkitTransitionEnd',
+    MozTransition    : 'transitionend',
+    OTransition      : 'oTransitionEnd otransitionend',
+    transition       : 'transitionend'
+  }
+
+  for (let name in transEndEventNames) {
+    if (document.body.style[name] !== undefined) {
+      return transEndEventNames[name];
+    }
+  }
+
+  return false
+}
+</pre>
+      </main>
+
+
+    </div>
+  </article>
 
 {% endblock %}

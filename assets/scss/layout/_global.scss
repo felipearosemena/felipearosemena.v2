@@ -11,15 +11,18 @@ html {
 }
 
 body { 
+  min-height: 100%;
+
   // Make the main content of the page take up the whole screen, 
   // making the footer stick to the bottom if the page doesn't have enough content
   // NOTE: Do not apply height:100% on mobile if you are using a fixed mobile nav bar,
   // This will make the page jump up when opening the mobile menu.
   @include mq-min($main-breakpoint) {
     height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
   }
-
-  &.is-menu-active {}
 }
 
 .site-header,
@@ -47,7 +50,7 @@ body {
 .page-wrap {
   flex: 1 0 auto;
   overflow: hidden;
-  
+  width: 100%;
 
   @include mq-max($bp-xl) {
     padding-top: $logo-height + $base-spacing-unit;
@@ -68,18 +71,29 @@ body {
     opacity: 0;
     transform: translate3d(0, -$base-spacing-unit, 0)
   }
+
+  .blog.is-transiting &,
+  .single-post.is-transiting & {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .page-content,
 .page-masthead {
 
-
   /* The element to apply the animation to */
-  .csstransforms3d & { 
+  .csstransforms3d & {
     animation-name: enter;
     animation-duration: 1s;
     animation-timing-function: $transition-timing-default;
-  } 
+  }
+
+  .csstransforms3d .single-post &,
+  .csstransforms3d .blog & {
+    animation: none;
+  }
   
 }
 

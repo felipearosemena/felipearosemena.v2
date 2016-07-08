@@ -1,4 +1,3 @@
-import mouseEvent from './mouse-event'
 import _ from 'lodash'
 
 function mouseTracker(options) {
@@ -13,14 +12,7 @@ function mouseTracker(options) {
     }
   }
 
-  let init = false
-
   window.addEventListener('mousemove', e =>{
-    
-    if(!init) {
-      options.onInit()
-      init = true
-    }
 
     _.extend(mousePosition, {
       ratioX : e.clientX / window.innerWidth,
@@ -29,10 +21,7 @@ function mouseTracker(options) {
       y: e.clientY
     })
 
-  })   
-
-  let initialEvent = mouseEvent.create('mousemove',0,0,0,0)
-  mouseEvent.dispatch(document, initialEvent)
+  })
 
   return () => { 
     return mousePosition
