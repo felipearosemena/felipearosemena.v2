@@ -28,6 +28,7 @@ a.tile:hover {
 
 .tile--project {
   border: none;
+  // box-shadow: inset 0 -.2em .25em rgba(0,0,0, .1);
 }
 
 .tile__bg {
@@ -103,6 +104,13 @@ a.tile:hover {
 
   .grid__item:last-child & {
     transform: translate3d(0, 0, 0);
+  }
+}
+
+.tile__img--project {
+  @include mq-min($bp-lg) {
+    padding-top: $base-spacing-unit*2;
+    width: 40%;
   }
 }
 

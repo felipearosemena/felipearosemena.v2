@@ -104,7 +104,8 @@ dd {
     display: block;
     padding:$base-spacing-unit/4 $base-spacing-unit;
     color:white !important;
-    @include hover-slash(false, .6s $transition-timing-default, 1s $transition-timing-default);
+    transition: background $transition-slow;
+    @include hover-slash(false, .6s $transition-timing-default, .6s $transition-timing-default);
 
     &:after {
       transition: none;

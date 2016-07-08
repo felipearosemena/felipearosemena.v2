@@ -180,6 +180,7 @@
     background: inherit;
     border-radius: inherit;
     transition: $transition;
+    will-change: transform;
   }
   
   &:before {
@@ -195,18 +196,32 @@
   &:hover {
     
     &:before {
+      transform: translate3d(-90%, 0, 0);
+      transition: $transition-slow;
+    }
+
+  }
+
+  &.is-leaving:not(:hover),
+  &.is-leaving {
+    &:before {
+      transform: translate3d(101%, 0, 0);
+      transition: $transition-out;
+    }
+  }
+
+  &.is-entering {
+    &:before,
+    &:after {
+      transition: $transition;
+    }
+
+    &:before {
       transform: translate3d(0, 0, 0);
     }
 
     &:after {
       opacity: 1;
-    }
-  }
-
-  &.is-leaving:not(:hover) {
-    &:before {
-      transform: translate3d(101%, 0, 0);
-      transition: $transition-out;
     }
   }
 

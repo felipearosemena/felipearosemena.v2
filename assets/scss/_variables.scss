@@ -195,6 +195,12 @@ $transition-time-slow      : .45s;
 $transition-time-x-slow    : 2s;
 $transition-timing-default : cubic-bezier(0.165, 0.840, 0.440, 1.000);
 $transition-timing-default-inverse : cubic-bezier(0.895, 0.030, 0.685, 0.220);
+
+$transition-timing-bounce  : cubic-bezier(0.175, 0.885, 0.32, 1.5);
+
+$transition-bounce         : $transition-time-default $transition-timing-bounce;
+$transition-bounce-slow    : $transition-time-slow $transition-timing-bounce;
+
 $transition-slow           : $transition-time-slow $transition-timing-default; 
 $transition-x-slow         : $transition-time-x-slow $transition-timing-default; 
 $transition-default        : $transition-time-default $transition-timing-default; 
