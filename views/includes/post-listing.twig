@@ -1,0 +1,53 @@
+{% if tab_label %}
+  <header class="container text-right">
+    <span class="tab-label">{{ tab_label }}</span>
+  </header>
+{% endif %}
+
+{# <header class="tiles-header">
+  <div class="container mt-2 mb-1 mb-0--lc">
+    <h2 class="alpha mb-025">Articles</h2>
+    <p>Ramblings of a wandering mind (may or may not involve code).</p>  
+  </div>
+</header> #}
+
+<section class="tiles">
+  
+  {% for post in posts %}
+    <a class="tile" href="{{ post.get_permalink }}">
+      <div class="tile__container">
+        
+        <time class="label mb-0">
+          {{ post.display_date }}
+        </time>
+        <h2 class="tile__title mb-025">
+            {{ post.post_title }}
+        </h2>
+        
+        <p class="mb-05">
+          {% for term in post.get_terms %}
+            <span class="tag">{{ term.title }}</span>
+          {% endfor %}
+        </p>
+
+      
+        {% if post.post_excerpt %}
+          <p class="w-6-12 mb-025 p-max">{{ post.post_excerpt}}</p>      
+        {% endif %}
+        
+        <p class="mb-0 text-right p-max">
+          <span href="{{ post.get_permalink }}" class="link-underline link-plain">Read More</span>
+        </p>
+
+      </div>
+    </a>
+  {% endfor %}
+
+  {% if pagination and pagination.next %}
+  <div class="one-whole">
+    <p class="text-center mtb-1--f">
+      <a href="{{ pagination.next.link }}" class="btn btn--cta">Load More</a>
+    </p>
+  </div>
+  {% endif %}
+</section>
