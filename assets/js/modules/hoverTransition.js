@@ -67,13 +67,6 @@ export default function hoverTransition(selector) {
       .options(config)
   )
 
-  // delegateEvent(
-  //   document, 
-  //   'mouseout', 
-  //   selector, 
-  //   onMouseOut
-  // )
-
   delegateEvent(
     document, 
     whichTransitionEnd(), 
