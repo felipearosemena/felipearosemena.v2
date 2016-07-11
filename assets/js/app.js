@@ -36,8 +36,6 @@ delegateEvent(document, 'click', '[href*="' + window.location.host + '"]', e => 
 window.onpageshow = e => e.persisted ? 
   document.body.classList.remove('is-transiting') : null
 
-hoverTransition('a')
-
 const sections = document.querySelectorAll('[data-scroll-section]')
 const sectionViews = pageSections(sections)
 
@@ -118,5 +116,7 @@ page({
   click: false,
   popstate: false
 })
+
+hoverTransition('.btn')
 
 
