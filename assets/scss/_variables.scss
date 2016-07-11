@@ -102,6 +102,7 @@ $h1-line-height      : 72px;
 $h2-font-size        : 50px;
 $h2-line-height      : 68px;
 
+$h3-font-size-lg     : 38px;
 $h3-font-size        : 32px; 
 $h3-line-height      : 40px;
 
@@ -109,10 +110,10 @@ $h4-font-size        : 24px;
 $h4-line-height      : 42px;
 
 $h5-font-size        : 16px;   
-$h5-line-height      : 24px;
+$h5-line-height      : 28.8px;
 
 $h6-font-size        : 15px;   
-$h6-line-height      : 18px;
+$h6-line-height      : 30px;
 
 $small-font-size     : $h5-font-size;
 
@@ -155,6 +156,7 @@ $container-md-max         : 42rem;
 $container-sm-lg-max      : 36rem;
 $container-sm-max         : 30rem;
 $container-xs-max         : 480px;
+$container-xl-max         : $container-sm-max*2 + $base-spacing-unit*6;
 
 $btn-line-height          : $base-line-height/$base-font-size;
 $btn-small-padding        : .2em;
