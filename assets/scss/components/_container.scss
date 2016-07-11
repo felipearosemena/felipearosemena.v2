@@ -35,14 +35,14 @@
     padding-right: $container-pad*2;
   }
 
-  @include mq-min($bp-xxl) {
+  @include mq-min($bp-xl) {
     padding-left: $container-pad*2 + $logo-width-lg;
     padding-right: $container-pad*2 + $logo-width-lg;
   }
 }
 
 .container--tight {
-  @include mq-min($bp-xxl) {
+  @include mq-min($bp-xl) {
     padding-left: $container-pad*2;
     padding-right: $container-pad*2;
   }
@@ -73,6 +73,10 @@
     // padding-left: $container-pad/2;
     // padding-right: $container-pad/2;
   }
+}
+
+.container--xl {
+  max-width: $container-xl-max;
 }
 
 .container--lg {
