@@ -58,14 +58,16 @@ dd {
   text-align: center;
 
   li {
-    display: inline-block;
+    // display: inline-block;
+    margin: $base-spacing-unit/2 0;
   }
   
   a {
-    padding: $base-spacing-unit/2 $base-spacing-unit;
+    @include font-size($h2-font-size, $h2-font-size);
+    padding: $base-spacing-unit $base-spacing-unit;
     display: inline-block;
     color:white;
-    font-size: $h3-font-size;
+    font-weight: bold;
     transition: color $transition-slow;
 
     &:hover {

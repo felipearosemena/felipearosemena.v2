@@ -45,7 +45,7 @@ body {
 }
 
 *::selection {
-  background: $color-primary;
+  background: $body-color;
   color: white;
 }
 
@@ -65,12 +65,17 @@ head {
 /**
  * $LINKS
  */
-a {
-  text-decoration: none;
-  color: $color-primary;
+
+a,
+.link-plain {
   transition: color $transition-default;
   font-weight: bold;
   font-family: $heading-font-family;
+}
+
+a {
+  text-decoration: none;
+  color: $color-primary;
   
   &:hover {
     // color: black
@@ -88,6 +93,12 @@ a, i {
 
 .link-plain:not(:hover) {
   color: $body-color;
+}
+
+.link-plain {
+ a:hover & {
+  color: $color-primary;
+ }
 }
 
 .link-underline,
@@ -200,12 +211,12 @@ h4, .delta, .lead{
   }
 }
 
-h5, .epsilon {
-  @include font-size($h5-font-size);
+h5, .epsilon, .epsilon-size {
+  @include font-size($h5-font-size, $h5-line-height);
 }
 
 h6, .zeta {
-  @include font-size($h6-font-size);
+  @include font-size($h6-font-size, $h6-line-height);
 }
 
 p, blockquote,
@@ -223,7 +234,12 @@ p + p {
  * $PARAGRAPHS
  */
 p,
-%p {}
+%p {
+}
+
+.p-max {
+  max-width: $container-sm-lg-max;
+}
 
 /**
  * The `.lead` class is used to make the introductory text (usually a paragraph)
@@ -309,15 +325,32 @@ pre, code {
 }
 
 .tab-label {
+  @include font-size($small-font-size, $small-font-size);
   position: relative;
-  margin-bottom: -1rem;
-  bottom: -.4rem;
+  z-index: 120;
   display: inline-block;
+  max-width: 8rem;
+  margin-top: -$base-spacing-unit * 1.5;
+  margin-bottom: -1rem;
+  padding:$base-spacing-unit/4 $base-spacing-unit;
   line-height: $base-spacing-unit;
-  padding:$base-spacing-unit/2 $base-spacing-unit;
+  bottom: -.4rem;
+  text-align: center;
   background:$body-color;
   color:white;
-  z-index: 120;
+}
+
+.tag {
+  @include font-size($h6-font-size, $h6-font-size);
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: $base-spacing-unit/4;
+  vertical-align: bottom;
+  padding:  $base-spacing-unit/6 $base-spacing-unit/4;
+  white-space: nowrap;
+  border-radius: $base-border-radius;
+  background: $body-color;
+  color: white;
 }
 
 @font-face {
