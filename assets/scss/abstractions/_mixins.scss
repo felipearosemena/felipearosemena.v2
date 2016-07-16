@@ -161,7 +161,7 @@
   height: 100%;
 }
 
-@mixin hover-slash($label-color: white, $transition: $transition-slow, $transition-out: $transition-slow) {
+@mixin hover-slash($label-color: white, $transition: $transition-slow, $transition-out: $transition-default) {
   
   overflow: hidden;
   transform: translate3d(0, 0, 0);
@@ -181,8 +181,10 @@
     border-radius: inherit;
     transition: $transition;
     will-change: transform;
+    pointer-events: none;
   }
   
+  &.is-resetting:before,
   &:before {
     transform: translate3d(-101%, 0,  0);
     background: currentColor;
@@ -193,7 +195,8 @@
     opacity: 0;
   }
 
-  &:hover {
+  &:hover,
+  a:hover & {
     
     &:before {
       transform: translate3d(-90%, 0, 0);
@@ -210,7 +213,8 @@
     }
   }
 
-  &.is-entering {
+  &.is-entering,
+  a:hover &.is-entering {
     &:before,
     &:after {
       transition: $transition;
