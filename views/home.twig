@@ -2,42 +2,54 @@
 
 {% block masthead %}
 
-  <section class="hero">
+  <div class="hero">
 
     <div class="container">
 
-      <h2 class="mb-0">Hello there, I&rsquo;m Felipe.</h2>
-      <h1 class="beta">Vancouver based Front End Developer.</h1>
+      <h2 class="hero__title">Hello there, <span class="ib">I&rsquo;m Felipe</span></h2>
+      <h1 class="hero__subtitle">Front End <span class="ib">Developer +</span> <span class="ib">Interaction Designer</span></h1>
 
-      <div class="grid mt-2 mb-1">
+      <div class="grid mb-1-">
+
+        <p class="grid__item p-max">I artchitect and build websites for companies & organizations across North America, specializing in developing modern & clean user interfaces. <br>
+          <a href="{{ post_about.get_permalink }}" class="link-underline">More about me</a>
+        </p>
         <p class="grid__item one-whole md-one-half">
-          I&rsquo;m currently working with the great folks at <a href="{{ briteweb_url }}" target="_blank" class="link-briteweb">Briteweb</a> doing awesome work in the non-for-profit sector.
-        </p>  
-        <p class="grid__item one-whole md-one-half">
-           You can find me on <a href="{{ social.linkedin }}" target="_blank" class="link-linkedin">Linkedin</a> &amp; 
-           <a href="{{ social.twitter }}" target="_blank" class="link-twitter">Twitter</a>. <br>
+          Currently, I’m working with the great folks at <a href="{{ briteweb_url }}" target="_blank" class="link-underline link-briteweb">Briteweb</a> doing awesome work in the non-for-profit sector.
         </p>
 
-        <p class="grid__item mb-0 one-whole md-two-thirds grow-0">
-          Here is a collection of projects I&rsquo;ve worked on, with roles ranging from:
-          <b class="ib">Front End Development</b>,
-          <b class="ib">Interaction Design</b> &amp;
-          <b class="ib">Project Lead.</b>
+        <p class="grid__item one-whole md-one-half">
+           You can find me on: <br> <a href="{{ social.linkedin }}" target="_blank" class="link-underline link-linkedin">Linkedin</a>,
+           <a href="{{ social.twitter }}" target="_blank" class="link-underline link-twitter">Twitter</a> &amp;
+           <a href="{{ social.github }}" target="_blank" class="link-underline link-github">Github</a>. <br>
         </p>
 
       </div>
       
     </div>
 
-  </section>
+  </div>
 
 {% endblock %}
 
 {% block content %}
 
+  {% include 'includes/post-listing.twig' with {
+    posts: featured_posts,
+    tab_label: 'Articles',
+    listing_link : {
+      label: 'View All Articles',
+      link: post_writing.get_permalink
+    }
+  }%}
+
   {% include 'includes/project-listing.twig' with { 
-    projects: projects,
-    tab_label: 'Recent Work'
+    projects: projects[:2],
+    tab_label: 'Recent Work',
+    listing_link: {
+      label: 'View All Projects',
+      link: post_work.get_permalink
+    }
   } %}
   
 {% endblock %}
