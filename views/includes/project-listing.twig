@@ -1,45 +1,59 @@
-{% if tab_label %}
-  <header class="container">
-    <span class="tab-label">{{ tab_label }}</span>
-  </header>
-{% endif %}
 
-<section class="tiles">
-  {% spaceless %}
+<section class="page-section page-section--listing">
+  
+  {% if tab_label %}
+    <header class="container">
+      <span class="tab-label">{{ tab_label }}</span>
+    </header>
+  {% endif %}
 
-    {% for project in projects %}
-    <article class="tile tile--project">
+  <div class="container container--lg">
+    <div class="tiles">
 
-      <div class="tile__bg" style="background-color: {{ project.color }}; opacity: 0.12"></div>
+      {% for project in projects %}
 
-      <div class="tile__body">
-
-        {% if project.thumbnail %}
-        <div class="tile__img tile__img--project">
-          <a href="{{ project.link }}" class="browser-shot browser-shot--scroll" data-scroll-section>
-            {{ macros.img(project.thumbnail, 'featured-md') }}
-          </a>
-        </div>
+        {% set tile_class = 'tile tile--' ~ (loop.index0 % 2 == 0 ? 'even' : 'odd') %}
+        
+        {% if listing_link %}
+          {% set tile_variation = ( loop.index == 1 ? 'tile--featured' : 'tile--one-whole' ) %}
         {% endif %}
 
-        <div class="tile__content">
-          <h3 class="tile__title">{{ project.title }}</h3>
+        <a class="{{ tile_class }} {{ tile_variation }} tile--project"  href="{{ project.link }}">
+          
+          <span class="tile__bg" style="background-color: {{ project.color }};"></span>
 
-          {% if project.post_excerpt %}
-            <p class="tile__excerpt">{{ project.post_excerpt }}</p>
+          {% if project.thumbnail %}
+            <div class="tile__img">
+              <figure class="browser-shot browser-shot--scroll" data-scroll-section>
+                {{ macros.img(project.thumbnail, 'featured-sm') }}
+              </figure>
+            </div>
           {% endif %}
 
-          <div class="mt-1">
+          <div class="tile__container">
 
-            <a href="{{ project.link }}" class="btn btn--{{ project.slug }}" title="View Project">
-              View Project
-            </a>
+            <h2 class="tile__title">{{ project.title }}</h2>
+
+            {% if project.post_excerpt %}
+              <p class="tile__excerpt">{{ project.post_excerpt }}</p>
+            {% endif %}
+
+            <div class="mt-1">
+              <button class="btn btn--{{ project.slug }} btn--sm btn--tile" title="View Project">
+                View Project
+              </button>
+            </div>
+
           </div>
-        </div>
-      </div> 
 
-    </article>
-    {% endfor %}
+        </a>
 
-  {% endspaceless %}
+        {% if loop.index == 1 and listing_link %}
+          {% include 'includes/tile-link.twig' %}
+        {% endif %}
+
+      {% endfor %}
+
+    </div>
+  </div>
 </section>
