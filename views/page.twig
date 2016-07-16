@@ -1,19 +1,25 @@
 {% extends "layouts/base.twig" %}
 
+{% block masthead %}
+
+  <div class="hero hero--standard">
+    <div class="container container--md">
+      <h1 class="mb-0">
+        {{ post.post_title }}
+      </h1>
+      
+      <time class="label">
+        {{ post.display_date }}
+      </time>
+    </div>
+  </div>
+
+{% endblock %} 
+
 {% block content %}
 
-  <article>
-    <div class="container mtb-1--f">
-
-      <header class="mb-1 container--md">
-        <h1 class="mb-0">
-          {{ post.post_title }}
-        </h1>
-        
-        <time class="label">
-          {{ post.display_date }}
-        </time>
-      </header>
+  <article class="post">
+    <div class="container mb-1--f">
       
       <aside class="float-right">
         <h3 class="mb-05 delta">Sharing is caring</h3>
@@ -24,45 +30,37 @@
         </ul>
       </aside>
       
-      <main class="container--sm">
-        {{ post.content }}
+      <main class="container--sm-lg">
+        
+        {% if post.post_lead %}
+          <p class="post-lead">
+            {{ post.post_lead }}
+          </p>
+        {% endif %}
+        
+
+        <div class="post-content">
+          {{ post.content }}
+        </div>
         
         Languague label top right
         <b>https://bitsofco.de/generic-css-data-types/</b>
 
-
-<pre>
-/**
- *
- * Detect if browser supports transitionend event.
- * 
- * @returns {string|false} The prefixed (or unprefixed) supported event name 
- *                         or false if it doesn't support any.
- *
- */
-
-export function whichTransitionEnd() {
-
-  let transEndEventNames = {
-    WebkitTransition : 'webkitTransitionEnd',
-    MozTransition    : 'transitionend',
-    OTransition      : 'oTransitionEnd otransitionend',
-    transition       : 'transitionend'
-  }
-
-  for (let name in transEndEventNames) {
-    if (document.body.style[name] !== undefined) {
-      return transEndEventNames[name];
-    }
-  }
-
-  return false
-}
-</pre>
       </main>
-
 
     </div>
   </article>
+
+  <aside>
+
+    {% include 'includes/post-listing.twig' with {
+        posts: [next_post],
+        tab_label: 'Related',
+        listing_link : {
+          label: 'View All Articles',
+          link: post_writing.get_permalink
+        }
+    }%}
+  </aside>
 
 {% endblock %}
