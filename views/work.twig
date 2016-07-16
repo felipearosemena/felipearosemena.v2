@@ -1,0 +1,19 @@
+{% extends "layouts/base.twig" %}
+
+{% block masthead %}
+  {% include 'includes/hero-listing.twig' %}
+{% endblock %}
+
+{% block content %}
+
+  {% include 'includes/project-listing.twig' with { 
+    projects: projects,
+    tab_label: false,
+    variant: 'project'
+  } %}
+  
+{% endblock %}
+
+{% block bottom %}
+  {% include('includes/cta.twig') %}
+{% endblock %}
