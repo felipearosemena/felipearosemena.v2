@@ -75,7 +75,7 @@ a,
 
 a {
   text-decoration: none;
-  color: $color-primary;
+  color: $body-color;
   
   &:hover {
     // color: black
@@ -96,49 +96,35 @@ a, i {
 }
 
 .link-plain {
- a:hover & {
-  color: $color-primary;
- }
+  a:hover & {
+    color: $body-color;
+  }
 }
 
-.link-underline,
-.link-linkedin,
-.link-twitter,
-.link-briteweb {
+.link-underline {
   @include link-underline;
-
-  &:hover {
-    // color: $color-primary;
-  }
 }
 
 .link-linkedin {
   color: $linkedin;
-
-  &:hover {
-    color: $linkedin;
-  }
 }
 
 .link-twitter {
   color: $twitter;
+}
 
-  &:hover {
-    color: $twitter;
-  }
+.link-github {
+  color: $github;
 }
 
 .link-briteweb {
   color: $briteweb;
-  
-  &:hover {
-    color: $briteweb;
-  }
 }
 
 .link-white,
 .link-twitter-white,
-.link-linkedin-white {
+.link-linkedin-white,
+.link-github-white {
   color: white;
 }
 
@@ -183,7 +169,7 @@ h1, .alpha {
   @include font-size($h1-font-size, $h1-line-height);
   
   @include mq-max($bp-sm) {
-    @include font-size($h1-font-size*.85, false);
+    @include font-size($h1-font-size-sm, false);
   }
 }
 
@@ -191,7 +177,7 @@ h2, .beta {
   @include font-size($h2-font-size, $h2-line-height);
 
   @include mq-max($bp-sm) {
-    @include font-size($h2-font-size*.65, false);
+    @include font-size($h2-font-size-sm, false);
   }
 }
 
@@ -199,16 +185,12 @@ h3, .gamma, .gamma-size {
   @include font-size($h3-font-size, $h3-line-height);
   
   @include mq-max($bp-sm) {
-    @include font-size($h3-font-size*.75, false);
+    @include font-size($h3-font-size-sm, false);
   }
 }
 
 h4, .delta, .lead{
   @include font-size($h4-font-size, $h4-line-height);
-
-  @include mq-max($bp-sm) {
-    @include font-size($h4-font-size*1.2, false);
-  }
 }
 
 h5, .epsilon, .epsilon-size {
@@ -237,7 +219,8 @@ p,
 %p {
 }
 
-.p-max {
+.p-max,
+.lead {
   max-width: $container-sm-lg-max;
 }
 
@@ -245,7 +228,14 @@ p,
  * The `.lead` class is used to make the introductory text (usually a paragraph)
  * of a document slightly larger.
  */
-.lead, %lead {}
+.lead, %lead {
+  position: relative;
+  // left: -$base-spacing-unit * 2;
+
+  @include mq-min($bp-md) {
+    left: -$base-spacing-unit * 2;
+  }
+}
 
 .serif {
   font-family: $serif-font;
@@ -300,14 +290,20 @@ hr {
 
 q {
   font-style: italic;
-} 
+}
+
+mark {
+  color: $body-color;
+  background-color: $yellow;
+}
 
 pre {
   padding: $base-spacing-unit;
   border-radius: $base-border-radius;
   border: 1px solid $grey;
-  margin-left: -$base-spacing-unit * 2;
   margin-right: -$base-spacing-unit * 2;
+  margin-top: $base-spacing-unit * 2;
+  margin-bottom: -$base-spacing-unit * 2;
 }
 
 pre, code {
@@ -328,16 +324,22 @@ pre, code {
   @include font-size($small-font-size, $small-font-size);
   position: relative;
   z-index: 120;
-  display: inline-block;
-  max-width: 8rem;
+  display: block;
+  max-width: 7rem;
+  white-space: nowrap;
   margin-top: -$base-spacing-unit * 1.5;
   margin-bottom: -1rem;
-  padding:$base-spacing-unit/4 $base-spacing-unit;
+  padding: $base-spacing-unit/4 $base-spacing-unit/4;
   line-height: $base-spacing-unit;
   bottom: -.4rem;
   text-align: center;
   background:$body-color;
   color:white;
+}
+
+.tab-label--right {
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .tag {
