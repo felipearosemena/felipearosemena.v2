@@ -15,6 +15,21 @@
   }
 }
 
+.page-section--listing {
+  background-color: $lightest-grey;
+  padding-top: $section-spacing-unit / 2;
+  padding-bottom: $section-spacing-unit / 2;
+
+  @include mq-min($bp-sm) {
+    padding-top: $section-spacing-unit; 
+    padding-bottom: $section-spacing-unit; 
+  }
+
+  ~ .page-section--listing {
+    padding-top: 0;
+  }
+}
+
 .page-section--about {
 }
 

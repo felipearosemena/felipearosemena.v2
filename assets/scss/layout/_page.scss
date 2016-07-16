@@ -1,0 +1,12 @@
+.post-lead,
+.post-content {}
+
+.post-lead {
+  @extend .lead;
+  margin-bottom: $base-spacing-unit * 2;
+  font-weight: bold;  
+}
+
+.post-content {
+
+}

@@ -71,13 +71,6 @@ body {
     opacity: 0;
     transform: translate3d(0, -$base-spacing-unit, 0)
   }
-
-  .blog.is-transiting &,
-  .single-post.is-transiting & {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
 }
 
 .page-content,
@@ -88,11 +81,6 @@ body {
     animation-name: enter;
     animation-duration: 1s;
     animation-timing-function: $transition-timing-default;
-  }
-
-  .csstransforms3d .single-post &,
-  .csstransforms3d .blog & {
-    animation: none;
   }
   
 }
