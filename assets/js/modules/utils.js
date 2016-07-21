@@ -58,6 +58,18 @@ export function isMobile() {
 
 /**
  *
+ * Simple facade for getting window.scrollY, fallback for browsers that don't support it
+ *
+ * @returns {int} Current Y scroll distance
+ *
+ */
+
+export function scrollY() {
+  return window.scrollY || window.pageYOffset;
+}
+
+/**
+ *
  * Create a new DOM element
  *
  * @param {string} tagname - Element tagname ('iframe', 'div')
@@ -84,6 +96,14 @@ export function createElement(tagname, attributes = {}, data = {}) {
   return el;
 }
 
+export function bubble(target, delegate, e, handler) {
+  if(target && selectorMatches(target, delegate)) {
+    handler(e, target)
+    return target
+  } else if(target.parentElement) {
+    return bubble(target.parentElement, delegate, e, handler)
+  }
+}
 
 /**
  *
@@ -99,16 +119,12 @@ export function createElement(tagname, attributes = {}, data = {}) {
  */
 
 export function delegateEvent(el, eventName, delegate, handler) {
-  
   if(typeof handler !== 'function') return;
   if(el.addEventListener) {
-    el.addEventListener(eventName, (e) => {
-      if(selectorMatches(e.target, delegate)) {        
-        handler(e)
-      }
+    el.addEventListener(eventName, e => {
+      bubble(e.target, delegate, e, handler)
     })
   }
-
 }
 
 
@@ -159,16 +175,6 @@ export function filter(arrLike, cb) {
   
     return [];
   
-  } else if(typeof arrLike == 'object' && arrLike.constructor == Object) {
-    
-    // const newArrLike = {}
-    // for (var k in arrLike) {
-    //   if (arrLike.hasOwnProperty(k)) {
-    //     newArrLike[k] = cb(k, arrLike[k])
-    //   }
-    // }
-    // return newArrLike
-
   }
 }
 
@@ -218,4 +224,18 @@ export function whichTransitionEnd() {
   }
 
   return false
+}
+
+/**
+ * Simple/cheap debounce implementation
+ * @param   {function} fn - callback
+ * @param   {number} delay - delay in seconds
+ * @returns {function} debounced function
+ */
+export function debounce(fn, delay) {
+  var t
+  return function () {
+    clearTimeout(t)
+    t = setTimeout(fn, delay)
+  }
 }
