@@ -86,6 +86,9 @@ function sectionView(section, cb) {
     offset: 0
   }
 
+  // Hide them all to begin with
+  classList.add('is-out')
+
   return {
 
     el: section,
@@ -107,7 +110,7 @@ function sectionView(section, cb) {
 
       this.isInView = (0 > rect.top - innerHeight + parseInt(cf.offset))
 
-      if(this.isInView) {
+      if(this.isInView && classList.contains('is-out')) {
         classList.remove('is-out')
         pub('section-view:enter')
       } else if(!this.isInView && !classList.contains('is-out')) {
@@ -137,9 +140,11 @@ export default function pageSections(sectionEls) {
   })
 
 
-  let subscriptionID = scrollSubscription((e) => {
+  let subscriptionID = scrollSubscription(() => {
     sectionViews.map(view => view.render())
   })
+
+  PubSub.publish('scroll')
 
   return sectionViews
 
