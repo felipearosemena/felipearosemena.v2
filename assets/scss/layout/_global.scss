@@ -53,7 +53,7 @@ body {
   width: 100%;
 
   @include mq-max($bp-xl) {
-    padding-top: $logo-height + $base-spacing-unit;
+    padding-top: $button-toggle-width;
   }
 }
 
@@ -87,7 +87,6 @@ body {
 
 .page-content {
   position: relative;
-  z-index: 100;
 }
 
 .page-bottom {

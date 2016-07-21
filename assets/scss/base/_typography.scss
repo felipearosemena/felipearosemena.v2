@@ -6,19 +6,18 @@
   
 */
 
+
 @font-face {
-  font-family: 'Circular';
-  src: 
-    url('../fonts/CircularPro-Book.woff2') format('woff'),
-    url('../fonts/CircularPro-Book.woff') format('woff');
+  font-family: 'Sailec';
+  src: url('../fonts/Sailec-Regular.woff2') format('woff2'),
+  url('../fonts/Sailec-Regular.woff') format('woff');
   font-weight: normal;
 }   
 
 @font-face {
-  font-family: 'Circular';
-  src: 
-    url('../fonts/CircularPro-Bold.woff2') format('woff'),
-    url('../fonts/CircularPro-Bold.woff') format('woff');
+  font-family: 'Sailec';
+  src: url('../fonts/Sailec-Bold.woff2') format('woff2'),
+  url('../fonts/Sailec-Bold.woff') format('woff');
   font-weight: bold;
 }   
 
@@ -179,6 +178,10 @@ h2, .beta {
   @include mq-max($bp-sm) {
     @include font-size($h2-font-size-sm, false);
   }
+
+  @include mq-max($bp-xs) {
+    @include font-size($h2-font-size-xs, false);
+  }
 }
 
 h3, .gamma, .gamma-size {
@@ -191,6 +194,10 @@ h3, .gamma, .gamma-size {
 
 h4, .delta, .lead{
   @include font-size($h4-font-size, $h4-line-height);
+  
+  @include mq-max($bp-sm) {
+    @include font-size($h4-font-size-sm, false);
+  }
 }
 
 h5, .epsilon, .epsilon-size {
@@ -300,10 +307,9 @@ mark {
 pre {
   padding: $base-spacing-unit;
   border-radius: $base-border-radius;
-  border: 1px solid $grey;
   margin-right: -$base-spacing-unit * 2;
   margin-top: $base-spacing-unit * 2;
-  margin-bottom: -$base-spacing-unit * 2;
+  margin-bottom: $base-spacing-unit * 2;
 }
 
 pre, code {

@@ -37,34 +37,31 @@
 }
 
 .hero--standard {
-  padding-bottom: $section-spacing-unit/2;
 }
 
 .hero--listing {
   padding-bottom: 0;
-  background-color: $lightest-grey;
+  background-color: $lighter-grey;
 }
 
-.hero__title {
-  margin-bottom: $base-spacing-unit / 2;
-
-  @include mq-min($bp-xs) {
-    margin-bottom: $base-spacing-unit / 4;
-  }
-
-  @include mq-min($bp-md) {
-    margin-bottom: 0;
-  }
-}
 .hero__subtitle {
-  @include font-size($h4-font-size, $h4-line-height);
+  @include font-size($h2-font-size, $h2-line-height);
+  margin-bottom: $base-spacing-unit * 2;
 
-  @include mq-min($bp-xs) {
-    @include font-size($h3-font-size, $h3-line-height);
+  @include mq-max($bp-md-lg) {
+    @include font-size($h2-font-size-sm, false);
   }
 
-  @include mq-min($bp-md) {
-    @include font-size($h2-font-size, $h2-line-height);
+  @include mq-max($bp-md) {
+    @include font-size($h2-font-size-xs, false);
+  }
+
+  @include mq-max($bp-sm) {
+    @include font-size($h4-font-size, false);
+  }
+
+  @include mq-max($bp-xs) {
+    @include font-size($h5-font-size, false);
   }
 }
 

@@ -31,12 +31,22 @@ dd {
 .border-list, %border-list {
   padding: 0;
   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-left: -$base-spacing-unit;
+  margin-top: $base-spacing-unit/2;
+  font-size: px-to-rem($h5-font-size);
 
   li {
-    border-bottom: 1px solid $grey;
+    padding-top: $base-spacing-unit/2;
+    padding-bottom: $base-spacing-unit/2;
+    border-bottom: 1px solid $light-grey;
+    margin-left: $base-spacing-unit;
+    width: 100%;
 
-    &:last-child {
-      border-bottom: none;
+    @include mq-min($bp-sm) {
+      width: calc(50% - #{$base-spacing-unit});
     }
   }
 }
@@ -64,16 +74,16 @@ dd {
   }
   
   a {
-    @include hover-slash;
+    @include link-underline(.1em);
     font-size: px-to-rem(40px);
-    padding: $base-spacing-unit/2 $base-spacing-unit;
+    line-height: 2;
     display: inline-block;
     color:white;
     font-weight: bold;
     transition: color $transition-slow;
 
     &:after {
-      color: $body-color;
+      // color: $body-color;
     }
   }
 
