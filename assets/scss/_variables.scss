@@ -11,6 +11,7 @@
 $bp-xs              : 480px  ;
 $bp-sm              : 640px  ;
 $bp-md              : 800px  ;
+$bp-md-lg           : 960px  ;
 $bp-lg              : 1020px ;
 $bp-xl              : 1200px ;
 $bp-xxl             : 1360px ;
@@ -42,7 +43,7 @@ $pale-orange  : #efa47b;
 $green        : #39c339;
 $red          : rgb(244,71,71);
 
-$yellow       : lighten(saturate(#F4BA47, 25%), 12%);
+$yellow       : #ff0;
 
 $lightest-grey : #fafafa;
 $lighter-grey : #f5f5f5;
@@ -61,7 +62,8 @@ $box-shadow-y: 0 .25rem 3rem rgba(0,0,0,0.075);
 $box-shadow-x: .25rem 0 3rem rgba(0,0,0,0.075);
 $box-shadow-x-r: 3rem 0 6rem rgba(0,0,0,0.075);
 $box-shadow-x-l: -3rem 0 6rem rgba(0,0,0,0.075);
-$box-shadow-y-soft: 0 .25rem 1rem rgba(0,0,0, 0.1);
+$box-shadow-y-soft: 0 .25rem 1rem rgba(0,0,0, 0.125);
+$box-shadow-y-soft-inset: 0 -.75rem 1rem rgba(0,0,0, 0.125);
 
 // And assign them to the default variables
 // This way you give a logic to the colors you are using
@@ -89,8 +91,9 @@ $palatino :  Palatino, "Palatino LT STD", "Palatino Linotype", "Book Antiqua", G
 $baskerville :  "Baskerville", Georgia, serif;;
 $helvetica : Helvetica Neue, Helvetica, Arial, sans-serif; 
 $circular : 'Circular', Helvetica Neue, Arial, sans-serif; 
-$heading-font-family : $circular; 
-$body-font-family    : $circular; 
+$sailec : 'Sailec', Helvetica Neue, Arial, sans-serif; 
+$body-font-family    : $sailec; 
+$heading-font-family : $body-font-family; 
 $loading-font-family    : $helvetica; 
 $serif-font : $palatino;
 
@@ -103,14 +106,16 @@ $h1-line-height      : 72px;
 
 $h2-font-size        : 48px;
 $h2-font-size-sm     : 40px;
-$h2-line-height      : 60px;
+$h2-font-size-xs     : 30px;
+$h2-line-height      : 64px;
 
-$h3-font-size        : 32px; 
-$h3-font-size-sm     : 36px; 
-$h3-line-height      : 40px;
+$h3-font-size        : 36px; 
+$h3-font-size-sm     : 32px; 
+$h3-line-height      : 54px;
 
 $h4-font-size        : 28px;
-$h4-line-height      : 42px;
+$h4-font-size-sm     : 25px;
+$h4-line-height      : 49px;
 
 $h5-font-size        : 16px;   
 $h5-line-height      : 28.8px;
