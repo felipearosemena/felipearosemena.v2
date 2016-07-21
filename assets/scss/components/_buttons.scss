@@ -23,7 +23,6 @@ button:focus {
   padding-bottom: 0;
   padding: $base-spacing-unit/4 $base-spacing-unit/1.5;
   border: 1px solid;
-  border-color: inherit;
   border-radius: 10rem;
   box-shadow: inset 0 0 0 1px currentColor;
   color: inherit;
@@ -161,7 +160,7 @@ button:focus {
   border: none;
   box-shadow: none;
   overflow: hidden;
-  transition: background-color $transition-default, color $transition-default;
+  transition: background-color $transition-default;
 
   span {
     display: block; 
@@ -169,22 +168,37 @@ button:focus {
     width: $icon-bar-width;
     border-top: $icon-bar-height solid;
     margin: $icon-bar-spacing auto;
-    transition: transform $transition-slow, opacity $transition-slow;
+    transition: transform $transition-slow, opacity $transition-slow, border-color $transition-slow;
   }
 
   .sr-only {
     @extend %element-invisible;
   }
 
-  .is-menu-active:not(.is-transiting) & {
+  .is-menu-active & {
     color: white;
 
-    &:hover {
-      color:$color-primary;
-      background: transparent;
-      border-color: inherit; 
+    span {
+      border-color: white;
     }
 
+    &:hover {
+      color: $color-primary;
+      background: transparent;
+      border-color: inherit;
+
+      span {
+        border-color: $color-primary;
+      }
+    }
+  
+    .touchevents & {
+      color: white;
+
+      span {
+        border-color: white;
+      }
+    }
   }
 
   html:not(.touchevents) &:hover {
@@ -192,6 +206,10 @@ button:focus {
     color:white;
     border-color:$body-color;
     box-shadow:none;
+
+    span {
+      border-color: white;
+    }
   }
 
   .is-menu-active:not(.is-transiting) & {

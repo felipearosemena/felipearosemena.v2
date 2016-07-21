@@ -112,14 +112,16 @@
   vertical-align: middle;
 }
 
-.site-branding__name,
-.site-branding__logo {
+.site-branding__logo { 
   display: block;
   float: left;
-
+  width:$logo-width; 
+  height:$logo-height;
+  
   path {
     fill: currentColor;
     opacity: 1;
+    transition: all $transition-time-slow $transition-timing-default;
 
     .site-branding:hover & {
       fill: $color-primary;
@@ -128,18 +130,9 @@
     .is-inverse & {
       fill: white;
     }
-  }
-}
-
-.site-branding__logo { 
-  width:$logo-width; 
-  height:$logo-height;
-  
-  path {
-    transition: all $transition-time-slow $transition-timing-default;
 
     @include mq-max($bp-sm) {
-      .is-menu-active:not(.is-transiting) & {
+      .is-menu-active & {
         transition: all $transition-time-slow $transition-timing-default-inverse;
         fill: white;
       }
@@ -150,8 +143,6 @@
     width:$logo-width-lg; 
     height:$logo-height-lg;
   }
-
-
 
   svg {
     max-height: 100%;

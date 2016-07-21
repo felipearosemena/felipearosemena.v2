@@ -20,7 +20,11 @@
   li {
     display: inline-block;
     vertical-align: middle;
-    padding: 0 ($base-spacing-unit/3);
+    padding: 0 ($base-spacing-unit/6);
+
+    @include mq-min($bp-sm) {
+      padding: 0 ($base-spacing-unit/3);
+    }
 
     &:first-child {
       padding-left: 0;
