@@ -46,7 +46,8 @@
   {% include 'includes/project-listing.twig' with { 
     projects: projects[:2],
     tab_label: 'Recent Work',
-    listing_link: {
+    tab_label_position: 'right',
+    listing_link : {
       label: 'View All Projects',
       link: post_work.get_permalink
     }

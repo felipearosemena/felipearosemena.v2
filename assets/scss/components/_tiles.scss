@@ -65,7 +65,7 @@ a.tile {
 
   @include mq-min($bp-lg) {
     width: 25%;
-    order: 1;
+    // order: 0;
   }
 }
 
@@ -98,17 +98,18 @@ a.tile {
 .tile__img {
   align-self: flex-end;
   width: 100%;
-  max-width: $container-md-max;
+  max-width: $container-xs-max;
   padding-left: $base-spacing-unit;
   padding-right: $base-spacing-unit;
 
-  @include mq-max($bp-lg) {
+  @include mq-max($bp-md) {
     order: 2;
   }
 
-  @include mq-min($bp-lg) {
+  @include mq-min($bp-md) {
     padding-top: $base-spacing-unit * 3;
-    width: 60%;
+    max-width: $container-md-max;
+    width: 56%;
     
     .tile--even & {
       padding-left: $base-spacing-unit * 2;
@@ -128,7 +129,7 @@ a.tile {
     }
 
     .tile--project.tile--featured & {
-      width: 66.66%;
+      width: 64%;
       padding-right: $base-spacing-unit * 1.5;
       padding-left: $base-spacing-unit * 1.5;
     }
@@ -153,7 +154,7 @@ a.tile {
 
 .tile__container {
   width: 100%;
-  max-width: $container-sm-lg-max;
+  max-width: $container-sm-max;
   padding-left: $base-spacing-unit;
   padding-right: $base-spacing-unit;
   margin-top: $base-spacing-unit * 1.5;
@@ -169,12 +170,12 @@ a.tile {
     padding-right: $base-spacing-unit * 1.5;
   }
 
-  @include mq-min($bp-lg) {
+  @include mq-min($bp-md) {
     padding-left: $base-spacing-unit * 2;
     padding-right: $base-spacing-unit * 2;
 
     .tile__img + & {
-      width: 40%;
+      width: 44%;
     }
 
     .tile--project.tile--narrow & {
@@ -182,10 +183,19 @@ a.tile {
     }
 
     .tile--project.tile--featured & {
-      width: 33.33%;
+      width: 36%;
+    }
+
+    .tile--project.tile--featured.tile--even & {
       padding-right: $base-spacing-unit;
       padding-left: 0;
     }
+
+    .tile--project.tile--featured.tile--odd & {
+      padding-left: $base-spacing-unit;
+      padding-right: 0;
+    }
+
   }
 }
 
@@ -211,13 +221,8 @@ a.tile {
   @include font-size($h5-font-size, $h5-line-height);
   font-weight: 300;
   margin-bottom: $base-spacing-unit/2;
-  max-width: $container-xs-max;
 
-  // .tile--narrow &,
-  // .tile--project.tile--featured & {
-
-  //   @include mq-min($bp-xl) {
-  //     @include font-size($h5-font-size, $h5-line-height);
-  //   }
-  // }
+  @include mq-min($bp-md) {
+    max-width: $container-xxs-max;
+  }
 }

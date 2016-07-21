@@ -1,5 +1,9 @@
 {% extends "layouts/base.twig" %}
 
+{% block styles %}
+  {{ macros.project_styles([related_project], post.id) }}
+{% endblock %}
+
 {% block masthead %}
   {% include 'includes/hero-standard.twig' %}
 {% endblock %}
@@ -24,8 +28,12 @@
   </section>
 
   {% include 'includes/project-listing.twig' with { 
-    projects:[projects[0]],
-    tab_label: 'Recent Work'
+    projects:[related_project],
+    tab_label: 'Recent Work',
+    listing_link: {
+      label: 'View All Projects',
+      link: post_work.get_permalink
+    }
   } %}
 
 {% endblock %}
