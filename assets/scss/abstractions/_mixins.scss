@@ -112,7 +112,7 @@
   white-space: nowrap;
 }
 
-@mixin link-underline {
+@mixin link-underline($height: 2px) {
   display: inline-block;
   vertical-align: bottom;
   overflow: hidden;
@@ -127,7 +127,7 @@
     z-index: 0;
     bottom: 0;
     width: 100%;
-    height: 2px;
+    height: $height;
     opacity: 1;
     will-change: transform;
     background-color: currentColor;
@@ -141,17 +141,15 @@
     transform: translate3d(0, 0, 0);
   }
 
-  &.is-leaving:not(:hover) {
-    &:after {
-      transform: translate3d(104%, 0, 0);
-    }
+  &.is-leaving:after {
+    transform: translate3d(104%, 0, 0);
   }
 
-  &.is-resetting {
-    &:after {
-      transition: none;
-    }
+  &.is-resetting:after {
+    transition: none;
   }
+
+
 }
 
 @mixin full-cover {
@@ -205,12 +203,9 @@
 
   }
 
-  &.is-leaving:not(:hover),
-  &.is-leaving {
-    &:before {
-      transform: translate3d(101%, 0, 0);
-      transition: $transition-out;
-    }
+  &.is-leaving:before {
+    transform: translate3d(101%, 0, 0);
+    transition: $transition-out;
   }
 
   &.is-entering,
