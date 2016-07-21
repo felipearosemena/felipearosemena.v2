@@ -8,20 +8,13 @@
 {% endblock %}
 
 {% block masthead %}
-
-  <div class="hero">
-    <div class="container container--md text-center">
-      <h1>{{ post.post_title }}</h1>
-
-      {{ post.content }}
-    </div>
-  </div>
-
+  {% include 'includes/hero-standard.twig' %}
 {% endblock %}
 
 {% block content %}
 
   <section id="form-wrapper" class="form-wrapper container container--md mb-1--f">
+
     <contact-form></contact-form>
     <div class="form-progress">
     </div>

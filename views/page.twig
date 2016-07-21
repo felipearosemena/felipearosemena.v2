@@ -1,57 +1,45 @@
 {% extends "layouts/base.twig" %}
 
 {% block masthead %}
-
-  <div class="hero hero--standard">
-    <div class="container container--md">
-      <h1 class="mb-0">
-        {{ post.post_title }}
-      </h1>
-      
-      <time class="label">
-        {{ post.display_date }}
-      </time>
-    </div>
-  </div>
-
+  {% include 'includes/hero-standard.twig' with { 
+    date: true
+  }%}
 {% endblock %} 
 
 {% block content %}
 
+  {# <aside class="float-right">
+    <h3 class="mb-05 delta">Sharing is caring</h3>
+    <ul class="list--unstyled">
+      <li> <a href="#" class="link-plain link-underline">Tweet</a>  </li>
+      <li> <a href="#" class="link-plain link-underline">Share</a>  </li>
+      <li> <a href="#" class="link-plain link-underline">Bookmark</a>  </li>
+    </ul>
+  </aside> #}
+
   <article class="post">
-    <div class="container mb-1--f">
+    <div class="container container--sm-lg mb-1--f">
       
-      <aside class="float-right">
-        <h3 class="mb-05 delta">Sharing is caring</h3>
-        <ul class="list--unstyled">
-          <li> <a href="#" class="link-plain link-underline">Tweet</a>  </li>
-          <li> <a href="#" class="link-plain link-underline">Share</a>  </li>
-          <li> <a href="#" class="link-plain link-underline">Bookmark</a>  </li>
-        </ul>
-      </aside>
+      {% if post.post_lead %}
+        <p class="post-lead">
+          {{ post.post_lead }}
+        </p>
+      {% endif %}
       
-      <main class="container--sm-lg">
-        
-        {% if post.post_lead %}
-          <p class="post-lead">
-            {{ post.post_lead }}
-          </p>
-        {% endif %}
-        
 
-        <div class="post-content">
-          {{ post.content }}
-        </div>
-        
-        Languague label top right
-        <b>https://bitsofco.de/generic-css-data-types/</b>
-
-      </main>
+      <div class="post-content">
+        {{ post.content }}
+      </div>
+      
+      Languague label top right
+      <b>https://bitsofco.de/generic-css-data-types/</b>
 
     </div>
   </article>
 
   <aside>
+
+    <h2>ADD MULTIPLE POSTS</h2>
 
     {% include 'includes/post-listing.twig' with {
         posts: [next_post],

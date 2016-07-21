@@ -1,65 +1,66 @@
+{% if posts %}
+  <section class="page-section page-section--listing">
 
-<section class="page-section page-section--listing">
+    {% if tab_label %}
+      <header class="container text-right">
+        <span class="tab-label tab-label--right">{{ tab_label }}</span>
+      </header>
+    {% endif %}
 
-  {% if tab_label %}
-    <header class="container text-right">
-      <span class="tab-label tab-label--right">{{ tab_label }}</span>
-    </header>
-  {% endif %}
-
-  <div class="container container--lg">
-    <div class="tiles">
-      
-      {% for post in posts %}
-
-        {% set tile_class = 'tile tile--post tile--' ~ (loop.index0 % 2 == 0 ? 'even' : 'odd') %}
-
-        {% if listing_link %}
-          {% set tile_variation = loop.index == 1 ? 'tile--featured' : 'tile--narrow' %}
-        {% endif %}
+    <div class="container container--lg">
+      <div class="tiles">
         
-        {% if loop.index == 1 and listing_link %}
-          {% include 'includes/tile-link.twig' %}
-        {% endif %}
+        {% for post in posts %}
 
-        <a class="{{ tile_class }} {{ tile_variation }}" href="{{ post.get_permalink }}">
+          {% set tile_class = 'tile tile--post tile--' ~ (loop.index0 % 2 == 0 ? 'even' : 'odd') %}
 
-          <span class="tile__bg"></span>
+          {% if listing_link %}
+            {% set tile_variation = loop.index == 1 ? 'tile--featured' : 'tile--narrow' %}
+          {% endif %}
+          
+          {% if loop.index == 1 and listing_link %}
+            {% include 'includes/tile-link.twig' %}
+          {% endif %}
 
-          <div class="tile__container">
-            
-            <time class="label mb-0">
-              {{ post.display_date }}
-            </time>
-            <h2 class="tile__title">
-              {{ post.post_title }}
-            </h2>
-            
-            {% set terms = post.get_terms() %} 
+          <a class="{{ tile_class }} {{ tile_variation }}" href="{{ post.get_permalink }}">
 
-            {% if terms %}
-              <p class="mb-05">
-                {% for term in terms %}
-                  <span class="tag">{{ term.title }}</span>
-                {% endfor %}
+            <span class="tile__bg"></span>
+
+            <div class="tile__container">
+              
+              <time class="label mb-0">
+                {{ post.display_date }}
+              </time>
+              <h2 class="tile__title">
+                {{ post.post_title }}
+              </h2>
+              
+              {% set terms = post.get_terms() %} 
+
+              {% if terms %}
+                <p class="mb-05">
+                  {% for term in terms %}
+                    <span class="tag">{{ term.title }}</span>
+                  {% endfor %}
+                </p>
+              {% endif %}
+              
+
+              {% if post.post_excerpt %}
+                <p class="tile__excerpt">{{ post.post_excerpt}}</p>      
+              {% endif %}
+              
+              <p class="mb-0 text-right">
+                <span class="link-underline link-underline--tile link-plain">Read More</span>
               </p>
-            {% endif %}
-            
 
-            {% if post.post_excerpt %}
-              <p class="tile__excerpt">{{ post.post_excerpt}}</p>      
-            {% endif %}
-            
-            <p class="mb-0 text-right">
-              <span class="link-underline link-underline--tile link-plain">Read More</span>
-            </p>
+            </div>
+          </a>
 
-          </div>
-        </a>
+          
+        {% endfor %}
 
-        
-      {% endfor %}
-
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{% endif %}

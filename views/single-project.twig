@@ -1,5 +1,9 @@
 {% extends "layouts/base.twig" %}
 
+{% block styles %}
+  {{ macros.project_styles([post, next_post], post.id) }}
+{% endblock %}
+
 {% block masthead %}
 
   <div class="mtb-1--f container container--md">
@@ -18,7 +22,7 @@
             <span class="label">Role{{ post.roles|length > 1 ? 's' }}</span>
             <small class="strong">
             {% for role in post.roles %}
-              {{ role }}<br>
+              <span class="nowrap">{{ role }}</span><br>
             {% endfor %}
             </small>
             {% endif %}
