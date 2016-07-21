@@ -1,11 +1,12 @@
 import * as PubSub from 'pubsub-js'
-import { inRange, delegateEvent } from '../modules/utils'
+import { inRange, delegateEvent, scrollY } from '../modules/utils'
 
 const rootEl = document.body
 const rootClass = rootEl.classList
 
 const headerViewProto = {
   isOpen: false,
+  isCompressed: false,
 
   open() {
     rootClass.add('is-menu-active')
@@ -28,6 +29,12 @@ const headerViewProto = {
     }
 
     PubSub.publish('header-view:toggle')
+  },
+
+  compressToggle(add = true) {
+    rootClass[add ? 'add' : 'remove']('is-compressed')
+    PubSub.publish('header-view:compress-toggled', add)
+    this.isCompressed = add
   }
 }
 
@@ -47,6 +54,14 @@ const headerView = (headerEl) => {
   window.addEventListener('keydown', (e) => {
     if(e.keyCode == 27) {
       view.close()
+    }
+  })
+
+  window.addEventListener('scroll', (e) => {
+    if(view.isCompressed && scrollY() <= 2) {
+      view.compressToggle(false)
+    } else if(!view.isCompressed && scrollY() > 2) {
+      view.compressToggle(true)
     }
   })
 
