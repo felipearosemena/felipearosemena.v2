@@ -6,19 +6,18 @@
   
 */
 
+
 @font-face {
-  font-family: 'Circular';
-  src: 
-    url('../fonts/CircularPro-Book.woff2') format('woff'),
-    url('../fonts/CircularPro-Book.woff') format('woff');
+  font-family: 'Sailec';
+  src: url('../fonts/Sailec-Regular.woff2') format('woff2'),
+  url('../fonts/Sailec-Regular.woff') format('woff');
   font-weight: normal;
 }   
 
 @font-face {
-  font-family: 'Circular';
-  src: 
-    url('../fonts/CircularPro-Bold.woff2') format('woff'),
-    url('../fonts/CircularPro-Bold.woff') format('woff');
+  font-family: 'Sailec';
+  src: url('../fonts/Sailec-Bold.woff2') format('woff2'),
+  url('../fonts/Sailec-Bold.woff') format('woff');
   font-weight: bold;
 }   
 
@@ -45,7 +44,7 @@ body {
 }
 
 *::selection {
-  background: $color-primary;
+  background: $body-color;
   color: white;
 }
 
@@ -65,12 +64,17 @@ head {
 /**
  * $LINKS
  */
-a {
-  text-decoration: none;
-  color: $color-primary;
-  transition:color $transition-fast;
+
+a,
+.link-plain {
+  transition: color $transition-default;
   font-weight: bold;
   font-family: $heading-font-family;
+}
+
+a {
+  text-decoration: none;
+  color: $body-color;
   
   &:hover {
     // color: black
@@ -86,49 +90,40 @@ a, i {
   -webkit-tap-highlight-color: transparent;
 }
 
-.link-plain {
+.link-plain:not(:hover) {
   color: $body-color;
 }
 
-.link-underline,
-.link-linkedin,
-.link-twitter,
-.link-briteweb {
-  @include link-underline;
-  // color: $body-color;
-
-  &:hover {
-    // color: $color-primary;
+.link-plain {
+  a:hover & {
+    color: $body-color;
   }
+}
+
+.link-underline {
+  @include link-underline;
 }
 
 .link-linkedin {
   color: $linkedin;
-
-  &:hover {
-    color: $linkedin;
-  }
 }
 
 .link-twitter {
   color: $twitter;
+}
 
-  &:hover {
-    color: $twitter;
-  }
+.link-github {
+  color: $github;
 }
 
 .link-briteweb {
   color: $briteweb;
-  
-  &:hover {
-    color: $briteweb;
-  }
 }
 
 .link-white,
 .link-twitter-white,
-.link-linkedin-white {
+.link-linkedin-white,
+.link-github-white {
   color: white;
 }
 
@@ -173,7 +168,7 @@ h1, .alpha {
   @include font-size($h1-font-size, $h1-line-height);
   
   @include mq-max($bp-sm) {
-    @include font-size($h1-font-size*.85, false);
+    @include font-size($h1-font-size-sm, false);
   }
 }
 
@@ -181,7 +176,11 @@ h2, .beta {
   @include font-size($h2-font-size, $h2-line-height);
 
   @include mq-max($bp-sm) {
-    @include font-size($h2-font-size*.65, false);
+    @include font-size($h2-font-size-sm, false);
+  }
+
+  @include mq-max($bp-xs) {
+    @include font-size($h2-font-size-xs, false);
   }
 }
 
@@ -189,24 +188,24 @@ h3, .gamma, .gamma-size {
   @include font-size($h3-font-size, $h3-line-height);
   
   @include mq-max($bp-sm) {
-    @include font-size($h3-font-size*.75, false);
+    @include font-size($h3-font-size-sm, false);
   }
 }
 
 h4, .delta, .lead{
   @include font-size($h4-font-size, $h4-line-height);
-
+  
   @include mq-max($bp-sm) {
-    @include font-size($h4-font-size*1.2, false);
+    @include font-size($h4-font-size-sm, false);
   }
 }
 
-h5, .epsilon {
-  @include font-size($h5-font-size);
+h5, .epsilon, .epsilon-size {
+  @include font-size($h5-font-size, $h5-line-height);
 }
 
 h6, .zeta {
-  @include font-size($h6-font-size);
+  @include font-size($h6-font-size, $h6-line-height);
 }
 
 p, blockquote,
@@ -224,13 +223,26 @@ p + p {
  * $PARAGRAPHS
  */
 p,
-%p {}
+%p {
+}
+
+.p-max,
+.lead {
+  max-width: $container-sm-lg-max;
+}
 
 /**
  * The `.lead` class is used to make the introductory text (usually a paragraph)
  * of a document slightly larger.
  */
-.lead, %lead {}
+.lead, %lead {
+  position: relative;
+  // left: -$base-spacing-unit * 2;
+
+  @include mq-min($bp-md) {
+    left: -$base-spacing-unit * 2;
+  }
+}
 
 .serif {
   font-family: $serif-font;
@@ -285,17 +297,26 @@ hr {
 
 q {
   font-style: italic;
-} 
+}
+
+mark {
+  color: $body-color;
+  background-color: $yellow;
+}
 
 pre {
   padding: $base-spacing-unit;
   border-radius: $base-border-radius;
-  border: 1px solid $grey;
+  margin-right: -$base-spacing-unit * 2;
+  margin-top: $base-spacing-unit * 2;
+  margin-bottom: $base-spacing-unit * 2;
 }
 
 pre, code {
   font-family: 'courier new', monospace;
   overflow: auto;
+  font-size: 0.7rem;
+  line-height: 1.5;
 }
 
 .label {
@@ -306,15 +327,38 @@ pre, code {
 }
 
 .tab-label {
+  @include font-size($small-font-size, $small-font-size);
   position: relative;
+  z-index: 120;
+  display: block;
+  max-width: 7rem;
+  white-space: nowrap;
+  margin-top: -$base-spacing-unit * 1.5;
   margin-bottom: -1rem;
-  bottom: -.4rem;
-  display: inline-block;
+  padding: $base-spacing-unit/4 $base-spacing-unit/4;
   line-height: $base-spacing-unit;
-  padding:$base-spacing-unit/2 $base-spacing-unit;
+  bottom: -.4rem;
+  text-align: center;
   background:$body-color;
   color:white;
-  z-index: 120;
+}
+
+.tab-label--right {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.tag {
+  @include font-size($h6-font-size, $h6-font-size);
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: $base-spacing-unit/4;
+  vertical-align: bottom;
+  padding:  $base-spacing-unit/6 $base-spacing-unit/4;
+  white-space: nowrap;
+  border-radius: $base-border-radius;
+  background: $body-color;
+  color: white;
 }
 
 @font-face {

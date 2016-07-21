@@ -24,7 +24,6 @@
 
 // Use REMs with a pixel fallback for font sizing.
 @mixin font-size($font-size, $line-height:true){
-  font-size:$font-size;
   font-size:($font-size / $base-font-size)*1rem;
 
   @if type-of($line-height) == number {
@@ -113,7 +112,7 @@
   white-space: nowrap;
 }
 
-@mixin link-underline {
+@mixin link-underline($height: 2px) {
   display: inline-block;
   vertical-align: bottom;
   overflow: hidden;
@@ -128,7 +127,7 @@
     z-index: 0;
     bottom: 0;
     width: 100%;
-    height: 2px;
+    height: $height;
     opacity: 1;
     will-change: transform;
     background-color: currentColor;
@@ -136,22 +135,21 @@
     transition: transform $transition-default;
   } 
  
-  &:hover:after {
+  &:hover:after,
+  a:hover &:after {
     color: currentColor;
     transform: translate3d(0, 0, 0);
   }
 
-  &.is-leaving:not(:hover) {
-    &:after {
-      transform: translate3d(104%, 0, 0);
-    }
+  &.is-leaving:after {
+    transform: translate3d(104%, 0, 0);
   }
 
-  &.is-resetting {
-    &:after {
-      transition: none;
-    }
+  &.is-resetting:after {
+    transition: none;
   }
+
+
 }
 
 @mixin full-cover {
@@ -180,8 +178,11 @@
     background: inherit;
     border-radius: inherit;
     transition: $transition;
+    will-change: transform;
+    pointer-events: none;
   }
   
+  &.is-resetting:before,
   &:before {
     transform: translate3d(-101%, 0,  0);
     background: currentColor;
@@ -192,21 +193,34 @@
     opacity: 0;
   }
 
-  &:hover {
+  &:hover,
+  a:hover & {
     
+    &:before {
+      transform: translate3d(-90%, 0, 0);
+      transition: $transition-slow;
+    }
+
+  }
+
+  &.is-leaving:before {
+    transform: translate3d(101%, 0, 0);
+    transition: $transition-out;
+  }
+
+  &.is-entering,
+  a:hover &.is-entering {
+    &:before,
+    &:after {
+      transition: $transition;
+    }
+
     &:before {
       transform: translate3d(0, 0, 0);
     }
 
     &:after {
       opacity: 1;
-    }
-  }
-
-  &.is-leaving:not(:hover) {
-    &:before {
-      transform: translate3d(101%, 0, 0);
-      transition: $transition-out;
     }
   }
 

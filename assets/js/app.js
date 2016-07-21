@@ -1,8 +1,9 @@
 import * as PubSub from 'pubsub-js'
 import page from 'page'
 import riot from 'riot'
+import Prism from 'prismjs'
 
-import { map, reduce, isMobile, delegateEvent } from './modules/utils'
+import { map, inArray, reduce, isMobile, delegateEvent } from './modules/utils'
 import { classList, dataset, vu } from './modules/polyfills'
 
 import { videoController } from './modules/video'
@@ -19,16 +20,19 @@ classList()
 dataset()
 vu()
 
+Prism.highlightAll()
 
 // Click listener for internal links
 // For fading out the current page
 // New pages fade in through CSS3 animation, instead of transition
-delegateEvent(document, 'click', '[href*="' + window.location.host + '"]', e => {
-  e.preventDefault();
-  document.body.classList.add('is-transiting')
-  setTimeout(() => {
-    window.location = e.target.href
-  }, 50)
+delegateEvent(document, 'click', 'a', (e, target) => {
+  if(inArray(window.location.origin, target.href)) {
+    e.preventDefault();
+    document.body.classList.add('is-transiting')
+    setTimeout(() => {
+      window.location = target.href
+    }, 50)
+  }
 })
 
 // Handle showing the page again when hitting 
@@ -36,7 +40,7 @@ delegateEvent(document, 'click', '[href*="' + window.location.host + '"]', e => 
 window.onpageshow = e => e.persisted ? 
   document.body.classList.remove('is-transiting') : null
 
-hoverTransition('a')
+
 
 const sections = document.querySelectorAll('[data-scroll-section]')
 const sectionViews = pageSections(sections)
@@ -118,5 +122,11 @@ page({
   click: false,
   popstate: false
 })
+
+hoverTransition('.link-underline:not(.link-underline--tile)')
+hoverTransition('.tile', '.btn, .link-underline')
+hoverTransition('.btn:not(.btn--tile)')
+hoverTransition('.menu-list a')
+
 
 

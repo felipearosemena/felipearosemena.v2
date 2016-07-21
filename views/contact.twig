@@ -7,17 +7,14 @@
   }
 {% endblock %}
 
-{% block content %}
-  
-  <div class="mtb-1--f">
-    <div class="container container--md text-center">
-      <h1>{{ post.post_title }}</h1>
+{% block masthead %}
+  {% include 'includes/hero-standard.twig' %}
+{% endblock %}
 
-      {{ post.content }}
-    </div>
-  </div>
+{% block content %}
 
   <section id="form-wrapper" class="form-wrapper container container--md mb-1--f">
+
     <contact-form></contact-form>
     <div class="form-progress">
     </div>
@@ -26,5 +23,4 @@
 {% endblock %}
 
 {% block bottom %}
-  {% include ('includes/bottom-nav.twig') %}
 {% endblock %}

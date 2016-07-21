@@ -59,11 +59,11 @@ const FilterList = React.createClass({
         <div className="grid mb-1">
           { this.props.filters.map(filter => {
             return <div className="grid__item" key={filter.taxonomy_name}>
-                <FilterSelect 
-                  tax={ filter.taxonomy_name }
-                  options={ filter.options }
-                  onFilterChange={(tax, val) => store.dispatch(updateSelection(tax, val)) } />
-              </div>
+              <FilterSelect 
+                tax={ filter.taxonomy_name }
+                options={ filter.options }
+                onFilterChange={(tax, val) => store.dispatch(updateSelection(tax, val)) } />
+            </div>
           }) }
         </div>
 

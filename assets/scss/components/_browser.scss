@@ -15,7 +15,7 @@
     position: relative;
     content: '';
     display: block;
-    padding-bottom: 4%;
+    padding-bottom: 3%;
     background-image: url(../img/browser-bar.png);
     background-repeat: no-repeat;
     background-size: contain;
@@ -29,11 +29,12 @@
 }
 
 .browser-shot--scroll {
-  transform: translate3d(0, 2%, 0);
-  transition:transform $transition-slow, opacity $transition-slow;
+  vertical-align: bottom;
+  transition:transform $transition-x-slow, opacity $transition-x-slow;
 
   &.is-out {
-    transform: translate3d(0, $base-spacing-unit, 0);
-    opacity: 0;
+    transform: translate3d(0, $base-spacing-unit * 2, 0);
+    opacity: 0.25;
   }
+
 }

@@ -1,0 +1,14 @@
+<div class="hero hero--standard">
+  <div class="container text-center">
+    <h1 class="mb-0">
+      {{ post.post_title }}
+    </h1>
+    
+    {% if date %}
+      <time class="label">
+        {{ post.display_date }}
+      </time>
+    {% endif %}
+    
+  </div>
+</div>

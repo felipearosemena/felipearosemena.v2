@@ -13,6 +13,7 @@ add_image_size('masthead', 1920);
 add_image_size('full', 9999);
 add_image_size('featured', 1600);
 add_image_size('featured-md', 1200, 675, array('center', 'top'));
+add_image_size('featured-sm', 800, 450, array('center', 'top'));
 // add_image_size('grid-2'  , 600 );
 // add_image_size('grid-3'  , 450 );
 // add_image_size('grid-4'  , 300 );

@@ -27,13 +27,10 @@ class StarterSite extends TimberSite {
   // Add Data to Timber (twig) Context
   function add_to_context($context){
 
-    $context['menu']             = new TimberMenu('main-nav'); // Remember to assign the 
-    $context['util_menu']        = new TimberMenu('util-nav'); // menus in WP Backend
-    $context['footer_menu']      = new TimberMenu('footer-nav');  // same for this
-    $context['footer_util_menu'] = new TimberMenu('sub-footer-nav'); // same for this
-    $context['sub_menu']         = Page_Nav_Widget::get_widget_items(); // Widget defined in lib/widgets.php
-    $context['site']             = $this;
     $site_settings               = get_fields('options');
+    $main_nav                    = new TimberMenu('main-nav'); // Remember to assign the 
+    $context['menu']             = $main_nav; // Remember to assign the 
+    $context['site']             = $this;
     $context['site_settings']    = $site_settings;
 
     $context['briteweb_url']     = 'http://briteweb.com';
@@ -42,12 +39,14 @@ class StarterSite extends TimberSite {
     foreach($site_settings['social_accounts'] as $v) {
       $social[$v['account_type']] = $v['account_url'];
     }
+
+    foreach ($main_nav->get_items() as $item) {
+      $context['post_' . $item->slug] = $item;
+    }
+
     $context['social'] = $social;
 
-    $context['projects']         = Timber::get_posts(array(
-      'post_type' => 'project',
-      'posts_per_page' => -1
-    ));
+    $this->context = $context;
 
     return $context;
   }
@@ -113,7 +112,7 @@ class StarterSite extends TimberSite {
       $directory_strlen = strlen($directory);
       // cleanup the class for the page templates inside page-templates directory
       if(substr($current_theme, 0 , $directory_strlen ) === $directory ) {
-        $class = substr (substr($current_theme, $directory_strlen), 0, -4); // cleanup the class returned to match the page template's name
+        $class = substr(substr($current_theme, $directory_strlen), 0, -4); // cleanup the class returned to match the page template's name
       }
       if($class != 'home') {
         $classes[] = $class;
@@ -125,16 +124,18 @@ class StarterSite extends TimberSite {
   }
 
   public function register_shortcodes() {
-    
-    $context = Timber::get_context();
 
     $shortcodes = array(
-      'social-nav' => function () use ($context) {
-        return Timber::compile('includes/nav-social.twig', $context);
+      'social-nav' => function () {
+        return Timber::compile('includes/nav-social.twig', $this->context);
       },
 
-      'site-email' => function () use ($context) {
-        return $context['site_settings']['site_email_address'];
+      'skillset' => function () {
+        return Timber::compile('includes/skillset.twig', $this->context);
+      },
+
+      'site-email' => function () {
+        return $this->$context['site_settings']['site_email_address'];
       }
     );
 
@@ -165,8 +166,7 @@ class StarterSite extends TimberSite {
   }
 
   public function twig_filter_template_uri($string) {
-    $context = Timber::get_context();
-    return isset($context['template_uri']) ? $context['template_uri'] . '/' .$string  : get_stylesheet_directory_uri() . '/' . $string;
+    return get_stylesheet_directory_uri() . '/' . $string;
   }
 
   public function twig_filter_assets_uri($string) {

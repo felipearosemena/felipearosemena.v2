@@ -5,14 +5,15 @@
 {% endblock %}
 
 {% block content %}
-  
-  {% include 'includes/post-listing.twig' with {
-    posts: posts,
-    pagination: pagination
-  }%}
 
+  {% include 'includes/project-listing.twig' with { 
+    projects: projects,
+    tab_label: false,
+    variant: 'project'
+  } %}
+  
 {% endblock %}
 
 {% block bottom %}
-  {% include 'includes/bottom-about.twig' %}
+  {% include('includes/cta.twig') %}
 {% endblock %}

@@ -24,14 +24,6 @@
 
   &::-webkit-scrollbar { width: 0 !important }
 
-  @include mq-min($bp-sm) {
-    width: 66%;
-  }
-
-  @include mq-min($bp-xl) {
-    max-width: 1024px;
-  }
-
   .is-menu-active & {
     transform: none;
     opacity: 1;
@@ -42,6 +34,10 @@
   .is-transiting & {
     transition-duration: $transition-time-slow;
     transform: translate3d(100%, 0, 0);
+  }
+
+  @include mq-min($bp-sm) {
+    max-width: $container-xs-max;
   }
 }
 

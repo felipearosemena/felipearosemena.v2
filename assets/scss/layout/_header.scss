@@ -43,12 +43,16 @@
   @include z-index(7, fixed);
   top: 0;
   width: 100%;
-  transition: background $transition-fast, box-shadow $transition-fast, transform $transition-slow;
+  transition: background $transition-slow, border $transition-slow, box-shadow $transition-default, transform $transition-slow;
   background: white;
-  box-shadow: $box-shadow-y-soft;
+  border-bottom: 1px solid $lighter-grey;
+  transition-delay: $transition-time-fast;
 
   .is-menu-active:not(.is-transiting) & {
+    transition: background 0s, border 0s, box-shadow $transition-default, transform $transition-slow;
+    transition-delay: 0s;
     background: transparent;
+    border-color: transparent;
     box-shadow: none;
     transform: translate3d(0, $base-spacing-unit/2, 0);
   }

@@ -98,26 +98,21 @@
 .grid__item--main-menu,
 .grid__item--util-menu {
   width: 100%;
-  transition: all $transition-default;
+  transition: all $transition-x-slow;
 
   .is-menu-active & {
-    transition: opacity $transition-x-slow;
+    transition-delay: $transition-time-default;
   } 
 }
 
 .grid__item--main-menu {
   display: flex;
   opacity: 0;
-  // transform: translate3d(0, $section-spacing-unit/2, 0);
-
-  @include mq-min($bp-md) {
-    // margin-top: $base-spacing-unit * 2;
-  }
+  transform: translate3d(0, $base-spacing-unit/2, 0);
 
   .is-menu-active & {
     opacity: 1;
-    // transform: translate3d(0, 0%, 0);
-    transition-delay: $transition-time-default;
+    transform: translate3d(0, 0%, 0);
   }
 }
 
@@ -126,7 +121,6 @@
   flex-grow: 0;
   transition-duration: 0;
   opacity: 0;
-  // transition: all $transition-slow;
 
   .is-menu-active & {
     opacity: 1;

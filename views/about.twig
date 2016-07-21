@@ -1,12 +1,26 @@
 {% extends "layouts/base.twig" %}
 
+{% block styles %}
+  {{ macros.project_styles([related_project], post.id) }}
+{% endblock %}
+
+{% block masthead %}
+  {% include 'includes/hero-standard.twig' %}
+{% endblock %}
+
 {% block content %}
   
-  <section class="page-section page-section--about mtb-1--f spread">
+  <section class="page-section page-section--about">
 
-    <div class="spread__content one-whole">
-      <div class="container container--md">
-        <h1 class="beta mb-2">{{ post.post_title }}</h1>
+    <div class="container container--md mb-1--f">
+      
+      {% if post.post_lead %}
+        <p class="post-lead">
+          {{ post.post_lead }}
+        </p>
+      {% endif %}
+
+      <div class="post-content">
         {{ post.content }}
       </div>
     </div>
@@ -14,8 +28,12 @@
   </section>
 
   {% include 'includes/project-listing.twig' with { 
-    projects:[projects[0]],
-    tab_label: 'Recent Work'
+    projects:[related_project],
+    tab_label: 'Recent Work',
+    listing_link: {
+      label: 'View All Projects',
+      link: post_work.get_permalink
+    }
   } %}
 
 {% endblock %}

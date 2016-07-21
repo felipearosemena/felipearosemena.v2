@@ -21,19 +21,21 @@ button:focus {
   margin: 0;
   padding-top: 0;
   padding-bottom: 0;
-  padding: $base-spacing-unit/4 $base-spacing-unit $base-spacing-unit/3;
-  border: none;
+  padding: $base-spacing-unit/4 $base-spacing-unit/1.5;
+  border: 1px solid;
+  border-color: inherit;
   border-radius: 10rem;
-  box-shadow: inset 0 0 0 2px currentColor;
+  box-shadow: inset 0 0 0 1px currentColor;
   color: inherit;
   background-color: transparent !important;
   text-decoration: none;
   text-align: center;
+  text-transform: capitalize;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 
   @include hover-slash;
-  
+
   &:hover {
     background-color: $body-color;
     border-color: $body-color;    
@@ -48,7 +50,7 @@ button:focus {
 // Button padding size variants.
 // Make the button look bigger, while keeping the same font size;
 .btn--sm {
-   padding: $btn-small-padding $btn-small-padding * 2;
+  @include font-size($h5-font-size, false);
 }
 
 .btn--lg {
@@ -99,7 +101,6 @@ button:focus {
   color: $color-secondary;
   
   &:hover {
-    // color: white;
     background: $color-secondary;
     border-color: $color-secondary;
   }
@@ -130,7 +131,6 @@ button:focus {
 }
 
 .btn--cta {
-  // @extend .btn--secondary;
   @extend .btn--lg;
   @extend .btn--wide;
   @extend .btn--squared;

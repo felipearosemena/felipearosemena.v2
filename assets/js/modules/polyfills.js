@@ -2,8 +2,6 @@ import vuBuggyfill from 'viewport-units-buggyfill'
 
 export const vu = vuBuggyfill.init
 
-// console.log(vuBuggyfill.init)
-
 export const classList = () => {
 
   if (typeof window.Element === "undefined" || "classList" in document.documentElement) return

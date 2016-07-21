@@ -7,6 +7,7 @@
 
 // Base
 @import "base/_normalize";
+@import "base/_code";
 @import "base/_forms";
 @import "base/_lists";
 @import "base/_media";
@@ -30,6 +31,7 @@
 @import "layout/_footer";
 @import "layout/_global";
 @import "layout/_sections";
+@import "layout/_page";
 
 // Navigation Styles
 @import "components/_dinner-menu";

@@ -1,8 +1,12 @@
 {% extends "layouts/base.twig" %}
 
+{% block styles %}
+  {{ macros.project_styles([post, next_post], post.id) }}
+{% endblock %}
+
 {% block masthead %}
 
-  <section class="mtb-1--f container container--md">
+  <div class="mtb-1--f container container--md">
 
     <div class="grid grid--fluid">
       <div class="grid__item one-whole md-seven-tenths lg-three-quarters">
@@ -18,7 +22,7 @@
             <span class="label">Role{{ post.roles|length > 1 ? 's' }}</span>
             <small class="strong">
             {% for role in post.roles %}
-              {{ role }}<br>
+              <span class="nowrap">{{ role }}</span><br>
             {% endfor %}
             </small>
             {% endif %}
@@ -39,7 +43,7 @@
       </div>
     </div>
 
-  </section>
+  </div>
 
   {% include 'includes/media-block.twig' with { image: post.thumbnail, type: 'img' } %}
 
@@ -68,7 +72,11 @@
   {% endif %}
   {% include('includes/project-listing.twig') with { 
     tab_label: 'Next Project',
-    projects: [next_post]
+    projects: [next_post],
+    listing_link: {
+      link: post_work.get_permalink,
+      label: 'View All Projects'
+    }
   } %}
 
   {% include('includes/cta.twig') %}
