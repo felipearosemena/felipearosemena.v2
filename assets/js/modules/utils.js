@@ -233,7 +233,7 @@ export function whichTransitionEnd() {
  * @returns {function} debounced function
  */
 export function debounce(fn, delay) {
-  var t
+  let t
   return function () {
     clearTimeout(t)
     t = setTimeout(fn, delay)
