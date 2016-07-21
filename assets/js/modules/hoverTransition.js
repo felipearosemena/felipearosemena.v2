@@ -7,21 +7,10 @@ function setClass(classList, config) {
   })
 }
 
-function beforeMouseOver(classList) {
-  setClass(classList, {
-    add: 'is-resetting'
-  })
-
-  document.offsetWidth
-
-  setClass(classList, {
-    remove: 'is-resetting'
-  })
-}
-
 function onMouseOver(classList) {
   setClass(classList, {
-    add: 'is-entering'
+    add: 'is-entering',
+    remove: 'is-leaving'
   })
 }
 
@@ -72,8 +61,6 @@ export default function hoverTransition(selector, delegate = false) {
   map(els, el => {
     
     const { classList } = target(el)
-
-    el.addEventListener('mouseenter', e => beforeMouseOver(classList))
 
     hoverIntent(el, 
       e => onMouseOver(classList),
