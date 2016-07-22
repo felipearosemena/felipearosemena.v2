@@ -205,11 +205,6 @@ a.tile {
   font-size: px-to-rem($h4-font-size);
 
   @include mq-min($bp-sm) {
-
-    .tile--project & {
-      font-size: px-to-rem($h3-font-size-sm);
-    }
-
     .tile--project:not(.tile--featured) &,
     .tile--post.tile--featured & {
       font-size: px-to-rem($h3-font-size);
