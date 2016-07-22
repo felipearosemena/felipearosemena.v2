@@ -37,6 +37,11 @@
 }
 
 .hero--standard {
+  padding-bottom: $section-spacing-unit / 4; 
+  
+  @include mq-min($bp-sm) {
+    padding-bottom: $section-spacing-unit / 2; 
+  }
 }
 
 .hero--listing {

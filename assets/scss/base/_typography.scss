@@ -226,8 +226,7 @@ p,
 %p {
 }
 
-.p-max,
-.lead {
+.p-max {
   max-width: $container-sm-lg-max;
 }
 
@@ -237,10 +236,12 @@ p,
  */
 .lead, %lead {
   position: relative;
-  // left: -$base-spacing-unit * 2;
+  margin-left: -$base-spacing-unit / 2;
+  margin-right: -$base-spacing-unit / 2;
 
   @include mq-min($bp-md) {
-    left: -$base-spacing-unit * 2;
+    margin-left: -$base-spacing-unit;
+    margin-right: -$base-spacing-unit;
   }
 }
 
