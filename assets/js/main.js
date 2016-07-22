@@ -56,18 +56,29 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 (0, _polyfills.dataset)();
 (0, _polyfills.vu)();
 
+var header = (0, _header2.default)(document.getElementById('site-header'));
+var nav = (0, _nav2.default)(document.getElementById('navigation'));
+
 _prismjs2.default.highlightAll();
 
 // Click listener for internal links
 // For fading out the current page
 // New pages fade in through CSS3 animation, instead of transition
 (0, _utils.delegateEvent)(document, 'click', 'a', function (e, target) {
-  if ((0, _utils.inArray)(window.location.origin, target.href)) {
-    e.preventDefault();
-    document.body.classList.add('is-transiting');
-    setTimeout(function () {
-      window.location = target.href;
-    }, 50);
+
+  header.close();
+
+  try {
+    if ((0, _utils.inArray)(window.location.origin, target.href)) {
+      e.preventDefault();
+      document.body.classList.add('is-transiting');
+
+      setTimeout(function () {
+        window.location = target.href;
+      }, 100);
+    }
+  } catch (e) {
+    window.location = target.href;
   }
 });
 
@@ -121,9 +132,6 @@ function handleSection(eventName, sectionView) {
     }
   }
 }
-
-var header = (0, _header2.default)(document.getElementById('site-header'));
-var nav = (0, _nav2.default)(document.getElementById('navigation'));
 
 PubSub.subscribe('section-view:enter', handleSection);
 PubSub.subscribe('section-view:leave', handleSection);

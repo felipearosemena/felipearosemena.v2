@@ -20,18 +20,29 @@ classList()
 dataset()
 vu()
 
+const header = headerView(document.getElementById('site-header'))
+const nav = navView(document.getElementById('navigation'))
+
 Prism.highlightAll()
 
 // Click listener for internal links
 // For fading out the current page
 // New pages fade in through CSS3 animation, instead of transition
 delegateEvent(document, 'click', 'a', (e, target) => {
-  if(inArray(window.location.origin, target.href)) {
-    e.preventDefault();
-    document.body.classList.add('is-transiting')
-    setTimeout(() => {
-      window.location = target.href
-    }, 50)
+
+  header.close()
+
+  try {
+    if(inArray(window.location.origin, target.href)) {
+      e.preventDefault();
+      document.body.classList.add('is-transiting')
+
+      setTimeout(() => {
+        window.location = target.href
+      }, 100)
+    }
+  } catch(e) {
+    window.location = target.href
   }
 })
 
@@ -87,9 +98,6 @@ function handleSection(eventName, sectionView) {
   }
 
 }
-
-const header = headerView(document.getElementById('site-header'))
-const nav = navView(document.getElementById('navigation'))
 
 PubSub.subscribe(('section-view:enter'), handleSection)
 PubSub.subscribe(('section-view:leave'), handleSection)
