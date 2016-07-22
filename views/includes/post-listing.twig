@@ -3,7 +3,7 @@
 
     {% if tab_label %}
       <header class="container text-right">
-        <span class="tab-label tab-label--right">{{ tab_label }}</span>
+        <span class="tab-label">{{ tab_label }}</span>
       </header>
     {% endif %}
 
@@ -18,10 +18,6 @@
             {% set tile_variation = loop.index == 1 ? 'tile--featured' : 'tile--narrow' %}
           {% endif %}
           
-          {% if loop.index == 1 and listing_link %}
-            {% include 'includes/tile-link.twig' %}
-          {% endif %}
-
           <a class="{{ tile_class }} {{ tile_variation }}" href="{{ post.get_permalink }}">
 
             <span class="tile__bg"></span>
@@ -56,7 +52,10 @@
 
             </div>
           </a>
-
+          
+          {% if loop.index == 1 and listing_link %}
+            {% include 'includes/tile-link.twig' %}
+          {% endif %}
           
         {% endfor %}
 

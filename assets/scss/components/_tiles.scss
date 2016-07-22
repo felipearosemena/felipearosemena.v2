@@ -8,8 +8,8 @@
   display: flex;
   flex-wrap: wrap;
   border-radius: $base-border-radius/2;
-  margin-left: -$base-spacing-unit * 3/4;
-  margin-right: -$base-spacing-unit/2;
+  margin-left: -$base-spacing-unit * 5/4 ;
+  margin-right: -$base-spacing-unit;
 
   @include mq-min($bp-md) {
     margin-left: -$base-spacing-unit/4;
@@ -30,6 +30,10 @@
   border-bottom: $base-spacing-unit/4 solid $lighter-grey;
   border-left: $base-spacing-unit/4 solid $lighter-grey;
   background-color: white;
+
+  @include mq-min($bp-md) {
+    min-height: 21rem;
+  }
 }
 
 a.tile {
@@ -62,10 +66,15 @@ a.tile {
   font-weight: bold;
   width: 100%;
   order: 9999;
+  min-height: 0;
+
 
   @include mq-min($bp-lg) {
     width: 25%;
-    // order: 0;
+
+    .tile--post ~ & {
+      order: 1;
+    }
   }
 }
 

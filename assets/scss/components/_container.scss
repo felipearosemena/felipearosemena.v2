@@ -42,6 +42,19 @@
   }
 }
 
+.container--padded {
+
+  @include mq-min($bp-sm) {
+    padding-left: $container-pad*3;
+    padding-right: $container-pad*3;
+  }
+
+  @include mq-min($bp-xl) {
+    padding-left: $container-pad*3 + $logo-width-lg;
+    padding-right: $container-pad*3 + $logo-width-lg;
+  }
+}
+
 .container--left {
   margin-left: 0;
   margin-right: auto;
