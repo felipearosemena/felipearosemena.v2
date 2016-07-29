@@ -25,7 +25,6 @@
     @include mq-min($bp-sm) {
       padding: 0 ($base-spacing-unit/3);
     }
-
     &:first-child {
       padding-left: 0;
     }

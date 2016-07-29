@@ -8,16 +8,16 @@
 
 
 @font-face {
-  font-family: 'Sailec';
-  src: url('../fonts/Sailec-Regular.woff2') format('woff2'),
-  url('../fonts/Sailec-Regular.woff') format('woff');
+  font-family: 'Larsseit';
+  src: url('../fonts/Larsseit-Regular.woff2') format('woff2'),
+  url('../fonts/Larsseit-Regular.woff') format('woff');
   font-weight: normal;
 }   
 
 @font-face {
-  font-family: 'Sailec';
-  src: url('../fonts/Sailec-Bold.woff2') format('woff2'),
-  url('../fonts/Sailec-Bold.woff') format('woff');
+  font-family: 'Larsseit';
+  src: url('../fonts/Larsseit-Bold.woff2') format('woff2'),
+  url('../fonts/Larsseit-Bold.woff') format('woff');
   font-weight: bold;
 }   
 
@@ -29,7 +29,6 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: -.02em;
 
   @include mq-min($bp-xl) {
     font-size:$base-font-size;
@@ -334,7 +333,6 @@ pre, code {
   display: block;
   max-width: 7rem;
   white-space: nowrap;
-  margin-top: -$base-spacing-unit * 1.5;
   margin-bottom: -1rem;
   padding: $base-spacing-unit/4 $base-spacing-unit/4;
   line-height: $base-spacing-unit;

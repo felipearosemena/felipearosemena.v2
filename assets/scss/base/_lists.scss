@@ -51,6 +51,16 @@ dd {
   }
 }
 
+.border-list--full {
+  max-width: $container-sm-max;
+
+  @include mq-min($bp-sm) {
+    li {
+      width: 100%;
+    }
+  }
+}
+
 .menu-list, 
 .list--unstyled,
 .block-list {

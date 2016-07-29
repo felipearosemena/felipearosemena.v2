@@ -7,7 +7,7 @@
       </header>
     {% endif %}
 
-    <div class="container container--lg">
+    <div class="container {{ listing_link ? 'container--lg' }}">
       <div class="tiles">
         
         {% for post in posts %}
